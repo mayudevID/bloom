@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "481248424006",
-    "project_id": "bloom-f08bd",
-    "storage_bucket": "bloom-f08bd.appspot.com"
+    "project_number": "533114573770",
+    "project_id": "bloom-88be1",
+    "storage_bucket": "bloom-88be1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:481248424006:android:37ea55c845b4c64b1a1a47",
+        "mobilesdk_app_id": "1:533114573770:android:7f75863faf8c4f86387533",
         "android_client_info": {
-          "package_name": "com.example.bloom"
+          "package_name": "com.yusuf.bloom"
         }
       },
       "oauth_client": [
         {
-          "client_id": "481248424006-krdek3ineaf4vvenaravf656bmng6csr.apps.googleusercontent.com",
+          "client_id": "533114573770-m2bg413eb2vp2gqg3ub4cfv467nv8m6h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yusuf.bloom",
+            "certificate_hash": "1255cc7398eacf66fef2451bcccd610298a9c6dc"
+          }
+        },
+        {
+          "client_id": "533114573770-bp99vot7vhsqoba94rdrrgnk75t0thnt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBhNsfXVgHG1BwHqvbqxYQ1gQVp5ykRUeo"
+          "current_key": "AIzaSyAnXmS-HUXUtWTiXLbW46er3oxl3Bxf9MY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "481248424006-krdek3ineaf4vvenaravf656bmng6csr.apps.googleusercontent.com",
+              "client_id": "533114573770-bp99vot7vhsqoba94rdrrgnk75t0thnt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

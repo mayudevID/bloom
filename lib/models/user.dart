@@ -5,13 +5,13 @@ part 'user.g.dart';
 @HiveType(typeId: 1)
 class UserModel {
   @HiveField(0)
-  late String userId;
+  String? userId;
 
   @HiveField(1)
-  late String name;
+  String? name;
 
   @HiveField(2)
-  late String email;
+  String? email;
 
   @HiveField(3)
   late int habitStreak;

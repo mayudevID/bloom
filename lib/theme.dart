@@ -14,19 +14,19 @@ Color greenAction = const Color(0xFFDEFEB6);
 const MaterialColor primaryBlack = MaterialColor(
   _blackPrimaryValue,
   <int, Color>{
-    50: Color(0xFF000000),
-    100: Color(0xFF000000),
-    200: Color(0xFF000000),
-    300: Color(0xFF000000),
-    400: Color(0xFF000000),
+    50: Color(0xFFE6E6E6),
+    100: Color(0xFFCDCDCD),
+    200: Color(0xFFB3B3B3),
+    300: Color(0xFF999999),
+    400: Color(0xFF808080),
     500: Color(_blackPrimaryValue),
-    600: Color(0xFF000000),
-    700: Color(0xFF000000),
-    800: Color(0xFF000000),
+    600: Color(0xFF4D4D4D),
+    700: Color(0xFF333333),
+    800: Color(0xFF1A1A1A),
     900: Color(0xFF000000),
   },
 );
-const int _blackPrimaryValue = 0xFF000000;
+const int _blackPrimaryValue = 0xFF666666;
 
 // TEXT
 TextStyle mainTitle = const TextStyle(

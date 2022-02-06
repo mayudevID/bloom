@@ -98,9 +98,8 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: primaryBlack,
             ),
-            initialRoute: snapshot.data != null && snapshot.data!.emailVerified
-                ? RouteName.MAIN
-                : RouteName.ONBOARD,
+            initialRoute:
+                snapshot.data != null ? RouteName.MAIN : RouteName.ONBOARD,
             //initialRoute: RouteName.VERIFICATION,
             debugShowCheckedModeBanner: false,
             getPages: AppPages.pages,

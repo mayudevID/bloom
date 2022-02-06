@@ -27,6 +27,12 @@ class LoginPage extends StatelessWidget {
     authController.isLoadingGoogle.value = false;
   }
 
+  Future<void> handleSignInFacebook() async {
+    authController.isLoadingFacebook.value = true;
+    await authController.signInSignUpWithFacebook();
+    authController.isLoadingFacebook.value = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +109,19 @@ class LoginPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const ButtonLogo(platformLogo: 'fb'),
+                // const ButtonLogo(platformLogo: 'fb'),
+                Obx(() {
+                  return GestureDetector(
+                    onTap: () {
+                      if (!authController.isLoadingFacebook.value) {
+                        handleSignInFacebook();
+                      }
+                    },
+                    child: (authController.isLoadingFacebook.value)
+                        ? const ButtonLogo(platformLogo: '-')
+                        : const ButtonLogo(platformLogo: 'fb'),
+                  );
+                }),
                 const SizedBox(width: 28.8),
                 Obx(() {
                   return GestureDetector(

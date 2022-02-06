@@ -6,6 +6,7 @@ import 'package:bloom/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
@@ -15,6 +16,7 @@ class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   RxBool isLoading = false.obs;
   RxBool isLoadingGoogle = false.obs;
+  RxBool isLoadingFacebook = false.obs;
 
   Stream<User?> get streamAuthStatus => _auth.authStateChanges();
   User? get userAuth => _auth.currentUser;
@@ -24,7 +26,7 @@ class AuthController extends GetxController {
       var _authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       UserModel _userModel = UserModel(
-        userId: _authResult.user?.uid ?? '0',
+        userId: _authResult.user?.uid,
         name: name,
         email: email,
         habitStreak: 0,
@@ -184,9 +186,9 @@ class AuthController extends GetxController {
 
         if (_authResult.additionalUserInfo!.isNewUser) {
           UserModel _userModel = UserModel(
-            name: _authResult.user!.displayName ?? 'user',
-            email: _authResult.user!.email ?? 'user@user.com',
-            userId: _authResult.user?.uid ?? '0',
+            name: _authResult.user!.displayName,
+            email: _authResult.user!.email,
+            userId: _authResult.user?.uid,
             habitStreak: 0,
             taskCompleted: 0,
             totalFocus: 0,
@@ -197,15 +199,52 @@ class AuthController extends GetxController {
 
           if (await DatabaseFirebase().createNewUser(_userModel)) {
             await Get.find<UserController>().setUser(_userModel);
+            Get.offAllNamed(RouteName.MAIN);
           }
         } else {
           await Get.find<UserController>()
               .setUser(await DatabaseFirebase().getUser(_authResult.user!.uid));
+          Get.offAllNamed(RouteName.MAIN);
         }
-
-        Get.offAllNamed(RouteName.MAIN);
       }
     } on PlatformException catch (e) {}
+  }
+
+  Future<void> signInSignUpWithFacebook() async {
+    try {
+      final LoginResult loginResult = await FacebookAuth.instance.login();
+
+      if (loginResult.accessToken?.token != null) {
+        final OAuthCredential facebookAuthCredential =
+            FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+        var _authResult =
+            await _auth.signInWithCredential(facebookAuthCredential);
+
+        if (_authResult.additionalUserInfo!.isNewUser) {
+          UserModel _userModel = UserModel(
+            name: _authResult.user!.displayName,
+            email: _authResult.user!.email,
+            userId: _authResult.user?.uid,
+            habitStreak: 0,
+            taskCompleted: 0,
+            totalFocus: 0,
+            missed: 0,
+            completed: 0,
+            streakLeft: 0,
+          );
+
+          if (await DatabaseFirebase().createNewUser(_userModel)) {
+            await Get.find<UserController>().setUser(_userModel);
+            Get.toNamed(RouteName.VERIFICATION);
+          }
+        } else {
+          await Get.find<UserController>()
+              .setUser(await DatabaseFirebase().getUser(_authResult.user!.uid));
+          Get.offAllNamed(RouteName.MAIN);
+        }
+      }
+    } on FirebaseException catch (e) {}
   }
 
   Future<void> sendVerification() async {

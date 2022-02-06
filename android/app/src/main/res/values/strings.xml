@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bloom</string>
+    <string name="facebook_app_id">701966820819731</string> 
+    <string name="fb_login_protocol_scheme">fb701966820819731</string>
+</resources>
