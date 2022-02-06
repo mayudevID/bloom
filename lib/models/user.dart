@@ -49,7 +49,7 @@ class UserModel {
     email = doc['email'];
     habitStreak = doc['habitStreak'];
     taskCompleted = doc['taskCompleted'];
-    totalFocus = doc['totalFocus'];
+    totalFocus = doc['totalFocus'].toDouble();
     missed = doc['missed'];
     completed = doc['completed'];
     streakLeft = doc['streakLeft'];
