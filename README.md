@@ -2,6 +2,8 @@
 
 Productivity application that helps users carry out their daily productive activities with the **To-do List**, **Pomodoro Timer**, and **Habit Tracker** methods
 
+Design by [Raissa Gabriella Putri](https://www.linkedin.com/in/raissa-gabriella-563b0a1b6)
+
 <img src="https://github.com/maulana2468/bloom/blob/main/assets/images/cover.png" alt="Cover" width="1000">
 
 ## Getting Started
