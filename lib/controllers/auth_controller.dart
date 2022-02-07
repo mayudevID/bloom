@@ -155,6 +155,7 @@ class AuthController extends GetxController {
     try {
       await _auth.signOut();
       await GoogleSignIn().signOut();
+      await FacebookAuth.instance.logOut();
       await Get.find<UserController>().clear();
       var taskDb = await Hive.openBox('task_db');
       var habitDb = await Hive.openBox('habit_db');
@@ -218,6 +219,8 @@ class AuthController extends GetxController {
         final OAuthCredential facebookAuthCredential =
             FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
+        var credentialSave = await Hive.openBox('credentialSave');
+        await credentialSave.put('token', loginResult.accessToken!.token);
         var _authResult =
             await _auth.signInWithCredential(facebookAuthCredential);
 
@@ -236,7 +239,9 @@ class AuthController extends GetxController {
 
           if (await DatabaseFirebase().createNewUser(_userModel)) {
             await Get.find<UserController>().setUser(_userModel);
-            Get.toNamed(RouteName.VERIFICATION);
+            print("GO TO VERIF PAGE");
+            await sendVerification();
+            Get.offAllNamed(RouteName.VERIFICATION);
           }
         } else {
           await Get.find<UserController>()
@@ -244,7 +249,98 @@ class AuthController extends GetxController {
           Get.offAllNamed(RouteName.MAIN);
         }
       }
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        Get.defaultDialog(
+          title: "SignIn Alert",
+          titleStyle: buttonSmall,
+          titlePadding: const EdgeInsets.only(
+            top: 20,
+            bottom: 5,
+          ),
+          contentPadding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
+          content: Text(
+            "Account Already Exists (Google) With Different Credential\n\nLogin with Google to link your account",
+            style: buttonSmall.copyWith(fontWeight: FontWeight.w400),
+          ),
+          actions: [
+            const SizedBox(width: 160),
+            GestureDetector(
+              onTap: () async {
+                await linkGoogleAndFacebook();
+              },
+              child: Container(
+                width: 170,
+                height: 35,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: naturalBlack,
+                ),
+                child: Center(
+                  child: Text(
+                    'Sign in with Google',
+                    style: buttonSmall.copyWith(
+                      color: naturalWhite,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                width: 70,
+                height: 35,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: naturalBlack,
+                ),
+                child: Center(
+                  child: Text(
+                    'Close',
+                    style: buttonSmall.copyWith(
+                      color: naturalWhite,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      }
+    }
+  }
+
+  Future<void> linkGoogleAndFacebook() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    if (googleAuth?.accessToken != null && googleAuth?.idToken != null) {
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      var _authResultGoogle = await _auth.signInWithCredential(credential);
+
+      var credentialSave = await Hive.openBox('credentialSave');
+
+      final OAuthCredential facebookAuthCredential =
+          FacebookAuthProvider.credential(credentialSave.get('token'));
+
+      await _authResultGoogle.user!.linkWithCredential(facebookAuthCredential);
+
+      await Get.find<UserController>().setUser(
+          await DatabaseFirebase().getUser(_authResultGoogle.user!.uid));
+      Get.offAllNamed(RouteName.MAIN);
+    }
   }
 
   Future<void> sendVerification() async {

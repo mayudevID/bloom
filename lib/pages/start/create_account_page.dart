@@ -33,6 +33,7 @@ class CreateAccountPage extends StatelessWidget {
   Future<void> handleSignUpFacebook() async {
     authController.isLoadingFacebook.value = true;
     await authController.signInSignUpWithFacebook();
+    await authController.sendVerification();
     authController.isLoadingFacebook.value = false;
   }
 
