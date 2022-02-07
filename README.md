@@ -2,7 +2,7 @@
 
 Productivity application that helps users carry out their daily productive activities with the **To-do List**, **Pomodoro Timer**, and **Habit Tracker** methods
 
-<img src="https://github.com/maulana2468/bloom/blob/main/assets/images/cover.png" alt="Cover" width="700">
+<img src="https://github.com/maulana2468/bloom/blob/main/assets/images/cover.png" alt="Cover" width="1000">
 
 ## Getting Started
 
