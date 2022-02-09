@@ -78,7 +78,7 @@ class TaskWidgetDeleted extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      taskModel!.isBasic ? 'Basic' : 'Important',
+                      taskModel!.tags,
                       style: smallTextLink.copyWith(
                         fontSize: 8,
                         color: naturalWhite,

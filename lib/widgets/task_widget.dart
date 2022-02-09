@@ -40,12 +40,13 @@ class TaskWidget extends StatelessWidget {
                   width: 60,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: taskModel!.isBasic ? greenAction : redAction,
+                    color:
+                        (taskModel!.tags == 'Basic') ? greenAction : redAction,
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Center(
                     child: Text(
-                      taskModel!.isBasic ? 'Basic' : 'Important',
+                      taskModel!.tags,
                       style: smallTextLink.copyWith(
                         fontSize: 8,
                       ),
@@ -63,7 +64,7 @@ class TaskWidget extends StatelessWidget {
                     onChanged: (bool? value) async {
                       TaskModel newTaskModel = TaskModel(
                         taskId: taskModel!.taskId,
-                        isBasic: taskModel!.isBasic,
+                        tags: taskModel!.tags,
                         dateTime: taskModel!.dateTime,
                         title: taskModel!.title,
                         isRepeat: taskModel!.isRepeat,

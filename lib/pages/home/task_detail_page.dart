@@ -59,12 +59,12 @@ class TaskDetailPage extends StatelessWidget {
                 width: 60,
                 height: 20,
                 decoration: BoxDecoration(
-                  color: taskModel.isBasic ? greenAction : redAction,
+                  color: (taskModel.tags == 'Basic') ? greenAction : redAction,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Center(
                   child: Text(
-                    taskModel.isBasic ? 'Basic' : 'Important',
+                    taskModel.tags,
                     style: smallTextLink.copyWith(
                       fontSize: 8,
                     ),

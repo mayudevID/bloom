@@ -16,7 +16,7 @@ class TaskModel {
   String description;
 
   @HiveField(4)
-  bool isBasic;
+  String tags;
 
   @HiveField(5)
   bool isRepeat;
@@ -32,7 +32,7 @@ class TaskModel {
     required this.title,
     required this.dateTime,
     required this.description,
-    required this.isBasic,
+    required this.tags,
     required this.isRepeat,
     required this.isTime,
     required this.isChecked,

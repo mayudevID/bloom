@@ -21,7 +21,7 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
       title: fields[1] as String,
       dateTime: fields[2] as DateTime,
       description: fields[3] as String,
-      isBasic: fields[4] as bool,
+      tags: fields[4] as String,
       isRepeat: fields[5] as bool,
       isTime: fields[6] as bool,
       isChecked: fields[7] as bool,
@@ -41,7 +41,7 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
       ..writeByte(3)
       ..write(obj.description)
       ..writeByte(4)
-      ..write(obj.isBasic)
+      ..write(obj.tags)
       ..writeByte(5)
       ..write(obj.isRepeat)
       ..writeByte(6)

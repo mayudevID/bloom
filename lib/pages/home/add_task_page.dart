@@ -18,7 +18,7 @@ class AddTaskPage extends StatelessWidget {
     if (addTaskC.titleController.text.trim().isNotEmpty) {
       TaskModel taskModel = TaskModel(
         taskId: getRandomId(),
-        isBasic: addTaskC.isBasic.value,
+        tags: addTaskC.tags.value,
         dateTime: addTaskC.dateChoose.value,
         title: addTaskC.titleController.text.trim(),
         description: (addTaskC.descController.text.trim().isEmpty)
@@ -276,19 +276,30 @@ class AddTaskPage extends StatelessWidget {
                     color: greyLight,
                   ),
                   child: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        addTaskC.isBasic.value = !addTaskC.isBasic.value;
-                      },
-                      child: Obx(() {
-                        return Text(
-                          addTaskC.isBasic.value ? "Basic" : "Important",
-                          style: interBold12.copyWith(
-                            fontWeight: FontWeight.w400,
-                          ),
-                        );
-                      }),
-                    ),
+                    child: Obx(() {
+                      return DropdownButton(
+                        borderRadius: BorderRadius.circular(10),
+                        icon: const Visibility(
+                          visible: false,
+                          child: Icon(Icons.arrow_downward),
+                        ),
+                        value: addTaskC.tags.value,
+                        items: ['Basic', 'Important'].map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: interBold12.copyWith(
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (newVal) {
+                          addTaskC.tags.value = newVal as String;
+                        },
+                      );
+                    }),
                   ),
                 )
               ],

@@ -274,7 +274,7 @@ class AuthController extends GetxController {
                 await linkGoogleAndFacebook();
               },
               child: Container(
-                width: 170,
+                width: 190,
                 height: 35,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
@@ -282,7 +282,7 @@ class AuthController extends GetxController {
                 ),
                 child: Center(
                   child: Text(
-                    'Sign in with Google',
+                    'Link to Google Account',
                     style: buttonSmall.copyWith(
                       color: naturalWhite,
                     ),
@@ -324,22 +324,43 @@ class AuthController extends GetxController {
         await googleUser?.authentication;
 
     if (googleAuth?.accessToken != null && googleAuth?.idToken != null) {
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-      var _authResultGoogle = await _auth.signInWithCredential(credential);
+      try {
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken,
+          idToken: googleAuth?.idToken,
+        );
+        var _authResultGoogle = await _auth.signInWithCredential(credential);
 
-      var credentialSave = await Hive.openBox('credentialSave');
+        var credentialSave = await Hive.openBox('credentialSave');
 
-      final OAuthCredential facebookAuthCredential =
-          FacebookAuthProvider.credential(credentialSave.get('token'));
+        final OAuthCredential facebookAuthCredential =
+            FacebookAuthProvider.credential(credentialSave.get('token'));
 
-      await _authResultGoogle.user!.linkWithCredential(facebookAuthCredential);
+        await _authResultGoogle.user!
+            .linkWithCredential(facebookAuthCredential);
 
-      await Get.find<UserController>().setUser(
-          await DatabaseFirebase().getUser(_authResultGoogle.user!.uid));
-      Get.offAllNamed(RouteName.MAIN);
+        await Get.find<UserController>().setUser(
+            await DatabaseFirebase().getUser(_authResultGoogle.user!.uid));
+        Get.offAllNamed(RouteName.MAIN);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'invalid-email') {
+          Get.snackbar(
+            "Failed to link account",
+            "Invalid Email/Email not found\nTry to change Google account",
+            colorText: naturalWhite,
+            snackPosition: SnackPosition.BOTTOM,
+            margin: const EdgeInsets.only(
+              bottom: 80,
+              left: 30,
+              right: 30,
+            ),
+            backgroundColor: naturalBlack,
+            animationDuration: const Duration(milliseconds: 100),
+            forwardAnimationCurve: Curves.fastOutSlowIn,
+            reverseAnimationCurve: Curves.fastOutSlowIn,
+          );
+        }
+      }
     }
   }
 

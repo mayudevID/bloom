@@ -12,7 +12,7 @@ class AddTaskController extends GetxController {
   RxBool isTime = false.obs;
   RxBool isChoose = false.obs;
   RxBool isRepeat = false.obs;
-  RxBool isBasic = true.obs;
+  RxString tags = "Basic".obs;
 
   @override
   void onInit() {
