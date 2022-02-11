@@ -1,8 +1,12 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:async';
+import 'dart:io';
 import 'package:bloom/controllers/user_controller.dart';
 import 'package:bloom/models/user.dart';
 import 'package:bloom/routes/route_name.dart';
 import 'package:bloom/services/database.dart';
+import 'package:bloom/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +29,10 @@ class AuthController extends GetxController {
     try {
       var _authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      File photoDefault = await getImageFileFromAssets('/icons/profpict.png');
+      String photoURL =
+          await DatabaseFirebase().uploadProfilePicture(photoDefault);
+      _auth.currentUser!.updatePhotoURL(photoURL);
       UserModel _userModel = UserModel(
         userId: _authResult.user?.uid,
         name: name,
@@ -372,6 +380,19 @@ class AuthController extends GetxController {
     await _auth.currentUser!.reload();
     if (_auth.currentUser!.emailVerified) {
       Get.offAllNamed(RouteName.MAIN);
+    }
+  }
+
+  Future<bool> updateData(String displayName, String photoURL) async {
+    try {
+      await _auth.currentUser!.reload();
+      await _auth.currentUser!.updateDisplayName(displayName);
+      if (photoURL != null) {
+        await _auth.currentUser!.updatePhotoURL(photoURL);
+      }
+      return true;
+    } on Exception catch (e) {
+      return false;
     }
   }
 }

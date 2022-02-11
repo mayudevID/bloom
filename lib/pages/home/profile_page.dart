@@ -1,12 +1,15 @@
+import 'package:bloom/controllers/auth_controller.dart';
 import 'package:bloom/controllers/user_controller.dart';
 import 'package:bloom/routes/route_name.dart';
 import 'package:bloom/theme.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
   final userController = Get.find<UserController>();
+  final authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,21 @@ class ProfilePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 32),
-            Image.asset("assets/icons/profpict.png", width: 80),
+            CachedNetworkImage(
+              imageUrl: authController.userAuth!.photoURL as String,
+              imageBuilder: (context, imageProvider) => Container(
+                width: 80.0,
+                height: 80.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image:
+                      DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                ),
+              ),
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
+            //Image.asset("assets/icons/profpict.png", width: 80),
             const SizedBox(height: 8),
             Obx(() {
               return Text(
@@ -46,18 +63,21 @@ class ProfilePage extends StatelessWidget {
               );
             }),
             const SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: naturalBlack),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              height: 20,
-              width: 80,
-              child: Center(
-                child: Text(
-                  "Edit profile",
-                  style: smallTextLink.copyWith(
-                    fontSize: 10,
+            GestureDetector(
+              onTap: () => Get.toNamed(RouteName.EDITPROFILE),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: naturalBlack),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                height: 20,
+                width: 80,
+                child: Center(
+                  child: Text(
+                    "Edit profile",
+                    style: smallTextLink.copyWith(
+                      fontSize: 10,
+                    ),
                   ),
                 ),
               ),

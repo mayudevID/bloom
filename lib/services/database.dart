@@ -1,8 +1,15 @@
+import 'dart:io';
 import 'package:bloom/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
+import 'package:path/path.dart';
+import '../controllers/auth_controller.dart';
 
 class DatabaseFirebase {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final authController = Get.find<AuthController>();
 
   Future<bool> createNewUser(UserModel user) async {
     try {
@@ -16,6 +23,7 @@ class DatabaseFirebase {
         "completed": user.completed,
         "streakLeft": user.streakLeft,
       });
+
       return true;
     } catch (e) {
       return false;
@@ -29,6 +37,20 @@ class DatabaseFirebase {
       return UserModel.fromDocumentSnapshot(doc);
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<String> uploadProfilePicture(File? fileData) async {
+    if (fileData != null) {
+      String path = basename(fileData.path);
+      String photoLoc = 'profilePicture/$path';
+      final ref = _storage.ref(photoLoc);
+      UploadTask uploadTask = ref.putFile(fileData);
+      final snapshotData = await uploadTask.whenComplete(() {});
+      final photoDownload = snapshotData.ref.getDownloadURL();
+      return photoDownload;
+    } else {
+      return authController.userAuth!.photoURL as String;
     }
   }
 }

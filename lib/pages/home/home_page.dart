@@ -5,15 +5,18 @@ import 'package:bloom/routes/route_name.dart';
 import 'package:bloom/theme.dart';
 import 'package:bloom/widgets/habit_widget.dart';
 import 'package:bloom/widgets/task_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import '../../controllers/auth_controller.dart';
 import '../../utils.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
-  final UserController userController = Get.find<UserController>();
+  final userController = Get.find<UserController>();
+  final authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +33,23 @@ class HomePage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () => Get.toNamed(RouteName.PROFILE),
-                    child: Image.asset(
-                      "assets/icons/profpict.png",
-                      width: 40,
+                    child: CachedNetworkImage(
+                      imageUrl: authController.userAuth!.photoURL as String,
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: 40.0,
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                   const SizedBox(width: 6),

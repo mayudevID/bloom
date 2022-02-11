@@ -72,13 +72,6 @@ class VerificationPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            // const SizedBox(height: 24),
-            // VerificationWidget(
-            //   textStyle: buttonLarge,
-            //   length: 6,
-            //   onCompleted: (String value) {},
-            //   onEditing: (bool value) {},
-            // ),
             const SizedBox(height: 24),
             Obx(() {
               if (verificationTimeController.isFinished.value) {

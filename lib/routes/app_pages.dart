@@ -17,6 +17,8 @@ import 'package:bloom/pages/start/verification_page.dart';
 import 'package:bloom/routes/route_name.dart';
 import 'package:get/get.dart';
 
+import '../pages/home/edit_profile_page.dart';
+
 class AppPages {
   static final pages = [
     GetPage(
@@ -79,6 +81,10 @@ class AppPages {
     GetPage(
       name: RouteName.STATISTICS,
       page: () => const StatisticsPage(),
+    ),
+    GetPage(
+      name: RouteName.EDITPROFILE,
+      page: () => EditProfilePage(),
     ),
   ];
 }

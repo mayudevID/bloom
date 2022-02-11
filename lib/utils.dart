@@ -1,8 +1,11 @@
 import 'dart:collection';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'models/habit.dart';
 import 'models/task.dart';
+import 'package:path_provider/path_provider.dart';
 
 // ADD TWO DIGIT
 String twoDigits(int n) => n.toString().padLeft(2, '0');
@@ -143,4 +146,15 @@ Map<int, HabitModel?> habitByDateChooser(
     value: (k) => dataHabitNow[k],
   );
   return sortedNowHabit;
+}
+
+// CONVERT ASSETS TO FILE IMAGE
+Future<File> getImageFileFromAssets(String path) async {
+  final byteData = await rootBundle.load('assets/$path');
+
+  final file = File('${(await getTemporaryDirectory()).path}/$path');
+  await file.writeAsBytes(byteData.buffer
+      .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+  return file;
 }
