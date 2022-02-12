@@ -82,7 +82,10 @@ class HabitDetailPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Text("10/30", style: textForm),
+                Text(
+                  "${habitModel.checkedDays.where((item) => item == true).length}/${habitModel.durationDays}",
+                  style: textForm,
+                ),
               ],
             ),
             const SizedBox(height: 24),

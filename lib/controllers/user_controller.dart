@@ -48,25 +48,27 @@ class UserController extends GetxController {
     await userData.delete('user');
   }
 
-  Future<void> updateData(String type, bool value) async {
+  Future<void> updateData(String type, Object value) async {
     UserModel newUserModel = UserModel(
       userId: userModel.value.userId,
       name: userModel.value.name,
       email: userModel.value.email,
       habitStreak: (type == 'habitStreak')
-          ? ((value == true)
+          ? ((value as bool == true)
               ? userModel.value.habitStreak + 1
               : userModel.value.habitStreak - 1)
           : userModel.value.habitStreak,
       taskCompleted: (type == 'taskCompleted')
-          ? ((value == true)
+          ? ((value as bool == true)
               ? userModel.value.taskCompleted + 1
               : userModel.value.taskCompleted - 1)
           : userModel.value.taskCompleted,
       totalFocus: userModel.value.totalFocus,
       missed: userModel.value.missed,
       completed: userModel.value.completed,
-      streakLeft: userModel.value.streakLeft,
+      streakLeft: (type == 'streakLeft')
+          ? userModel.value.streakLeft + (value as int)
+          : userModel.value.streakLeft,
     );
     await setUser(newUserModel);
   }

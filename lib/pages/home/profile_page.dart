@@ -3,6 +3,7 @@ import 'package:bloom/controllers/user_controller.dart';
 import 'package:bloom/routes/route_name.dart';
 import 'package:bloom/theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -40,19 +41,49 @@ class ProfilePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 32),
-            CachedNetworkImage(
-              imageUrl: authController.userAuth!.photoURL as String,
-              imageBuilder: (context, imageProvider) => Container(
-                width: 80.0,
-                height: 80.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image:
-                      DecorationImage(image: imageProvider, fit: BoxFit.cover),
-                ),
-              ),
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+            StreamBuilder<User?>(
+              stream: authController.streamAuthStatus,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  User user = snapshot.data as User;
+                  return CachedNetworkImage(
+                    imageUrl: user.photoURL as String,
+                    imageBuilder: (context, imageProvider) {
+                      return Container(
+                        width: 80.0,
+                        height: 80.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+                    placeholder: (context, url) {
+                      return const SizedBox(
+                        width: 80.0,
+                        height: 80.0,
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                    errorWidget: (context, url, error) {
+                      return const SizedBox(
+                        width: 80.0,
+                        height: 80.0,
+                        child: Icon(Icons.error),
+                      );
+                    },
+                  );
+                } else {
+                  return const SizedBox(
+                    width: 80.0,
+                    height: 80.0,
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
             //Image.asset("assets/icons/profpict.png", width: 80),
             const SizedBox(height: 8),

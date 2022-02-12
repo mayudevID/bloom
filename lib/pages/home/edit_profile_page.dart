@@ -5,6 +5,7 @@ import 'package:bloom/controllers/user_controller.dart';
 import 'package:bloom/theme.dart';
 import 'package:bloom/services/database.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,81 +21,166 @@ class EditProfilePage extends StatelessWidget {
   final ImagePicker _picker = ImagePicker();
   DatabaseFirebase db = DatabaseFirebase();
 
+  Future _errorDialog() {
+    return Get.defaultDialog(
+      title: "Unable to change profile",
+      titleStyle: buttonSmall,
+      titlePadding: const EdgeInsets.only(
+        top: 20,
+        bottom: 5,
+      ),
+      contentPadding: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+        bottom: 20,
+      ),
+      content: Text(
+        "Connect to internet and then retry",
+        style: buttonSmall.copyWith(fontWeight: FontWeight.w400),
+      ),
+      actions: [
+        const SizedBox(width: 160),
+        GestureDetector(
+          onTap: () async {
+            _saveProfile();
+            Get.back();
+          },
+          child: Container(
+            width: 70,
+            height: 35,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: naturalBlack,
+            ),
+            child: Center(
+              child: Text(
+                'Retry',
+                style: buttonSmall.copyWith(
+                  color: naturalWhite,
+                ),
+              ),
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Container(
+            width: 70,
+            height: 35,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: naturalBlack,
+            ),
+            child: Center(
+              child: Text(
+                'Close',
+                style: buttonSmall.copyWith(
+                  color: naturalWhite,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   void _pickProfilePicture() async {
     final fileData = await _picker.pickImage(source: ImageSource.gallery);
     if (fileData != null) {
       editProfileC.profilePictureTemp = File(fileData.path);
+      editProfileC.isChanged.value = true;
     }
   }
 
   void _saveProfile() async {
-    String displayName = editProfileC.nameController.text;
-    String photoURL =
-        await db.uploadProfilePicture(editProfileC.profilePictureTemp);
-    if (await authController.updateData(displayName, photoURL)) {
-      UserModel userModel = UserModel(
-        userId: userController.userModel.value.userId,
-        name: displayName,
-        email: userController.userModel.value.email,
-        habitStreak: userController.userModel.value.habitStreak,
-        taskCompleted: userController.userModel.value.taskCompleted,
-        totalFocus: userController.userModel.value.totalFocus,
-        missed: userController.userModel.value.missed,
-        completed: userController.userModel.value.completed,
-        streakLeft: userController.userModel.value.streakLeft,
-      );
-
-      if (await db.createNewUser(userModel)) {
-        await userController.setUser(userModel);
+    editProfileC.isSaving.value = true;
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      try {
+        final result = await InternetAddress.lookup('google.com')
+            .timeout(const Duration(seconds: 5));
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          db.deleteProfilePicture();
+          String photoURLold = authController.userAuth!.photoURL as String;
+          String displayName = editProfileC.nameController.text;
+          String photoURL =
+              await db.uploadProfilePicture(editProfileC.profilePictureTemp);
+          if (await authController.updateData(displayName, photoURL)) {
+            UserModel userModel = UserModel(
+              userId: userController.userModel.value.userId,
+              name: displayName,
+              email: userController.userModel.value.email,
+              habitStreak: userController.userModel.value.habitStreak,
+              taskCompleted: userController.userModel.value.taskCompleted,
+              totalFocus: userController.userModel.value.totalFocus,
+              missed: userController.userModel.value.missed,
+              completed: userController.userModel.value.completed,
+              streakLeft: userController.userModel.value.streakLeft,
+            );
+            CachedNetworkImage.evictFromCache(photoURLold);
+            if (await db.createNewUser(userModel)) {
+              await userController.setUser(userModel);
+            }
+          }
+        }
+      } on SocketException catch (e) {
+        _errorDialog();
       }
+    } else {
+      _errorDialog();
     }
+    editProfileC.isSaving.value = false;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: naturalWhite,
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
             SizedBox(height: Get.height * 0.07),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Image.asset("assets/icons/arrow_back.png", width: 24),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: Get.width * 0.5 - 48 - 63.5,
-                  ),
-                  child: Text(
-                    "Edit Profile",
-                    style: mainSubTitle,
-                  ),
-                ),
-              ],
+            Text(
+              "Edit Profile",
+              style: mainSubTitle,
             ),
             const SizedBox(height: 32),
-            CachedNetworkImage(
-              imageUrl: authController.userAuth!.photoURL as String,
-              imageBuilder: (context, imageProvider) => Container(
-                width: 80.0,
-                height: 80.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
+            Obx(() {
+              if (editProfileC.isChanged.value == true) {
+                return CircleAvatar(
+                  radius: 40,
+                  backgroundImage: FileImage(
+                    editProfileC.profilePictureTemp as File,
                   ),
-                ),
-              ),
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ),
+                );
+              } else {
+                return CachedNetworkImage(
+                  imageUrl: authController.userAuth!.photoURL as String,
+                  imageBuilder: (context, imageProvider) {
+                    return Container(
+                      width: 80.0,
+                      height: 80.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                );
+              }
+            }),
             const SizedBox(height: 8),
             GestureDetector(
               onTap: () => _pickProfilePicture(),
@@ -181,6 +267,58 @@ class EditProfilePage extends StatelessWidget {
                 ],
               ),
             ),
+            const Spacer(),
+            GestureDetector(
+              onTap: () {
+                if (editProfileC.isSaving.value == false) {
+                  _saveProfile();
+                }
+              },
+              child: Container(
+                width: 202,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: naturalBlack,
+                ),
+                child: Center(
+                  child: Obx(() {
+                    if (editProfileC.isSaving.value == true) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: naturalWhite,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            "Saving..",
+                            style: buttonSmall.copyWith(color: naturalWhite),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Text(
+                        "Save",
+                        style: buttonSmall.copyWith(color: naturalWhite),
+                      );
+                    }
+                  }),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Text("Cancel", style: textParagraph),
+            ),
+            const SizedBox(height: 72),
           ],
         ),
       ),

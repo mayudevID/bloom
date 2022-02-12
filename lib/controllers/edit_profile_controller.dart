@@ -9,6 +9,8 @@ class EditProfileController extends GetxController {
   TextEditingController nameController = TextEditingController();
   String? userId = Get.find<UserController>().userModel.value.userId;
   File? profilePictureTemp;
+  RxBool isSaving = false.obs;
+  RxBool isChanged = false.obs;
   //String photoLocation = 'photos/$userId/$baseName';
 
   @override

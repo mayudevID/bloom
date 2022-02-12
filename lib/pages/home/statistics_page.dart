@@ -3,9 +3,11 @@ import 'package:bloom/widgets/statistics_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import '../../controllers/user_controller.dart';
 
 class StatisticsPage extends StatelessWidget {
-  const StatisticsPage({Key? key}) : super(key: key);
+  StatisticsPage({Key? key}) : super(key: key);
+  final userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -122,17 +124,17 @@ class StatisticsPage extends StatelessWidget {
                             StatisticsWidget(
                               iconImg: 'assets/icons/dismiss.png',
                               title: 'Missed',
-                              count: 12,
+                              count: userController.userModel.value.missed,
                             ),
                             StatisticsWidget(
                               iconImg: 'assets/icons/checkmark.png',
                               title: 'Completed',
-                              count: 16,
+                              count: userController.userModel.value.completed,
                             ),
                             StatisticsWidget(
                               iconImg: 'assets/icons/streakleft.png',
                               title: 'Streak Left',
-                              count: 24,
+                              count: userController.userModel.value.streakLeft,
                             ),
                           ],
                         ),

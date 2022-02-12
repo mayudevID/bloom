@@ -8,11 +8,13 @@ import 'package:hive/hive.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:weekday_selector/weekday_selector.dart';
 
+import '../../controllers/user_controller.dart';
 import '../../theme.dart';
 
 class AddHabitPage extends StatelessWidget {
   AddHabitPage({Key? key}) : super(key: key);
   final addHabitC = Get.put(AddHabitController());
+  final userController = Get.find<UserController>();
 
   void _saveHabit() async {
     if (addHabitC.titleController.text.trim().isNotEmpty) {
@@ -52,6 +54,9 @@ class AddHabitPage extends StatelessWidget {
       for (var i = 0; i < habitModel.dayList.length; i++) {
         createHabitNotification(habitModel, habitModel.dayList[i]);
       }
+
+      await userController.updateData(
+          'streakLeft', addHabitC.durationDaysHabit.value);
 
       Get.back();
       Get.snackbar(

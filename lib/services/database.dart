@@ -53,4 +53,9 @@ class DatabaseFirebase {
       return authController.userAuth!.photoURL as String;
     }
   }
+
+  Future<void> deleteProfilePicture() async {
+    String photoURL = authController.userAuth!.photoURL as String;
+    await FirebaseStorage.instance.refFromURL(photoURL).delete();
+  }
 }

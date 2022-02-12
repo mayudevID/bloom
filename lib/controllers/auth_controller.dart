@@ -22,14 +22,14 @@ class AuthController extends GetxController {
   RxBool isLoadingGoogle = false.obs;
   RxBool isLoadingFacebook = false.obs;
 
-  Stream<User?> get streamAuthStatus => _auth.authStateChanges();
+  Stream<User?> get streamAuthStatus => _auth.userChanges();
   User? get userAuth => _auth.currentUser;
 
   Future<void> signUp(String name, String email, String password) async {
     try {
       var _authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      File photoDefault = await getImageFileFromAssets('/icons/profpict.png');
+      File photoDefault = await getImageFileFromAssets('icons/profpict.png');
       String photoURL =
           await DatabaseFirebase().uploadProfilePicture(photoDefault);
       _auth.currentUser!.updatePhotoURL(photoURL);
@@ -387,9 +387,7 @@ class AuthController extends GetxController {
     try {
       await _auth.currentUser!.reload();
       await _auth.currentUser!.updateDisplayName(displayName);
-      if (photoURL != null) {
-        await _auth.currentUser!.updatePhotoURL(photoURL);
-      }
+      await _auth.currentUser!.updatePhotoURL(photoURL);
       return true;
     } on Exception catch (e) {
       return false;

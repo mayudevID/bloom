@@ -80,7 +80,7 @@ class AppPages {
     ),
     GetPage(
       name: RouteName.STATISTICS,
-      page: () => const StatisticsPage(),
+      page: () => StatisticsPage(),
     ),
     GetPage(
       name: RouteName.EDITPROFILE,
