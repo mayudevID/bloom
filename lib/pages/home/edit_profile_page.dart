@@ -91,7 +91,7 @@ class EditProfilePage extends StatelessWidget {
     final fileData = await _picker.pickImage(source: ImageSource.gallery);
     if (fileData != null) {
       editProfileC.profilePictureTemp = File(fileData.path);
-      editProfileC.isChanged.value = true;
+      editProfileC.isPictureChanged.value = true;
     }
   }
 
@@ -138,6 +138,70 @@ class EditProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future exitDialog() {
+      return Get.defaultDialog(
+        title: "Profile unsaved",
+        titleStyle: buttonSmall,
+        titlePadding: const EdgeInsets.only(
+          top: 20,
+          bottom: 5,
+        ),
+        contentPadding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          bottom: 20,
+        ),
+        content: Text(
+          "Profile not saved. Exit anyway?",
+          style: buttonSmall.copyWith(fontWeight: FontWeight.w400),
+        ),
+        actions: [
+          const SizedBox(width: 250),
+          GestureDetector(
+            onTap: () {
+              Get.back();
+              Get.back();
+            },
+            child: Container(
+              width: 70,
+              height: 35,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: naturalBlack,
+              ),
+              child: Center(
+                child: Text(
+                  'Exit',
+                  style: buttonSmall.copyWith(
+                    color: naturalWhite,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () => Get.back(),
+            child: Container(
+              width: 70,
+              height: 35,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: naturalBlack,
+              ),
+              child: Center(
+                child: Text(
+                  'Cancel',
+                  style: buttonSmall.copyWith(
+                    color: naturalWhite,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
     return Scaffold(
       backgroundColor: naturalWhite,
       resizeToAvoidBottomInset: false,
@@ -152,7 +216,7 @@ class EditProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             Obx(() {
-              if (editProfileC.isChanged.value == true) {
+              if (editProfileC.isPictureChanged.value == true) {
                 return CircleAvatar(
                   radius: 40,
                   backgroundImage: FileImage(
@@ -314,7 +378,13 @@ class EditProfilePage extends StatelessWidget {
             const SizedBox(height: 16),
             GestureDetector(
               onTap: () {
-                Get.back();
+                if (editProfileC.isPictureChanged.value == true ||
+                    editProfileC.nameController.text.trim() !=
+                        editProfileC.defaultName) {
+                  exitDialog();
+                } else {
+                  Get.back();
+                }
               },
               child: Text("Cancel", style: textParagraph),
             ),

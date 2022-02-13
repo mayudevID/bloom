@@ -56,15 +56,15 @@ class HomePage extends StatelessWidget {
                             },
                             placeholder: (context, url) {
                               return const SizedBox(
-                                width: 80.0,
-                                height: 80.0,
+                                width: 40.0,
+                                height: 40.0,
                                 child: CircularProgressIndicator(),
                               );
                             },
                             errorWidget: (context, url, error) {
                               return const SizedBox(
-                                width: 80.0,
-                                height: 80.0,
+                                width: 40.0,
+                                height: 40.0,
                                 child: Icon(Icons.error),
                               );
                             },

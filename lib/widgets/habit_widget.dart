@@ -17,7 +17,7 @@ class HabitWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(RouteName.HABITDETAIL, arguments: [habitModel, index]);
+        Get.toNamed(RouteName.HABITDETAIL, arguments: index);
       },
       child: Container(
         height: 80,

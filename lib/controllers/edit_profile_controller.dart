@@ -9,8 +9,10 @@ class EditProfileController extends GetxController {
   TextEditingController nameController = TextEditingController();
   String? userId = Get.find<UserController>().userModel.value.userId;
   File? profilePictureTemp;
+  String? defaultName;
   RxBool isSaving = false.obs;
-  RxBool isChanged = false.obs;
+  RxBool isPictureChanged = false.obs;
+  RxBool isSaved = false.obs;
   //String photoLocation = 'photos/$userId/$baseName';
 
   @override
@@ -20,5 +22,6 @@ class EditProfileController extends GetxController {
     super.onInit();
     emailController.text = Get.find<UserController>().userModel.value.email!;
     nameController.text = Get.find<UserController>().userModel.value.name!;
+    defaultName = Get.find<UserController>().userModel.value.name!;
   }
 }

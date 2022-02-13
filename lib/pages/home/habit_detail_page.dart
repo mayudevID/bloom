@@ -5,12 +5,11 @@ import 'package:bloom/utils.dart';
 import 'package:bloom/widgets/day_streak_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class HabitDetailPage extends StatelessWidget {
   HabitDetailPage({Key? key}) : super(key: key);
-  final HabitModel habitModel = (Get.arguments as List)[0];
-  final int index = (Get.arguments as List)[1];
+  final int modelIndex = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -18,195 +17,262 @@ class HabitDetailPage extends StatelessWidget {
       backgroundColor: naturalWhite,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [
-            SizedBox(height: Get.height * 0.07),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () => Get.back(),
-                  child: Image.asset(
-                    "assets/icons/arrow_back.png",
-                    width: 24,
-                  ),
-                ),
-                const Spacer(),
-                Image.asset("assets/icons/share.png", width: 24),
-                const SizedBox(width: 16),
-                GestureDetector(
-                  onTap: () async {
-                    var habitDb = await Hive.openBox('habit_db');
-                    for (var i = 0; i < habitModel.dayList.length; i++) {
-                      AwesomeNotifications()
-                          .cancel(habitModel.habitId * habitModel.dayList[i]);
-                    }
-                    habitDb.deleteAt(index);
-                    Get.back();
-                  },
-                  child: Image.asset(
-                    "assets/icons/delete.png",
-                    width: 24,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 32),
-            Row(
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 64,
-                  height: 64,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: yellowDark),
-                    color: const Color(0xffFCF7D3),
-                  ),
-                  child: Image.asset(
-                    habitModel.iconImg,
-                    width: 32,
-                    scale: 3,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        child: FutureBuilder(
+          future: Hive.openBox("habit_db"),
+          builder: (builder, snapshot) {
+            if (snapshot.hasData) {
+              var habitDb = Hive.box("habit_db");
+              HabitModel habitTarget = habitDb.getAt(modelIndex);
+              return Column(
+                children: [
+                  SizedBox(height: Get.height * 0.07),
+                  Row(
                     children: [
-                      Text(habitModel.title, style: buttonLarge),
-                      Text(
-                        "Every day, ${todToString(habitModel.timeOfDay)}",
-                        style: textForm,
+                      GestureDetector(
+                        onTap: () => Get.back(),
+                        child: Image.asset(
+                          "assets/icons/arrow_back.png",
+                          width: 24,
+                        ),
+                      ),
+                      const Spacer(),
+                      Image.asset("assets/icons/share.png", width: 24),
+                      const SizedBox(width: 16),
+                      GestureDetector(
+                        onTap: () async {
+                          var habitDbAwait = await Hive.openBox("habit_db");
+                          HabitModel habitTarget =
+                              habitDbAwait.getAt(modelIndex);
+                          for (var i = 0; i < habitTarget.dayList.length; i++) {
+                            AwesomeNotifications().cancel(
+                                habitTarget.habitId * habitTarget.dayList[i]);
+                          }
+                          Get.back();
+                        },
+                        child: Image.asset(
+                          "assets/icons/delete.png",
+                          width: 24,
+                        ),
                       ),
                     ],
                   ),
-                ),
-                Text(
-                  "${habitModel.checkedDays.where((item) => item == true).length}/${habitModel.durationDays}",
-                  style: textForm,
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Progress",
-                  style: smallText.copyWith(fontWeight: FontWeight.w700),
-                ),
-                Text(
-                  "View Statistic",
-                  style: smallText.copyWith(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 8,
+                  const SizedBox(height: 32),
+                  Row(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 64,
+                        height: 64,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: yellowDark),
+                          color: const Color(0xffFCF7D3),
+                        ),
+                        child: ValueListenableBuilder(
+                          valueListenable: habitDb.listenable(),
+                          builder: (context, box, _) {
+                            HabitModel habitModel = habitDb.getAt(modelIndex);
+                            return Image.asset(
+                              habitModel.iconImg,
+                              width: 32,
+                              scale: 3,
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: ValueListenableBuilder(
+                          valueListenable: habitDb.listenable(),
+                          builder: (context, box, _) {
+                            HabitModel habitModel = habitDb.getAt(modelIndex);
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(habitModel.title, style: buttonLarge),
+                                Text(
+                                  "Every day, ${todToString(habitModel.timeOfDay)}",
+                                  style: textForm,
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                      ValueListenableBuilder(
+                        valueListenable: habitDb.listenable(),
+                        builder: (context, box, _) {
+                          HabitModel habitModel = habitDb.getAt(modelIndex);
+                          int count = habitModel.checkedDays
+                              .where((item) => item == true)
+                              .length;
+                          return Text(
+                            "$count/${habitModel.durationDays}",
+                            style: textForm,
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      habitModel.missed.toString(),
-                      style: const TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Progress",
+                        style: smallText.copyWith(fontWeight: FontWeight.w700),
                       ),
-                    ),
-                    Text(
-                      "Missed",
-                      style: smallTextLink.copyWith(fontSize: 10),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 24),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      habitModel.streak.toString(),
-                      style: const TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
+                      Text(
+                        "View Statistic",
+                        style: smallText.copyWith(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 8,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Streak",
-                      style: smallTextLink.copyWith(fontSize: 10),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 24),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      habitModel.streakLeft.toString(),
-                      style: const TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ValueListenableBuilder(
+                            valueListenable: habitDb.listenable(),
+                            builder: (context, box, _) {
+                              HabitModel test = habitDb.getAt(modelIndex);
+                              return Text(
+                                test.missed.toString(),
+                                style: const TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              );
+                            },
+                          ),
+                          Text(
+                            "Missed",
+                            style: smallTextLink.copyWith(fontSize: 10),
+                          ),
+                        ],
                       ),
-                    ),
-                    Text(
-                      "Streak Left",
-                      style: smallTextLink.copyWith(fontSize: 10),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Daily Streak",
-                style: smallText.copyWith(fontWeight: FontWeight.w700),
-              ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 311,
-              child: ListView.builder(
-                itemCount: habitModel.dayList.length,
-                itemBuilder: (context, idx) {
-                  return DayStreakWidget(
-                    dayIndex: idx,
-                    modelIndex: index,
-                    habitModel: habitModel,
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 56),
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                width: 202,
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: naturalBlack,
-                ),
-                child: Center(
-                  child: Text(
-                    "Edit",
-                    style: buttonSmall.copyWith(
-                      color: naturalWhite,
+                      const SizedBox(width: 24),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ValueListenableBuilder(
+                            valueListenable: habitDb.listenable(),
+                            builder: (context, box, _) {
+                              HabitModel habitModel = habitDb.getAt(modelIndex);
+                              return Text(
+                                habitModel.streak.toString(),
+                                style: const TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              );
+                            },
+                          ),
+                          Text(
+                            "Streak",
+                            style: smallTextLink.copyWith(fontSize: 10),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 24),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ValueListenableBuilder(
+                            valueListenable: habitDb.listenable(),
+                            builder: (context, box, _) {
+                              HabitModel habitModel = habitDb.getAt(modelIndex);
+                              return Text(
+                                habitModel.streakLeft.toString(),
+                                style: const TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              );
+                            },
+                          ),
+                          Text(
+                            "Streak Left",
+                            style: smallTextLink.copyWith(fontSize: 10),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Daily Streak",
+                      style: smallText.copyWith(fontWeight: FontWeight.w700),
                     ),
                   ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 311,
+                    child: MediaQuery.removePadding(
+                      context: context,
+                      removeTop: true,
+                      child: ValueListenableBuilder(
+                        valueListenable: habitDb.listenable(),
+                        builder: (context, box, _) {
+                          HabitModel habitModel = habitDb.getAt(modelIndex);
+                          return ListView.builder(
+                            itemCount: habitModel.durationDays,
+                            itemBuilder: (context, idx) {
+                              return DayStreakWidget(
+                                dayIndex: idx,
+                                modelIndex: modelIndex,
+                                habitModel: habitModel,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 56),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      width: 202,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: naturalBlack,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Edit",
+                          style: buttonSmall.copyWith(
+                            color: naturalWhite,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return const Center(
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: CircularProgressIndicator(),
                 ),
-              ),
-            ),
-          ],
+              );
+            }
+          },
         ),
       ),
     );

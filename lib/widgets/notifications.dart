@@ -26,21 +26,6 @@ Future<void> createTaskNotification(TaskModel taskModel) async {
   );
 }
 
-Future<void> createTimerNotification(
-    PomodoroModel pomodoroModel, int currentSession) async {
-  await AwesomeNotifications().createNotification(
-    content: NotificationContent(
-      id: pomodoroModel.pomodoroId,
-      channelKey: 'pomodoro_channel',
-      title: "Pomodoro Timer - ${pomodoroModel.title}",
-      body: '$currentSession of ${pomodoroModel.session} sessions completed',
-      notificationLayout: NotificationLayout.Default,
-      displayOnBackground: true,
-      displayOnForeground: true,
-    ),
-  );
-}
-
 Future<void> createHabitNotification(HabitModel habitModel, int day) async {
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
@@ -61,6 +46,21 @@ Future<void> createHabitNotification(HabitModel habitModel, int day) async {
       millisecond: 0,
       repeats: true,
       allowWhileIdle: true,
+    ),
+  );
+}
+
+Future<void> createTimerNotification(
+    PomodoroModel pomodoroModel, int currentSession) async {
+  await AwesomeNotifications().createNotification(
+    content: NotificationContent(
+      id: pomodoroModel.pomodoroId,
+      channelKey: 'pomodoro_channel',
+      title: "Pomodoro Timer - ${pomodoroModel.title}",
+      body: '$currentSession of ${pomodoroModel.session} sessions completed',
+      notificationLayout: NotificationLayout.Default,
+      displayOnBackground: true,
+      displayOnForeground: true,
     ),
   );
 }
