@@ -4,6 +4,7 @@ import 'package:bloom/models/habit.dart';
 import 'package:bloom/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 import '../theme.dart';
 
@@ -16,8 +17,17 @@ class HabitWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.toNamed(RouteName.HABITDETAIL, arguments: index);
+      onTap: () async {
+        var isDeleted = await Get.toNamed(
+          RouteName.HABITDETAIL,
+          arguments: index,
+        );
+        if (isDeleted) {
+          Future.delayed(const Duration(milliseconds: 500), () async {
+            var habitDb = await Hive.openBox('habit_db');
+            habitDb.deleteAt(index as int);
+          });
+        }
       },
       child: Container(
         height: 80,

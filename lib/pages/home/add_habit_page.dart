@@ -456,7 +456,25 @@ class AddHabitPage extends StatelessWidget {
             const Spacer(),
             GestureDetector(
               onTap: () {
-                _saveHabit();
+                if (addHabitC.dayList.contains(true)) {
+                  _saveHabit();
+                } else {
+                  Get.snackbar(
+                    "Choose date first",
+                    "Select one or more days to schedule",
+                    colorText: naturalWhite,
+                    snackPosition: SnackPosition.BOTTOM,
+                    margin: const EdgeInsets.only(
+                      bottom: 80,
+                      left: 30,
+                      right: 30,
+                    ),
+                    backgroundColor: naturalBlack,
+                    animationDuration: const Duration(milliseconds: 100),
+                    forwardAnimationCurve: Curves.fastOutSlowIn,
+                    reverseAnimationCurve: Curves.fastOutSlowIn,
+                  );
+                }
               },
               child: Container(
                 width: 202,

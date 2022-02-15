@@ -67,7 +67,16 @@ class NotificationController extends GetxController {
         for (var i = 0; i < habitDb.length; i++) {
           HabitModel habitModel = habitDb.getAt(i);
           if (habitModel.habitId == habitIdTarget) {
-            Get.toNamed(RouteName.HABITDETAIL, arguments: [habitModel, i]);
+            var isDeleted = await Get.toNamed(
+              RouteName.HABITDETAIL,
+              arguments: i,
+            );
+            if (isDeleted) {
+              Future.delayed(const Duration(milliseconds: 500), () async {
+                var habitDb = await Hive.openBox('habit_db');
+                habitDb.deleteAt(i);
+              });
+            }
             break;
           }
         }

@@ -5,16 +5,20 @@ import 'package:bloom/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:marquee/marquee.dart';
 
 import '../theme.dart';
 
 class PomodoroCard extends StatelessWidget {
   final int index;
-  final PomodoroModel model;
+  final PomodoroModel pomodoroModel;
   final pomodoroController = Get.find<PomodoroController>();
   bool isLast;
   PomodoroCard(
-      {Key? key, required this.index, required this.model, this.isLast = false})
+      {Key? key,
+      required this.index,
+      required this.pomodoroModel,
+      this.isLast = false})
       : super(key: key);
 
   @override
@@ -72,22 +76,23 @@ class PomodoroCard extends StatelessWidget {
           children: [
             const SizedBox(height: 15),
             Expanded(
-              child: Text(
-                model.title,
+              child: Marquee(
+                text: pomodoroModel.title,
                 style: textParagraph,
-                overflow: TextOverflow.ellipsis,
+                velocity: 25,
+                blankSpace: 20,
               ),
             ),
             const SizedBox(height: 10),
-            Text("${model.durationMinutes}:00", style: buttonSmall),
+            Text("${pomodoroModel.durationMinutes}:00", style: buttonSmall),
             const SizedBox(height: 10),
             GestureDetector(
               onTap: () {
                 Get.toNamed(
                   RouteName.TIMER,
-                  arguments: model,
+                  arguments: pomodoroModel,
                 );
-                pomodoroController.newRecent(model);
+                pomodoroController.newRecent(pomodoroModel);
               },
               child: Container(
                 width: 60,

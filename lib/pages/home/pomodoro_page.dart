@@ -270,7 +270,7 @@ class PomodoroPage extends StatelessWidget {
                     builder: (context, value, child) {
                       if (pomodoroDb.isEmpty) {
                         return const SizedBox(
-                          height: 70,
+                          height: 120,
                           child: Center(
                             child: Text(
                               'Timer empty',
@@ -291,10 +291,11 @@ class PomodoroPage extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             reverse: true,
                             itemBuilder: (context, index) {
-                              PomodoroModel pomodoro = pomodoroDb.getAt(index);
+                              PomodoroModel pomodoroModel =
+                                  pomodoroDb.getAt(index);
                               return PomodoroCard(
                                 index: index,
-                                model: pomodoro,
+                                pomodoroModel: pomodoroModel,
                                 isLast: index == pomodoroDb.length - 1,
                               );
                             },
@@ -383,7 +384,7 @@ class PomodoroPage extends StatelessWidget {
               );
             } else {
               return const SizedBox(
-                height: 70,
+                height: 120,
                 child: Center(
                   child: Text(
                     'Nothing opened recently',

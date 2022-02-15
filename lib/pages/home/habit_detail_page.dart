@@ -22,14 +22,14 @@ class HabitDetailPage extends StatelessWidget {
           builder: (builder, snapshot) {
             if (snapshot.hasData) {
               var habitDb = Hive.box("habit_db");
-              HabitModel habitTarget = habitDb.getAt(modelIndex);
+              //HabitModel habitTarget = habitDb.getAt(modelIndex);
               return Column(
                 children: [
                   SizedBox(height: Get.height * 0.07),
                   Row(
                     children: [
                       GestureDetector(
-                        onTap: () => Get.back(),
+                        onTap: () => Get.back(result: false),
                         child: Image.asset(
                           "assets/icons/arrow_back.png",
                           width: 24,
@@ -47,7 +47,7 @@ class HabitDetailPage extends StatelessWidget {
                             AwesomeNotifications().cancel(
                                 habitTarget.habitId * habitTarget.dayList[i]);
                           }
-                          Get.back();
+                          Get.back(result: true);
                         },
                         child: Image.asset(
                           "assets/icons/delete.png",

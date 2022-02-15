@@ -18,10 +18,12 @@ Future<void> createTaskNotification(TaskModel taskModel) async {
       displayOnBackground: true,
       displayOnForeground: true,
       wakeUpScreen: true,
+      category: NotificationCategory.Reminder,
     ),
     schedule: NotificationCalendar.fromDate(
       date: taskModel.dateTime,
       allowWhileIdle: true,
+      preciseAlarm: true,
     ),
   );
 }
@@ -37,6 +39,7 @@ Future<void> createHabitNotification(HabitModel habitModel, int day) async {
       displayOnBackground: true,
       displayOnForeground: true,
       wakeUpScreen: true,
+      category: NotificationCategory.Reminder,
     ),
     schedule: NotificationCalendar(
       weekday: day,
@@ -46,6 +49,7 @@ Future<void> createHabitNotification(HabitModel habitModel, int day) async {
       millisecond: 0,
       repeats: true,
       allowWhileIdle: true,
+      preciseAlarm: true,
     ),
   );
 }
@@ -61,6 +65,7 @@ Future<void> createTimerNotification(
       notificationLayout: NotificationLayout.Default,
       displayOnBackground: true,
       displayOnForeground: true,
+      category: NotificationCategory.Alarm,
     ),
   );
 }
