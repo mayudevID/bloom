@@ -9,8 +9,7 @@ import 'package:bloom/widgets/habit_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
-import '../../theme.dart';
+import '../../../theme.dart';
 
 class HabitTrackerPage extends StatelessWidget {
   HabitTrackerPage({Key? key}) : super(key: key);

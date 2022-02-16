@@ -307,7 +307,7 @@ class PomodoroPage extends StatelessWidget {
                 }
               } else {
                 return const SizedBox(
-                  height: 70,
+                  height: 120,
                   child: Center(
                     child: CircularProgressIndicator(color: Colors.black),
                   ),

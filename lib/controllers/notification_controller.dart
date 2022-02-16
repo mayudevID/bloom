@@ -72,7 +72,7 @@ class NotificationController extends GetxController {
               arguments: i,
             );
             if (isDeleted) {
-              Future.delayed(const Duration(milliseconds: 500), () async {
+              Future.delayed(const Duration(milliseconds: 300), () async {
                 var habitDb = await Hive.openBox('habit_db');
                 habitDb.deleteAt(i);
               });

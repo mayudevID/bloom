@@ -1,14 +1,9 @@
 import 'package:bloom/controllers/bindings/page_binding.dart';
-import 'package:bloom/pages/home/add_habit_page.dart';
-import 'package:bloom/pages/home/add_task_page.dart';
-import 'package:bloom/pages/home/habit_detail_page.dart';
 import 'package:bloom/pages/home/main_page.dart';
 import 'package:bloom/pages/home/profile_page.dart';
 import 'package:bloom/pages/home/settings_page.dart';
 import 'package:bloom/pages/home/statistics_page.dart';
-import 'package:bloom/pages/home/task_detail_page.dart';
 import 'package:bloom/pages/home/task_history_page.dart';
-import 'package:bloom/pages/home/timer_page.dart';
 import 'package:bloom/pages/start/create_account_page.dart';
 import 'package:bloom/pages/start/forgot_password_page.dart';
 import 'package:bloom/pages/start/login_page.dart';
@@ -16,8 +11,12 @@ import 'package:bloom/pages/start/onboarding_page.dart';
 import 'package:bloom/pages/start/verification_page.dart';
 import 'package:bloom/routes/route_name.dart';
 import 'package:get/get.dart';
-
 import '../pages/home/edit_profile_page.dart';
+import '../pages/home/habit/add_habit_page.dart';
+import '../pages/home/habit/habit_detail_page.dart';
+import '../pages/home/pomodoro/timer_page.dart';
+import '../pages/home/todolist/add_task_page.dart';
+import '../pages/home/todolist/task_detail_page.dart';
 
 class AppPages {
   static final pages = [

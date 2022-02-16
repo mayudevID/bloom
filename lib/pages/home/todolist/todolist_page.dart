@@ -8,8 +8,8 @@ import 'package:bloom/widgets/task_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../theme.dart';
-import '../../utils.dart';
+import '../../../theme.dart';
+import '../../../utils.dart';
 
 class ToDoListPage extends StatelessWidget {
   ToDoListPage({Key? key}) : super(key: key);

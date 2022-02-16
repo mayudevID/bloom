@@ -4,8 +4,7 @@ import 'package:bloom/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-
-import '../../utils.dart';
+import '../../../utils.dart';
 
 class TimerPage extends StatelessWidget {
   TimerPage({Key? key}) : super(key: key);

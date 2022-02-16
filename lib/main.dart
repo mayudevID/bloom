@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/controllers/auth_controller.dart';
 import 'package:bloom/models/task.dart';
@@ -62,6 +61,13 @@ void main() async {
         ledColor: Colors.white,
         vibrationPattern: mediumVibrationPattern,
         channelShowBadge: true,
+      ),
+      NotificationChannel(
+        channelKey: 'service_channel',
+        channelName: 'Service notifications',
+        channelDescription: 'Notification channel for service',
+        defaultColor: yellowDark,
+        importance: NotificationImportance.High,
       )
     ],
     debug: true,

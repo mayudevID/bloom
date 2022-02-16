@@ -73,24 +73,33 @@ class AddTaskPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<DateTime?> pickTime() async {
-      return DatePicker.showTimePicker(
-        context,
-        showTitleActions: true,
-        onChanged: (time) {
-          print(time);
-        },
-        onConfirm: (time) {
-          addTaskC.setDateTime(time);
-          addTaskC.isChoose.value = true;
-        },
-        currentTime: addTaskC.dateChoose.value,
-        theme: DatePickerTheme(
-          cancelStyle: buttonSmall.copyWith(color: naturalBlack),
-          doneStyle: buttonSmall.copyWith(color: naturalBlack),
-          itemStyle: buttonSmall,
-        ),
+    void pickTime() async {
+      final TimeOfDay? pickTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
       );
+      if (pickTime != null) {
+        String time = pickTime.format(context) + ":00";
+        addTaskC.setDateTime(time);
+        addTaskC.isChoose.value = true;
+      }
+      // return DatePicker.showTimePicker(
+      //   context,
+      //   showTitleActions: true,
+      //   onChanged: (time) {
+      //     print(time);
+      //   },
+      //   onConfirm: (time) {
+      //     addTaskC.setDateTime(time);
+      //     addTaskC.isChoose.value = true;
+      //   },
+      //   currentTime: addTaskC.dateChoose.value,
+      //   theme: DatePickerTheme(
+      //     cancelStyle: buttonSmall.copyWith(color: naturalBlack),
+      //     doneStyle: buttonSmall.copyWith(color: naturalBlack),
+      //     itemStyle: buttonSmall,
+      //   ),
+      // );
     }
 
     return Scaffold(

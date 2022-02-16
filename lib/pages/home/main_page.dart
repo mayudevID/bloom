@@ -1,12 +1,11 @@
 import 'package:bloom/controllers/mainpage_controller.dart';
-import 'package:bloom/pages/home/todolist_page.dart';
+import 'package:bloom/pages/home/pomodoro/pomodoro_page.dart';
+import 'package:bloom/pages/home/todolist/todolist_page.dart';
 import 'package:bloom/widgets/custom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'habit_tracker_page.dart';
+import 'habit/habit_tracker_page.dart';
 import 'home_page.dart';
-import 'pomodoro_page.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);

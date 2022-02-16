@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class AddTaskController extends GetxController {
   DateTime dateSelector;
@@ -22,7 +23,12 @@ class AddTaskController extends GetxController {
     dateChoose.value = dateSelector;
   }
 
-  void setDateTime(DateTime time) {
-    dateChoose.value = time;
+  void setDateTime(String time) {
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+    String stringDate = dateFormat.format(dateChoose.value);
+    String newDateChooseString = stringDate + " " + time;
+    DateFormat newDateFormat = DateFormat("yyyy-MM-dd hh:mm:ss");
+    DateTime newDateChoose = newDateFormat.parse(newDateChooseString);
+    dateChoose.value = newDateChoose;
   }
 }
