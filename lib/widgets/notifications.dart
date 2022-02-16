@@ -65,7 +65,7 @@ Future<void> createTimerNotification(
       notificationLayout: NotificationLayout.Default,
       displayOnBackground: true,
       displayOnForeground: true,
-      category: NotificationCategory.Alarm,
+      category: NotificationCategory.StopWatch,
     ),
   );
 }

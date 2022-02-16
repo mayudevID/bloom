@@ -5,7 +5,6 @@ import 'package:bloom/utils.dart';
 import 'package:bloom/widgets/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
@@ -83,23 +82,6 @@ class AddTaskPage extends StatelessWidget {
         addTaskC.setDateTime(time);
         addTaskC.isChoose.value = true;
       }
-      // return DatePicker.showTimePicker(
-      //   context,
-      //   showTitleActions: true,
-      //   onChanged: (time) {
-      //     print(time);
-      //   },
-      //   onConfirm: (time) {
-      //     addTaskC.setDateTime(time);
-      //     addTaskC.isChoose.value = true;
-      //   },
-      //   currentTime: addTaskC.dateChoose.value,
-      //   theme: DatePickerTheme(
-      //     cancelStyle: buttonSmall.copyWith(color: naturalBlack),
-      //     doneStyle: buttonSmall.copyWith(color: naturalBlack),
-      //     itemStyle: buttonSmall,
-      //   ),
-      // );
     }
 
     return Scaffold(

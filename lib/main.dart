@@ -62,13 +62,6 @@ void main() async {
         vibrationPattern: mediumVibrationPattern,
         channelShowBadge: true,
       ),
-      NotificationChannel(
-        channelKey: 'service_channel',
-        channelName: 'Service notifications',
-        channelDescription: 'Notification channel for service',
-        defaultColor: yellowDark,
-        importance: NotificationImportance.High,
-      )
     ],
     debug: true,
   );

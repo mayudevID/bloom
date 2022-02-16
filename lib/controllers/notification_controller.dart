@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:bloom/controllers/user_controller.dart';
 import 'package:bloom/models/habit.dart';
 import 'package:bloom/models/task.dart';
 import 'package:bloom/routes/route_name.dart';
@@ -43,6 +44,8 @@ class NotificationController extends GetxController {
                 openDays: newOpenDays,
               );
               habitDb.putAt(i, newHabitModel);
+            } else if (openDaysVal == habitModel.openDays.length) {
+              Get.find<UserController>().updateData('habitStreak', true);
             }
             break;
           }
