@@ -44,6 +44,7 @@ class PomodoroCard extends StatelessWidget {
                 } else {
                   pomodoroDb.deleteAt(index);
                 }
+                pomodoroDb.close();
                 Get.back();
               },
               child: Row(

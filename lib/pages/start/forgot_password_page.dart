@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:bloom/controllers/auth_controller.dart';
 import 'package:bloom/widgets/form_input.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,8 @@ import '../../theme.dart';
 class ForgotPasswordPage extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   ForgotPasswordPage({Key? key}) : super(key: key);
+  final authController = Get.find<AuthController>();
+  RxBool isLoading = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -37,18 +40,46 @@ class ForgotPasswordPage extends StatelessWidget {
               controller: emailController,
             ),
             const SizedBox(height: 24),
-            Container(
-              height: 56,
-              margin: const EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                color: yellowDark,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Text(
-                  "Send",
-                  style: buttonLarge,
+            GestureDetector(
+              onTap: () async {
+                if (!isLoading.value) {
+                  isLoading.value = true;
+                  authController.resetPassword(emailController.text.trim());
+                  isLoading.value = false;
+                }
+              },
+              child: Container(
+                height: 56,
+                margin: const EdgeInsets.symmetric(horizontal: 30),
+                decoration: BoxDecoration(
+                  color: yellowDark,
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                child: Obx(() {
+                  if (!isLoading.value) {
+                    return Center(
+                      child: Text(
+                        "Send",
+                        style: buttonLarge,
+                      ),
+                    );
+                  } else {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 25,
+                          height: 25,
+                          child: CircularProgressIndicator(color: naturalBlack),
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Text("Loading", style: buttonLarge),
+                      ],
+                    );
+                  }
+                }),
               ),
             ),
           ],

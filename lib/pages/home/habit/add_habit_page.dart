@@ -49,6 +49,7 @@ class AddHabitPage extends StatelessWidget {
 
       var habitDb = await Hive.openBox('habit_db');
       habitDb.add(habitModel);
+      habitDb.close();
 
       for (var i = 0; i < habitModel.dayList.length; i++) {
         createHabitNotification(habitModel, habitModel.dayList[i]);

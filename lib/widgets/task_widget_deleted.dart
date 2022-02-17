@@ -40,6 +40,7 @@ class TaskWidgetDeleted extends StatelessWidget {
                 } else {
                   taskHistoryDb.deleteAt(index);
                 }
+                taskHistoryDb.close();
                 Get.back();
               },
               child: Row(

@@ -48,7 +48,7 @@ class AuthController extends GetxController {
         await Get.find<UserController>().setUser(_userModel);
         Get.toNamed(RouteName.VERIFICATION);
       }
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       Get.snackbar(
         "SignUp Error",
         e.message.toString(),
@@ -173,6 +173,10 @@ class AuthController extends GetxController {
       habitDb.clear();
       pomodoroDb.clear();
       taskHistoryDb.clear();
+      taskDb.close();
+      habitDb.close();
+      pomodoroDb.close();
+      taskHistoryDb.close();
       Get.offAllNamed(RouteName.LOGIN);
     } catch (e) {
       print(e);
@@ -229,6 +233,7 @@ class AuthController extends GetxController {
 
         var credentialSave = await Hive.openBox('credentialSave');
         await credentialSave.put('token', loginResult.accessToken!.token);
+        credentialSave.close();
         var _authResult =
             await _auth.signInWithCredential(facebookAuthCredential);
 
@@ -282,7 +287,7 @@ class AuthController extends GetxController {
                 await linkGoogleAndFacebook();
               },
               child: Container(
-                width: 190,
+                width: 200,
                 height: 35,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
@@ -347,6 +352,9 @@ class AuthController extends GetxController {
         await _authResultGoogle.user!
             .linkWithCredential(facebookAuthCredential);
 
+        credentialSave.clear();
+        credentialSave.close();
+
         await Get.find<UserController>().setUser(
             await DatabaseFirebase().getUser(_authResultGoogle.user!.uid));
         Get.offAllNamed(RouteName.MAIN);
@@ -391,6 +399,48 @@ class AuthController extends GetxController {
       return true;
     } on Exception catch (e) {
       return false;
+    }
+  }
+
+  Future<void> resetPassword(String email) async {
+    try {
+      var providerList = await _auth.fetchSignInMethodsForEmail(email);
+      print(providerList);
+      // if (providerList.contains('password')) {
+      //   await _auth.sendPasswordResetEmail(email: email);
+      // } else {
+      //   Get.snackbar(
+      //     "Account not listed",
+      //     "Email is linked to Google Account/Facebook, not password",
+      //     colorText: naturalWhite,
+      //     snackPosition: SnackPosition.BOTTOM,
+      //     margin: const EdgeInsets.only(
+      //       bottom: 80,
+      //       left: 30,
+      //       right: 30,
+      //     ),
+      //     backgroundColor: naturalBlack,
+      //     animationDuration: const Duration(milliseconds: 100),
+      //     forwardAnimationCurve: Curves.fastOutSlowIn,
+      //     reverseAnimationCurve: Curves.fastOutSlowIn,
+      //   );
+      // }
+    } on FirebaseException catch (e) {
+      Get.snackbar(
+        "Invalid Email",
+        "Email not found",
+        colorText: naturalWhite,
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.only(
+          bottom: 80,
+          left: 30,
+          right: 30,
+        ),
+        backgroundColor: naturalBlack,
+        animationDuration: const Duration(milliseconds: 100),
+        forwardAnimationCurve: Curves.fastOutSlowIn,
+        reverseAnimationCurve: Curves.fastOutSlowIn,
+      );
     }
   }
 }

@@ -37,6 +37,7 @@ class PomodoroPage extends StatelessWidget {
                     session: addPomodoroController.valueSessions.value,
                   ),
                 );
+                pomodoroDb.close();
                 Get.delete<AddPomodoroController>();
                 Get.back();
                 if (pomodoroDb.length != 1) {

@@ -24,12 +24,14 @@ class UserController extends GetxController {
     super.onInit();
     var userData = await Hive.openBox('user_data');
     userModel.value = userData.get('user') ?? userModel.value;
+    userData.close();
   }
 
   Future<void> setUser(UserModel newUserModel) async {
     userModel.value = newUserModel;
     var userData = await Hive.openBox('user_data');
     await userData.put('user', newUserModel);
+    userData.close();
   }
 
   Future<void> clear() async {
@@ -46,6 +48,7 @@ class UserController extends GetxController {
     );
     var userData = await Hive.openBox('user_data');
     await userData.delete('user');
+    userData.close();
   }
 
   Future<void> updateData(String type, Object value) async {

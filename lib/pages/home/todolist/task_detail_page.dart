@@ -43,6 +43,8 @@ class TaskDetailPage extends StatelessWidget {
                       taskDb.deleteAt(index);
                     }
                     taskHistoryDb.add(taskModel);
+                    taskDb.close();
+                    taskHistoryDb.close();
                     Get.back();
                   },
                   child: Image.asset(

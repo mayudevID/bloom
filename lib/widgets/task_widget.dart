@@ -74,6 +74,7 @@ class TaskWidget extends StatelessWidget {
                       );
                       var taskDb = await Hive.openBox('task_db');
                       taskDb.putAt(index, newTaskModel);
+                      taskDb.close();
                       await userController.updateData('taskCompleted', value);
                     },
                   ),

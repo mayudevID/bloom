@@ -40,9 +40,7 @@ class HabitDetailPage extends StatelessWidget {
                       const SizedBox(width: 16),
                       GestureDetector(
                         onTap: () async {
-                          var habitDbAwait = await Hive.openBox("habit_db");
-                          HabitModel habitTarget =
-                              habitDbAwait.getAt(modelIndex);
+                          HabitModel habitTarget = habitDb.getAt(modelIndex);
                           for (var i = 0; i < habitTarget.dayList.length; i++) {
                             AwesomeNotifications().cancel(
                                 habitTarget.habitId * habitTarget.dayList[i]);

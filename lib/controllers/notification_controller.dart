@@ -50,6 +50,7 @@ class NotificationController extends GetxController {
             break;
           }
         }
+        habitDb.close();
       }
     });
 
@@ -64,6 +65,7 @@ class NotificationController extends GetxController {
             break;
           }
         }
+        taskDb.close();
       } else if (notification.channelKey == 'habit_channel') {
         int? habitIdTarget = int.tryParse(notification.body!.split(" - ")[0]);
         var habitDb = await Hive.openBox('habit_db');
@@ -76,13 +78,14 @@ class NotificationController extends GetxController {
             );
             if (isDeleted) {
               Future.delayed(const Duration(milliseconds: 300), () async {
-                var habitDb = await Hive.openBox('habit_db');
+                //var habitDb = await Hive.openBox('habit_db');
                 habitDb.deleteAt(i);
               });
             }
             break;
           }
         }
+        habitDb.close();
       }
     });
   }
