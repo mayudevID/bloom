@@ -2,6 +2,7 @@
 
 import 'package:bloom/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 /// Creates a Widget representing the day.
 class DayItem extends StatelessWidget {
@@ -16,7 +17,7 @@ class DayItem extends StatelessWidget {
   final Color? dotsColor;
   final Color? dayNameColor;
 
-  const DayItem({
+  DayItem({
     Key? key,
     required this.dayNumber,
     required this.shortName,
@@ -30,7 +31,7 @@ class DayItem extends StatelessWidget {
     this.dayNameColor,
   }) : super(key: key);
 
-  final double height = 56.0;
+  final double height = Get.height * 56 / 800;
   final double width = 40.0;
 
   _buildDay(BuildContext context) {
@@ -62,7 +63,7 @@ class DayItem extends StatelessWidget {
         width: width,
         child: Column(
           children: <Widget>[
-            SizedBox(height: 8),
+            SizedBox(height: Get.height * 8 / 800),
             Text(
               shortName,
               style: TextStyle(

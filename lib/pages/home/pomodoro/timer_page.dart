@@ -8,7 +8,7 @@ import '../../../utils.dart';
 
 class TimerPage extends StatelessWidget {
   TimerPage({Key? key}) : super(key: key);
-  final timeCount = Get.put(TimerController(Get.arguments));
+  final timeCountC = Get.put(TimerController(Get.arguments));
   final PomodoroModel data = Get.arguments;
 
   @override
@@ -31,7 +31,7 @@ class TimerPage extends StatelessWidget {
           style: buttonSmall.copyWith(fontWeight: FontWeight.w400),
         ),
         actions: [
-          const SizedBox(width: 90),
+          SizedBox(width: getWidth(90)),
           GestureDetector(
             onTap: () {
               Get.back();
@@ -87,8 +87,8 @@ class TimerPage extends StatelessWidget {
             SizedBox(height: Get.height * 0.07),
             GestureDetector(
               onTap: () {
-                if (timeCount.isCompleted.value &&
-                    timeCount.session.value == data.session) {
+                if (timeCountC.isCompleted.value &&
+                    timeCountC.session.value == data.session) {
                   Get.back();
                 } else {
                   exitDialog();
@@ -102,7 +102,7 @@ class TimerPage extends StatelessWidget {
             Center(
               child: Obx(() {
                 return Text(
-                  '${timeCount.session.value} of ${data.session} sessions',
+                  '${timeCountC.session.value} of ${data.session} sessions',
                   style: textParagraph,
                 );
               }),
@@ -120,10 +120,10 @@ class TimerPage extends StatelessWidget {
                     ),
                   ),
                   Obx(() {
-                    var minutes = twoDigits(timeCount
+                    var minutes = twoDigits(timeCountC
                         .countdownDuration.value.inMinutes
                         .remainder(60));
-                    var seconds = twoDigits(timeCount
+                    var seconds = twoDigits(timeCountC
                         .countdownDuration.value.inSeconds
                         .remainder(60));
                     return CircularPercentIndicator(
@@ -131,8 +131,8 @@ class TimerPage extends StatelessWidget {
                       lineWidth: 12,
                       backgroundColor: yellowDark,
                       percent:
-                          timeCount.countdownDuration.value.inMilliseconds /
-                              timeCount.earlyTime,
+                          timeCountC.countdownDuration.value.inMilliseconds /
+                              timeCountC.earlyTime,
                       reverse: true,
                       center: SizedBox(
                         child: Text(
@@ -172,27 +172,27 @@ class TimerPage extends StatelessWidget {
             Center(
               child: GestureDetector(
                 onTap: () {
-                  timeCount.toggleTimer();
+                  timeCountC.toggleTimer();
                 },
                 child: Obx(() {
                   return Container(
-                    width: (timeCount.isCompleted.value) ? 120 : 56,
+                    width: (timeCountC.isCompleted.value) ? 120 : 56,
                     height: 56,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: (timeCount.isCompleted.value &&
-                              timeCount.session.value == data.session)
+                      color: (timeCountC.isCompleted.value &&
+                              timeCountC.session.value == data.session)
                           ? yellowLight
                           : naturalBlack,
                     ),
                     child: Center(
-                      child: timeCount.isRunning.value
+                      child: timeCountC.isRunning.value
                           ? Image.asset(
                               "assets/icons/pause.png",
                               width: 32,
                             )
-                          : (timeCount.isCompleted.value &&
-                                  timeCount.session.value < data.session)
+                          : (timeCountC.isCompleted.value &&
+                                  timeCountC.session.value < data.session)
                               ? Text(
                                   "Start Next Session",
                                   style: buttonSmall.copyWith(
@@ -200,8 +200,8 @@ class TimerPage extends StatelessWidget {
                                   ),
                                   textAlign: TextAlign.center,
                                 )
-                              : (timeCount.isCompleted.value &&
-                                      timeCount.session.value == data.session)
+                              : (timeCountC.isCompleted.value &&
+                                      timeCountC.session.value == data.session)
                                   ? Text(
                                       "Finish",
                                       style: buttonLarge.copyWith(

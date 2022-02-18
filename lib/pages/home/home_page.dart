@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: naturalWhite,
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24),
+          margin: EdgeInsets.symmetric(horizontal: Get.width * 24 / 360),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -79,7 +79,7 @@ class HomePage extends StatelessWidget {
                       },
                     ),
                   ),
-                  const SizedBox(width: 6),
+                  SizedBox(width: Get.height * 6 / 800),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,17 +111,17 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: Get.height * 16 / 800),
               Text(
                 DateFormat('EEEE, dd MMMM y').format(DateTime.now()),
                 style: buttonSmall,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: Get.height * 16 / 800),
               Text(
                 'Upcoming Task',
                 style: smallTextLink,
               ),
-              const SizedBox(height: 7),
+              SizedBox(height: Get.height * 7 / 800),
               FutureBuilder(
                 future: Hive.openBox('task_db'),
                 builder: (builder, snapshot) {
@@ -180,9 +180,9 @@ class HomePage extends StatelessWidget {
                   }
                 },
               ),
-              const SizedBox(height: 25),
+              SizedBox(height: Get.height * 25 / 800),
               Text("Todays Habit", style: smallTextLink),
-              const SizedBox(height: 8),
+              SizedBox(height: Get.height * 8 / 800),
               FutureBuilder(
                 future: Hive.openBox('habit_db'),
                 builder: (builder, snapshot) {
@@ -242,7 +242,7 @@ class HomePage extends StatelessWidget {
                   }
                 },
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: Get.height * 8 / 800),
             ],
           ),
         ),

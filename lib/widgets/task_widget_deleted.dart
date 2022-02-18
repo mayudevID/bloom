@@ -9,6 +9,7 @@ import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 import '../theme.dart';
+import '../utils.dart';
 
 class TaskWidgetDeleted extends StatelessWidget {
   TaskModel? taskModel;
@@ -40,13 +41,12 @@ class TaskWidgetDeleted extends StatelessWidget {
                 } else {
                   taskHistoryDb.deleteAt(index);
                 }
-                taskHistoryDb.close();
                 Get.back();
               },
               child: Row(
                 children: [
                   Image.asset("assets/icons/delete.png", width: 35),
-                  const SizedBox(width: 15),
+                  SizedBox(width: getWidth(15)),
                   Text(
                     "Delete task",
                     style: textParagraph.copyWith(fontSize: 17),
@@ -100,12 +100,12 @@ class TaskWidgetDeleted extends StatelessWidget {
             Row(
               children: [
                 Image.asset("assets/icons/calendar_unselect.png", width: 13),
-                const SizedBox(width: 2),
+                SizedBox(width: getWidth(2)),
                 Text(DateFormat('EEEE').format(taskModel!.dateTime),
                     style: smallText.copyWith(fontSize: 8)),
-                const SizedBox(width: 16),
+                SizedBox(width: getWidth(16)),
                 Image.asset("assets/icons/clock.png", width: 12),
-                const SizedBox(width: 2),
+                SizedBox(width: getWidth(2)),
                 Text(DateFormat('jm').format(taskModel!.dateTime),
                     style: smallText.copyWith(fontSize: 8)),
               ],

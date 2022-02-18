@@ -3,6 +3,7 @@
 import 'package:bloom/controllers/onboard_controller.dart';
 import 'package:bloom/routes/route_name.dart';
 import 'package:bloom/theme.dart';
+import 'package:bloom/utils.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,7 +43,7 @@ class OnboardingPage extends StatelessWidget {
           Get.offNamed(RouteName.LOGIN);
         },
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 26),
+          margin: EdgeInsets.symmetric(horizontal: getWidth(26)),
           height: 56,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -61,7 +62,7 @@ class OnboardingPage extends StatelessWidget {
     Widget defaultBottom() {
       int indexIndicator = -1;
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 26),
+        margin: EdgeInsets.symmetric(horizontal: getWidth(26)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -122,7 +123,7 @@ class OnboardingPage extends StatelessWidget {
               items: imageOnboard.map((e) {
                 return Image.asset(
                   e,
-                  height: 321,
+                  height: getHeight(321),
                   fit: BoxFit.fill,
                 );
               }).toList(),
@@ -135,8 +136,8 @@ class OnboardingPage extends StatelessWidget {
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 45,
+              margin: EdgeInsets.symmetric(
+                horizontal: getWidth(45),
               ),
               child: Obx(() {
                 return Text(
@@ -146,10 +147,10 @@ class OnboardingPage extends StatelessWidget {
                 );
               }),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 60,
+              margin: EdgeInsets.symmetric(
+                horizontal: getWidth(60),
               ),
               child: Obx(() {
                 return Text(
@@ -166,7 +167,7 @@ class OnboardingPage extends StatelessWidget {
                   ? nextButtonBottom()
                   : defaultBottom();
             }),
-            const SizedBox(height: 40),
+            SizedBox(height: getHeight(40)),
           ],
         ),
       ),

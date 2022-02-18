@@ -74,6 +74,9 @@ class TimerController extends GetxController {
       isRunning.value = false;
     } else if (isCompleted.value) {
       nextSession();
+      // if (session.value == pomodoroModel.session) {
+
+      // }
     } else {
       startCountDown();
       isRunning.value = true;

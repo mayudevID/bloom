@@ -37,7 +37,7 @@ class HabitDetailPage extends StatelessWidget {
                       ),
                       const Spacer(),
                       Image.asset("assets/icons/share.png", width: 24),
-                      const SizedBox(width: 16),
+                      SizedBox(width: getWidth(16)),
                       GestureDetector(
                         onTap: () async {
                           HabitModel habitTarget = habitDb.getAt(modelIndex);
@@ -79,7 +79,7 @@ class HabitDetailPage extends StatelessWidget {
                           },
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: getWidth(8)),
                       Expanded(
                         child: ValueListenableBuilder(
                           valueListenable: habitDb.listenable(),
@@ -157,7 +157,7 @@ class HabitDetailPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(width: 24),
+                      SizedBox(width: getWidth(24)),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -181,7 +181,7 @@ class HabitDetailPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(width: 24),
+                      SizedBox(width: getWidth(24)),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

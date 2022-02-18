@@ -8,6 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:marquee/marquee.dart';
 
 import '../theme.dart';
+import '../utils.dart';
 
 class PomodoroCard extends StatelessWidget {
   final int index;
@@ -44,13 +45,12 @@ class PomodoroCard extends StatelessWidget {
                 } else {
                   pomodoroDb.deleteAt(index);
                 }
-                pomodoroDb.close();
                 Get.back();
               },
               child: Row(
                 children: [
                   Image.asset("assets/icons/delete.png", width: 35),
-                  const SizedBox(width: 15),
+                  SizedBox(width: getWidth(15)),
                   Text(
                     "Delete timer",
                     style: textParagraph.copyWith(fontSize: 17),
@@ -62,11 +62,11 @@ class PomodoroCard extends StatelessWidget {
         );
       },
       child: Container(
-        width: 99,
-        height: 120,
+        width: Get.width * 99 / 360,
+        height: Get.height * 120 / 800,
         margin: EdgeInsets.only(
-          left: isLast ? 24 : 8,
-          right: index == 0 ? 24 : 8,
+          left: isLast ? Get.width * 24 / 360 : Get.width * 8 / 360,
+          right: index == 0 ? Get.width * 24 / 360 : Get.width * 8 / 360,
         ),
         padding: const EdgeInsets.symmetric(horizontal: 19),
         decoration: BoxDecoration(

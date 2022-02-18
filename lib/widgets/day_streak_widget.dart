@@ -74,7 +74,6 @@ class DayStreakWidget extends StatelessWidget {
                       );
                       var habitDb = await Hive.openBox('habit_db');
                       habitDb.putAt(modelIndex, newHabitModel);
-                      habitDb.close();
                     }
                   : null,
             ),

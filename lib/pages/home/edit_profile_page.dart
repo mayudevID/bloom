@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bloom/controllers/user_controller.dart';
 import 'package:bloom/theme.dart';
 import 'package:bloom/services/database.dart';
+import 'package:bloom/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class EditProfilePage extends StatelessWidget {
         style: buttonSmall.copyWith(fontWeight: FontWeight.w400),
       ),
       actions: [
-        const SizedBox(width: 160),
+        SizedBox(width: getWidth(160)),
         GestureDetector(
           onTap: () async {
             _saveProfile();
@@ -156,7 +157,7 @@ class EditProfilePage extends StatelessWidget {
           style: buttonSmall.copyWith(fontWeight: FontWeight.w400),
         ),
         actions: [
-          const SizedBox(width: 250),
+          SizedBox(width: getWidth(250)),
           GestureDetector(
             onTap: () {
               Get.back();
@@ -214,7 +215,7 @@ class EditProfilePage extends StatelessWidget {
               "Edit Profile",
               style: mainSubTitle,
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: getHeight(32)),
             Obx(() {
               if (editProfileC.isPictureChanged.value == true) {
                 return CircleAvatar(
@@ -245,7 +246,7 @@ class EditProfilePage extends StatelessWidget {
                 );
               }
             }),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             GestureDetector(
               onTap: () => _pickProfilePicture(),
               child: Text(
@@ -253,7 +254,7 @@ class EditProfilePage extends StatelessWidget {
                 style: textParagraph,
               ),
             ),
-            const SizedBox(height: 30),
+            SizedBox(height: getHeight(30)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -261,7 +262,7 @@ class EditProfilePage extends StatelessWidget {
                 style: buttonSmall.copyWith(fontSize: 14),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             Container(
               padding: const EdgeInsets.all(8),
               height: 40,
@@ -277,7 +278,7 @@ class EditProfilePage extends StatelessWidget {
                     width: 24,
                     color: greyDark,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: getWidth(8)),
                   Expanded(
                     child: TextFormField(
                       readOnly: true,
@@ -297,7 +298,7 @@ class EditProfilePage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -305,7 +306,7 @@ class EditProfilePage extends StatelessWidget {
                 style: buttonSmall.copyWith(fontSize: 14),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             Container(
               padding: const EdgeInsets.all(8),
               height: 40,
@@ -316,7 +317,7 @@ class EditProfilePage extends StatelessWidget {
               child: Row(
                 children: [
                   Image.asset("assets/icons/person.png", width: 24),
-                  const SizedBox(width: 8),
+                  SizedBox(width: getWidth(8)),
                   Expanded(
                     child: TextFormField(
                       controller: editProfileC.nameController,
@@ -358,7 +359,7 @@ class EditProfilePage extends StatelessWidget {
                               color: naturalWhite,
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: getWidth(8)),
                           Text(
                             "Saving..",
                             style: buttonSmall.copyWith(color: naturalWhite),
@@ -375,7 +376,7 @@ class EditProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             GestureDetector(
               onTap: () {
                 if (editProfileC.isPictureChanged.value == true ||
@@ -388,7 +389,7 @@ class EditProfilePage extends StatelessWidget {
               },
               child: Text("Cancel", style: textParagraph),
             ),
-            const SizedBox(height: 72),
+            SizedBox(height: getHeight(72)),
           ],
         ),
       ),

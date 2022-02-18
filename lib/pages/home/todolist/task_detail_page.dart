@@ -1,6 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/models/task.dart';
 import 'package:bloom/theme.dart';
+import 'package:bloom/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -31,7 +32,7 @@ class TaskDetailPage extends StatelessWidget {
                 ),
                 const Spacer(),
                 Image.asset("assets/icons/share.png", width: 24),
-                const SizedBox(width: 16),
+                SizedBox(width: getWidth(16)),
                 GestureDetector(
                   onTap: () async {
                     var taskDb = await Hive.openBox('task_db');
@@ -43,7 +44,6 @@ class TaskDetailPage extends StatelessWidget {
                       taskDb.deleteAt(index);
                     }
                     taskHistoryDb.add(taskModel);
-                    taskDb.close();
                     taskHistoryDb.close();
                     Get.back();
                   },
@@ -90,7 +90,7 @@ class TaskDetailPage extends StatelessWidget {
             Row(
               children: [
                 Image.asset("assets/icons/calendar_unselect.png", width: 16),
-                const SizedBox(width: 4),
+                SizedBox(width: getWidth(4)),
                 Text(
                   DateFormat('EEEE, dd MMMM y').format(taskModel.dateTime),
                   style: interBold12.copyWith(
@@ -103,7 +103,7 @@ class TaskDetailPage extends StatelessWidget {
             Row(
               children: [
                 Image.asset("assets/icons/clock.png", width: 16),
-                const SizedBox(width: 4),
+                SizedBox(width: getWidth(4)),
                 Text(
                   DateFormat('jm').format(taskModel.dateTime),
                   style: interBold12.copyWith(

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../theme.dart';
+import '../../utils.dart';
 
 class CreateAccountPage extends StatelessWidget {
   CreateAccountPage({Key? key}) : super(key: key);
@@ -45,24 +46,24 @@ class CreateAccountPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: Get.height * 0.11),
-            Image.asset("assets/icons/logo.png", width: 100),
+            SizedBox(height: getHeight(88)),
+            Image.asset("assets/icons/logo.png", width: getWidth(100)),
             Text("Create Account", style: mainTitle),
-            const SizedBox(height: 32),
+            SizedBox(height: getHeight(32)),
             FormInput(
               hintText: 'Name',
               icon: 'person',
               controller: nameController,
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             FormInput(
               hintText: 'Email',
               icon: 'mail',
               controller: emailController,
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             FormInputPassword(controller: passwordController),
-            const SizedBox(height: 32),
+            SizedBox(height: getHeight(32)),
             GestureDetector(
               onTap: () {
                 if (!authController.isLoading.value) {
@@ -70,8 +71,8 @@ class CreateAccountPage extends StatelessWidget {
                 }
               },
               child: Container(
-                height: 56,
-                margin: const EdgeInsets.symmetric(horizontal: 30),
+                height: getHeight(56),
+                margin: EdgeInsets.symmetric(horizontal: getWidth(30)),
                 decoration: BoxDecoration(
                   color: yellowDark,
                   borderRadius: BorderRadius.circular(10),
@@ -90,8 +91,8 @@ class CreateAccountPage extends StatelessWidget {
                           height: 25,
                           child: CircularProgressIndicator(color: naturalBlack),
                         ),
-                        const SizedBox(
-                          width: 15,
+                        SizedBox(
+                          width: getWidth(15),
                         ),
                         Text("Loading", style: buttonLarge),
                       ],
@@ -100,9 +101,9 @@ class CreateAccountPage extends StatelessWidget {
                 }),
               ),
             ),
-            const SizedBox(height: 23),
+            SizedBox(height: getHeight(23)),
             Text("Or Create new account with", style: smallText),
-            const SizedBox(height: 18),
+            SizedBox(height: getHeight(18)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -119,7 +120,7 @@ class CreateAccountPage extends StatelessWidget {
                         : const ButtonLogo(platformLogo: 'fb'),
                   );
                 }),
-                const SizedBox(width: 28.8),
+                SizedBox(width: getWidth(28.8)),
                 Obx(() {
                   return GestureDetector(
                     onTap: () {
@@ -150,7 +151,7 @@ class CreateAccountPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: getHeight(40)),
           ],
         ),
       ),

@@ -49,7 +49,6 @@ class AddHabitPage extends StatelessWidget {
 
       var habitDb = await Hive.openBox('habit_db');
       habitDb.add(habitModel);
-      habitDb.close();
 
       for (var i = 0; i < habitModel.dayList.length; i++) {
         createHabitNotification(habitModel, habitModel.dayList[i]);
@@ -218,7 +217,7 @@ class AddHabitPage extends StatelessWidget {
           ),
         ),
         actions: [
-          const SizedBox(width: 70),
+          SizedBox(width: getWidth(70)),
           GestureDetector(
             onTap: () => Get.back(),
             child: Container(

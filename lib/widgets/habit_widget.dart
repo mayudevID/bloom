@@ -2,6 +2,7 @@
 
 import 'package:bloom/models/habit.dart';
 import 'package:bloom/routes/route_name.dart';
+import 'package:bloom/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -26,7 +27,6 @@ class HabitWidget extends StatelessWidget {
           Future.delayed(const Duration(milliseconds: 300), () async {
             var habitDb = await Hive.openBox('habit_db');
             habitDb.deleteAt(index as int);
-            habitDb.close();
           });
         }
       },
@@ -55,7 +55,7 @@ class HabitWidget extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: getWidth(8)),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +65,7 @@ class HabitWidget extends StatelessWidget {
                   Row(
                     children: [
                       Image.asset("assets/icons/clock.png", width: 12),
-                      const SizedBox(width: 2),
+                      SizedBox(width: getWidth(2)),
                       Text(
                         habitModel!.timeOfDay.format(context),
                         style: smallText.copyWith(

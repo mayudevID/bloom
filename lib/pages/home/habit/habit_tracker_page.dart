@@ -32,7 +32,7 @@ class HabitTrackerPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text("Habit Tracker", style: mainSubTitle),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: Get.height * 24 / 800),
           CalendarWidget(
             initialDate: DateTime.now(),
             firstDate: DateTime(DateTime.now().year, 1, 1),
@@ -43,7 +43,7 @@ class HabitTrackerPage extends StatelessWidget {
             },
             leftMargin: (Get.width / 2) - 20,
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: Get.height * 32 / 800),
           Container(
             margin: const EdgeInsets.only(left: 24),
             child: Text(
@@ -53,7 +53,7 @@ class HabitTrackerPage extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: Get.height * 8 / 800),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 24),
             child: FutureBuilder(
@@ -70,9 +70,9 @@ class HabitTrackerPage extends StatelessWidget {
                       valueListenable: habitDb.listenable(),
                       builder: (context, value, child) {
                         if (habitDb.isEmpty) {
-                          return const SizedBox(
-                            height: 70,
-                            child: Center(
+                          return SizedBox(
+                            height: Get.height * 70 / 800,
+                            child: const Center(
                               child: Text(
                                 'Habit empty for this date',
                                 style: TextStyle(
@@ -89,9 +89,9 @@ class HabitTrackerPage extends StatelessWidget {
                                 habitByDateChooser(
                                     habitDb, habitTrackerC.dateSelector);
                             if (dataHabit.isEmpty) {
-                              return const SizedBox(
-                                height: 70,
-                                child: Center(
+                              return SizedBox(
+                                height: Get.height * 70 / 800,
+                                child: const Center(
                                   child: Text(
                                     'Task empty for this date',
                                     style: TextStyle(
@@ -125,9 +125,9 @@ class HabitTrackerPage extends StatelessWidget {
                     );
                   }
                 } else {
-                  return const SizedBox(
-                    height: 70,
-                    child: Center(
+                  return SizedBox(
+                    height: Get.height * 70 / 800,
+                    child: const Center(
                       child: CircularProgressIndicator(color: Colors.black),
                     ),
                   );
@@ -135,7 +135,7 @@ class HabitTrackerPage extends StatelessWidget {
               },
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: Get.height * 40 / 800),
           GetBuilder<HabitTrackerController>(
             builder: (_) {
               if (dateNow.isBefore(habitTrackerC.dateSelector) ||

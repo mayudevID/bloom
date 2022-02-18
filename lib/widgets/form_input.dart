@@ -1,3 +1,4 @@
+import 'package:bloom/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../theme.dart';
@@ -16,7 +17,7 @@ class FormInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 30),
+      margin: EdgeInsets.symmetric(horizontal: getWidth(30)),
       padding: const EdgeInsets.all(8),
       height: 40,
       decoration: BoxDecoration(
@@ -26,7 +27,7 @@ class FormInput extends StatelessWidget {
       child: Row(
         children: [
           Image.asset("assets/icons/$icon.png", width: 24),
-          const SizedBox(width: 8),
+          SizedBox(width: getWidth(8)),
           Expanded(
             child: TextFormField(
               controller: controller,

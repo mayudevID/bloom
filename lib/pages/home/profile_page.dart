@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../utils.dart';
+
 class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
   final userController = Get.find<UserController>();
@@ -136,7 +138,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(width: 24),
+                SizedBox(width: getWidth(24)),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -156,7 +158,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(width: 24),
+                SizedBox(width: getWidth(24)),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -219,7 +221,7 @@ class ProfilePage extends StatelessWidget {
                 child: Row(
                   children: [
                     Image.asset("assets/icons/clipboard_select.png", width: 24),
-                    const SizedBox(width: 7),
+                    SizedBox(width: getWidth(7)),
                     Expanded(child: Text("Task History", style: textParagraph)),
                     Image.asset("assets/icons/arrow_right.png", width: 16),
                   ],
@@ -244,7 +246,7 @@ class ProfilePage extends StatelessWidget {
                 child: Row(
                   children: [
                     Image.asset("assets/icons/calendar_select.png", width: 24),
-                    const SizedBox(width: 7),
+                    SizedBox(width: getWidth(7)),
                     Expanded(
                       child: Text("Habit Statistic", style: textParagraph),
                     ),
@@ -269,7 +271,7 @@ class ProfilePage extends StatelessWidget {
               child: Row(
                 children: [
                   Image.asset("assets/icons/timer_select.png", width: 24),
-                  const SizedBox(width: 7),
+                  SizedBox(width: getWidth(7)),
                   Expanded(
                     child: Text("Timer Statistic", style: textParagraph),
                   ),

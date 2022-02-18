@@ -30,7 +30,6 @@ class AddTaskPage extends StatelessWidget {
 
       var taskDb = await Hive.openBox('task_db');
       taskDb.add(taskModel);
-      taskDb.close();
 
       if (addTaskC.isTime.value && addTaskC.isChoose.value) {
         createTaskNotification(taskModel);
@@ -193,7 +192,7 @@ class AddTaskPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: getWidth(8)),
                         Container(
                           width: 120,
                           height: 32,

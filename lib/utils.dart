@@ -2,10 +2,17 @@ import 'dart:collection';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'models/habit.dart';
 import 'models/task.dart';
 import 'package:path_provider/path_provider.dart';
+
+// GET WIDTH
+double getWidth(double sizeDesign) => Get.width * sizeDesign / 360;
+
+// GET HEIGHT
+double getHeight(double sizeDesign) => Get.height * sizeDesign / 800;
 
 // ADD TWO DIGIT
 String twoDigits(int n) => n.toString().padLeft(2, '0');

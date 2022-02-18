@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:bloom/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../theme.dart';
@@ -19,7 +20,7 @@ class MainPageController extends GetxController {
           middleText: 'Our app would like to send your notifications',
           middleTextStyle: buttonSmall.copyWith(fontWeight: FontWeight.w400),
           actions: [
-            const SizedBox(width: 180),
+            SizedBox(width: getWidth(180)),
             GestureDetector(
               onTap: () async {
                 AwesomeNotifications().requestPermissionToSendNotifications();

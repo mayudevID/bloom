@@ -93,7 +93,7 @@ class AuthController extends GetxController {
             style: buttonSmall.copyWith(fontWeight: FontWeight.w400),
           ),
           actions: [
-            const SizedBox(width: 180),
+            SizedBox(width: getWidth(180)),
             GestureDetector(
               onTap: () async {
                 await sendVerification();
@@ -281,7 +281,7 @@ class AuthController extends GetxController {
             style: buttonSmall.copyWith(fontWeight: FontWeight.w400),
           ),
           actions: [
-            const SizedBox(width: 160),
+            SizedBox(width: getWidth(160)),
             GestureDetector(
               onTap: () async {
                 await linkGoogleAndFacebook();

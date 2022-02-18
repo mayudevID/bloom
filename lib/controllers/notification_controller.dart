@@ -50,7 +50,6 @@ class NotificationController extends GetxController {
             break;
           }
         }
-        habitDb.close();
       }
     });
 
@@ -65,7 +64,6 @@ class NotificationController extends GetxController {
             break;
           }
         }
-        taskDb.close();
       } else if (notification.channelKey == 'habit_channel') {
         int? habitIdTarget = int.tryParse(notification.body!.split(" - ")[0]);
         var habitDb = await Hive.openBox('habit_db');
@@ -85,7 +83,6 @@ class NotificationController extends GetxController {
             break;
           }
         }
-        habitDb.close();
       }
     });
   }
