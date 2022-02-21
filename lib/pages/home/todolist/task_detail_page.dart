@@ -54,7 +54,7 @@ class TaskDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: getHeight(40)),
             Align(
               alignment: Alignment.centerLeft,
               child: Container(
@@ -74,7 +74,7 @@ class TaskDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -86,7 +86,7 @@ class TaskDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Row(
               children: [
                 Image.asset("assets/icons/calendar_unselect.png", width: 16),
@@ -99,7 +99,7 @@ class TaskDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             Row(
               children: [
                 Image.asset("assets/icons/clock.png", width: 16),
@@ -112,7 +112,7 @@ class TaskDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: getHeight(24)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -120,7 +120,7 @@ class TaskDetailPage extends StatelessWidget {
                 style: buttonSmall,
               ),
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: getHeight(4)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(

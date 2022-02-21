@@ -128,9 +128,9 @@ class PomodoroPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 5),
+              SizedBox(height: getHeight(5)),
               Text("Title", style: smallTextLink),
-              const SizedBox(height: 10),
+              SizedBox(height: getHeight(10)),
               Container(
                 height: 35,
                 padding: const EdgeInsets.all(6),
@@ -154,7 +154,7 @@ class PomodoroPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: getHeight(10)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -190,7 +190,7 @@ class PomodoroPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: getHeight(10)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

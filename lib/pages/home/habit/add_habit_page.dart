@@ -250,7 +250,7 @@ class AddHabitPage extends StatelessWidget {
           children: [
             SizedBox(height: Get.height * 0.07),
             Center(child: Text("New Habit", style: mainSubTitle)),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Container(
               width: 74,
               height: 74,
@@ -299,12 +299,12 @@ class AddHabitPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: getHeight(32)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text("Habit Name", style: textParagraph),
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: getHeight(4)),
             Container(
               padding: const EdgeInsets.all(5),
               height: 32,
@@ -322,12 +322,12 @@ class AddHabitPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text("Goals", style: textParagraph),
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: getHeight(4)),
             Container(
               padding: const EdgeInsets.all(5),
               height: 72,
@@ -347,7 +347,7 @@ class AddHabitPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -377,7 +377,7 @@ class AddHabitPage extends StatelessWidget {
                 )
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -410,7 +410,7 @@ class AddHabitPage extends StatelessWidget {
                 )
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -433,7 +433,7 @@ class AddHabitPage extends StatelessWidget {
                 )
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Obx(() {
               return WeekdaySelector(
                 onChanged: (int day) {
@@ -492,14 +492,14 @@ class AddHabitPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             GestureDetector(
               onTap: () {
                 Get.back();
               },
               child: Text("Cancel", style: textParagraph),
             ),
-            const SizedBox(height: 72),
+            SizedBox(height: getHeight(72)),
           ],
         ),
       ),

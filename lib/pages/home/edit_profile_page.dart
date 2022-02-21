@@ -105,7 +105,9 @@ class EditProfilePage extends StatelessWidget {
         final result = await InternetAddress.lookup('google.com')
             .timeout(const Duration(seconds: 5));
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          db.deleteProfilePicture();
+          if (userController.userModel.value.isNewUser == false) {
+            db.deleteProfilePicture();
+          }
           String photoURLold = authController.userAuth!.photoURL as String;
           String displayName = editProfileC.nameController.text;
           String photoURL =
@@ -121,6 +123,7 @@ class EditProfilePage extends StatelessWidget {
               missed: userController.userModel.value.missed,
               completed: userController.userModel.value.completed,
               streakLeft: userController.userModel.value.streakLeft,
+              isNewUser: false,
             );
             CachedNetworkImage.evictFromCache(photoURLold);
             if (await db.createNewUser(userModel)) {

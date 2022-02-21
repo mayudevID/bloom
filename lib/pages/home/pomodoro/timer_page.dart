@@ -96,9 +96,9 @@ class TimerPage extends StatelessWidget {
               },
               child: Image.asset("assets/icons/arrow_back.png", width: 24),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Center(child: Text(data.title, style: mainSubTitle)),
-            const SizedBox(height: 4),
+            SizedBox(height: getHeight(4)),
             Center(
               child: Obx(() {
                 return Text(
@@ -107,7 +107,7 @@ class TimerPage extends StatelessWidget {
                 );
               }),
             ),
-            const SizedBox(height: 48),
+            SizedBox(height: getHeight(48)),
             Center(
               child: Stack(
                 children: [
@@ -168,7 +168,7 @@ class TimerPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: getHeight(40)),
             Center(
               child: GestureDetector(
                 onTap: () {

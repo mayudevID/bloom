@@ -16,6 +16,9 @@ class DatabaseFirebase {
       await _firestore.collection('users').doc(user.userId).set({
         "name": user.name,
         "email": user.email,
+        "isNewUser:": user.isNewUser,
+      });
+      await _firestore.collection('stats').doc(user.userId).set({
         "habitStreak": user.habitStreak,
         "taskCompleted": user.taskCompleted,
         "totalFocus": user.totalFocus,
@@ -32,9 +35,11 @@ class DatabaseFirebase {
 
   Future<UserModel> getUser(String uid) async {
     try {
-      DocumentSnapshot doc =
+      DocumentSnapshot user =
           await _firestore.collection("users").doc(uid).get();
-      return UserModel.fromDocumentSnapshot(doc);
+      DocumentSnapshot stat =
+          await _firestore.collection("stats").doc(uid).get();
+      return UserModel.fromDocumentSnapshot(user, stat);
     } catch (e) {
       rethrow;
     }

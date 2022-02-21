@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../theme.dart';
+import '../../utils.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
@@ -24,7 +25,7 @@ class ForgotPasswordPage extends StatelessWidget {
             SizedBox(height: Get.height * 0.11),
             Image.asset("assets/icons/logo.png", width: 100),
             Text("Forgot Password", style: mainTitle),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
@@ -33,13 +34,13 @@ class ForgotPasswordPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 18),
+            SizedBox(height: getHeight(18)),
             FormInput(
               icon: 'mail',
               hintText: 'Email',
               controller: emailController,
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: getHeight(24)),
             GestureDetector(
               onTap: () async {
                 if (!isLoading.value) {

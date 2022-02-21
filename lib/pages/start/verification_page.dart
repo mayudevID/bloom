@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../theme.dart';
+import '../../utils.dart';
 
 class VerificationPage extends StatelessWidget {
   VerificationPage({Key? key}) : super(key: key);
@@ -63,7 +64,7 @@ class VerificationPage extends StatelessWidget {
             SizedBox(height: Get.height * 0.11),
             Image.asset("assets/icons/logo.png", width: 100),
             Text("Verification", style: mainTitle),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
@@ -72,7 +73,7 @@ class VerificationPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: getHeight(24)),
             Obx(() {
               if (verificationTimeController.isFinished.value) {
                 return resendButton();
@@ -80,7 +81,7 @@ class VerificationPage extends StatelessWidget {
                 return resendButtonInactive();
               }
             }),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Obx(() {
               var minutes = twoDigits(verificationTimeController
                   .countdownDuration.value.inMinutes

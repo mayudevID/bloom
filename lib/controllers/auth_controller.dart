@@ -43,6 +43,7 @@ class AuthController extends GetxController {
         missed: 0,
         completed: 0,
         streakLeft: 0,
+        isNewUser: true,
       );
       if (await DatabaseFirebase().createNewUser(_userModel)) {
         await Get.find<UserController>().setUser(_userModel);
@@ -208,6 +209,7 @@ class AuthController extends GetxController {
             missed: 0,
             completed: 0,
             streakLeft: 0,
+            isNewUser: true,
           );
 
           if (await DatabaseFirebase().createNewUser(_userModel)) {
@@ -248,6 +250,7 @@ class AuthController extends GetxController {
             missed: 0,
             completed: 0,
             streakLeft: 0,
+            isNewUser: true,
           );
 
           if (await DatabaseFirebase().createNewUser(_userModel)) {

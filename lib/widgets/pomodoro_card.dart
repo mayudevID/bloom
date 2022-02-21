@@ -62,11 +62,11 @@ class PomodoroCard extends StatelessWidget {
         );
       },
       child: Container(
-        width: Get.width * 99 / 360,
-        height: Get.height * 120 / 800,
+        width: getWidth(99),
+        height: getHeight(120),
         margin: EdgeInsets.only(
-          left: isLast ? Get.width * 24 / 360 : Get.width * 8 / 360,
-          right: index == 0 ? Get.width * 24 / 360 : Get.width * 8 / 360,
+          left: isLast ? getWidth(24) : getWidth(8),
+          right: index == 0 ? getWidth(24) : getWidth(8),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 19),
         decoration: BoxDecoration(
@@ -75,7 +75,7 @@ class PomodoroCard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const SizedBox(height: 15),
+            SizedBox(height: getHeight(15)),
             Expanded(
               child: Marquee(
                 text: pomodoroModel.title,
@@ -84,9 +84,9 @@ class PomodoroCard extends StatelessWidget {
                 blankSpace: 20,
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: getHeight(10)),
             Text("${pomodoroModel.durationMinutes}:00", style: buttonSmall),
-            const SizedBox(height: 10),
+            SizedBox(height: getHeight(10)),
             GestureDetector(
               onTap: () {
                 Get.toNamed(
@@ -113,7 +113,7 @@ class PomodoroCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: getHeight(20)),
           ],
         ),
       ),

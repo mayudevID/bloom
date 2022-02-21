@@ -15,6 +15,7 @@ class UserController extends GetxController {
     missed: 0,
     completed: 0,
     streakLeft: 0,
+    isNewUser: true,
   ).obs;
 
   @override
@@ -45,6 +46,7 @@ class UserController extends GetxController {
       missed: 0,
       completed: 0,
       streakLeft: 0,
+      isNewUser: true,
     );
     var userData = await Hive.openBox('user_data');
     await userData.delete('user');
@@ -66,12 +68,15 @@ class UserController extends GetxController {
               ? userModel.value.taskCompleted + 1
               : userModel.value.taskCompleted - 1)
           : userModel.value.taskCompleted,
-      totalFocus: userModel.value.totalFocus,
+      totalFocus: (type == 'totalFocus')
+          ? userModel.value.totalFocus + (value as double)
+          : userModel.value.totalFocus,
       missed: userModel.value.missed,
       completed: userModel.value.completed,
       streakLeft: (type == 'streakLeft')
           ? userModel.value.streakLeft + (value as int)
           : userModel.value.streakLeft,
+      isNewUser: userModel.value.isNewUser,
     );
     await setUser(newUserModel);
   }

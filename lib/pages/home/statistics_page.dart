@@ -1,4 +1,5 @@
 import 'package:bloom/theme.dart';
+import 'package:bloom/utils.dart';
 import 'package:bloom/widgets/statistics_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -57,7 +58,7 @@ class StatisticsPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: getHeight(40)),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Stack(
@@ -99,7 +100,7 @@ class StatisticsPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: getHeight(32)),
             Expanded(
               child: TabBarView(
                 children: [
@@ -115,7 +116,7 @@ class StatisticsPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: getHeight(10)),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Row(
@@ -139,7 +140,7 @@ class StatisticsPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      SizedBox(height: getHeight(40)),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         alignment: Alignment.centerLeft,
@@ -150,7 +151,7 @@ class StatisticsPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: getHeight(16)),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Row(

@@ -42,7 +42,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: getHeight(32)),
             StreamBuilder<User?>(
               stream: authController.streamAuthStatus,
               builder: (context, snapshot) {
@@ -88,14 +88,14 @@ class ProfilePage extends StatelessWidget {
               },
             ),
             //Image.asset("assets/icons/profpict.png", width: 80),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             Obx(() {
               return Text(
                 userController.userModel.value.name.toString(),
                 style: buttonSmall.copyWith(fontSize: 14),
               );
             }),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             GestureDetector(
               onTap: () => Get.toNamed(RouteName.EDITPROFILE),
               child: Container(
@@ -115,7 +115,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: getHeight(32)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -168,7 +168,7 @@ class ProfilePage extends StatelessWidget {
                         Obx(() {
                           return Text(
                             userController.userModel.value.totalFocus
-                                .toString(),
+                                .toStringAsFixed(1),
                             style: const TextStyle(
                               fontFamily: "Poppins",
                               fontSize: 24,
@@ -193,7 +193,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: getHeight(24)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -203,11 +203,11 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             GestureDetector(
               onTap: () => Get.toNamed(RouteName.TASKHISTORY),
               child: Container(
-                height: 48,
+                height: getHeight(48),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: yellowLight,
@@ -228,11 +228,11 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             GestureDetector(
               onTap: () => Get.toNamed(RouteName.STATISTICS),
               child: Container(
-                height: 48,
+                height: getHeight(48),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: yellowLight,
@@ -255,9 +255,9 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             Container(
-              height: 48,
+              height: getHeight(48),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: yellowLight,

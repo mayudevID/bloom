@@ -93,12 +93,12 @@ class AddTaskPage extends StatelessWidget {
           children: [
             SizedBox(height: Get.height * 0.07),
             Text("New Task", style: mainSubTitle),
-            const SizedBox(height: 32),
+            SizedBox(height: getHeight(32)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text("Title", style: textParagraph),
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: getHeight(4)),
             Container(
               padding: const EdgeInsets.all(5),
               height: 32,
@@ -116,12 +116,12 @@ class AddTaskPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text("Description", style: textParagraph),
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: getHeight(4)),
             Container(
               padding: const EdgeInsets.all(5),
               height: 96,
@@ -141,7 +141,7 @@ class AddTaskPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -166,7 +166,7 @@ class AddTaskPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: getHeight(8)),
             Obx(() {
               if (addTaskC.isTime.value) {
                 if (addTaskC.isChoose.value) {
@@ -231,7 +231,7 @@ class AddTaskPage extends StatelessWidget {
                 return Container();
               }
             }),
-            const SizedBox(height: 24),
+            SizedBox(height: getHeight(24)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -254,7 +254,7 @@ class AddTaskPage extends StatelessWidget {
                 )
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -319,14 +319,14 @@ class AddTaskPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getHeight(16)),
             GestureDetector(
               onTap: () {
                 Get.back();
               },
               child: Text("Cancel", style: textParagraph),
             ),
-            const SizedBox(height: 72),
+            SizedBox(height: getHeight(72)),
           ],
         ),
       ),

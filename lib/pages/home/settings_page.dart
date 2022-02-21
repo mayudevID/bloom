@@ -1,4 +1,5 @@
 import 'package:bloom/controllers/auth_controller.dart';
+import 'package:bloom/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -42,7 +43,7 @@ class SettingsPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 51),
+            SizedBox(height: getHeight(51)),
             GestureDetector(
               onTap: () {
                 if (!authController.isLoading.value) {

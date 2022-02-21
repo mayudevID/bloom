@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../theme.dart';
+import '../../utils.dart';
 
 class TaskHistoryPage extends StatelessWidget {
   const TaskHistoryPage({Key? key}) : super(key: key);
@@ -38,7 +39,7 @@ class TaskHistoryPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: getHeight(32)),
             FutureBuilder(
               future: Hive.openBox("task_history_db"),
               builder: (builder, snapshot) {

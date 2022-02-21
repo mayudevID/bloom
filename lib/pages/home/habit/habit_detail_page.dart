@@ -54,7 +54,7 @@ class HabitDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 32),
+                  SizedBox(height: getHeight(32)),
                   Row(
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,7 +113,7 @@ class HabitDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: getHeight(24)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -130,7 +130,7 @@ class HabitDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: getHeight(4)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -207,7 +207,7 @@ class HabitDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: getHeight(24)),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -215,7 +215,7 @@ class HabitDetailPage extends StatelessWidget {
                       style: smallText.copyWith(fontWeight: FontWeight.w700),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: getHeight(8)),
                   SizedBox(
                     height: 311,
                     child: MediaQuery.removePadding(
@@ -239,7 +239,7 @@ class HabitDetailPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 56),
+                  SizedBox(height: getHeight(56)),
                   GestureDetector(
                     onTap: () {},
                     child: Container(

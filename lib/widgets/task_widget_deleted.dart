@@ -60,7 +60,7 @@ class TaskWidgetDeleted extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         margin: const EdgeInsets.only(bottom: 8),
-        height: 90,
+        height: getHeight(90),
         decoration: BoxDecoration(
           color: greyLight,
           borderRadius: BorderRadius.circular(10),
@@ -90,7 +90,7 @@ class TaskWidgetDeleted extends StatelessWidget {
                 const Spacer(),
               ],
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: getHeight(4)),
             Text(
               taskModel!.title,
               style: textParagraph.copyWith(

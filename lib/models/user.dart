@@ -31,6 +31,9 @@ class UserModel {
   @HiveField(8)
   late int streakLeft;
 
+  @HiveField(9)
+  late bool isNewUser;
+
   UserModel({
     required this.userId,
     required this.name,
@@ -41,17 +44,19 @@ class UserModel {
     required this.missed,
     required this.completed,
     required this.streakLeft,
+    required this.isNewUser,
   });
 
-  UserModel.fromDocumentSnapshot(DocumentSnapshot doc) {
-    userId = doc.id;
-    name = doc['name'];
-    email = doc['email'];
-    habitStreak = doc['habitStreak'];
-    taskCompleted = doc['taskCompleted'];
-    totalFocus = doc['totalFocus'].toDouble();
-    missed = doc['missed'];
-    completed = doc['completed'];
-    streakLeft = doc['streakLeft'];
+  UserModel.fromDocumentSnapshot(DocumentSnapshot user, DocumentSnapshot stat) {
+    userId = user.id;
+    name = user['name'];
+    email = user['email'];
+    habitStreak = stat['habitStreak'];
+    taskCompleted = stat['taskCompleted'];
+    totalFocus = stat['totalFocus'].toDouble();
+    missed = stat['missed'];
+    completed = stat['completed'];
+    streakLeft = stat['streakLeft'];
+    isNewUser = user['isNewUser'];
   }
 }

@@ -4,6 +4,8 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/models/pomodoro.dart';
 import 'package:bloom/widgets/notifications.dart';
 import 'package:get/get.dart';
+
+import 'user_controller.dart';
 //import 'package:audioplayers/audio_cache.dart';
 
 class TimerController extends GetxController {
@@ -52,6 +54,13 @@ class TimerController extends GetxController {
       isCompleted.value = true;
       isRunning.value = false;
       createTimerNotification(pomodoroModel, session.value);
+      if (session.value == pomodoroModel.session) {
+        double focusTime = (pomodoroModel.durationMinutes * session.value) / 60;
+        Get.find<UserController>().updateData(
+          'totalFocus',
+          focusTime,
+        );
+      }
     } else {
       countdownDuration.value = Duration(milliseconds: milliseconds);
     }
@@ -74,9 +83,6 @@ class TimerController extends GetxController {
       isRunning.value = false;
     } else if (isCompleted.value) {
       nextSession();
-      // if (session.value == pomodoroModel.session) {
-
-      // }
     } else {
       startCountDown();
       isRunning.value = true;

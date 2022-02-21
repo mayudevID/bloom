@@ -27,7 +27,7 @@ class TaskWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         margin: const EdgeInsets.only(bottom: 8),
-        height: 90,
+        height: getHeight(90),
         decoration: BoxDecoration(
           color: yellowLight,
           borderRadius: BorderRadius.circular(10),
@@ -82,7 +82,7 @@ class TaskWidget extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: getHeight(4)),
             Text(
               taskModel!.title,
               style: textParagraph.copyWith(
