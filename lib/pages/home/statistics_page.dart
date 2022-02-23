@@ -3,12 +3,13 @@ import 'package:bloom/utils.dart';
 import 'package:bloom/widgets/statistics_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import '../../controllers/user_controller.dart';
+import '../../controllers/user_local_db.dart';
+import '../../models/user.dart';
 
 class StatisticsPage extends StatelessWidget {
-  StatisticsPage({Key? key}) : super(key: key);
-  final userController = Get.find<UserController>();
+  const StatisticsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -119,25 +120,50 @@ class StatisticsPage extends StatelessWidget {
                       SizedBox(height: getHeight(10)),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            StatisticsWidget(
-                              iconImg: 'assets/icons/dismiss.png',
-                              title: 'Missed',
-                              count: userController.userModel.value.missed,
-                            ),
-                            StatisticsWidget(
-                              iconImg: 'assets/icons/checkmark.png',
-                              title: 'Completed',
-                              count: userController.userModel.value.completed,
-                            ),
-                            StatisticsWidget(
-                              iconImg: 'assets/icons/streakleft.png',
-                              title: 'Streak Left',
-                              count: userController.userModel.value.streakLeft,
-                            ),
-                          ],
+                        child: FutureBuilder(
+                          future: Hive.openBox('user_data'),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (snapshot.hasError) {
+                                return Center(
+                                  child: Text(snapshot.error.toString()),
+                                );
+                              } else {
+                                var userData = Hive.box('user_data');
+                                UserModel userModel = userData.get('user');
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    StatisticsWidget(
+                                      iconImg: 'assets/icons/dismiss.png',
+                                      title: 'Missed',
+                                      count: userModel.missed,
+                                    ),
+                                    StatisticsWidget(
+                                      iconImg: 'assets/icons/checkmark.png',
+                                      title: 'Completed',
+                                      count: userModel.completed,
+                                    ),
+                                    StatisticsWidget(
+                                      iconImg: 'assets/icons/streakleft.png',
+                                      title: 'Streak Left',
+                                      count: userModel.streakLeft,
+                                    ),
+                                  ],
+                                );
+                              }
+                            } else {
+                              return const SizedBox(
+                                height: 70,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                      color: Colors.black),
+                                ),
+                              );
+                            }
+                          },
                         ),
                       ),
                       SizedBox(height: getHeight(40)),

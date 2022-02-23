@@ -4,8 +4,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/models/pomodoro.dart';
 import 'package:bloom/widgets/notifications.dart';
 import 'package:get/get.dart';
-
-import 'user_controller.dart';
+import 'user_local_db.dart';
 //import 'package:audioplayers/audio_cache.dart';
 
 class TimerController extends GetxController {
@@ -15,6 +14,7 @@ class TimerController extends GetxController {
   var session = 1.obs;
   late int earlyTime;
   Timer? timer;
+  final userLocalDb = UserLocalDB();
   final PomodoroModel pomodoroModel;
 
   TimerController(this.pomodoroModel);
@@ -56,7 +56,7 @@ class TimerController extends GetxController {
       createTimerNotification(pomodoroModel, session.value);
       if (session.value == pomodoroModel.session) {
         double focusTime = (pomodoroModel.durationMinutes * session.value) / 60;
-        Get.find<UserController>().updateData(
+        userLocalDb.updateData(
           'totalFocus',
           focusTime,
         );

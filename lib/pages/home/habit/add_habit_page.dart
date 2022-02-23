@@ -7,13 +7,13 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:weekday_selector/weekday_selector.dart';
-import '../../../controllers/user_controller.dart';
+import '../../../controllers/user_local_db.dart';
 import '../../../theme.dart';
 
 class AddHabitPage extends StatelessWidget {
   AddHabitPage({Key? key}) : super(key: key);
   final addHabitC = Get.put(AddHabitController());
-  final userController = Get.find<UserController>();
+  final userLocalDb = UserLocalDB();
 
   void _saveHabit() async {
     if (addHabitC.titleController.text.trim().isNotEmpty) {
@@ -54,7 +54,7 @@ class AddHabitPage extends StatelessWidget {
         createHabitNotification(habitModel, habitModel.dayList[i]);
       }
 
-      await userController.updateData(
+      await userLocalDb.updateData(
           'streakLeft', addHabitC.durationDaysHabit.value);
 
       Get.back();

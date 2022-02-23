@@ -6,17 +6,16 @@ import 'package:get/get.dart';
 import 'package:path/path.dart';
 import '../controllers/auth_controller.dart';
 
-class DatabaseFirebase {
+class FirebaseDB {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  final authController = Get.find<AuthController>();
 
   Future<bool> createNewUser(UserModel user) async {
     try {
       await _firestore.collection('users').doc(user.userId).set({
         "name": user.name,
         "email": user.email,
-        "isNewUser:": user.isNewUser,
+        "isNewUser": user.isNewUser,
       });
       await _firestore.collection('stats').doc(user.userId).set({
         "habitStreak": user.habitStreak,
@@ -39,6 +38,8 @@ class DatabaseFirebase {
           await _firestore.collection("users").doc(uid).get();
       DocumentSnapshot stat =
           await _firestore.collection("stats").doc(uid).get();
+      print(user.data());
+      print(stat.data());
       return UserModel.fromDocumentSnapshot(user, stat);
     } catch (e) {
       rethrow;
@@ -55,12 +56,12 @@ class DatabaseFirebase {
       final photoDownload = snapshotData.ref.getDownloadURL();
       return photoDownload;
     } else {
-      return authController.userAuth!.photoURL as String;
+      return Get.find<AuthController>().userAuth!.photoURL as String;
     }
   }
 
   Future<void> deleteProfilePicture() async {
-    String photoURL = authController.userAuth!.photoURL as String;
+    String photoURL = Get.find<AuthController>().userAuth!.photoURL as String;
     await FirebaseStorage.instance.refFromURL(photoURL).delete();
   }
 }

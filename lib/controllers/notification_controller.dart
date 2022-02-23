@@ -1,7 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:bloom/controllers/user_controller.dart';
+import 'package:bloom/controllers/user_local_db.dart';
 import 'package:bloom/models/habit.dart';
 import 'package:bloom/models/task.dart';
 import 'package:bloom/routes/route_name.dart';
@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 class NotificationController extends GetxController {
+  final userLocalDb = UserLocalDB();
   @override
   void onInit() {
     // ignore: todo
@@ -45,7 +46,7 @@ class NotificationController extends GetxController {
               );
               habitDb.putAt(i, newHabitModel);
             } else if (openDaysVal == habitModel.openDays.length) {
-              Get.find<UserController>().updateData('habitStreak', true);
+              userLocalDb.updateData('habitStreak', true);
             }
             break;
           }

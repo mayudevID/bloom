@@ -49,14 +49,14 @@ class UserModel {
 
   UserModel.fromDocumentSnapshot(DocumentSnapshot user, DocumentSnapshot stat) {
     userId = user.id;
-    name = user['name'];
-    email = user['email'];
-    habitStreak = stat['habitStreak'];
-    taskCompleted = stat['taskCompleted'];
-    totalFocus = stat['totalFocus'].toDouble();
-    missed = stat['missed'];
-    completed = stat['completed'];
-    streakLeft = stat['streakLeft'];
-    isNewUser = user['isNewUser'];
+    name = user.get('name');
+    email = user.get('email');
+    habitStreak = stat.get('habitStreak');
+    taskCompleted = stat.get('taskCompleted');
+    totalFocus = stat.get('totalFocus').toDouble();
+    missed = stat.get('missed');
+    completed = stat.get('completed');
+    streakLeft = stat.get('streakLeft');
+    isNewUser = user.get('isNewUser');
   }
 }

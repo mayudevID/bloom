@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:bloom/controllers/user_controller.dart';
+import 'package:bloom/controllers/user_local_db.dart';
 import 'package:bloom/models/task.dart';
 import 'package:bloom/routes/route_name.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ import '../utils.dart';
 class TaskWidgetDeleted extends StatelessWidget {
   TaskModel? taskModel;
   int index;
-  final userController = Get.find<UserController>();
+  final userLocalDb = UserLocalDB();
   TaskWidgetDeleted({Key? key, required this.taskModel, required this.index})
       : super(key: key);
 
@@ -60,7 +60,7 @@ class TaskWidgetDeleted extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         margin: const EdgeInsets.only(bottom: 8),
-        height: getHeight(90),
+        height: 90,
         decoration: BoxDecoration(
           color: greyLight,
           borderRadius: BorderRadius.circular(10),

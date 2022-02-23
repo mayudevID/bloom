@@ -1,17 +1,19 @@
 import 'package:bloom/controllers/auth_controller.dart';
-import 'package:bloom/controllers/user_controller.dart';
+import 'package:bloom/controllers/user_local_db.dart';
 import 'package:bloom/routes/route_name.dart';
 import 'package:bloom/theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
+import '../../models/user.dart';
 import '../../utils.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
-  final userController = Get.find<UserController>();
+  final userLocalDb = UserLocalDB();
   final authController = Get.find<AuthController>();
 
   @override
@@ -26,7 +28,9 @@ class ProfilePage extends StatelessWidget {
             Row(
               children: [
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    var userData = await Hive.openBox('user_data');
+                    userData.close();
                     Get.back();
                   },
                   child: Image.asset("assets/icons/arrow_back.png", width: 24),
@@ -89,12 +93,22 @@ class ProfilePage extends StatelessWidget {
             ),
             //Image.asset("assets/icons/profpict.png", width: 80),
             SizedBox(height: getHeight(8)),
-            Obx(() {
-              return Text(
-                userController.userModel.value.name.toString(),
-                style: buttonSmall.copyWith(fontSize: 14),
-              );
-            }),
+            StreamBuilder(
+              stream: authController.streamAuthStatus,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  User user = snapshot.data as User;
+                  return Text(
+                    user.displayName as String,
+                    style: buttonSmall.copyWith(
+                      fontSize: 14,
+                    ),
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
             SizedBox(height: getHeight(8)),
             GestureDetector(
               onTap: () => Get.toNamed(RouteName.EDITPROFILE),
@@ -116,82 +130,97 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: getHeight(32)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Obx(() {
-                      return Text(
-                        userController.userModel.value.habitStreak.toString(),
-                        style: const TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      );
-                    }),
-                    Text(
-                      "Habit Streak",
-                      style: smallTextLink.copyWith(fontSize: 10),
-                    ),
-                  ],
-                ),
-                SizedBox(width: getWidth(24)),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Obx(() {
-                      return Text(
-                        userController.userModel.value.taskCompleted.toString(),
-                        style: const TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      );
-                    }),
-                    Text(
-                      "Task Completed",
-                      style: smallTextLink.copyWith(fontSize: 10),
-                    ),
-                  ],
-                ),
-                SizedBox(width: getWidth(24)),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      //crossAxisAlignment: CrossAxisAlignment.end,
+            FutureBuilder(
+              future: Hive.openBox('user_data'),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(snapshot.error.toString()),
+                    );
+                  } else {
+                    var userData = Hive.box('user_data');
+                    UserModel userModel = userData.get('user');
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Obx(() {
-                          return Text(
-                            userController.userModel.value.totalFocus
-                                .toStringAsFixed(1),
-                            style: const TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              userModel.habitStreak.toString(),
+                              style: const TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
-                          );
-                        }),
-                        Text(
-                          "h",
-                          style: smallText.copyWith(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                          ),
+                            Text(
+                              "Habit Streak",
+                              style: smallTextLink.copyWith(fontSize: 10),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: getWidth(24)),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              userModel.taskCompleted.toString(),
+                              style: const TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              "Task Completed",
+                              style: smallTextLink.copyWith(fontSize: 10),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: getWidth(24)),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              //crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  userModel.totalFocus.toStringAsFixed(1),
+                                  style: const TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                Text(
+                                  "h",
+                                  style: smallText.copyWith(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              "Total Focus",
+                              style: smallTextLink.copyWith(fontSize: 10),
+                            ),
+                          ],
                         ),
                       ],
+                    );
+                  }
+                } else {
+                  return const SizedBox(
+                    height: 70,
+                    child: Center(
+                      child: CircularProgressIndicator(color: Colors.black),
                     ),
-                    Text(
-                      "Total Focus",
-                      style: smallTextLink.copyWith(fontSize: 10),
-                    ),
-                  ],
-                ),
-              ],
+                  );
+                }
+              },
             ),
             SizedBox(height: getHeight(24)),
             Align(

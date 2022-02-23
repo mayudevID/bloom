@@ -78,7 +78,8 @@ class AddTaskPage extends StatelessWidget {
         initialTime: TimeOfDay.now(),
       );
       if (pickTime != null) {
-        String time = pickTime.format(context) + ":00";
+        String time =
+            twoDigits(pickTime.hour) + ":" + twoDigits(pickTime.minute) + ":00";
         addTaskC.setDateTime(time);
         addTaskC.isChoose.value = true;
       }

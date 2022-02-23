@@ -10,9 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'controllers/notification_controller.dart';
-import 'controllers/user_controller.dart';
+import 'controllers/user_local_db.dart';
 import 'models/habit.dart';
 import 'models/pomodoro.dart';
 import 'models/timeofday_adapter.dart';
@@ -20,16 +21,14 @@ import 'models/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var appDocumentDirectory = await getApplicationDocumentsDirectory();
+  await Hive.initFlutter();
   Hive
-    ..init(appDocumentDirectory.path)
     ..registerAdapter(PomodoroModelAdapter())
     ..registerAdapter(UserModelAdapter())
     ..registerAdapter(TaskModelAdapter())
     ..registerAdapter(HabitModelAdapter())
     ..registerAdapter(TimeOfDayAdapter());
   AwesomeNotifications().initialize(
-    // set the icon to null if you want to use the default app icon
     'resource://drawable/res_app_icon',
     [
       NotificationChannel(
@@ -71,10 +70,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  final userController = Get.put(
-    UserController(),
-    permanent: true,
-  );
   final authController = Get.put(
     AuthController(),
     permanent: true,

@@ -23,7 +23,9 @@ class TaskHistoryPage extends StatelessWidget {
             Row(
               children: [
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    var taskHistoryDb = await Hive.openBox("task_history_db");
+                    taskHistoryDb.close();
                     Get.back();
                   },
                   child: Image.asset("assets/icons/arrow_back.png", width: 24),

@@ -1,14 +1,15 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:io';
-import 'package:bloom/controllers/user_controller.dart';
+import 'package:bloom/controllers/user_local_db.dart';
 import 'package:bloom/theme.dart';
-import 'package:bloom/services/database.dart';
+import 'package:bloom/services/firebase_database.dart';
 import 'package:bloom/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/edit_profile_controller.dart';
@@ -17,10 +18,10 @@ import '../../models/user.dart';
 class EditProfilePage extends StatelessWidget {
   EditProfilePage({Key? key}) : super(key: key);
   final editProfileC = Get.put(EditProfileController());
-  final userController = Get.find<UserController>();
+  final userLocalDb = UserLocalDB();
   final authController = Get.find<AuthController>();
   final ImagePicker _picker = ImagePicker();
-  DatabaseFirebase db = DatabaseFirebase();
+  final firebaseDb = FirebaseDB();
 
   Future _errorDialog() {
     return Get.defaultDialog(
@@ -98,6 +99,8 @@ class EditProfilePage extends StatelessWidget {
 
   void _saveProfile() async {
     editProfileC.isSaving.value = true;
+    var userData = await Hive.openBox('userData');
+    UserModel oldUserModel = userData.get('user');
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile ||
         connectivityResult == ConnectivityResult.wifi) {
@@ -105,29 +108,29 @@ class EditProfilePage extends StatelessWidget {
         final result = await InternetAddress.lookup('google.com')
             .timeout(const Duration(seconds: 5));
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          if (userController.userModel.value.isNewUser == false) {
-            db.deleteProfilePicture();
+          if (oldUserModel.isNewUser == false) {
+            firebaseDb.deleteProfilePicture();
           }
           String photoURLold = authController.userAuth!.photoURL as String;
           String displayName = editProfileC.nameController.text;
-          String photoURL =
-              await db.uploadProfilePicture(editProfileC.profilePictureTemp);
+          String photoURL = await firebaseDb
+              .uploadProfilePicture(editProfileC.profilePictureTemp);
           if (await authController.updateData(displayName, photoURL)) {
             UserModel userModel = UserModel(
-              userId: userController.userModel.value.userId,
+              userId: oldUserModel.userId,
               name: displayName,
-              email: userController.userModel.value.email,
-              habitStreak: userController.userModel.value.habitStreak,
-              taskCompleted: userController.userModel.value.taskCompleted,
-              totalFocus: userController.userModel.value.totalFocus,
-              missed: userController.userModel.value.missed,
-              completed: userController.userModel.value.completed,
-              streakLeft: userController.userModel.value.streakLeft,
+              email: oldUserModel.email,
+              habitStreak: oldUserModel.habitStreak,
+              taskCompleted: oldUserModel.taskCompleted,
+              totalFocus: oldUserModel.totalFocus,
+              missed: oldUserModel.missed,
+              completed: oldUserModel.completed,
+              streakLeft: oldUserModel.streakLeft,
               isNewUser: false,
             );
             CachedNetworkImage.evictFromCache(photoURLold);
-            if (await db.createNewUser(userModel)) {
-              await userController.setUser(userModel);
+            if (await firebaseDb.createNewUser(userModel)) {
+              await userLocalDb.setUser(userModel);
             }
           }
         }

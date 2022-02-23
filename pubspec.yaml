@@ -58,6 +58,7 @@ dependencies:
   scrollable_positioned_list: ^0.2.3
   syncfusion_flutter_gauges: ^19.4.48
   table_calendar: ^3.0.3
+  tutorial_coach_mark: ^1.2.1
   weekday_selector: ^1.0.0
 
 flutter_icons:

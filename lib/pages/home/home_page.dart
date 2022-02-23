@@ -1,4 +1,4 @@
-import 'package:bloom/controllers/user_controller.dart';
+import 'package:bloom/controllers/user_local_db.dart';
 import 'package:bloom/models/habit.dart';
 import 'package:bloom/models/task.dart';
 import 'package:bloom/routes/route_name.dart';
@@ -16,7 +16,7 @@ import '../../utils.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
-  final userController = Get.find<UserController>();
+  final userLocalDb = UserLocalDB();
   final authController = Get.find<AuthController>();
 
   @override
@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: naturalWhite,
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: Get.width * 24 / 360),
+          margin: EdgeInsets.symmetric(horizontal: getWidth(24)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -79,7 +79,7 @@ class HomePage extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(width: Get.height * 6 / 800),
+                  SizedBox(width: getWidth(6)),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,12 +91,20 @@ class HomePage extends StatelessWidget {
                             fontSize: 11,
                           ),
                         ),
-                        Obx(() {
-                          return Text(
-                            userController.userModel.value.name.toString(),
-                            style: smallTextLink,
-                          );
-                        }),
+                        StreamBuilder<User?>(
+                          stream: authController.streamAuthStatus,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              User user = snapshot.data as User;
+                              return Text(
+                                user.displayName as String,
+                                style: smallTextLink,
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -111,17 +119,17 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: Get.height * 16 / 800),
+              SizedBox(height: getWidth(16)),
               Text(
                 DateFormat('EEEE, dd MMMM y').format(DateTime.now()),
                 style: buttonSmall,
               ),
-              SizedBox(height: Get.height * 16 / 800),
+              SizedBox(height: getWidth(16)),
               Text(
                 'Upcoming Task',
                 style: smallTextLink,
               ),
-              SizedBox(height: Get.height * 7 / 800),
+              SizedBox(height: getHeight(7)),
               FutureBuilder(
                 future: Hive.openBox('task_db'),
                 builder: (builder, snapshot) {
@@ -180,9 +188,9 @@ class HomePage extends StatelessWidget {
                   }
                 },
               ),
-              SizedBox(height: Get.height * 25 / 800),
+              SizedBox(height: getHeight(25)),
               Text("Todays Habit", style: smallTextLink),
-              SizedBox(height: Get.height * 8 / 800),
+              SizedBox(height: getHeight(8)),
               FutureBuilder(
                 future: Hive.openBox('habit_db'),
                 builder: (builder, snapshot) {
@@ -242,7 +250,7 @@ class HomePage extends StatelessWidget {
                   }
                 },
               ),
-              SizedBox(height: Get.height * 8 / 800),
+              SizedBox(height: getHeight(8)),
             ],
           ),
         ),
