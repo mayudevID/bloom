@@ -42,7 +42,7 @@ class AppPages {
     ),
     GetPage(
       name: RouteName.MAIN,
-      page: () => const MainPage(),
+      page: () => MainPage(),
       binding: PageBinding(),
     ),
     GetPage(

@@ -99,7 +99,7 @@ class EditProfilePage extends StatelessWidget {
 
   void _saveProfile() async {
     editProfileC.isSaving.value = true;
-    var userData = await Hive.openBox('userData');
+    var userData = await Hive.openBox('user_data');
     UserModel oldUserModel = userData.get('user');
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile ||
@@ -111,12 +111,11 @@ class EditProfilePage extends StatelessWidget {
           if (oldUserModel.isNewUser == false) {
             firebaseDb.deleteProfilePicture();
           }
-          String photoURLold = authController.userAuth!.photoURL as String;
           String displayName = editProfileC.nameController.text;
           String photoURL = await firebaseDb
               .uploadProfilePicture(editProfileC.profilePictureTemp);
           if (await authController.updateData(displayName, photoURL)) {
-            UserModel userModel = UserModel(
+            UserModel newUserModel = UserModel(
               userId: oldUserModel.userId,
               name: displayName,
               email: oldUserModel.email,
@@ -126,11 +125,15 @@ class EditProfilePage extends StatelessWidget {
               missed: oldUserModel.missed,
               completed: oldUserModel.completed,
               streakLeft: oldUserModel.streakLeft,
-              isNewUser: false,
+              isNewUser: (oldUserModel.isNewUser == true &&
+                      editProfileC.isPictureChanged.value == true)
+                  ? false
+                  : oldUserModel.isNewUser,
             );
+            String photoURLold = authController.userAuth!.photoURL as String;
             CachedNetworkImage.evictFromCache(photoURLold);
-            if (await firebaseDb.createNewUser(userModel)) {
-              await userLocalDb.setUser(userModel);
+            if (await firebaseDb.createNewUser(newUserModel)) {
+              await userLocalDb.setUser(newUserModel);
             }
           }
         }
@@ -141,6 +144,7 @@ class EditProfilePage extends StatelessWidget {
       _errorDialog();
     }
     editProfileC.isSaving.value = false;
+    Get.back();
   }
 
   @override

@@ -6,6 +6,9 @@ import '../theme.dart';
 
 class MainPageController extends GetxController {
   var tabIndex = 0;
+  bool isIntroTutorial;
+
+  MainPageController(this.isIntroTutorial);
 
   @override
   void onInit() {
@@ -68,6 +71,7 @@ class MainPageController extends GetxController {
         );
       }
     });
+    if (isIntroTutorial == true) {}
   }
 
   void changeTabIndex(int index) {

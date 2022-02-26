@@ -34,6 +34,7 @@ class AuthController extends GetxController {
       File photoDefault = await getImageFileFromAssets('icons/profpict.png');
       String photoURL = await firebaseDb.uploadProfilePicture(photoDefault);
       _auth.currentUser!.updatePhotoURL(photoURL);
+      _auth.currentUser!.updateDisplayName(name);
       UserModel _userModel = UserModel(
         userId: _authResult.user?.uid,
         name: name,
@@ -76,7 +77,7 @@ class AuthController extends GetxController {
       if (_authResult.user!.emailVerified) {
         await userLocalDb
             .setUser(await firebaseDb.getUser(_authResult.user!.uid));
-        Get.offAllNamed(RouteName.MAIN);
+        Get.offAllNamed(RouteName.MAIN, arguments: false);
       } else {
         Get.defaultDialog(
           title: "Verification Email",
@@ -120,7 +121,7 @@ class AuthController extends GetxController {
             ),
             GestureDetector(
               onTap: () {
-                Get.offAllNamed(RouteName.MAIN);
+                Get.offAllNamed(RouteName.MAIN, arguments: false);
               },
               child: Container(
                 width: 70,
@@ -217,12 +218,12 @@ class AuthController extends GetxController {
 
           if (await firebaseDb.createNewUser(_userModel)) {
             await userLocalDb.setUser(_userModel);
-            Get.offAllNamed(RouteName.MAIN);
+            Get.offAllNamed(RouteName.MAIN, arguments: true);
           }
         } else {
           await userLocalDb
               .setUser(await firebaseDb.getUser(_authResult.user!.uid));
-          Get.offAllNamed(RouteName.MAIN);
+          Get.offAllNamed(RouteName.MAIN, arguments: false);
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -267,7 +268,7 @@ class AuthController extends GetxController {
         } else {
           await userLocalDb
               .setUser(await firebaseDb.getUser(_authResult.user!.uid));
-          Get.offAllNamed(RouteName.MAIN);
+          Get.offAllNamed(RouteName.MAIN, arguments: false);
         }
       }
     } on FirebaseException catch (e) {
@@ -365,7 +366,7 @@ class AuthController extends GetxController {
 
         await userLocalDb
             .setUser(await firebaseDb.getUser(_authResultGoogle.user!.uid));
-        Get.offAllNamed(RouteName.MAIN);
+        Get.offAllNamed(RouteName.MAIN, arguments: false);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'invalid-email') {
           Get.snackbar(
@@ -395,7 +396,7 @@ class AuthController extends GetxController {
   Future<void> checkEmailVerified() async {
     await _auth.currentUser!.reload();
     if (_auth.currentUser!.emailVerified) {
-      Get.offAllNamed(RouteName.MAIN);
+      Get.offAllNamed(RouteName.MAIN, arguments: true);
     }
   }
 
