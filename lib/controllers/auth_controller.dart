@@ -18,7 +18,7 @@ import '../theme.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final userLocalDb = UserLocalDB();
+  final userController = Get.find<UserController>();
   final firebaseDb = FirebaseDB();
   RxBool isLoading = false.obs;
   RxBool isLoadingGoogle = false.obs;
@@ -33,12 +33,11 @@ class AuthController extends GetxController {
           email: email, password: password);
       File photoDefault = await getImageFileFromAssets('icons/profpict.png');
       String photoURL = await firebaseDb.uploadProfilePicture(photoDefault);
-      _auth.currentUser!.updatePhotoURL(photoURL);
-      _auth.currentUser!.updateDisplayName(name);
       UserModel _userModel = UserModel(
         userId: _authResult.user?.uid,
         name: name,
         email: email,
+        photoUrl: photoURL,
         habitStreak: 0,
         taskCompleted: 0,
         totalFocus: 0,
@@ -48,7 +47,7 @@ class AuthController extends GetxController {
         isNewUser: true,
       );
       if (await firebaseDb.createNewUser(_userModel)) {
-        await userLocalDb.setUser(_userModel);
+        await userController.setUser(_userModel);
         Get.toNamed(RouteName.VERIFICATION);
       }
     } on FirebaseException catch (e) {
@@ -75,7 +74,7 @@ class AuthController extends GetxController {
       var _authResult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       if (_authResult.user!.emailVerified) {
-        await userLocalDb
+        await userController
             .setUser(await firebaseDb.getUser(_authResult.user!.uid));
         Get.offAllNamed(RouteName.MAIN, arguments: false);
       } else {
@@ -167,7 +166,7 @@ class AuthController extends GetxController {
       await _auth.signOut();
       await GoogleSignIn().signOut();
       await FacebookAuth.instance.logOut();
-      await userLocalDb.clear();
+      await userController.clear();
       var taskDb = await Hive.openBox('task_db');
       var habitDb = await Hive.openBox('habit_db');
       var pomodoroDb = await Hive.openBox('pomodoro_db');
@@ -189,7 +188,7 @@ class AuthController extends GetxController {
   Future<void> signInSignUpWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser =
-          await GoogleSignIn(scopes: ['profile', 'email']).signIn();
+          await GoogleSignIn(scopes: ['email']).signIn();
 
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
@@ -206,7 +205,8 @@ class AuthController extends GetxController {
           UserModel _userModel = UserModel(
             name: _authResult.user!.displayName,
             email: _authResult.user!.email,
-            userId: _authResult.user?.uid,
+            userId: _authResult.user!.uid,
+            photoUrl: _authResult.user!.photoURL!,
             habitStreak: 0,
             taskCompleted: 0,
             totalFocus: 0,
@@ -217,11 +217,11 @@ class AuthController extends GetxController {
           );
 
           if (await firebaseDb.createNewUser(_userModel)) {
-            await userLocalDb.setUser(_userModel);
+            await userController.setUser(_userModel);
             Get.offAllNamed(RouteName.MAIN, arguments: true);
           }
         } else {
-          await userLocalDb
+          await userController
               .setUser(await firebaseDb.getUser(_authResult.user!.uid));
           Get.offAllNamed(RouteName.MAIN, arguments: false);
         }
@@ -250,6 +250,7 @@ class AuthController extends GetxController {
             name: _authResult.user!.displayName,
             email: _authResult.user!.email,
             userId: _authResult.user?.uid,
+            photoUrl: _authResult.user!.photoURL!,
             habitStreak: 0,
             taskCompleted: 0,
             totalFocus: 0,
@@ -260,13 +261,13 @@ class AuthController extends GetxController {
           );
 
           if (await firebaseDb.createNewUser(_userModel)) {
-            await userLocalDb.setUser(_userModel);
+            await userController.setUser(_userModel);
             print("GO TO VERIF PAGE");
             await sendVerification();
             Get.offAllNamed(RouteName.VERIFICATION);
           }
         } else {
-          await userLocalDb
+          await userController
               .setUser(await firebaseDb.getUser(_authResult.user!.uid));
           Get.offAllNamed(RouteName.MAIN, arguments: false);
         }
@@ -364,7 +365,7 @@ class AuthController extends GetxController {
         credentialSave.clear();
         credentialSave.close();
 
-        await userLocalDb
+        await userController
             .setUser(await firebaseDb.getUser(_authResultGoogle.user!.uid));
         Get.offAllNamed(RouteName.MAIN, arguments: false);
       } on FirebaseAuthException catch (e) {

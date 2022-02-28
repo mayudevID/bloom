@@ -18,7 +18,7 @@ import '../../models/user.dart';
 class EditProfilePage extends StatelessWidget {
   EditProfilePage({Key? key}) : super(key: key);
   final editProfileC = Get.put(EditProfileController());
-  final userLocalDb = UserLocalDB();
+  final userController = Get.find<UserController>();
   final authController = Get.find<AuthController>();
   final ImagePicker _picker = ImagePicker();
   final firebaseDb = FirebaseDB();
@@ -112,29 +112,34 @@ class EditProfilePage extends StatelessWidget {
             firebaseDb.deleteProfilePicture();
           }
           String displayName = editProfileC.nameController.text;
-          String photoURL = await firebaseDb
-              .uploadProfilePicture(editProfileC.profilePictureTemp);
-          if (await authController.updateData(displayName, photoURL)) {
-            UserModel newUserModel = UserModel(
-              userId: oldUserModel.userId,
-              name: displayName,
-              email: oldUserModel.email,
-              habitStreak: oldUserModel.habitStreak,
-              taskCompleted: oldUserModel.taskCompleted,
-              totalFocus: oldUserModel.totalFocus,
-              missed: oldUserModel.missed,
-              completed: oldUserModel.completed,
-              streakLeft: oldUserModel.streakLeft,
-              isNewUser: (oldUserModel.isNewUser == true &&
-                      editProfileC.isPictureChanged.value == true)
-                  ? false
-                  : oldUserModel.isNewUser,
+          String photoURL;
+          if (editProfileC.isPictureChanged.value) {
+            photoURL = await firebaseDb.uploadProfilePicture(
+              editProfileC.profilePictureTemp,
             );
-            String photoURLold = authController.userAuth!.photoURL as String;
-            CachedNetworkImage.evictFromCache(photoURLold);
-            if (await firebaseDb.createNewUser(newUserModel)) {
-              await userLocalDb.setUser(newUserModel);
-            }
+          } else {
+            photoURL = oldUserModel.photoUrl;
+          }
+          UserModel newUserModel = UserModel(
+            userId: oldUserModel.userId,
+            name: displayName,
+            email: oldUserModel.email,
+            photoUrl: photoURL,
+            habitStreak: oldUserModel.habitStreak,
+            taskCompleted: oldUserModel.taskCompleted,
+            totalFocus: oldUserModel.totalFocus,
+            missed: oldUserModel.missed,
+            completed: oldUserModel.completed,
+            streakLeft: oldUserModel.streakLeft,
+            isNewUser: (oldUserModel.isNewUser == true &&
+                    editProfileC.isPictureChanged.value == true)
+                ? false
+                : oldUserModel.isNewUser,
+          );
+          String photoURLold = authController.userAuth!.photoURL as String;
+          CachedNetworkImage.evictFromCache(photoURLold);
+          if (await firebaseDb.createNewUser(newUserModel)) {
+            await userController.setUser(newUserModel);
           }
         }
       } on SocketException catch (e) {

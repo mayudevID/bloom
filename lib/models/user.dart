@@ -14,30 +14,34 @@ class UserModel {
   String? email;
 
   @HiveField(3)
-  late int habitStreak;
+  late String photoUrl;
 
   @HiveField(4)
-  late int taskCompleted;
+  late int habitStreak;
 
   @HiveField(5)
-  late double totalFocus;
+  late int taskCompleted;
 
   @HiveField(6)
-  late int missed;
+  late double totalFocus;
 
   @HiveField(7)
-  late int completed;
+  late int missed;
 
   @HiveField(8)
-  late int streakLeft;
+  late int completed;
 
   @HiveField(9)
+  late int streakLeft;
+
+  @HiveField(10)
   late bool isNewUser;
 
   UserModel({
     required this.userId,
     required this.name,
     required this.email,
+    required this.photoUrl,
     required this.habitStreak,
     required this.taskCompleted,
     required this.totalFocus,
@@ -51,6 +55,7 @@ class UserModel {
     userId = user.id;
     name = user.get('name');
     email = user.get('email');
+    photoUrl = user.get('photoUrl');
     habitStreak = stat.get('habitStreak');
     taskCompleted = stat.get('taskCompleted');
     totalFocus = stat.get('totalFocus').toDouble();

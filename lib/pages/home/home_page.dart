@@ -16,7 +16,7 @@ import '../../utils.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
-  final userLocalDb = UserLocalDB();
+  final userController = Get.find<UserController>();
   final authController = Get.find<AuthController>();
 
   @override
@@ -34,50 +34,38 @@ class HomePage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () => Get.toNamed(RouteName.PROFILE),
-                    child: StreamBuilder<User?>(
-                      stream: authController.streamAuthStatus,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          User user = snapshot.data as User;
-                          return CachedNetworkImage(
-                            imageUrl: user.photoURL as String,
-                            imageBuilder: (context, imageProvider) {
-                              return Container(
-                                width: 40.0,
-                                height: 40.0,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              );
-                            },
-                            placeholder: (context, url) {
-                              return const SizedBox(
-                                width: 40.0,
-                                height: 40.0,
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                            errorWidget: (context, url, error) {
-                              return const SizedBox(
-                                width: 40.0,
-                                height: 40.0,
-                                child: Icon(Icons.error),
-                              );
-                            },
+                    child: Obx(() {
+                      return CachedNetworkImage(
+                        imageUrl: userController.userModel.value.photoUrl,
+                        imageBuilder: (context, imageProvider) {
+                          return Container(
+                            width: 40.0,
+                            height: 40.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           );
-                        } else {
+                        },
+                        placeholder: (context, url) {
                           return const SizedBox(
-                            width: 80.0,
-                            height: 80.0,
+                            width: 40.0,
+                            height: 40.0,
                             child: CircularProgressIndicator(),
                           );
-                        }
-                      },
-                    ),
+                        },
+                        errorWidget: (context, url, error) {
+                          return const SizedBox(
+                            width: 40.0,
+                            height: 40.0,
+                            child: Icon(Icons.error),
+                          );
+                        },
+                      );
+                    }),
                   ),
                   SizedBox(width: getWidth(6)),
                   Expanded(
@@ -91,20 +79,12 @@ class HomePage extends StatelessWidget {
                             fontSize: 11,
                           ),
                         ),
-                        StreamBuilder<User?>(
-                          stream: authController.streamAuthStatus,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              User user = snapshot.data as User;
-                              return Text(
-                                user.displayName as String,
-                                style: smallTextLink,
-                              );
-                            } else {
-                              return const SizedBox();
-                            }
-                          },
-                        ),
+                        Obx(() {
+                          return Text(
+                            userController.userModel.value.name as String,
+                            style: smallTextLink,
+                          );
+                        }),
                       ],
                     ),
                   ),

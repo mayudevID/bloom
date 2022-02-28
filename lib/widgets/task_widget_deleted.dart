@@ -14,7 +14,7 @@ import '../utils.dart';
 class TaskWidgetDeleted extends StatelessWidget {
   TaskModel? taskModel;
   int index;
-  final userLocalDb = UserLocalDB();
+  final userController = Get.find<UserController>();
   TaskWidgetDeleted({Key? key, required this.taskModel, required this.index})
       : super(key: key);
 

@@ -14,7 +14,7 @@ import '../utils.dart';
 class TaskWidget extends StatelessWidget {
   TaskModel? taskModel;
   int index;
-  final userLocalDb = UserLocalDB();
+  final userController = Get.find<UserController>();
   TaskWidget({Key? key, required this.taskModel, required this.index})
       : super(key: key);
 
@@ -75,7 +75,7 @@ class TaskWidget extends StatelessWidget {
                       );
                       var taskDb = await Hive.openBox('task_db');
                       taskDb.putAt(index, newTaskModel);
-                      await userLocalDb.updateData('taskCompleted', value);
+                      await userController.updateData('taskCompleted', value);
                     },
                   ),
                 ),

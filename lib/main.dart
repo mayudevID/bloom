@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/controllers/auth_controller.dart';
+import 'package:bloom/controllers/user_local_db.dart';
 import 'package:bloom/models/task.dart';
 import 'package:bloom/routes/app_pages.dart';
 import 'package:bloom/routes/route_name.dart';
@@ -9,11 +10,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 import 'controllers/notification_controller.dart';
-import 'controllers/user_local_db.dart';
 import 'models/habit.dart';
 import 'models/pomodoro.dart';
 import 'models/timeofday_adapter.dart';
@@ -70,6 +68,10 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
+  final userController = Get.put(
+    UserController(),
+    permanent: true,
+  );
   final authController = Get.put(
     AuthController(),
     permanent: true,

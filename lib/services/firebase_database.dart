@@ -15,6 +15,7 @@ class FirebaseDB {
       await _firestore.collection('users').doc(user.userId).set({
         "name": user.name,
         "email": user.email,
+        "photoUrl": user.photoUrl,
         "isNewUser": user.isNewUser,
       });
       await _firestore.collection('stats').doc(user.userId).set({

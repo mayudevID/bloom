@@ -13,7 +13,7 @@ import '../../utils.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
-  final userLocalDb = UserLocalDB();
+  final userController = Get.find<UserController>();
   final authController = Get.find<AuthController>();
 
   @override
@@ -47,68 +47,48 @@ class ProfilePage extends StatelessWidget {
               ],
             ),
             SizedBox(height: getHeight(32)),
-            StreamBuilder<User?>(
-              stream: authController.streamAuthStatus,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  User user = snapshot.data as User;
-                  return CachedNetworkImage(
-                    imageUrl: user.photoURL as String,
-                    imageBuilder: (context, imageProvider) {
-                      return Container(
-                        width: 80.0,
-                        height: 80.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      );
-                    },
-                    placeholder: (context, url) {
-                      return const SizedBox(
-                        width: 80.0,
-                        height: 80.0,
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                    errorWidget: (context, url, error) {
-                      return const SizedBox(
-                        width: 80.0,
-                        height: 80.0,
-                        child: Icon(Icons.error),
-                      );
-                    },
+            Obx(() {
+              return CachedNetworkImage(
+                imageUrl: userController.userModel.value.photoUrl,
+                imageBuilder: (context, imageProvider) {
+                  return Container(
+                    width: 80.0,
+                    height: 80.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   );
-                } else {
+                },
+                placeholder: (context, url) {
                   return const SizedBox(
                     width: 80.0,
                     height: 80.0,
                     child: CircularProgressIndicator(),
                   );
-                }
-              },
-            ),
+                },
+                errorWidget: (context, url, error) {
+                  return const SizedBox(
+                    width: 80.0,
+                    height: 80.0,
+                    child: Icon(Icons.error),
+                  );
+                },
+              );
+            }),
             //Image.asset("assets/icons/profpict.png", width: 80),
             SizedBox(height: getHeight(8)),
-            StreamBuilder(
-              stream: authController.streamAuthStatus,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  User user = snapshot.data as User;
-                  return Text(
-                    user.displayName as String,
-                    style: buttonSmall.copyWith(
-                      fontSize: 14,
-                    ),
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              },
-            ),
+            Obx(() {
+              return Text(
+                userController.userModel.value.name as String,
+                style: buttonSmall.copyWith(
+                  fontSize: 14,
+                ),
+              );
+            }),
             SizedBox(height: getHeight(8)),
             GestureDetector(
               onTap: () => Get.toNamed(RouteName.EDITPROFILE),
@@ -130,97 +110,82 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: getHeight(32)),
-            FutureBuilder(
-              future: Hive.openBox('user_data'),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(snapshot.error.toString()),
-                    );
-                  } else {
-                    var userData = Hive.box('user_data');
-                    UserModel userModel = userData.get('user');
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Obx(() {
+                      return Text(
+                        userController.userModel.value.habitStreak.toString(),
+                        style: const TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      );
+                    }),
+                    Text(
+                      "Habit Streak",
+                      style: smallTextLink.copyWith(fontSize: 10),
+                    ),
+                  ],
+                ),
+                SizedBox(width: getWidth(24)),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Obx(() {
+                      return Text(
+                        userController.userModel.value.taskCompleted.toString(),
+                        style: const TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      );
+                    }),
+                    Text(
+                      "Task Completed",
+                      style: smallTextLink.copyWith(fontSize: 10),
+                    ),
+                  ],
+                ),
+                SizedBox(width: getWidth(24)),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      //crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              userModel.habitStreak.toString(),
-                              style: const TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                              ),
+                        Obx(() {
+                          return Text(
+                            userController.userModel.value.totalFocus
+                                .toString(),
+                            style: const TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
                             ),
-                            Text(
-                              "Habit Streak",
-                              style: smallTextLink.copyWith(fontSize: 10),
-                            ),
-                          ],
-                        ),
-                        SizedBox(width: getWidth(24)),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              userModel.taskCompleted.toString(),
-                              style: const TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            Text(
-                              "Task Completed",
-                              style: smallTextLink.copyWith(fontSize: 10),
-                            ),
-                          ],
-                        ),
-                        SizedBox(width: getWidth(24)),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              //crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  userModel.totalFocus.toStringAsFixed(1),
-                                  style: const TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                Text(
-                                  "h",
-                                  style: smallText.copyWith(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              "Total Focus",
-                              style: smallTextLink.copyWith(fontSize: 10),
-                            ),
-                          ],
+                          );
+                        }),
+                        Text(
+                          "h",
+                          style: smallText.copyWith(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ],
-                    );
-                  }
-                } else {
-                  return const SizedBox(
-                    height: 70,
-                    child: Center(
-                      child: CircularProgressIndicator(color: Colors.black),
                     ),
-                  );
-                }
-              },
+                    Text(
+                      "Total Focus",
+                      style: smallTextLink.copyWith(fontSize: 10),
+                    ),
+                  ],
+                ),
+              ],
             ),
             SizedBox(height: getHeight(24)),
             Align(

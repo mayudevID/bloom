@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 class NotificationController extends GetxController {
-  final userLocalDb = UserLocalDB();
+  final userController = Get.find<UserController>();
   @override
   void onInit() {
     // ignore: todo
@@ -46,7 +46,7 @@ class NotificationController extends GetxController {
               );
               habitDb.putAt(i, newHabitModel);
             } else if (openDaysVal == habitModel.openDays.length) {
-              userLocalDb.updateData('habitStreak', true);
+              userController.updateData('habitStreak', true);
             }
             break;
           }

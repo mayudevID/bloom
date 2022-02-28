@@ -14,7 +14,7 @@ class TimerController extends GetxController {
   var session = 1.obs;
   late int earlyTime;
   Timer? timer;
-  final userLocalDb = UserLocalDB();
+  final userController = Get.find<UserController>();
   final PomodoroModel pomodoroModel;
 
   TimerController(this.pomodoroModel);
@@ -56,7 +56,7 @@ class TimerController extends GetxController {
       createTimerNotification(pomodoroModel, session.value);
       if (session.value == pomodoroModel.session) {
         double focusTime = (pomodoroModel.durationMinutes * session.value) / 60;
-        userLocalDb.updateData(
+        userController.updateData(
           'totalFocus',
           focusTime,
         );

@@ -13,7 +13,7 @@ import '../../../theme.dart';
 class AddHabitPage extends StatelessWidget {
   AddHabitPage({Key? key}) : super(key: key);
   final addHabitC = Get.put(AddHabitController());
-  final userLocalDb = UserLocalDB();
+  final userController = Get.find<UserController>();
 
   void _saveHabit() async {
     if (addHabitC.titleController.text.trim().isNotEmpty) {
@@ -54,7 +54,7 @@ class AddHabitPage extends StatelessWidget {
         createHabitNotification(habitModel, habitModel.dayList[i]);
       }
 
-      await userLocalDb.updateData(
+      await userController.updateData(
           'streakLeft', addHabitC.durationDaysHabit.value);
 
       Get.back();
