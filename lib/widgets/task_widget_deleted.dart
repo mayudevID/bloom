@@ -59,7 +59,7 @@ class TaskWidgetDeleted extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.all(16),
-        margin: const EdgeInsets.only(bottom: 8),
+        margin: EdgeInsets.only(bottom: getHeight(8)),
         height: 90,
         decoration: BoxDecoration(
           color: greyLight,

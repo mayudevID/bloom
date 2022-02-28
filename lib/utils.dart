@@ -8,6 +8,10 @@ import 'models/habit.dart';
 import 'models/task.dart';
 import 'package:path_provider/path_provider.dart';
 
+// DEFAULT PHOTO
+const defaultPhoto =
+    'https://firebasestorage.googleapis.com/v0/b/bloom-88be1.appspot.com/o/profilePicture%2Fdefault.png?alt=media&token=5f6b93d6-5bf0-422c-a129-90fc04da9886';
+
 // GET WIDTH
 double getWidth(double sizeDesign) => Get.width * sizeDesign / 360;
 

@@ -9,6 +9,7 @@ class EditProfileController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   final authController = Get.find<AuthController>();
+  final userController = Get.find<UserController>();
   String? userId;
   File? profilePictureTemp;
   String? defaultName;
@@ -24,7 +25,7 @@ class EditProfileController extends GetxController {
     super.onInit();
     userId = authController.userAuth!.uid;
     emailController.text = authController.userAuth!.email as String;
-    nameController.text = authController.userAuth!.displayName as String;
-    defaultName = authController.userAuth!.displayName as String;
+    nameController.text = userController.userModel.value.name as String;
+    defaultName = userController.userModel.value.name;
   }
 }

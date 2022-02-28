@@ -168,7 +168,7 @@ class HomePage extends StatelessWidget {
                   }
                 },
               ),
-              SizedBox(height: getHeight(25)),
+              SizedBox(height: getHeight(17)),
               Text("Todays Habit", style: smallTextLink),
               SizedBox(height: getHeight(8)),
               FutureBuilder(

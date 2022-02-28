@@ -10,7 +10,7 @@ class PageBinding implements Bindings {
   void dependencies() {
     // ignore: todo
     // TODO: implement dependencies
-    //Get.lazyPut<MainPageController>(() => MainPageController());
+    Get.lazyPut<MainPageController>(() => MainPageController());
     Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<AddPomodoroController>(() => AddPomodoroController());
     Get.lazyPut<ToDoListController>(() => ToDoListController());

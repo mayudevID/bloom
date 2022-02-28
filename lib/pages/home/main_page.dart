@@ -10,14 +10,12 @@ import 'habit/habit_tracker_page.dart';
 import 'home_page.dart';
 
 class MainPage extends StatelessWidget {
-  MainPage({Key? key}) : super(key: key);
-  final mainPageController =
-      Get.put(MainPageController(Get.arguments ?? false));
+  const MainPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MainPageController>(
-      builder: (_) {
+      builder: (mainPageController) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
           body: IndexedStack(

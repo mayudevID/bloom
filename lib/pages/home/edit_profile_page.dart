@@ -241,7 +241,7 @@ class EditProfilePage extends StatelessWidget {
                 );
               } else {
                 return CachedNetworkImage(
-                  imageUrl: authController.userAuth!.photoURL as String,
+                  imageUrl: userController.userModel.value.photoUrl,
                   imageBuilder: (context, imageProvider) {
                     return Container(
                       width: 80.0,

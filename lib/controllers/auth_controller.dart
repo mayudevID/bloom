@@ -3,6 +3,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:bloom/controllers/user_local_db.dart';
+import 'package:bloom/models/pomodoro.dart';
+import 'package:bloom/models/task.dart';
 import 'package:bloom/models/user.dart';
 import 'package:bloom/routes/route_name.dart';
 import 'package:bloom/services/firebase_database.dart';
@@ -14,6 +16,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
+import '../models/habit.dart';
 import '../theme.dart';
 
 class AuthController extends GetxController {
@@ -31,15 +34,15 @@ class AuthController extends GetxController {
     try {
       var _authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      File photoDefault = await getImageFileFromAssets('icons/profpict.png');
-      String photoURL = await firebaseDb.uploadProfilePicture(photoDefault);
+      // File photoDefault = await getImageFileFromAssets('icons/profpict.png');
+      // String photoURL = await firebaseDb.uploadProfilePicture(photoDefault);
       UserModel _userModel = UserModel(
         userId: _authResult.user?.uid,
         name: name,
         email: email,
-        photoUrl: photoURL,
+        photoUrl: defaultPhoto,
         habitStreak: 0,
-        taskCompleted: 0,
+        taskCompleted: 1,
         totalFocus: 0,
         missed: 0,
         completed: 0,
@@ -48,6 +51,8 @@ class AuthController extends GetxController {
       );
       if (await firebaseDb.createNewUser(_userModel)) {
         await userController.setUser(_userModel);
+        await sendVerification();
+        await addModelFirst();
         Get.toNamed(RouteName.VERIFICATION);
       }
     } on FirebaseException catch (e) {
@@ -175,10 +180,10 @@ class AuthController extends GetxController {
       habitDb.clear();
       pomodoroDb.clear();
       taskHistoryDb.clear();
-      taskDb.close();
-      habitDb.close();
-      pomodoroDb.close();
-      taskHistoryDb.close();
+      // taskDb.close();
+      // habitDb.close();
+      // pomodoroDb.close();
+      // taskHistoryDb.close();
       Get.offAllNamed(RouteName.LOGIN);
     } catch (e) {
       print(e);
@@ -208,7 +213,7 @@ class AuthController extends GetxController {
             userId: _authResult.user!.uid,
             photoUrl: _authResult.user!.photoURL!,
             habitStreak: 0,
-            taskCompleted: 0,
+            taskCompleted: 1,
             totalFocus: 0,
             missed: 0,
             completed: 0,
@@ -218,6 +223,7 @@ class AuthController extends GetxController {
 
           if (await firebaseDb.createNewUser(_userModel)) {
             await userController.setUser(_userModel);
+            await addModelFirst();
             Get.offAllNamed(RouteName.MAIN, arguments: true);
           }
         } else {
@@ -252,7 +258,7 @@ class AuthController extends GetxController {
             userId: _authResult.user?.uid,
             photoUrl: _authResult.user!.photoURL!,
             habitStreak: 0,
-            taskCompleted: 0,
+            taskCompleted: 1,
             totalFocus: 0,
             missed: 0,
             completed: 0,
@@ -262,9 +268,9 @@ class AuthController extends GetxController {
 
           if (await firebaseDb.createNewUser(_userModel)) {
             await userController.setUser(_userModel);
-            print("GO TO VERIF PAGE");
             await sendVerification();
-            Get.offAllNamed(RouteName.VERIFICATION);
+            await addModelFirst();
+            Get.toNamed(RouteName.VERIFICATION);
           }
         } else {
           await userController
@@ -401,17 +407,6 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<bool> updateData(String displayName, String photoURL) async {
-    try {
-      await _auth.currentUser!.reload();
-      await _auth.currentUser!.updateDisplayName(displayName);
-      await _auth.currentUser!.updatePhotoURL(photoURL);
-      return true;
-    } on Exception catch (e) {
-      return false;
-    }
-  }
-
   Future<void> resetPassword(String email) async {
     try {
       var providerList = await _auth.fetchSignInMethodsForEmail(email);
@@ -452,5 +447,104 @@ class AuthController extends GetxController {
         reverseAnimationCurve: Curves.fastOutSlowIn,
       );
     }
+  }
+
+  Future<void> addModelFirst() async {
+    var taskDb = await Hive.openBox('task_db');
+    var habitDb = await Hive.openBox('habit_db');
+    var pomodoroDb = await Hive.openBox('pomodoro_db');
+    taskDb.addAll(
+      [
+        TaskModel(
+          taskId: 0,
+          title: 'Presentation Project KSM Android',
+          dateTime: DateTime.now(),
+          description:
+              "Greet the audience and introduce yourself. Next, Introduction (Problem, Solution,Goals and ideation). The main body of your talk include user interview, user persona, user flow and userflow. Conclusion with UI design and Design sytem. And lastly closing",
+          tags: 'Important',
+          isRepeat: false,
+          isTime: false,
+          isChecked: true,
+        ),
+        TaskModel(
+          taskId: 1,
+          title: 'Watch Star Wars Movie Series',
+          dateTime: DateTime.now(),
+          description: "Example",
+          tags: 'Basic',
+          isRepeat: false,
+          isTime: false,
+          isChecked: false,
+        ),
+      ],
+    );
+    habitDb.addAll(
+      [
+        HabitModel(
+          habitId: 0,
+          iconImg: 'assets/icons/run_habit.png',
+          title: 'Morning Run',
+          goals: 'No Goals',
+          timeOfDay: const TimeOfDay(hour: 18, minute: 0),
+          durationDays: 1,
+          missed: 0,
+          streak: 7,
+          streakLeft: 0,
+          dayList: [0, 1, 2, 3, 4, 5, 6],
+          checkedDays: [true, true, true, true, true, true, true],
+          openDays: [true, true, true, true, true, true, true],
+        ),
+        HabitModel(
+          habitId: 1,
+          iconImg: 'assets/icons/draw_habit.png',
+          title: 'Practice UI/UX Design',
+          goals: 'No Goals',
+          timeOfDay: const TimeOfDay(hour: 20, minute: 0),
+          durationDays: 1,
+          missed: 0,
+          streak: 7,
+          streakLeft: 0,
+          dayList: [0, 1, 2, 3, 4, 5, 6],
+          checkedDays: [true, true, true, true, true, true, true],
+          openDays: [true, true, true, true, true, true, true],
+        ),
+        HabitModel(
+          habitId: 2,
+          iconImg: 'assets/icons/sleep_habit.png',
+          title: 'Go to bed at 11',
+          goals: 'No Goals',
+          timeOfDay: const TimeOfDay(hour: 18, minute: 0),
+          durationDays: 1,
+          missed: 0,
+          streak: 7,
+          streakLeft: 0,
+          dayList: [0, 1, 2, 3, 4, 5, 6],
+          checkedDays: [true, true, true, true, true, true, true],
+          openDays: [true, true, true, true, true, true, true],
+        ),
+      ],
+    );
+    pomodoroDb.addAll(
+      [
+        PomodoroModel(
+          pomodoroId: 0,
+          title: 'Learn UI',
+          session: 2,
+          durationMinutes: 45,
+        ),
+        PomodoroModel(
+          pomodoroId: 1,
+          title: 'Read',
+          session: 2,
+          durationMinutes: 30,
+        ),
+        PomodoroModel(
+          pomodoroId: 2,
+          title: 'Study',
+          session: 2,
+          durationMinutes: 25,
+        ),
+      ],
+    );
   }
 }

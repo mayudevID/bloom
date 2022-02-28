@@ -24,7 +24,7 @@ class HabitWidget extends StatelessWidget {
           arguments: index,
         );
         if (isDeleted) {
-          Future.delayed(const Duration(milliseconds: 300), () async {
+          Future.delayed(const Duration(milliseconds: 500), () async {
             var habitDb = await Hive.openBox('habit_db');
             habitDb.deleteAt(index as int);
           });
@@ -33,7 +33,7 @@ class HabitWidget extends StatelessWidget {
       child: Container(
         height: 80,
         padding: const EdgeInsets.all(16),
-        margin: const EdgeInsets.only(bottom: 8),
+        margin: EdgeInsets.only(bottom: getHeight(8)),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: yellowLight,
