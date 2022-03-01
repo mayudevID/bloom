@@ -17,7 +17,7 @@ import '../../utils.dart';
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
   final userController = Get.find<UserController>();
-  final authController = Get.find<AuthController>();
+  //final authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {

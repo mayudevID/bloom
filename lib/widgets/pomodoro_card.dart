@@ -65,8 +65,8 @@ class PomodoroCard extends StatelessWidget {
         width: getWidth(99),
         height: getHeight(120),
         margin: EdgeInsets.only(
-          left: isLast ? getWidth(24) : getWidth(8),
-          right: index == 0 ? getWidth(24) : getWidth(8),
+          left: isLast ? getWidth(24) : getWidth(4),
+          right: index == 0 ? getWidth(24) : getWidth(4),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 19),
         decoration: BoxDecoration(

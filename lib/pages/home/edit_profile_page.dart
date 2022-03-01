@@ -10,6 +10,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/edit_profile_controller.dart';
@@ -17,9 +18,10 @@ import '../../models/user.dart';
 
 class EditProfilePage extends StatelessWidget {
   EditProfilePage({Key? key}) : super(key: key);
-  final editProfileC = Get.put(EditProfileController());
-  final userController = Get.find<UserController>();
-  final authController = Get.find<AuthController>();
+  final editProfC = Get.put(EditProfileController());
+  // final userController = Get.find<UserController>();
+  // final authController = Get.find<AuthController>();
+  ImageCropper imageCropper = ImageCropper();
   final ImagePicker _picker = ImagePicker();
   final firebaseDb = FirebaseDB();
 
@@ -92,15 +94,43 @@ class EditProfilePage extends StatelessWidget {
   void _pickProfilePicture() async {
     final fileData = await _picker.pickImage(source: ImageSource.gallery);
     if (fileData != null) {
-      editProfileC.profilePictureTemp = File(fileData.path);
-      editProfileC.isPictureChanged.value = true;
+      File? croppedFile = await imageCropper.cropImage(
+        sourcePath: fileData.path,
+        cropStyle: CropStyle.circle,
+        compressFormat: ImageCompressFormat.png,
+        compressQuality: 100,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        androidUiSettings: AndroidUiSettings(
+          toolbarTitle: 'Photo Crop',
+          toolbarColor: Colors.black,
+          //hideBottomControls: true,
+          toolbarWidgetColor: naturalWhite,
+          //hideBottomControls: true,
+          initAspectRatio: CropAspectRatioPreset.original,
+          statusBarColor: Colors.black,
+          //activeControlsWidgetColor: Colors.deepOrange
+          lockAspectRatio: false,
+        ),
+        iosUiSettings: const IOSUiSettings(
+          minimumAspectRatio: 1.0,
+        ),
+      );
+      if (croppedFile != null) {
+        editProfC.profilePictureTemp = croppedFile;
+        editProfC.isPictureChanged.value = true;
+      }
     }
   }
 
   void _saveProfile() async {
-    editProfileC.isSaving.value = true;
-    var userData = await Hive.openBox('user_data');
-    UserModel oldUserModel = userData.get('user');
+    editProfC.isSaving.value = true;
+    // var userData = await Hive.openBox('user_data');
+    // UserModel oldUserModel = userData.get('user');
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile ||
         connectivityResult == ConnectivityResult.wifi) {
@@ -108,18 +138,19 @@ class EditProfilePage extends StatelessWidget {
         final result = await InternetAddress.lookup('google.com')
             .timeout(const Duration(seconds: 5));
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          UserModel oldUserModel = editProfC.userC.userModel.value;
           if (oldUserModel.isNewUser == false) {
             firebaseDb.deleteProfilePicture();
           }
-          String displayName = editProfileC.nameController.text;
           String photoURL;
-          if (editProfileC.isPictureChanged.value) {
+          if (editProfC.isPictureChanged.value) {
             photoURL = await firebaseDb.uploadProfilePicture(
-              editProfileC.profilePictureTemp,
+              editProfC.profilePictureTemp,
             );
           } else {
             photoURL = oldUserModel.photoUrl;
           }
+          String displayName = editProfC.nameController.text;
           UserModel newUserModel = UserModel(
             userId: oldUserModel.userId,
             name: displayName,
@@ -132,14 +163,14 @@ class EditProfilePage extends StatelessWidget {
             completed: oldUserModel.completed,
             streakLeft: oldUserModel.streakLeft,
             isNewUser: (oldUserModel.isNewUser == true &&
-                    editProfileC.isPictureChanged.value == true)
+                    editProfC.isPictureChanged.value == true)
                 ? false
                 : oldUserModel.isNewUser,
           );
-          String photoURLold = authController.userAuth!.photoURL as String;
+          String photoURLold = oldUserModel.photoUrl;
           CachedNetworkImage.evictFromCache(photoURLold);
           if (await firebaseDb.createNewUser(newUserModel)) {
-            await userController.setUser(newUserModel);
+            await editProfC.userC.setUser(newUserModel);
           }
         }
       } on SocketException catch (e) {
@@ -148,7 +179,7 @@ class EditProfilePage extends StatelessWidget {
     } else {
       _errorDialog();
     }
-    editProfileC.isSaving.value = false;
+    editProfC.isSaving.value = false;
     Get.back();
   }
 
@@ -232,16 +263,16 @@ class EditProfilePage extends StatelessWidget {
             ),
             SizedBox(height: getHeight(32)),
             Obx(() {
-              if (editProfileC.isPictureChanged.value == true) {
+              if (editProfC.isPictureChanged.value == true) {
                 return CircleAvatar(
                   radius: 40,
                   backgroundImage: FileImage(
-                    editProfileC.profilePictureTemp as File,
+                    editProfC.profilePictureTemp as File,
                   ),
                 );
               } else {
                 return CachedNetworkImage(
-                  imageUrl: userController.userModel.value.photoUrl,
+                  imageUrl: editProfC.userC.userModel.value.photoUrl,
                   imageBuilder: (context, imageProvider) {
                     return Container(
                       width: 80.0,
@@ -297,7 +328,7 @@ class EditProfilePage extends StatelessWidget {
                   Expanded(
                     child: TextFormField(
                       readOnly: true,
-                      controller: editProfileC.emailController,
+                      controller: editProfC.emailController,
                       style: textForm.copyWith(
                         color: greyDark,
                         fontWeight: FontWeight.w600,
@@ -335,7 +366,7 @@ class EditProfilePage extends StatelessWidget {
                   SizedBox(width: getWidth(8)),
                   Expanded(
                     child: TextFormField(
-                      controller: editProfileC.nameController,
+                      controller: editProfC.nameController,
                       style: textForm,
                       cursorColor: naturalBlack,
                       decoration: InputDecoration.collapsed(
@@ -350,7 +381,7 @@ class EditProfilePage extends StatelessWidget {
             const Spacer(),
             GestureDetector(
               onTap: () {
-                if (editProfileC.isSaving.value == false) {
+                if (editProfC.isSaving.value == false) {
                   _saveProfile();
                 }
               },
@@ -363,7 +394,7 @@ class EditProfilePage extends StatelessWidget {
                 ),
                 child: Center(
                   child: Obx(() {
-                    if (editProfileC.isSaving.value == true) {
+                    if (editProfC.isSaving.value == true) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -394,9 +425,9 @@ class EditProfilePage extends StatelessWidget {
             SizedBox(height: getHeight(16)),
             GestureDetector(
               onTap: () {
-                if (editProfileC.isPictureChanged.value == true ||
-                    editProfileC.nameController.text.trim() !=
-                        editProfileC.defaultName) {
+                if (editProfC.isPictureChanged.value == true ||
+                    editProfC.nameController.text.trim() !=
+                        editProfC.defaultName) {
                   exitDialog();
                 } else {
                   Get.back();

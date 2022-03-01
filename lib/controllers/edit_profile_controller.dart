@@ -8,8 +8,7 @@ import 'package:get/get.dart';
 class EditProfileController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-  final authController = Get.find<AuthController>();
-  final userController = Get.find<UserController>();
+  final userC = Get.find<UserController>();
   String? userId;
   File? profilePictureTemp;
   String? defaultName;
@@ -23,9 +22,9 @@ class EditProfileController extends GetxController {
     // ignore: todo
     // TODO: implement onInit
     super.onInit();
-    userId = authController.userAuth!.uid;
-    emailController.text = authController.userAuth!.email as String;
-    nameController.text = userController.userModel.value.name as String;
-    defaultName = userController.userModel.value.name;
+    userId = userC.userModel.value.userId;
+    emailController.text = userC.userModel.value.email as String;
+    nameController.text = userC.userModel.value.name as String;
+    defaultName = userC.userModel.value.name;
   }
 }

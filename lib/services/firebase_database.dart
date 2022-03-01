@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
 import '../controllers/auth_controller.dart';
+import '../controllers/user_local_db.dart';
 
 class FirebaseDB {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -62,7 +63,7 @@ class FirebaseDB {
   }
 
   Future<void> deleteProfilePicture() async {
-    String photoURL = Get.find<AuthController>().userAuth!.photoURL as String;
+    String photoURL = Get.find<UserController>().userModel.value.photoUrl;
     await FirebaseStorage.instance.refFromURL(photoURL).delete();
   }
 }
