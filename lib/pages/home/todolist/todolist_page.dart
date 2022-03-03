@@ -20,6 +20,8 @@ class ToDoListPage extends StatelessWidget {
     DateTime.now().day,
   );
 
+  Future<Box> taskBox = Hive.openBox('task_db');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +61,7 @@ class ToDoListPage extends StatelessWidget {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 24),
               child: FutureBuilder(
-                future: Hive.openBox('task_db'),
+                future: taskBox,
                 builder: (builder, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {

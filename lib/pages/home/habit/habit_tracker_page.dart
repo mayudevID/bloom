@@ -20,6 +20,8 @@ class HabitTrackerPage extends StatelessWidget {
     DateTime.now().day,
   );
 
+  Future<Box> habitBox = Hive.openBox('habit_db');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +60,7 @@ class HabitTrackerPage extends StatelessWidget {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 24),
               child: FutureBuilder(
-                future: Hive.openBox('habit_db'),
+                future: habitBox,
                 builder: (builder, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {

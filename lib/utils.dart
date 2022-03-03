@@ -21,6 +21,22 @@ double getHeight(double sizeDesign) => Get.height * sizeDesign / 800;
 // ADD TWO DIGIT
 String twoDigits(int n) => n.toString().padLeft(2, '0');
 
+// SUBTRACT DATE
+double getSubtractTwelveDaysAgo() {
+  return DateTime.now().subtract(const Duration(days: 12)).day.toDouble();
+}
+
+// GET NUMBER OF DAYS IN THIS MONTH
+int getNumberOfDays() {
+  DateTime now = DateTime.now();
+  DateTime lastDayOfMonth = DateTime(
+    now.year,
+    (now.day < 15) ? now.month : now.month + 1,
+    0,
+  );
+  return lastDayOfMonth.day;
+}
+
 // CONVERT TIMEOFDAY TO FORMATTED 'jm'
 String todToString(TimeOfDay timeOfDay) {
   String newFormat;

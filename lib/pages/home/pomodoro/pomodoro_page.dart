@@ -18,6 +18,8 @@ class PomodoroPage extends StatelessWidget {
   ItemScrollController scrollController = ItemScrollController();
   PomodoroPage({Key? key}) : super(key: key);
 
+  Future<Box> pomodoroBox = Hive.openBox('pomodoro_db');
+
   @override
   Widget build(BuildContext context) {
     Future _addTimerDialog() {
@@ -256,7 +258,7 @@ class PomodoroPage extends StatelessWidget {
           ),
           SizedBox(height: Get.height * 8 / 800),
           FutureBuilder(
-            future: Hive.openBox('pomodoro_db'),
+            future: pomodoroBox,
             builder: (builder, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {

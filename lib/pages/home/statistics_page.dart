@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:bloom/theme.dart';
 import 'package:bloom/utils.dart';
 import 'package:bloom/widgets/statistics_widget.dart';
@@ -5,19 +7,29 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import '../../controllers/user_local_db.dart';
 import '../../models/user.dart';
 
 class StatisticsPage extends StatelessWidget {
-  const StatisticsPage({Key? key}) : super(key: key);
+  StatisticsPage({Key? key}) : super(key: key);
+
+  // Future getData() async {
+  //   var statData = await Hive.openBox('stat_data');
+  //   Map statDataMap = statData.toMap();
+  // }
+
+  int dayCount = getNumberOfDays();
+  double subtractTwelveDaysAgo = getSubtractTwelveDaysAgo();
 
   @override
   Widget build(BuildContext context) {
     LinearWidgetPointer linearWidget(index) {
+      print(index);
       return LinearWidgetPointer(
+        position: LinearElementPosition.outside,
+        //markerAlignment: LinearMarkerAlignment.start,
         value: index.toDouble(),
         child: Container(
-          height: 183,
+          height: (index == 21) ? 120 : 183,
           width: 8,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
@@ -202,21 +214,33 @@ class StatisticsPage extends StatelessWidget {
                               ),
                             ),
                             SfLinearGauge(
-                              minimum: 1,
-                              maximum: 12,
+                              minimum: subtractTwelveDaysAgo,
+                              maximum: subtractTwelveDaysAgo + 11,
                               interval: 1,
                               showTicks: false,
+                              labelFormatterCallback: (String val) {
+                                int? date = int.tryParse(val);
+                                int valueReturn = date! % dayCount;
+                                if (valueReturn == 0) {
+                                  return date.toString();
+                                } else {
+                                  return valueReturn.toString();
+                                }
+                              },
                               axisTrackStyle: const LinearAxisTrackStyle(
                                 color: Colors.transparent,
                               ),
                               axisLabelStyle: smallText.copyWith(
                                 color: naturalBlack,
                               ),
-                              labelOffset: 100,
                               markerPointers:
                                   List<LinearWidgetPointer>.generate(
-                                15,
-                                (index) => linearWidget(index),
+                                12,
+                                (index) {
+                                  int date = subtractTwelveDaysAgo.toInt();
+                                  return linearWidget(date + index);
+                                },
+                                growable: false,
                               ),
                             ),
                           ],
