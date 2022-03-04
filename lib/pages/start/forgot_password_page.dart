@@ -11,7 +11,7 @@ import '../../utils.dart';
 class ForgotPasswordPage extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   ForgotPasswordPage({Key? key}) : super(key: key);
-  final authController = Get.find<AuthController>();
+  final authController = AuthController();
   RxBool isLoading = false.obs;
 
   @override

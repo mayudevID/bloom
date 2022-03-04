@@ -4,7 +4,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/models/pomodoro.dart';
 import 'package:bloom/widgets/notifications.dart';
 import 'package:get/get.dart';
-import 'user_local_db.dart';
+import 'user_controller.dart';
 //import 'package:audioplayers/audio_cache.dart';
 
 class TimerController extends GetxController {

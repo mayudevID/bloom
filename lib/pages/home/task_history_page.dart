@@ -2,9 +2,7 @@ import 'package:bloom/models/task.dart';
 import 'package:bloom/widgets/task_widget_deleted.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import '../../theme.dart';
 import '../../utils.dart';
 

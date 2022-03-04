@@ -1,8 +1,10 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:bloom/controllers/user_controller.dart';
 import 'package:bloom/models/habit.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:get/get.dart';
 
 import '../theme.dart';
 
@@ -10,6 +12,7 @@ class DayStreakWidget extends StatelessWidget {
   int dayIndex;
   int modelIndex;
   HabitModel habitModel;
+  final userController = Get.find<UserController>();
 
   DayStreakWidget({
     Key? key,
@@ -74,6 +77,10 @@ class DayStreakWidget extends StatelessWidget {
                       );
                       var habitDb = await Hive.openBox('habit_db');
                       habitDb.putAt(modelIndex, newHabitModel);
+                      userController.updateData(
+                        'missed',
+                        (newCheckedDays[dayIndex]),
+                      );
                     }
                   : null,
             ),

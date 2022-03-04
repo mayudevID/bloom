@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
 import '../controllers/auth_controller.dart';
-import '../controllers/user_local_db.dart';
+import '../controllers/user_controller.dart';
 
 class FirebaseDB {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

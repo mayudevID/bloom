@@ -1,4 +1,4 @@
-import 'dart:collection';
+// ignore_for_file: must_be_immutable
 
 import 'package:bloom/theme.dart';
 import 'package:bloom/utils.dart';

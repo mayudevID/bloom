@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:weekday_selector/weekday_selector.dart';
-import '../../../controllers/user_local_db.dart';
+import '../../../controllers/user_controller.dart';
 import '../../../theme.dart';
 
 class AddHabitPage extends StatelessWidget {

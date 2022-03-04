@@ -7,7 +7,7 @@ import '../../theme.dart';
 
 class SettingsPage extends StatelessWidget {
   SettingsPage({Key? key}) : super(key: key);
-  final authController = Get.find<AuthController>();
+  final authController = AuthController();
 
   Future<void> _handleSignOut() async {
     authController.isLoading.value = true;

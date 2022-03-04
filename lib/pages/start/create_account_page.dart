@@ -12,7 +12,7 @@ import '../../utils.dart';
 
 class CreateAccountPage extends StatelessWidget {
   CreateAccountPage({Key? key}) : super(key: key);
-  final authController = Get.find<AuthController>();
+  final authController = AuthController();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();

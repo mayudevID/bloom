@@ -1,8 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'dart:async';
-import 'dart:io';
-import 'package:bloom/controllers/user_local_db.dart';
+import 'package:bloom/controllers/user_controller.dart';
 import 'package:bloom/models/pomodoro.dart';
 import 'package:bloom/models/task.dart';
 import 'package:bloom/models/user.dart';
@@ -11,7 +10,6 @@ import 'package:bloom/services/firebase_database.dart';
 import 'package:bloom/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -19,7 +17,7 @@ import 'package:hive/hive.dart';
 import '../models/habit.dart';
 import '../theme.dart';
 
-class AuthController extends GetxController {
+class AuthController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final userController = Get.find<UserController>();
   final firebaseDb = FirebaseDB();

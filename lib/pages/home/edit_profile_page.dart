@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:io';
-import 'package:bloom/controllers/user_local_db.dart';
 import 'package:bloom/theme.dart';
 import 'package:bloom/services/firebase_database.dart';
 import 'package:bloom/utils.dart';
@@ -9,10 +8,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../controllers/auth_controller.dart';
 import '../../controllers/edit_profile_controller.dart';
 import '../../models/user.dart';
 

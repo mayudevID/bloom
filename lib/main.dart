@@ -1,6 +1,8 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/controllers/auth_controller.dart';
-import 'package:bloom/controllers/user_local_db.dart';
+import 'package:bloom/controllers/user_controller.dart';
 import 'package:bloom/models/task.dart';
 import 'package:bloom/routes/app_pages.dart';
 import 'package:bloom/routes/route_name.dart';
@@ -72,14 +74,11 @@ class MyApp extends StatelessWidget {
     UserController(),
     permanent: true,
   );
-  final authController = Get.put(
-    AuthController(),
-    permanent: true,
-  );
   final notificationController = Get.put(
     NotificationController(),
     permanent: true,
   );
+  AuthController authController = AuthController();
 
   @override
   Widget build(BuildContext context) {

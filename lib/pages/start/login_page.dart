@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final authController = Get.find<AuthController>();
+  final authController = AuthController();
 
   Future<void> handleSignIn() async {
     authController.isLoading.value = true;

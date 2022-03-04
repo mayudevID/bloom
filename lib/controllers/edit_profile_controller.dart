@@ -1,7 +1,5 @@
 import 'dart:io';
-
-import 'package:bloom/controllers/auth_controller.dart';
-import 'package:bloom/controllers/user_local_db.dart';
+import 'package:bloom/controllers/user_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

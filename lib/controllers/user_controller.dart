@@ -63,11 +63,23 @@ class UserController extends GetxController {
       totalFocus: (type == 'totalFocus')
           ? oldUserModel.totalFocus + (value as double)
           : oldUserModel.totalFocus,
-      missed: oldUserModel.missed,
-      completed: oldUserModel.completed,
+      missed: (type == 'missed' || type == 'newMissed')
+          ? ((value as bool == true)
+              ? oldUserModel.missed - 1
+              : oldUserModel.missed + 1)
+          : oldUserModel.missed,
+      completed: (type == 'missed')
+          ? ((value as bool == true)
+              ? oldUserModel.completed + 1
+              : oldUserModel.completed - 1)
+          : oldUserModel.completed,
       streakLeft: (type == 'streakLeft')
           ? oldUserModel.streakLeft + (value as int)
-          : oldUserModel.streakLeft,
+          : (type == 'missed')
+              ? ((value as bool == true)
+                  ? oldUserModel.streakLeft - 1
+                  : oldUserModel.streakLeft + 1)
+              : oldUserModel.streakLeft,
       isNewUser: oldUserModel.isNewUser,
     );
     await userData.put('user', newUserModel);
