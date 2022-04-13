@@ -1,107 +1,117 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:bloom/controllers/auth_controller.dart';
-import 'package:bloom/controllers/user_controller.dart';
-import 'package:bloom/models/task.dart';
-import 'package:bloom/routes/app_pages.dart';
-import 'package:bloom/routes/route_name.dart';
-import 'package:bloom/theme.dart';
-import 'package:bloom/widgets/loading_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:bloom/core/routes/app_pages.dart';
+import 'package:bloom/core/routes/route_generate.dart';
+import 'package:bloom/features/auth/data/auth_repository.dart';
+import 'package:bloom/features/auth/presentation/bloc/app/app_bloc.dart';
+import 'package:bloom/features/habit/data/repositories/habitss_api.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'controllers/notification_controller.dart';
-import 'models/habit.dart';
-import 'models/pomodoro.dart';
-import 'models/timeofday_adapter.dart';
-import 'models/user.dart';
+import 'package:flow_builder/flow_builder.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'core/utils/theme.dart';
+import 'features/habit/data/datasources/local_storage_habits_api.dart';
+import 'features/habit/domain/repositories/habit_repository.dart';
+import 'injection_container.dart' as di;
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  Hive
-    ..registerAdapter(PomodoroModelAdapter())
-    ..registerAdapter(UserModelAdapter())
-    ..registerAdapter(TaskModelAdapter())
-    ..registerAdapter(HabitModelAdapter())
-    ..registerAdapter(TimeOfDayAdapter());
-  AwesomeNotifications().initialize(
-    'resource://drawable/res_app_icon',
-    [
-      NotificationChannel(
-        channelKey: 'pomodoro_channel',
-        channelName: 'Pomodoro notifications',
-        channelDescription: 'Notification channel for pomodoro timer',
-        defaultColor: yellowDark,
-        importance: NotificationImportance.High,
-        ledColor: Colors.white,
-        vibrationPattern: mediumVibrationPattern,
-        channelShowBadge: true,
-      ),
-      NotificationChannel(
-        channelKey: 'task_channel',
-        channelName: 'Task notifications',
-        channelDescription: 'Notification channel for task reminder',
-        defaultColor: yellowDark,
-        importance: NotificationImportance.High,
-        ledColor: Colors.white,
-        vibrationPattern: mediumVibrationPattern,
-        channelShowBadge: true,
-      ),
-      NotificationChannel(
-        channelKey: 'habit_channel',
-        channelName: 'Habit notifications',
-        channelDescription: 'Notification channel for habit reminder',
-        defaultColor: yellowDark,
-        importance: NotificationImportance.High,
-        ledColor: Colors.white,
-        vibrationPattern: mediumVibrationPattern,
-        channelShowBadge: true,
-      ),
-    ],
-    debug: true,
+void main() {
+  return BlocOverrides.runZoned(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await di.init();
+      final habitsApi = LocalStorageHabitssApi(
+        plugin: di.sl<SharedPreferences>(),
+      );
+      final habitsRepository = HabitssRepository(habitsApi: habitsApi);
+      AwesomeNotifications().initialize(
+        'resource://drawable/res_app_icon',
+        [
+          NotificationChannel(
+            channelKey: 'pomodoro_channel',
+            channelName: 'Pomodoro notifications',
+            channelDescription: 'Notification channel for pomodoro timer',
+            defaultColor: yellowDark,
+            importance: NotificationImportance.High,
+            ledColor: Colors.white,
+            vibrationPattern: mediumVibrationPattern,
+            channelShowBadge: true,
+          ),
+          NotificationChannel(
+            channelKey: 'task_channel',
+            channelName: 'Task notifications',
+            channelDescription: 'Notification channel for task reminder',
+            defaultColor: yellowDark,
+            importance: NotificationImportance.High,
+            ledColor: Colors.white,
+            vibrationPattern: mediumVibrationPattern,
+            channelShowBadge: true,
+          ),
+          NotificationChannel(
+            channelKey: 'habit_channel',
+            channelName: 'Habits notifications',
+            channelDescription: 'Notification channel for habit reminder',
+            defaultColor: yellowDark,
+            importance: NotificationImportance.High,
+            ledColor: Colors.white,
+            vibrationPattern: mediumVibrationPattern,
+            channelShowBadge: true,
+          ),
+        ],
+        debug: true,
+      );
+      await Firebase.initializeApp();
+      final authRepository = AuthRepository();
+      runApp(
+        MyApp(
+          authRepository: authRepository,
+          habitsRepository: habitsRepository,
+        ),
+      );
+    },
   );
-  await Firebase.initializeApp();
-  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-  final userController = Get.put(
-    UserController(),
-    permanent: true,
-  );
-  final notificationController = Get.put(
-    NotificationController(),
-    permanent: true,
-  );
-  AuthController authController = AuthController();
+  final AuthRepository _authRepository;
+  final HabitssRepository _habitsRepository;
+
+  const MyApp({
+    Key? key,
+    required AuthRepository authRepository,
+    required HabitssRepository habitsRepository,
+  })  : _authRepository = authRepository,
+        _habitsRepository = habitsRepository,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: authController.streamAuthStatus,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          print(snapshot.data);
-          return GetMaterialApp(
-            title: 'Bloom',
-            theme: ThemeData(
-              primarySwatch: primaryBlack,
-            ),
-            initialRoute:
-                snapshot.data != null ? RouteName.MAIN : RouteName.ONBOARD,
-            //initialRoute: RouteName.VERIFICATION,
-            debugShowCheckedModeBanner: false,
-            getPages: AppPages.pages,
-          );
-        } else {
-          return const LoadingView();
-        }
-      },
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AuthRepository>(
+          create: (_) => _authRepository,
+        ),
+        RepositoryProvider<HabitsRepository>(
+          create: (_) => _habitsRepository,
+        ),
+      ],
+      child: BlocProvider<AppBloc>(
+        create: (_) => di.sl<AppBloc>(),
+      ),
+    );
+  }
+}
+
+class AppView extends StatelessWidget {
+  const AppView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: FlowBuilder(
+        state: context.select((AppBloc bloc) => bloc.state.status),
+        onGeneratePages: onGenerateAppViewPages,
+      ),
+      routes: AppPages.pages,
     );
   }
 }
