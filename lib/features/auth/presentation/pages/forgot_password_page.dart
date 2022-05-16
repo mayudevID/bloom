@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
-import '../../../../injection_container.dart';
 import '../../data/auth_repository.dart';
 import '../widgets/form_input.dart';
 
@@ -16,7 +15,7 @@ class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<ForgotPasswordCubit>(),
+      create: (context) => ForgotPasswordCubit(context.read<AuthRepository>()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: naturalWhite,

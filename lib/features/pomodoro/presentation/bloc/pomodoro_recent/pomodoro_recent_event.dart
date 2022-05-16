@@ -8,7 +8,7 @@ abstract class PomodoroRecentEvent extends Equatable {
 }
 
 class ChangedRecent extends PomodoroRecentEvent {
-  final Pomodoro pomodoro;
+  final PomodoroModel pomodoro;
 
   const ChangedRecent(this.pomodoro);
 

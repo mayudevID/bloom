@@ -1,14 +1,11 @@
-import 'dart:js';
-
-import 'package:bloom/features/pomodoro/domain/entities/pomodoro.dart';
-import 'package:bloom/features/pomodoro/presentation/bloc/timer/ticker.dart';
+import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
 import 'package:bloom/features/pomodoro/presentation/bloc/timer/timer_bloc.dart';
 import 'package:bloom/features/pomodoro/presentation/widgets/timer_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
-import '../../../../injection_container.dart';
+import '../bloc/timer/ticker.dart';
 import '../widgets/exit_dialog.dart';
 
 class TimerPage extends StatelessWidget {
@@ -16,10 +13,11 @@ class TimerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = ModalRoute.of(context)!.settings.arguments as Pomodoro;
+    final data = ModalRoute.of(context)!.settings.arguments as PomodoroModel;
 
     return BlocProvider(
-      create: (context) => sl<TimerBloc>()..add(TimerSet(data)),
+      create: (context) =>
+          TimerBloc(ticker: const Ticker())..add(TimerSet(data)),
       child: Scaffold(
         backgroundColor: yellowLight,
         body: Container(
@@ -151,7 +149,7 @@ class TimerPage extends StatelessWidget {
 }
 
 class BackMenu extends StatelessWidget {
-  final Pomodoro data;
+  final PomodoroModel data;
   const BackMenu({Key? key, required this.data}) : super(key: key);
 
   @override
@@ -184,7 +182,7 @@ class BackMenu extends StatelessWidget {
 }
 
 class SessionDisplay extends StatelessWidget {
-  final Pomodoro data;
+  final PomodoroModel data;
   const SessionDisplay({Key? key, required this.data}) : super(key: key);
 
   @override

@@ -1,15 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloom/core/utils/function.dart';
-import 'package:bloom/features/pomodoro/domain/repositories/pomodoro_repository.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/entities/pomodoro.dart';
-
+import '../../../domain/pomodoros_repository.dart';
 part 'add_pomodoro_state.dart';
 
 class AddPomodoroCubit extends Cubit<AddPomodoroState> {
-  final PomodoroRepository pomodoroRepository;
-  AddPomodoroCubit(this.pomodoroRepository) : super(AddPomodoroState.initial());
+  final PomodorosRepository _pomodorosRepository;
+
+  AddPomodoroCubit(this._pomodorosRepository)
+      : super(AddPomodoroState.initial());
 
   void titleChanged(String value) {
     emit(state.copyWith(title: value));
@@ -23,20 +23,7 @@ class AddPomodoroCubit extends Cubit<AddPomodoroState> {
     emit(state.copyWith(session: value));
   }
 
-  Future<void> addPomodoro() async {
-    if (state.status == AddPomodoroStatus.submitting) {
-      return;
-    }
-    emit(state.copyWith(status: AddPomodoroStatus.submitting));
-    try {
-      Pomodoro dataPomodoro = Pomodoro(
-        pomodoroId: getRandomId(),
-        title: state.title,
-        durationMinutes: state.duration,
-        session: state.session,
-      );
-      await pomodoroRepository.addPomodoro(dataPomodoro);
-      emit(state.copyWith(status: AddPomodoroStatus.success));
-    } catch (e) {}
+  void savePomodoro() async {
+    try {} catch (e) {}
   }
 }

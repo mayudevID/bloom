@@ -1,7 +1,7 @@
 import 'package:bloom/features/auth/presentation/bloc/app/app_bloc.dart';
 import 'package:bloom/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:flutter/material.dart';
-import '../../features/home/presentation/pages/main_page.dart';
+import '../../features/home/pages/main_page.dart';
 
 List<Page> onGenerateAppViewPages(
   AppStatus state,

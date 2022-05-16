@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/features/habit/domain/repositories/habit_repository.dart';
+import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../data/models/habit_model.dart';
@@ -9,17 +9,19 @@ part 'habit_detail_state.dart';
 
 class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
   final HabitsRepository _habitsRepository;
-  HabitDetailBloc(
-      {required HabitsRepository habitsRepository,
-      required HabitModel? habitModel})
-      : _habitsRepository = habitsRepository,
-        super(HabitDetailState(
-          initialHabit: habitModel,
-          missed: habitModel!.missed,
-          streak: habitModel.streak,
-          streakLeft: habitModel.streakLeft,
-          checkedDays: habitModel.checkedDays,
-        )) {
+  HabitDetailBloc({
+    required HabitsRepository habitsRepository,
+    required HabitModel? habitModel,
+  })  : _habitsRepository = habitsRepository,
+        super(
+          HabitDetailState(
+            initialHabit: habitModel,
+            missed: habitModel!.missed,
+            streak: habitModel.streak,
+            streakLeft: habitModel.streakLeft,
+            checkedDays: habitModel.checkedDays,
+          ),
+        ) {
     on<HabitChanged>(_onChanged);
   }
 
@@ -28,7 +30,7 @@ class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
     // ignore: todo
     // TODO: implement event handler
 
-    final habit = (state.initialHabit)!.copyWith(
+    final habit = (state.initialHabit ?? emptyModel()).copyWith(
       missed: event.missed,
       streak: event.streak,
       streakLeft: event.streakLeft,
@@ -36,7 +38,7 @@ class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
     );
 
     try {
-      await _habitsRepository.saveHabits(habit);
+      await _habitsRepository.saveHabit(habit);
       emit(state.copyWith(
         missed: event.missed,
         streak: event.streak,

@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
-import '../../../../injection_container.dart';
 import '../../data/auth_repository.dart';
 import '../widgets/button_logo.dart';
 import '../widgets/form_input.dart';
@@ -22,7 +21,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<LoginCubit>(),
+      create: (context) => LoginCubit(context.read<AuthRepository>()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: naturalWhite,

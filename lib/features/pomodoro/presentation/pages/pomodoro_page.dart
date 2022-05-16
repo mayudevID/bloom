@@ -5,8 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
-import '../../../../injection_container.dart';
-import '../bloc/pomodoro_scroll/pomodoro_bloc.dart';
 import '../widgets/pomodoro_card.dart';
 
 class PomodoroPage extends StatelessWidget {
@@ -26,7 +24,7 @@ class PomodoroPage extends StatelessWidget {
     }
 
     return BlocProvider(
-      create: (context) => sl<PomodoroBloc>(),
+      create: (context) => PomodoroOverviewBloc(),
       child: Scaffold(
         backgroundColor: naturalWhite,
         resizeToAvoidBottomInset: false,

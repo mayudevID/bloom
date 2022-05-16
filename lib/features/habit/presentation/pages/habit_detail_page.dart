@@ -1,22 +1,25 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/features/habit/data/models/habit_model.dart';
+import 'package:bloom/features/habit/presentation/bloc/habit_overview/habits_overview_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
-import '../../domain/repositories/habit_repository.dart';
+import '../../domain/habits_repository.dart';
 import '../bloc/habit_detail/habit_detail_bloc.dart';
+import '../widgets/day_streak_widget.dart';
 
 class HabitsDetailPage extends StatelessWidget {
   const HabitsDetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final data = ModalRoute.of(context)!.settings.arguments as HabitModel;
+    final initHabitModel =
+        ModalRoute.of(context)!.settings.arguments as HabitModel;
 
     return BlocProvider(
       create: (context) => HabitDetailBloc(
-        habitModel: data,
+        habitModel: initHabitModel,
         habitsRepository: context.read<HabitsRepository>(),
       ),
       child: Scaffold(
@@ -29,7 +32,7 @@ class HabitsDetailPage extends StatelessWidget {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () => Get.back(result: false),
+                    onTap: () => Navigator.pop(context, false),
                     child: Image.asset(
                       "assets/icons/arrow_back.png",
                       width: 24,
@@ -40,11 +43,6 @@ class HabitsDetailPage extends StatelessWidget {
                   SizedBox(width: getWidth(16, context)),
                   GestureDetector(
                     onTap: () async {
-                      // HabitsModel habitTarget = habitDb.getAt(modelIndex);
-                      // for (var i = 0; i < habitTarget.dayList.length; i++) {
-                      //   AwesomeNotifications()
-                      //       .cancel(habitTarget.habitId * habitTarget.dayList[i]);
-                      // }
                       Navigator.pop(context, true);
                     },
                     child: Image.asset(
@@ -67,8 +65,9 @@ class HabitsDetailPage extends StatelessWidget {
                       border: Border.all(color: yellowDark),
                       color: const Color(0xffFCF7D3),
                     ),
+                    // Done
                     child: Image.asset(
-                      data.iconImg,
+                      initHabitModel.iconImg,
                       width: 32,
                       scale: 3,
                     ),
@@ -89,9 +88,9 @@ class HabitsDetailPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(data.title, style: buttonLarge),
+                        Text(initHabitModel.title, style: buttonLarge),
                         Text(
-                          "Every day, ${todToString(TimeOfDay.fromDateTime(data.timeOfDay))}",
+                          "Every day, ${todToString(TimeOfDay.fromDateTime(initHabitModel.timeOfDay))}",
                           style: textForm,
                         ),
                       ],
@@ -113,14 +112,24 @@ class HabitsDetailPage extends StatelessWidget {
                     //   },
                     // ),
                   ),
-                  BlocBuilder(builder: builder)
+                  BlocBuilder<HabitDetailBloc, HabitDetailState>(
+                    builder: (context, state) {
+                      int count = state.checkedDays
+                          .where((item) => item == true)
+                          .length;
+                      return Text(
+                        "$count/${initHabitModel.durationDays}",
+                        style: textForm,
+                      );
+                    },
+                  ),
                   // ValueListenableBuilder(
                   //   valueListenable: habitDb.listenable(),
                   //   builder: (context, box, _) {
                   //     HabitsModel habitModel = habitDb.getAt(modelIndex);
-                  //     int count = habitModel.checkedDays
-                  //         .where((item) => item == true)
-                  //         .length;
+                  //      int count = habitModel.checkedDays
+                  //          .where((item) => item == true)
+                  //          .length;
                   //     return Text(
                   //       "/${habitModel.durationDays}",
                   //       style: textForm,
@@ -146,19 +155,31 @@ class HabitsDetailPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: getHeight(4)),
+              SizedBox(height: getHeight(4, context)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ValueListenableBuilder(
-                        valueListenable: habitDb.listenable(),
-                        builder: (context, box, _) {
-                          HabitsModel test = habitDb.getAt(modelIndex);
+                      // ValueListenableBuilder(
+                      //   valueListenable: habitDb.listenable(),
+                      //   builder: (context, box, _) {
+                      //     HabitsModel test = habitDb.getAt(modelIndex);
+                      //     return Text(
+                      //       test.missed.toString(),
+                      //       style: const TextStyle(
+                      //         fontFamily: "Poppins",
+                      //         fontSize: 24,
+                      //         fontWeight: FontWeight.w700,
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
+                      BlocBuilder<HabitDetailBloc, HabitDetailState>(
+                        builder: (context, state) {
                           return Text(
-                            test.missed.toString(),
+                            state.missed.toString(),
                             style: const TextStyle(
                               fontFamily: "Poppins",
                               fontSize: 24,
@@ -173,40 +194,49 @@ class HabitsDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(width: getWidth(24)),
+                  SizedBox(width: getWidth(24, context)),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ValueListenableBuilder(
-                        valueListenable: habitDb.listenable(),
-                        builder: (context, box, _) {
-                          HabitsModel habitModel = habitDb.getAt(modelIndex);
-                          return Text(
-                            habitModel.streak.toString(),
-                            style: const TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          );
-                        },
-                      ),
+                      BlocBuilder<HabitDetailBloc, HabitDetailState>(
+                          builder: (context, state) {
+                        return Text(
+                          state.streak.toString(),
+                          style: const TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        );
+                      }),
+                      // ValueListenableBuilder(
+                      //   valueListenable: habitDb.listenable(),
+                      //   builder: (context, box, _) {
+                      //     HabitsModel habitModel = habitDb.getAt(modelIndex);
+                      //     return Text(
+                      //       habitModel.streak.toString(),
+                      //       style: const TextStyle(
+                      //         fontFamily: "Poppins",
+                      //         fontSize: 24,
+                      //         fontWeight: FontWeight.w700,
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
                       Text(
                         "Streak",
                         style: smallTextLink.copyWith(fontSize: 10),
                       ),
                     ],
                   ),
-                  SizedBox(width: getWidth(24)),
+                  SizedBox(width: getWidth(24, context)),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ValueListenableBuilder(
-                        valueListenable: habitDb.listenable(),
-                        builder: (context, box, _) {
-                          HabitsModel habitModel = habitDb.getAt(modelIndex);
+                      BlocBuilder<HabitDetailBloc, HabitDetailState>(
+                        builder: (context, state) {
                           return Text(
-                            habitModel.streakLeft.toString(),
+                            state.streakLeft.toString(),
                             style: const TextStyle(
                               fontFamily: "Poppins",
                               fontSize: 24,
@@ -215,6 +245,20 @@ class HabitsDetailPage extends StatelessWidget {
                           );
                         },
                       ),
+                      // ValueListenableBuilder(
+                      //   valueListenable: habitDb.listenable(),
+                      //   builder: (context, box, _) {
+                      //     HabitsModel habitModel = habitDb.getAt(modelIndex);
+                      //     return Text(
+                      //       habitModel.streakLeft.toString(),
+                      //       style: const TextStyle(
+                      //         fontFamily: "Poppins",
+                      //         fontSize: 24,
+                      //         fontWeight: FontWeight.w700,
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
                       Text(
                         "Streak Left",
                         style: smallTextLink.copyWith(fontSize: 10),
@@ -223,7 +267,7 @@ class HabitsDetailPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: getHeight(24)),
+              SizedBox(height: getHeight(24, context)),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -231,31 +275,40 @@ class HabitsDetailPage extends StatelessWidget {
                   style: smallText.copyWith(fontWeight: FontWeight.w700),
                 ),
               ),
-              SizedBox(height: getHeight(8)),
+              SizedBox(height: getHeight(8, context)),
               SizedBox(
                 height: 311,
                 child: MediaQuery.removePadding(
                   context: context,
                   removeTop: true,
-                  child: ValueListenableBuilder(
-                    valueListenable: habitDb.listenable(),
-                    builder: (context, box, _) {
-                      HabitsModel habitModel = habitDb.getAt(modelIndex);
-                      return ListView.builder(
-                        itemCount: habitModel.durationDays,
-                        itemBuilder: (context, idx) {
-                          return DayStreakWidget(
-                            dayIndex: idx,
-                            modelIndex: modelIndex,
-                            habitModel: habitModel,
-                          );
-                        },
+                  child: ListView.builder(
+                    itemCount: initHabitModel.durationDays,
+                    itemBuilder: (context, idx) {
+                      return DayStreakWidget(
+                        dayIndex: idx,
+                        initHabitModel: initHabitModel,
                       );
                     },
                   ),
+                  // child: ValueListenableBuilder(
+                  //   valueListenable: habitDb.listenable(),
+                  //   builder: (context, box, _) {
+                  //     HabitsModel habitModel = habitDb.getAt(modelIndex);
+                  //     return ListView.builder(
+                  //       itemCount: habitModel.durationDays,
+                  //       itemBuilder: (context, idx) {
+                  //         return DayStreakWidget(
+                  //           dayIndex: idx,
+                  //           modelIndex: modelIndex,
+                  //           habitModel: habitModel,
+                  //         );
+                  //       },
+                  //     );
+                  //   },
+                  // ),
                 ),
               ),
-              SizedBox(height: getHeight(56)),
+              SizedBox(height: getHeight(56, context)),
               GestureDetector(
                 onTap: () {},
                 child: Container(

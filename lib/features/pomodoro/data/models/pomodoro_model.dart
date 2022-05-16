@@ -1,33 +1,36 @@
-import 'package:bloom/features/pomodoro/domain/entities/pomodoro.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'pomodoro_model.g.dart';
 
-class PomodoroModel extends Pomodoro {
+@JsonSerializable()
+class PomodoroModel {
+  int pomodoroId;
+  String title;
+  int session;
+  int durationMinutes;
+
   PomodoroModel({
-    required int pomodoroId,
-    required String title,
-    required int session,
-    required int durationMinutes,
-  }) : super(
-          pomodoroId: pomodoroId,
-          title: title,
-          session: session,
-          durationMinutes: durationMinutes,
-        );
+    required this.pomodoroId,
+    required this.title,
+    required this.session,
+    required this.durationMinutes,
+  });
 
-  factory PomodoroModel.fromJson(Map<String, dynamic> json) {
+  PomodoroModel copyWith({
+    int? pomodoroId,
+    String? title,
+    int? session,
+    int? durationMinutes,
+  }) {
     return PomodoroModel(
-      pomodoroId: json["pomodoroId"],
-      title: json["title"],
-      session: json["session"],
-      durationMinutes: json["durationMinutes"],
+      pomodoroId: pomodoroId ?? this.pomodoroId,
+      title: title ?? this.title,
+      session: session ?? this.session,
+      durationMinutes: durationMinutes ?? this.durationMinutes,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "pomodoroId": pomodoroId,
-      "title": title,
-      "session": session,
-      "durationMinutes": durationMinutes,
-    };
-  }
+  factory PomodoroModel.fromJson(Map<String, dynamic> json) =>
+      _$PomodoroModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PomodoroModelToJson(this);
 }

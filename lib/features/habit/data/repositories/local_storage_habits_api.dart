@@ -1,4 +1,5 @@
-import 'dart:async';
+// ignore_for_file: avoid_renaming_method_parameters
+
 import 'dart:convert';
 
 import 'package:bloom/features/habit/data/models/habit_model.dart';
@@ -6,10 +7,10 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../repositories/habits_api.dart';
+import 'habits_api.dart';
 
-class LocalStorageHabitssApi extends HabitsApi {
-  LocalStorageHabitssApi({
+class LocalStorageHabitsApi extends HabitsApi {
+  LocalStorageHabitsApi({
     required SharedPreferences plugin,
   }) : _plugin = plugin {
     _init();
@@ -21,14 +22,14 @@ class LocalStorageHabitssApi extends HabitsApi {
       BehaviorSubject<List<HabitModel>>.seeded(const []);
 
   @visibleForTesting
-  static const kHabitssCollectionKey = '__habits_collection_key__';
+  static const kHabitsCollectionKey = '__habits_collection_key__';
 
   String? _getValue(String key) => _plugin.getString(key);
   Future<void> _setValue(String key, String value) =>
       _plugin.setString(key, value);
 
   void _init() {
-    final habitsJson = _getValue(kHabitssCollectionKey);
+    final habitsJson = _getValue(kHabitsCollectionKey);
     if (habitsJson != null) {
       final habits = List<Map>.from(json.decode(habitsJson) as List)
           .map((jsonMap) =>
@@ -45,22 +46,21 @@ class LocalStorageHabitssApi extends HabitsApi {
       _habitStreamController.asBroadcastStream();
 
   @override
-  Future<void> saveHabits(HabitModel habitModel) {
+  Future<void> saveHabit(HabitModel habitMo) {
     final habits = [..._habitStreamController.value];
-    final habitIndex =
-        habits.indexWhere((t) => t.habitId == habitModel.habitId);
+    final habitIndex = habits.indexWhere((t) => t.habitId == habitMo.habitId);
     if (habitIndex >= 0) {
-      habits[habitIndex] = habitModel;
+      habits[habitIndex] = habitMo;
     } else {
-      habits.add(habitModel);
+      habits.add(habitMo);
     }
 
     _habitStreamController.add(habits);
-    return _setValue(kHabitssCollectionKey, json.encode(habits));
+    return _setValue(kHabitsCollectionKey, json.encode(habits));
   }
 
   @override
-  Future<void> deleteHabits(String id) async {
+  Future<void> deleteHabit(String id) async {
     final habits = [..._habitStreamController.value];
     // ignore: unrelated_type_equality_checks
     final habitIndex = habits.indexWhere((t) => t.habitId == id);
@@ -69,7 +69,7 @@ class LocalStorageHabitssApi extends HabitsApi {
     } else {
       habits.removeAt(habitIndex);
       _habitStreamController.add(habits);
-      return _setValue(kHabitssCollectionKey, json.encode(habits));
+      return _setValue(kHabitsCollectionKey, json.encode(habits));
     }
   }
 

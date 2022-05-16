@@ -3,26 +3,21 @@ import 'package:bloom/core/routes/app_pages.dart';
 import 'package:bloom/core/routes/route_generate.dart';
 import 'package:bloom/features/auth/data/auth_repository.dart';
 import 'package:bloom/features/auth/presentation/bloc/app/app_bloc.dart';
-import 'package:bloom/features/habit/data/repositories/habitss_api.dart';
+import 'package:bloom/features/todolist/data/repositories/local_storage_todos_api.dart';
+import 'package:bloom/features/todolist/domain/todos_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/utils/theme.dart';
-import 'features/habit/data/datasources/local_storage_habits_api.dart';
-import 'features/habit/domain/repositories/habit_repository.dart';
-import 'injection_container.dart' as di;
+import 'features/habit/data/repositories/local_storage_habits_api.dart';
+import 'features/habit/domain/habits_repository.dart';
 
 void main() {
   return BlocOverrides.runZoned(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-      await di.init();
-      final habitsApi = LocalStorageHabitssApi(
-        plugin: di.sl<SharedPreferences>(),
-      );
-      final habitsRepository = HabitssRepository(habitsApi: habitsApi);
       AwesomeNotifications().initialize(
         'resource://drawable/res_app_icon',
         [
@@ -60,27 +55,53 @@ void main() {
         debug: true,
       );
       await Firebase.initializeApp();
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final habitsApi = LocalStorageHabitsApi(plugin: sharedPreferences);
+      final todosApi = LocalStorageTodosApi(
+        plugin: sharedPreferences,
+      );
       final authRepository = AuthRepository();
+      final habitsRepository = HabitsRepository(habitsApi: habitsApi);
+      final todosRepository = TodosRepository(todosApi: todosApi);
       runApp(
         MyApp(
           authRepository: authRepository,
           habitsRepository: habitsRepository,
+          todosrepository: todosRepository,
         ),
       );
     },
+    blocObserver: AppBlocObserver(),
   );
+}
+
+class AppBlocObserver extends BlocObserver {
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    if (bloc is Cubit) print(change);
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
 }
 
 class MyApp extends StatelessWidget {
   final AuthRepository _authRepository;
-  final HabitssRepository _habitsRepository;
+  final HabitsRepository _habitsRepository;
+  final TodosRepository _todosrepository;
 
   const MyApp({
     Key? key,
     required AuthRepository authRepository,
-    required HabitssRepository habitsRepository,
+    required HabitsRepository habitsRepository,
+    required TodosRepository todosrepository,
   })  : _authRepository = authRepository,
         _habitsRepository = habitsRepository,
+        _todosrepository = todosrepository,
         super(key: key);
 
   @override
@@ -93,9 +114,13 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<HabitsRepository>(
           create: (_) => _habitsRepository,
         ),
+        RepositoryProvider<TodosRepository>(
+          create: (_) => _todosrepository,
+        ),
       ],
       child: BlocProvider<AppBloc>(
-        create: (_) => di.sl<AppBloc>(),
+        create: (_) => AppBloc(authRepository: _authRepository),
+        child: const AppView(),
       ),
     );
   }

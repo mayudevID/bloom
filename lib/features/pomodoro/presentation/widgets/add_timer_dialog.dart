@@ -1,5 +1,4 @@
 import 'package:bloom/features/pomodoro/presentation/bloc/add_pomodoro/add_pomodoro_cubit.dart';
-import 'package:bloom/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -13,7 +12,7 @@ class AddTimerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<AddPomodoroCubit>(),
+      create: (context) => AddPomodoroCubit(),
       child: Dialog(
         insetPadding: const EdgeInsets.all(20),
         child: BlocListener<AddPomodoroCubit, AddPomodoroState>(
@@ -147,6 +146,7 @@ class AddTimerDialog extends StatelessWidget {
                   ),
                 ],
               ),
+              const Spacer(),
               Row(
                 children: [
                   const Spacer(),

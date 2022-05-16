@@ -1,49 +1,52 @@
-import '../../domain/entities/task.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'task_model.g.dart';
 
-class TaskModel extends Task {
+@JsonSerializable()
+class TaskModel {
+  int taskId;
+  String title;
+  DateTime dateTime;
+  String description;
+  String tags;
+  bool isRepeat;
+  bool isTime;
+  bool isChecked;
+
   TaskModel({
-    required int taskId,
-    required String title,
-    required DateTime dateTime,
-    required String description,
-    required String tags,
-    required bool isRepeat,
-    required bool isTime,
-    required bool isChecked,
-  }) : super(
-          taskId: taskId,
-          title: title,
-          dateTime: dateTime,
-          description: description,
-          tags: tags,
-          isRepeat: isRepeat,
-          isTime: isTime,
-          isChecked: isChecked,
-        );
+    required this.taskId,
+    required this.title,
+    required this.dateTime,
+    required this.description,
+    required this.tags,
+    required this.isRepeat,
+    required this.isTime,
+    required this.isChecked,
+  });
 
-  factory TaskModel.fromJson(Map<String, dynamic> json) {
+  TaskModel copyWith({
+    int? taskId,
+    String? title,
+    DateTime? dateTime,
+    String? description,
+    String? tags,
+    bool? isRepeat,
+    bool? isTime,
+    bool? isChecked,
+  }) {
     return TaskModel(
-      taskId: json["taskId"],
-      title: json["title"],
-      dateTime: json["dateTime"],
-      description: json["description"],
-      tags: json["tags"],
-      isRepeat: json["isRepeat"],
-      isTime: json["isTime"],
-      isChecked: json["isChecked"],
+      taskId: taskId ?? this.taskId,
+      title: title ?? this.title,
+      dateTime: dateTime ?? this.dateTime,
+      description: description ?? this.description,
+      tags: tags ?? this.tags,
+      isRepeat: isRepeat ?? this.isRepeat,
+      isTime: isTime ?? this.isTime,
+      isChecked: isChecked ?? this.isChecked,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "taskId": taskId,
-      "title": title,
-      "dateTime": dateTime,
-      "description": description,
-      "tags": tags,
-      "isRepeat": isRepeat,
-      "isTime": isTime,
-      "isChecked": isChecked,
-    };
-  }
+  factory TaskModel.fromJson(Map<String, dynamic> json) =>
+      _$TaskModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TaskModelToJson(this);
 }

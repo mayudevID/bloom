@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../../domain/entities/pomodoro.dart';
 
 part 'pomodoro_recent_event.dart';
 part 'pomodoro_recent_state.dart';

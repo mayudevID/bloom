@@ -1,12 +1,10 @@
 // ignore_for_file: must_be_immutable
 import 'package:bloom/core/routes/route_name.dart';
-import 'package:bloom/features/pomodoro/presentation/bloc/pomodoro_scroll/pomodoro_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
-import '../../domain/entities/pomodoro.dart';
 
 class PomodoroCard extends StatelessWidget {
   final int index;

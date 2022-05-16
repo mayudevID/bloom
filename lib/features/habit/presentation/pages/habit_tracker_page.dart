@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'package:bloom/core/routes/route_name.dart';
 import 'package:bloom/features/habit/data/models/habit_model.dart';
-import 'package:bloom/features/habit/domain/repositories/habit_repository.dart';
+import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/function.dart';
@@ -151,7 +151,7 @@ class HabitTrackerPage extends StatelessWidget {
                             itemBuilder: (context, idx) {
                               return HabitWidget(
                                 habitModel: dataHabit.values.elementAt(idx),
-                                index: dataHabit.keys.elementAt(idx),
+                                //index: dataHabit.keys.elementAt(idx),
                               );
                             },
                           ),

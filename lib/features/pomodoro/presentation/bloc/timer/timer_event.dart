@@ -9,7 +9,7 @@ abstract class TimerEvent extends Equatable {
 
 class TimerSet extends TimerEvent {
   const TimerSet(this.data);
-  final Pomodoro data;
+  final PomodoroModel data;
 }
 
 class TimerStarted extends TimerEvent {

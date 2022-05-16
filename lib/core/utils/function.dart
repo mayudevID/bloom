@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../features/habit/data/models/habit_model.dart';
+import '../../features/todolist/data/models/task_model.dart';
 
 // DEFAULT PHOTO
 const defaultPhoto =
@@ -105,10 +106,10 @@ Map<int, TaskModel> sortTaskByDate(List<TaskModel> taskList) {
 }
 
 // SORT HABITS BY DATE
-Map<int, HabitsModel> sortHabitsByDate(List<HabitsModel> habitList) {
-  Map<int, HabitsModel> dataHabits = <int, HabitsModel>{};
+Map<int, HabitModel> sortHabitsByDate(List<HabitModel> habitList) {
+  Map<int, HabitModel> dataHabits = <int, HabitModel>{};
   for (var i = 0; i < habitList.length; i++) {
-    HabitsModel habitModel = habitList[i];
+    HabitModel habitModel = habitList[i];
     for (var j = 0; j < habitModel.dayList.length; j++) {
       if (habitModel.dayList[j] == DateTime.now().weekday) {
         dataHabits[i] = habitModel;
@@ -117,23 +118,24 @@ Map<int, HabitsModel> sortHabitsByDate(List<HabitsModel> habitList) {
   }
 
   List sortedKeys = dataHabits.keys.toList(growable: false)
-    ..sort((k1, k2) => toDouble(dataHabits[k1]!.timeOfDay)
-        .compareTo(toDouble(dataHabits[k2]!.timeOfDay)));
+    ..sort((k1, k2) =>
+        toDouble(TimeOfDay.fromDateTime(dataHabits[k1]!.timeOfDay)).compareTo(
+            toDouble(TimeOfDay.fromDateTime(dataHabits[k2]!.timeOfDay))));
 
-  LinkedHashMap<int, HabitsModel> sortedHabits = LinkedHashMap.fromIterable(
+  LinkedHashMap<int, HabitModel> sortedHabits = LinkedHashMap.fromIterable(
     sortedKeys,
     key: (k) => k,
-    value: (k) => dataHabits[k] as HabitsModel,
+    value: (k) => dataHabits[k] as HabitModel,
   );
   return sortedHabits;
 }
 
 // CHOOSE TASKS BY DATE
-Map<int, TaskModel?> taskByDateChooser(
-    Box<dynamic> taskDb, DateTime dateSelect) {
+Map<int, TaskModel> taskByDateChooser(
+    List<TaskModel> taskList, DateTime dateSelect) {
   Map<int, TaskModel> dataTaskNow = <int, TaskModel>{};
-  for (var i = 0; i < taskDb.length; i++) {
-    TaskModel taskModel = taskDb.getAt(i);
+  for (var i = 0; i < taskList.length; i++) {
+    TaskModel taskModel = taskList[i];
     if (parseDate(taskModel).isAtSameMomentAs(dateSelect)) {
       dataTaskNow[i] = taskModel;
     }
@@ -143,10 +145,10 @@ Map<int, TaskModel?> taskByDateChooser(
     ..sort((k1, k2) =>
         dataTaskNow[k1]!.dateTime.compareTo(dataTaskNow[k2]!.dateTime));
 
-  LinkedHashMap<int, TaskModel?> sortedNowTask = LinkedHashMap.fromIterable(
+  LinkedHashMap<int, TaskModel> sortedNowTask = LinkedHashMap.fromIterable(
     sortedKeys,
     key: (k) => k,
-    value: (k) => dataTaskNow[k],
+    value: (k) => dataTaskNow[k] as TaskModel,
   );
   return sortedNowTask;
 }
@@ -179,14 +181,14 @@ Map<int, HabitModel> habitByDateChooser(
 }
 
 // POMODORO TO MAP
-Map<int, PomodoroModel> pomodoroToMap(Box pomodoroDb) {
-  Map<int, PomodoroModel> dataPomodoro = <int, PomodoroModel>{};
-  for (var i = 0; i < pomodoroDb.length; i++) {
-    PomodoroModel pomodoroModel = pomodoroDb.getAt(i);
-    dataPomodoro[i] = pomodoroModel;
-  }
-  return dataPomodoro;
-}
+// Map<int, PomodoroModel> pomodoroToMap(Box pomodoroDb) {
+//   Map<int, PomodoroModel> dataPomodoro = <int, PomodoroModel>{};
+//   for (var i = 0; i < pomodoroDb.length; i++) {
+//     PomodoroModel pomodoroModel = pomodoroDb.getAt(i);
+//     dataPomodoro[i] = pomodoroModel;
+//   }
+//   return dataPomodoro;
+// }
 
 // CONVERT ASSETS TO FILE IMAGE
 Future<File> getImageFileFromAssets(String path) async {
@@ -198,4 +200,13 @@ Future<File> getImageFileFromAssets(String path) async {
       .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
   return file;
+}
+
+// DECIDE WHICH DAY TO ENABLE
+bool decideWhichDayToEnable(DateTime day) {
+  if ((day.isAfter(DateTime.now().subtract(const Duration(days: 1))) &&
+      day.isBefore(DateTime.now().add(const Duration(days: 30))))) {
+    return true;
+  }
+  return false;
 }

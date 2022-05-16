@@ -1,34 +1,46 @@
 // ignore_for_file: must_be_immutable
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/routes/route_name.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../data/models/habit_model.dart';
+import '../bloc/habit_overview/habits_overview_bloc.dart';
 
 class HabitWidget extends StatelessWidget {
   HabitModel? habitModel;
-  int? index;
-  HabitWidget({Key? key, required this.habitModel, required this.index})
-      : super(key: key);
+  HabitWidget({
+    Key? key,
+    required this.habitModel,
+    //required this.index,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        // var isDeleted = await Get.toNamed(
-        //   RouteName.HABITDETAIL,
-        //   arguments: index,
-        // );
         dynamic isDeleted = Navigator.pushNamed(
           context,
           RouteName.HABITDETAIL,
-          arguments: index,
+          arguments: habitModel,
         );
         if (isDeleted as bool) {
-          Future.delayed(const Duration(milliseconds: 500), () async {
-            // var habitDb = await Hive.openBox('habit_db');
-            // habitDb.deleteAt(index as int);
-          });
+          Future.delayed(
+            const Duration(milliseconds: 500),
+            () async {
+              for (var i = 0; i < habitModel!.dayList.length; i++) {
+                AwesomeNotifications().cancel(
+                  habitModel!.habitId * habitModel!.dayList[i],
+                );
+              }
+              context.read<HabitsOverviewBloc>().add(
+                    HabitsOverviewHabitDeleted(
+                      habitModel!,
+                    ),
+                  );
+            },
+          );
         }
       },
       child: Container(

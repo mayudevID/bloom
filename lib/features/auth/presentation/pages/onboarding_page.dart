@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
-import '../../../../injection_container.dart';
 
 class OnboardingPage extends StatelessWidget {
   OnboardingPage({Key? key}) : super(key: key);
@@ -129,7 +128,7 @@ class OnboardingPage extends StatelessWidget {
     }
 
     return BlocProvider(
-      create: (context) => sl<OnboardBloc>(),
+      create: (context) => OnboardBloc(),
       child: Scaffold(
         backgroundColor: naturalWhite,
         body: Center(

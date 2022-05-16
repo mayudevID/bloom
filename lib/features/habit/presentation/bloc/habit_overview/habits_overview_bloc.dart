@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloom/features/habit/data/models/habit_model.dart';
 import 'package:equatable/equatable.dart';
-import '../../../domain/repositories/habit_repository.dart';
+import '../../../domain/habits_repository.dart';
 
 part 'habits_overview_event.dart';
 part 'habits_overview_state.dart';
@@ -54,7 +54,7 @@ class HabitsOverviewBloc
     Emitter<HabitsOverviewState> emit,
   ) async {
     emit(state.copyWith(lastDeletedHabit: () => event.habit));
-    await _habitsRepository.deleteHabits(event.habit.habitId.toString());
+    await _habitsRepository.deleteHabit(event.habit.habitId.toString());
   }
 
   Future<void> _onUndoDeletionRequested(
@@ -68,7 +68,7 @@ class HabitsOverviewBloc
 
     final habit = state.lastDeletedHabit!;
     emit(state.copyWith(lastDeletedHabit: () => null));
-    await _habitsRepository.saveHabits(habit);
+    await _habitsRepository.saveHabit(habit);
   }
 
   void _onFilterChanged(

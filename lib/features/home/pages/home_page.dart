@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../habit/data/models/habit_model.dart';
-import '../../habit/presentation/bloc/habits_overview_bloc.dart';
+import '../../habit/presentation/bloc/habit_overview/habits_overview_bloc.dart';
 import '../../habit/presentation/widgets/habit_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -151,7 +151,7 @@ class HomePage extends StatelessWidget {
                           shrinkWrap: true,
                           itemCount: state.tasks.length,
                           itemBuilder: (context, idx) {
-                            return HabitsWidget(
+                            return HabitWidget(
                               habitModel: state.tasks.values.elementAt(idx),
                               index: state.tasks.keys.elementAt(idx),
                             );

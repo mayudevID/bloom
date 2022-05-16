@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import '../../../domain/entities/pomodoro.dart';
+import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
 import 'ticker.dart';
 import 'package:equatable/equatable.dart';
 part 'timer_event.dart';

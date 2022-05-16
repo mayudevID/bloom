@@ -1,30 +1,31 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:bloom/models/task.dart';
-import 'package:bloom/theme.dart';
-import 'package:bloom/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../core/utils/function.dart';
+import '../../../../core/utils/theme.dart';
+import '../../data/models/task_model.dart';
 
 class TaskDetailPage extends StatelessWidget {
   TaskDetailPage({Key? key}) : super(key: key);
-  final TaskModel taskModel = (Get.arguments as List)[0];
-  final int index = (Get.arguments as List)[1];
+  //final TaskModel taskModel = (Get.arguments as List)[0];
+  //final int index = (Get.arguments as List)[1];
 
   @override
   Widget build(BuildContext context) {
+    final initTaskModel =
+        ModalRoute.of(context)!.settings.arguments as TaskModel;
+
     return Scaffold(
       backgroundColor: yellowLight,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            SizedBox(height: Get.height * 0.07),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.07),
             Row(
               children: [
                 GestureDetector(
-                  onTap: () => Get.back(),
+                  onTap: () => Navigator.pop(context, false),
                   child: Image.asset(
                     "assets/icons/arrow_back.png",
                     width: 24,
@@ -32,20 +33,10 @@ class TaskDetailPage extends StatelessWidget {
                 ),
                 const Spacer(),
                 Image.asset("assets/icons/share.png", width: 24),
-                SizedBox(width: getWidth(16)),
+                SizedBox(width: getWidth(16, context)),
                 GestureDetector(
                   onTap: () async {
-                    var taskDb = await Hive.openBox('task_db');
-                    var taskHistoryDb = await Hive.openBox('task_history_db');
-                    AwesomeNotifications().cancel(taskModel.taskId);
-                    if (taskDb.length == 1) {
-                      taskDb.clear();
-                    } else {
-                      taskDb.deleteAt(index);
-                    }
-                    taskHistoryDb.add(taskModel);
-                    taskHistoryDb.close();
-                    Get.back();
+                    Navigator.pop(context, true);
                   },
                   child: Image.asset(
                     "assets/icons/delete.png",
@@ -54,19 +45,20 @@ class TaskDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: getHeight(40)),
+            SizedBox(height: getHeight(40, context)),
             Align(
               alignment: Alignment.centerLeft,
               child: Container(
                 width: 60,
                 height: 20,
                 decoration: BoxDecoration(
-                  color: (taskModel.tags == 'Basic') ? greenAction : redAction,
+                  color:
+                      (initTaskModel.tags == 'Basic') ? greenAction : redAction,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Center(
                   child: Text(
-                    taskModel.tags,
+                    initTaskModel.tags,
                     style: smallTextLink.copyWith(
                       fontSize: 8,
                     ),
@@ -74,11 +66,11 @@ class TaskDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: getHeight(8)),
+            SizedBox(height: getHeight(8, context)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                taskModel.title,
+                initTaskModel.title,
                 style: const TextStyle(
                   fontFamily: "Poppins",
                   fontWeight: FontWeight.w600,
@@ -86,33 +78,33 @@ class TaskDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: getHeight(16)),
+            SizedBox(height: getHeight(16, context)),
             Row(
               children: [
                 Image.asset("assets/icons/calendar_unselect.png", width: 16),
-                SizedBox(width: getWidth(4)),
+                SizedBox(width: getWidth(4, context)),
                 Text(
-                  DateFormat('EEEE, dd MMMM y').format(taskModel.dateTime),
+                  DateFormat('EEEE, dd MMMM y').format(initTaskModel.dateTime),
                   style: interBold12.copyWith(
                     fontWeight: FontWeight.w400,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: getHeight(8)),
+            SizedBox(height: getHeight(8, context)),
             Row(
               children: [
                 Image.asset("assets/icons/clock.png", width: 16),
-                SizedBox(width: getWidth(4)),
+                SizedBox(width: getWidth(4, context)),
                 Text(
-                  DateFormat('jm').format(taskModel.dateTime),
+                  DateFormat('jm').format(initTaskModel.dateTime),
                   style: interBold12.copyWith(
                     fontWeight: FontWeight.w400,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: getHeight(24)),
+            SizedBox(height: getHeight(24, context)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -120,11 +112,11 @@ class TaskDetailPage extends StatelessWidget {
                 style: buttonSmall,
               ),
             ),
-            SizedBox(height: getHeight(4)),
+            SizedBox(height: getHeight(4, context)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                taskModel.description,
+                initTaskModel.description,
                 style: interBold12.copyWith(
                   fontWeight: FontWeight.w400,
                 ),
