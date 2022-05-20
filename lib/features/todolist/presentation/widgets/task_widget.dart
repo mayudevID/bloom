@@ -5,30 +5,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../../core/routes/route_name.dart';
-import '../../../core/utils/function.dart';
-import '../../../core/utils/theme.dart';
-import '../data/models/task_model.dart';
-import 'bloc/todos_overview/todos_overview_bloc.dart';
+import '../../../../core/routes/route_name.dart';
+import '../../../../core/utils/function.dart';
+import '../../../../core/utils/theme.dart';
+import '../../data/models/task_model.dart';
+import '../bloc/todos_overview/todos_overview_bloc.dart';
 
 class TaskWidget extends StatelessWidget {
   TaskModel? taskModel;
-  int index;
-  TaskWidget({Key? key, required this.taskModel, required this.index})
-      : super(key: key);
+  //int index;
+  TaskWidget({Key? key, required this.taskModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        dynamic isDeleted = Navigator.pushNamed(
-          context,
-          RouteName.HABITDETAIL,
+        dynamic isDeleted = Navigator.of(context).pushNamed(
+          RouteName.TASKDETAIL,
           arguments: taskModel,
         );
         if (isDeleted as bool) {
           Future.delayed(
-            const Duration(milliseconds: 500),
+            const Duration(milliseconds: 200),
             () async {
               AwesomeNotifications().cancel(taskModel!.taskId);
               context.read<TodosOverviewBloc>().add(

@@ -1,6 +1,4 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/features/habit/data/models/habit_model.dart';
-import 'package:bloom/features/habit/presentation/bloc/habit_overview/habits_overview_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/function.dart';
@@ -10,13 +8,33 @@ import '../bloc/habit_detail/habit_detail_bloc.dart';
 import '../widgets/day_streak_widget.dart';
 
 class HabitsDetailPage extends StatelessWidget {
-  const HabitsDetailPage({Key? key}) : super(key: key);
+  const HabitsDetailPage({
+    Key? key,
+    required this.initHabitModel,
+  }) : super(key: key);
+  final HabitModel initHabitModel;
 
   @override
   Widget build(BuildContext context) {
-    final initHabitModel =
-        ModalRoute.of(context)!.settings.arguments as HabitModel;
+    return BlocProvider(
+      create: (context) => HabitDetailBloc(
+        habitModel: initHabitModel,
+        habitsRepository: context.read<HabitsRepository>(),
+      ),
+      child: HabitsDetailPageContent(initHabitModel: initHabitModel),
+    );
+  }
+}
 
+class HabitsDetailPageContent extends StatelessWidget {
+  const HabitsDetailPageContent({
+    Key? key,
+    required this.initHabitModel,
+  }) : super(key: key);
+  final HabitModel initHabitModel;
+
+  @override
+  Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HabitDetailBloc(
         habitModel: initHabitModel,
@@ -32,7 +50,7 @@ class HabitsDetailPage extends StatelessWidget {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () => Navigator.pop(context, false),
+                    onTap: () => Navigator.of(context).pop(false),
                     child: Image.asset(
                       "assets/icons/arrow_back.png",
                       width: 24,
@@ -43,7 +61,7 @@ class HabitsDetailPage extends StatelessWidget {
                   SizedBox(width: getWidth(16, context)),
                   GestureDetector(
                     onTap: () async {
-                      Navigator.pop(context, true);
+                      Navigator.of(context).pop(true);
                     },
                     child: Image.asset(
                       "assets/icons/delete.png",

@@ -131,53 +131,35 @@ Map<int, HabitModel> sortHabitsByDate(List<HabitModel> habitList) {
 }
 
 // CHOOSE TASKS BY DATE
-Map<int, TaskModel> taskByDateChooser(
-    List<TaskModel> taskList, DateTime dateSelect) {
-  Map<int, TaskModel> dataTaskNow = <int, TaskModel>{};
-  for (var i = 0; i < taskList.length; i++) {
-    TaskModel taskModel = taskList[i];
-    if (parseDate(taskModel).isAtSameMomentAs(dateSelect)) {
-      dataTaskNow[i] = taskModel;
+List<TaskModel> taskByDateChooser(List<TaskModel> taskList, DateTime date) {
+  List<TaskModel> dataTaskNow = <TaskModel>[];
+  for (TaskModel taskModel in taskList) {
+    if (parseDate(taskModel).isAtSameMomentAs(date)) {
+      dataTaskNow.add(taskModel);
     }
   }
 
-  List sortedKeys = dataTaskNow.keys.toList(growable: false)
-    ..sort((k1, k2) =>
-        dataTaskNow[k1]!.dateTime.compareTo(dataTaskNow[k2]!.dateTime));
+  dataTaskNow.sort((t1, t2) => t1.dateTime.compareTo(t2.dateTime));
 
-  LinkedHashMap<int, TaskModel> sortedNowTask = LinkedHashMap.fromIterable(
-    sortedKeys,
-    key: (k) => k,
-    value: (k) => dataTaskNow[k] as TaskModel,
-  );
-  return sortedNowTask;
+  return dataTaskNow;
 }
 
 // CHOOSE HABITS BY DATE
-Map<int, HabitModel> habitByDateChooser(
+List<HabitModel> habitByDateChooser(
     List<HabitModel> habitList, DateTime dateSelect) {
-  Map<int, HabitModel> dataHabitsNow = <int, HabitModel>{};
-  for (var i = 0; i < habitList.length; i++) {
-    HabitModel habitModel = habitList[i];
-    for (var j = 0; j < habitModel.dayList.length; j++) {
-      if (habitModel.dayList[j] == dateSelect.weekday) {
-        dataHabitsNow[i] = habitModel;
+  List<HabitModel> dataHabitNow = <HabitModel>[];
+  for (HabitModel habitModel in habitList) {
+    for (int day in habitModel.dayList) {
+      if (day == dateSelect.weekday) {
+        dataHabitNow.add(habitModel);
       }
     }
   }
 
-  List sortedKeys = dataHabitsNow.keys.toList(growable: false)
-    ..sort((k1, k2) => toDouble(
-            TimeOfDay.fromDateTime(dataHabitsNow[k1]!.timeOfDay))
-        .compareTo(
-            toDouble(TimeOfDay.fromDateTime(dataHabitsNow[k2]!.timeOfDay))));
+  dataHabitNow.sort((t1, t2) => toDouble(TimeOfDay.fromDateTime(t1.timeOfDay))
+      .compareTo(toDouble(TimeOfDay.fromDateTime(t2.timeOfDay))));
 
-  LinkedHashMap<int, HabitModel> sortedNowHabits = LinkedHashMap.fromIterable(
-    sortedKeys,
-    key: (k) => k,
-    value: (k) => dataHabitsNow[k] as HabitModel,
-  );
-  return sortedNowHabits;
+  return dataHabitNow;
 }
 
 // POMODORO TO MAP

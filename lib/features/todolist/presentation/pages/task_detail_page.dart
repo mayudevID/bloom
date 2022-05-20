@@ -6,15 +6,27 @@ import '../../../../core/utils/theme.dart';
 import '../../data/models/task_model.dart';
 
 class TaskDetailPage extends StatelessWidget {
-  TaskDetailPage({Key? key}) : super(key: key);
-  //final TaskModel taskModel = (Get.arguments as List)[0];
-  //final int index = (Get.arguments as List)[1];
+  const TaskDetailPage({
+    Key? key,
+    required this.initTaskModel,
+  }) : super(key: key);
+  final TaskModel initTaskModel;
 
   @override
   Widget build(BuildContext context) {
-    final initTaskModel =
-        ModalRoute.of(context)!.settings.arguments as TaskModel;
+    return TaskDetailPageContent(initTaskModel: initTaskModel);
+  }
+}
 
+class TaskDetailPageContent extends StatelessWidget {
+  const TaskDetailPageContent({
+    Key? key,
+    required this.initTaskModel,
+  }) : super(key: key);
+  final TaskModel initTaskModel;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: yellowLight,
       body: Container(
@@ -25,7 +37,7 @@ class TaskDetailPage extends StatelessWidget {
             Row(
               children: [
                 GestureDetector(
-                  onTap: () => Navigator.pop(context, false),
+                  onTap: () => Navigator.of(context).pop(false),
                   child: Image.asset(
                     "assets/icons/arrow_back.png",
                     width: 24,
@@ -36,7 +48,7 @@ class TaskDetailPage extends StatelessWidget {
                 SizedBox(width: getWidth(16, context)),
                 GestureDetector(
                   onTap: () async {
-                    Navigator.pop(context, true);
+                    Navigator.of(context).pop(true);
                   },
                   child: Image.asset(
                     "assets/icons/delete.png",

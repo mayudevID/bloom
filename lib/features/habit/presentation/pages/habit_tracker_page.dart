@@ -1,4 +1,5 @@
 // ignore_for_file: must_be_immutable
+
 import 'package:bloom/core/routes/route_name.dart';
 import 'package:bloom/features/habit/data/models/habit_model.dart';
 import 'package:bloom/features/habit/domain/habits_repository.dart';
@@ -11,7 +12,23 @@ import '../widgets/calendar_widget/calendar_widget.dart';
 import '../widgets/habit_widget.dart';
 
 class HabitTrackerPage extends StatelessWidget {
-  HabitTrackerPage({Key? key}) : super(key: key);
+  const HabitTrackerPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          HabitsOverviewBloc(habitsRepository: context.read<HabitsRepository>())
+            ..add(
+              const HabitsOverviewSubscriptionRequested(),
+            ),
+      child: HabitTrackerPageContent(),
+    );
+  }
+}
+
+class HabitTrackerPageContent extends StatelessWidget {
+  HabitTrackerPageContent({Key? key}) : super(key: key);
   DateTime dateNow = DateTime(
     DateTime.now().year,
     DateTime.now().month,
@@ -137,23 +154,22 @@ class HabitTrackerPage extends StatelessWidget {
                           );
                         }
                       } else {
-                        Map<int, HabitModel> dataHabit = habitByDateChooser(
+                        List<HabitModel> dataHabit = habitByDateChooser(
                           state.habits,
                           state.filter as DateTime,
                         );
                         return MediaQuery.removePadding(
                           removeTop: true,
                           context: context,
-                          child: ListView.builder(
+                          child: ListView(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: dataHabit.length,
-                            itemBuilder: (context, idx) {
-                              return HabitWidget(
-                                habitModel: dataHabit.values.elementAt(idx),
-                                //index: dataHabit.keys.elementAt(idx),
-                              );
-                            },
+                            children: [
+                              for (final habitModel in dataHabit)
+                                HabitWidget(
+                                  habitModel: habitModel,
+                                )
+                            ],
                           ),
                         );
                       }
@@ -163,36 +179,37 @@ class HabitTrackerPage extends StatelessWidget {
               ),
               SizedBox(height: getHeight(40, context)),
               BlocBuilder<HabitsOverviewBloc, HabitsOverviewState>(
-                  builder: (context, state) {
-                if (dateNow.isBefore(state.filter as DateTime) ||
-                    dateNow.isAtSameMomentAs(state.filter as DateTime)) {
-                  return Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, RouteName.ADDHABIT);
-                      },
-                      child: Container(
-                        height: 40,
-                        width: 203,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: naturalBlack,
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Add Habit",
-                            style: buttonSmall.copyWith(
-                              color: naturalWhite,
+                builder: (context, state) {
+                  if (dateNow.isBefore(state.filter as DateTime) ||
+                      dateNow.isAtSameMomentAs(state.filter as DateTime)) {
+                    return Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(RouteName.ADDHABIT);
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 203,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: naturalBlack,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Add Habit",
+                              style: buttonSmall.copyWith(
+                                color: naturalWhite,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-              }),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
             ],
           ),
         ),

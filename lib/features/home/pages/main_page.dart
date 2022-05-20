@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../habit/presentation/pages/habit_tracker_page.dart';
 import '../../pomodoro/presentation/pages/pomodoro_page.dart';
-import '../../todolist/presentation/widgets/todolist_page.dart';
+import '../../todolist/presentation/pages/todolist_page.dart';
 import '../bloc/home_cubit.dart';
 import 'home_page.dart';
 

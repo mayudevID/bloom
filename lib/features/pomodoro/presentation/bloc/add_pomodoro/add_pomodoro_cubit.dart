@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloom/core/utils/function.dart';
+import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/pomodoros_repository.dart';
@@ -24,6 +25,15 @@ class AddPomodoroCubit extends Cubit<AddPomodoroState> {
   }
 
   void savePomodoro() async {
-    try {} catch (e) {}
+    try {
+      PomodoroModel pomodoro = PomodoroModel(
+        pomodoroId: getRandomId(),
+        title: state.title,
+        durationMinutes: state.duration,
+        session: state.session,
+      );
+
+      await _pomodorosRepository.savePomodoro(pomodoro);
+    } catch (e) {}
   }
 }

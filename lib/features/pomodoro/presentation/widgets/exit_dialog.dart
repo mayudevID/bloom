@@ -20,8 +20,8 @@ class ExitDialog extends StatelessWidget {
               SizedBox(width: getWidth(90, context)),
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
                 child: Container(
                   width: 70,
@@ -41,7 +41,7 @@ class ExitDialog extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () => Navigator.pop(context),
+                onTap: () => Navigator.of(context).pop(),
                 child: Container(
                   width: 70,
                   height: 35,

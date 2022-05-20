@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:bloom/features/auth/presentation/bloc/onboard/onboard_bloc.dart';
+import 'package:bloom/core/routes/route_name.dart';
+import 'package:bloom/features/auth/presentation/bloc/onboard/onboard_cubit.dart';
 import 'package:bloom/features/auth/presentation/pages/login_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,20 @@ import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 
 class OnboardingPage extends StatelessWidget {
-  OnboardingPage({Key? key}) : super(key: key);
+  const OnboardingPage({Key? key}) : super(key: key);
+  static Page page() => const MaterialPage<void>(child: OnboardingPage());
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => OnboardCubit(),
+      child: OnboardingPageContent(),
+    );
+  }
+}
+
+class OnboardingPageContent extends StatelessWidget {
+  OnboardingPageContent({Key? key}) : super(key: key);
   final CarouselController sliderController = CarouselController();
 
   final List<String> imageOnboard = [
@@ -30,8 +44,6 @@ class OnboardingPage extends StatelessWidget {
     "It's now or never. There's nothing better than achieving your goals, whatever they might be",
   ];
 
-  static Page page() => MaterialPage<void>(child: OnboardingPage());
-
   @override
   Widget build(BuildContext context) {
     Widget indicator(int indexPos, int newIndex) {
@@ -51,11 +63,7 @@ class OnboardingPage extends StatelessWidget {
     Widget nextButtonBottom() {
       return GestureDetector(
         onTap: () {
-          Navigator.pushAndRemoveUntil(
-            context,
-            LoginPage.route(),
-            (route) => false,
-          );
+          Navigator.of(context).popAndPushNamed(RouteName.LOGIN);
         },
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: getWidth(26, context)),
@@ -127,73 +135,70 @@ class OnboardingPage extends StatelessWidget {
       );
     }
 
-    return BlocProvider(
-      create: (context) => OnboardBloc(),
-      child: Scaffold(
-        backgroundColor: naturalWhite,
-        body: Center(
-          child: Column(
-            children: [
-              // SizedBox(height: Get.height * 0.25),
-              CarouselSlider(
-                carouselController: sliderController,
-                items: imageOnboard.map((e) {
-                  return Image.asset(
-                    e,
-                    height: getHeight(321, context),
-                    fit: BoxFit.fill,
-                  );
-                }).toList(),
-                options: CarouselOptions(
-                  initialPage: 0,
-                  enableInfiniteScroll: false,
-                  onPageChanged: (index, reason) {
-                    context.read<OnboardBloc>().add(ChangeSlide(index));
-                  },
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: getWidth(45, context),
-                ),
-                child: BlocBuilder<OnboardBloc, OnboardState>(
-                  builder: (context, state) {
-                    return Text(
-                      title[state.index],
-                      style: mainSubTitle,
-                      textAlign: TextAlign.center,
-                    );
-                  },
-                ),
-              ),
-              SizedBox(height: getHeight(8, context)),
-              Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: getWidth(60, context),
-                ),
-                child: BlocBuilder<OnboardBloc, OnboardState>(
-                  builder: (context, state) {
-                    return Text(
-                      description[state.index],
-                      style: mainSubTitle,
-                      textAlign: TextAlign.center,
-                    );
-                  },
-                ),
-              ),
-              const Spacer(),
-              BlocBuilder<OnboardBloc, OnboardState>(
-                builder: (context, state) {
-                  if (state.index == 2) {
-                    return nextButtonBottom();
-                  } else {
-                    return defaultBottom(state.index);
-                  }
+    return Scaffold(
+      backgroundColor: naturalWhite,
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height * 0.25),
+            CarouselSlider(
+              carouselController: sliderController,
+              items: imageOnboard.map((e) {
+                return Image.asset(
+                  e,
+                  height: getHeight(321, context),
+                  fit: BoxFit.fill,
+                );
+              }).toList(),
+              options: CarouselOptions(
+                initialPage: 0,
+                enableInfiniteScroll: false,
+                onPageChanged: (index, reason) {
+                  context.read<OnboardCubit>().setOnboard(index);
                 },
               ),
-              SizedBox(height: getHeight(40, context)),
-            ],
-          ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: getWidth(45, context),
+              ),
+              child: BlocBuilder<OnboardCubit, int>(
+                builder: (context, state) {
+                  return Text(
+                    title[state],
+                    style: mainSubTitle,
+                    textAlign: TextAlign.center,
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: getHeight(8, context)),
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: getWidth(60, context),
+              ),
+              child: BlocBuilder<OnboardCubit, int>(
+                builder: (context, state) {
+                  return Text(
+                    description[state],
+                    style: textParagraph,
+                    textAlign: TextAlign.center,
+                  );
+                },
+              ),
+            ),
+            const Spacer(),
+            BlocBuilder<OnboardCubit, int>(
+              builder: (context, state) {
+                if (state == 2) {
+                  return nextButtonBottom();
+                } else {
+                  return defaultBottom(state);
+                }
+              },
+            ),
+            SizedBox(height: getHeight(40, context)),
+          ],
         ),
       ),
     );

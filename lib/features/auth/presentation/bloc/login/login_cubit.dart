@@ -30,7 +30,7 @@ class LoginCubit extends Cubit<LoginState> {
     ));
   }
 
-  Future<void> loginWithCredentials(LoginType type) async {
+  void loginWithCredentials(LoginType type) async {
     if (state.status == LoginStatus.submitting) {
       return;
     }

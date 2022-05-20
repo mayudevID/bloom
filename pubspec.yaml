@@ -52,7 +52,6 @@ dependencies:
   flutter_native_splash: ^2.0.1+1
   get_it: ^7.2.0
   google_sign_in: ^5.2.3
-  home_widget: ^0.1.5
   image_cropper: ^1.5.0
   image_picker: ^0.8.4+4
   internet_connection_checker: ^0.0.1+3

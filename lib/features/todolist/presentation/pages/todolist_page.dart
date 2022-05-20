@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:bloom/core/routes/route_name.dart';
 import 'package:bloom/core/utils/function.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,7 @@ import '../../../../core/utils/theme.dart';
 import '../../../habit/presentation/widgets/calendar_widget/calendar_widget.dart';
 import '../../data/models/task_model.dart';
 import '../bloc/todos_overview/todos_overview_bloc.dart';
-import '../task_widget.dart';
+import '../widgets/task_widget.dart';
 
 class ToDoListPage extends StatelessWidget {
   ToDoListPage({Key? key}) : super(key: key);
@@ -127,23 +129,22 @@ class ToDoListPage extends StatelessWidget {
                         );
                       }
                     } else {
-                      Map<int, TaskModel> dataTask = taskByDateChooser(
+                      List<TaskModel> dataTask = taskByDateChooser(
                         state.todos,
                         state.filter as DateTime,
                       );
                       return MediaQuery.removePadding(
                         removeTop: true,
                         context: context,
-                        child: ListView.builder(
+                        child: ListView(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: dataTask.length,
-                          itemBuilder: (context, idx) {
-                            return TaskWidget(
-                              taskModel: dataTask.values.elementAt(idx),
-                              index: dataTask.keys.elementAt(idx),
-                            );
-                          },
+                          children: [
+                            for (final taskModel in dataTask)
+                              TaskWidget(
+                                taskModel: taskModel,
+                              )
+                          ],
                         ),
                       );
                     }
@@ -239,7 +240,7 @@ class ToDoListPage extends StatelessWidget {
                 return Center(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, RouteName.ADDHABIT);
+                      Navigator.of(context).pushNamed(RouteName.ADDHABIT);
                     },
                     child: Container(
                       height: 40,

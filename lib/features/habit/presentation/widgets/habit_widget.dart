@@ -20,14 +20,13 @@ class HabitWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        dynamic isDeleted = Navigator.pushNamed(
-          context,
+        dynamic isDeleted = Navigator.of(context).pushNamed(
           RouteName.HABITDETAIL,
           arguments: habitModel,
         );
         if (isDeleted as bool) {
           Future.delayed(
-            const Duration(milliseconds: 500),
+            const Duration(milliseconds: 200),
             () async {
               for (var i = 0; i < habitModel!.dayList.length; i++) {
                 AwesomeNotifications().cancel(

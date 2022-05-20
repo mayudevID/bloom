@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'package:bloom/core/routes/route_name.dart';
+import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
+import 'package:bloom/features/pomodoro/presentation/bloc/pomodoro_overview/pomodoros_overview_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,17 +10,16 @@ import '../../../../core/utils/theme.dart';
 
 class PomodoroCard extends StatelessWidget {
   final int index;
-  final int indexPomodoro;
-  final Pomodoro pomodoro;
-  //final pomodoroController = Get.find<PomodoroController>();
+  //final int indexPomodoro;
+  final PomodoroModel pomodoro;
   bool isLast;
-  PomodoroCard(
-      {Key? key,
-      required this.index,
-      required this.pomodoro,
-      this.isLast = false,
-      required this.indexPomodoro})
-      : super(key: key);
+  PomodoroCard({
+    Key? key,
+    required this.index,
+    required this.pomodoro,
+    this.isLast = false,
+    //required this.indexPomodoro,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +46,15 @@ class PomodoroCard extends StatelessWidget {
                   // } else {
                   //   pomodoroDb.deleteAt(index);
                   // }
-                  context
-                      .read<PomodoroBloc>()
-                      .add(DeletePomodoroEvent(index: indexPomodoro));
-                  Navigator.pop(context);
+                  context.read<PomodorosOverviewBloc>().add(
+                        PomodorosOverviewPomodoroDeleted(
+                          pomodoro,
+                        ),
+                      );
+                  // context
+                  //     .read<PomodoroBloc>()
+                  //     .add(DeletePomodoroEvent(index: indexPomodoro));
+                  Navigator.of(context).pop();
                 },
                 child: Row(
                   children: [
@@ -97,8 +103,7 @@ class PomodoroCard extends StatelessWidget {
                 //   RouteName.TIMER,
                 //   arguments: pomodoroModel,
                 // );
-                Navigator.pushNamed(
-                  context,
+                Navigator.of(context).pushNamed(
                   RouteName.TIMER,
                   arguments: pomodoro,
                 );
