@@ -1,9 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:bloom/core/routes/route_name.dart';
+import 'package:bloom/features/auth/presentation/bloc/app/app_bloc.dart';
 import 'package:bloom/features/auth/presentation/bloc/onboard/onboard_cubit.dart';
 import 'package:bloom/features/auth/presentation/pages/login_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/function.dart';
@@ -63,7 +65,10 @@ class OnboardingPageContent extends StatelessWidget {
     Widget nextButtonBottom() {
       return GestureDetector(
         onTap: () {
-          Navigator.of(context).popAndPushNamed(RouteName.LOGIN);
+          Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+            RouteName.LOGIN,
+            (route) => false,
+          );
         },
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: getWidth(26, context)),
@@ -92,7 +97,11 @@ class OnboardingPageContent extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                // Get.offNamed(RouteName.LOGIN);
+                Navigator.of(context, rootNavigator: true)
+                    .pushNamedAndRemoveUntil(
+                  RouteName.LOGIN,
+                  (route) => false,
+                );
               },
               child: Text(
                 "Skip",

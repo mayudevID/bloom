@@ -1,6 +1,7 @@
 part of 'login_cubit.dart';
 
 enum LoginStatus { initial, submitting, success, error }
+
 enum LoginType { email, google, fb }
 
 class LoginState extends Equatable {
@@ -9,6 +10,7 @@ class LoginState extends Equatable {
   final LoginStatus status;
   final LoginType type;
   final bool isHidden;
+  final String errorMessage;
 
   const LoginState({
     required this.email,
@@ -16,6 +18,7 @@ class LoginState extends Equatable {
     required this.status,
     required this.type,
     required this.isHidden,
+    required this.errorMessage,
   });
 
   factory LoginState.initial() {
@@ -24,12 +27,20 @@ class LoginState extends Equatable {
       password: '',
       status: LoginStatus.initial,
       type: LoginType.email,
-      isHidden: false,
+      isHidden: true,
+      errorMessage: '',
     );
   }
 
   @override
-  List<Object> get props => [email, password, status, type, isHidden];
+  List<Object> get props => [
+        email,
+        password,
+        status,
+        type,
+        isHidden,
+        errorMessage,
+      ];
 
   LoginState copyWith({
     String? email,
@@ -37,6 +48,7 @@ class LoginState extends Equatable {
     LoginStatus? status,
     LoginType? type,
     bool? isHidden,
+    String? errorMessage,
   }) {
     return LoginState(
       email: email ?? this.email,
@@ -44,6 +56,7 @@ class LoginState extends Equatable {
       status: status ?? this.status,
       type: type ?? this.type,
       isHidden: isHidden ?? this.isHidden,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 }

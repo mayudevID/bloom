@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../../data/auth_repository.dart';
-import '../../../data/user.dart';
+import '../../../data/models/user.dart';
+import '../../../data/repositories/auth_repository.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
@@ -15,8 +15,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       : _authRepository = authRepository,
         super(
           authRepository.currentUser.isNotEmpty
-              ? AppStateAuthenticated(user: authRepository.currentUser)
-              : const AppStateUnauthenticated(),
+              ? AppState.authenticated(authRepository.currentUser)
+              : const AppState.unauthenticated(),
         ) {
     on<AppUserChanged>(_onUserChanged);
     on<AppLogoutRequested>(_onLogoutRequested);
@@ -27,9 +27,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   void _onUserChanged(AppUserChanged event, Emitter<AppState> emit) {
-    emit(event.user.isNotEmpty
-        ? AppStateAuthenticated(user: event.user)
-        : const AppStateUnauthenticated());
+    emit(
+      event.user.isNotEmpty
+          ? AppState.authenticated(event.user)
+          : const AppState.unauthenticated(),
+    );
   }
 
   void _onLogoutRequested(AppLogoutRequested event, Emitter<AppState> emit) {
@@ -39,6 +41,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   @override
   Future<void> close() {
     // ignore: habit
+    // ignore: todo
     // TODO: implement close
     _userSubscription?.cancel();
     return super.close();

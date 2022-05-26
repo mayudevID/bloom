@@ -1,20 +1,20 @@
+import 'dart:async';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:bloom/core/routes/app_route.dart';
 import 'package:bloom/features/habit/data/repositories/local_storage_habits_idle.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'core/routes/route_name.dart';
+import 'features/auth/data/repositories/auth_repository.dart';
+import 'features/auth/data/repositories/local_auth_repository.dart';
 import 'features/habit/data/models/habit_model.dart';
 import 'features/habit/presentation/bloc/habit_overview/habits_overview_bloc.dart';
 import 'features/todolist/data/models/task_model.dart';
 import 'features/todolist/data/repositories/local_storage_todos_idle.dart';
 import 'features/todolist/presentation/bloc/todos_overview/todos_overview_bloc.dart';
 import 'firebase_options.dart';
-import 'package:bloom/core/routes/app_route.dart';
-import 'package:bloom/core/routes/route_generate.dart';
-import 'package:bloom/features/auth/data/auth_repository.dart';
 import 'package:bloom/features/auth/presentation/bloc/app/app_bloc.dart';
 import 'package:bloom/features/todolist/data/repositories/local_storage_todos_api.dart';
 import 'package:bloom/features/todolist/domain/todos_repository.dart';
-import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -70,6 +70,9 @@ void main() {
       );
       final sharedPreferences = await SharedPreferences.getInstance();
       final authRepository = AuthRepository();
+      final localAuthRepository = LocalUserDataRepository(
+        sharedPreferences: sharedPreferences,
+      );
       final habitsRepository = HabitsRepository(
         habitsApi: LocalStorageHabitsApi(plugin: sharedPreferences),
       );
@@ -82,6 +85,7 @@ void main() {
       runApp(
         MyApp(
           authRepository: authRepository,
+          localAuthRepository: localAuthRepository,
           habitsRepository: habitsRepository,
           todosrepository: todosRepository,
           pomodorosRepository: pomodorosRepository,
@@ -97,6 +101,7 @@ class MyApp extends StatelessWidget {
   final HabitsRepository _habitsRepository;
   final TodosRepository _todosrepository;
   final PomodorosRepository _pomodorosRepository;
+  final LocalUserDataRepository _localUserDataRepository;
 
   const MyApp({
     Key? key,
@@ -104,10 +109,12 @@ class MyApp extends StatelessWidget {
     required HabitsRepository habitsRepository,
     required TodosRepository todosrepository,
     required PomodorosRepository pomodorosRepository,
+    required LocalUserDataRepository localAuthRepository,
   })  : _authRepository = authRepository,
         _habitsRepository = habitsRepository,
         _todosrepository = todosrepository,
         _pomodorosRepository = pomodorosRepository,
+        _localUserDataRepository = localAuthRepository,
         super(key: key);
 
   @override
@@ -116,6 +123,9 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider<AuthRepository>(
           create: (_) => _authRepository,
+        ),
+        RepositoryProvider<LocalUserDataRepository>(
+          create: (_) => _localUserDataRepository,
         ),
         RepositoryProvider<HabitsRepository>(
           create: (_) => _habitsRepository,
@@ -129,18 +139,14 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocProvider(
         create: (context) => AppBloc(authRepository: _authRepository),
-        child: AppView(habitsRepository: _habitsRepository),
+        child: const AppView(),
       ),
     );
   }
 }
 
 class AppView extends StatefulWidget {
-  const AppView({
-    Key? key,
-    required this.habitsRepository,
-  }) : super(key: key);
-  final HabitsRepository habitsRepository;
+  const AppView({Key? key}) : super(key: key);
 
   @override
   State<AppView> createState() => _AppViewState();
@@ -223,9 +229,34 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FlowBuilder(
-        state: context.select((AppBloc bloc) => bloc.state.status),
-        onGeneratePages: onGenerateAppViewPages,
+      home: WillPopScope(
+        onWillPop: () async => false,
+        child: BlocListener<AppBloc, AppState>(
+          listener: (context, state) {
+            if (state.status == AppStatus.unauthenticated) {
+              Timer(const Duration(seconds: 1), () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  RouteName.ONBOARD,
+                  (Route<dynamic> route) => false,
+                );
+              });
+            } else if (state.status == AppStatus.authenticated) {
+              Timer(const Duration(seconds: 1), () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  RouteName.MAIN,
+                  (Route<dynamic> route) => false,
+                );
+              });
+            }
+          },
+          child: Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(
+                color: naturalBlack,
+              ),
+            ),
+          ),
+        ),
       ),
       onGenerateRoute: AppRoute.generateRoute,
     );

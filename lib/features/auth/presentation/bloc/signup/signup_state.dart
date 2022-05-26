@@ -1,6 +1,7 @@
 part of 'signup_cubit.dart';
 
 enum SignupStatus { initial, submitting, success, error }
+
 enum SignupType { email, google, fb }
 
 class SignupState extends Equatable {
@@ -10,6 +11,7 @@ class SignupState extends Equatable {
   final SignupStatus status;
   final SignupType type;
   final bool isHidden;
+  final String errorMessage;
 
   const SignupState({
     required this.name,
@@ -18,6 +20,7 @@ class SignupState extends Equatable {
     required this.status,
     required this.type,
     required this.isHidden,
+    required this.errorMessage,
   });
 
   factory SignupState.initial() {
@@ -27,12 +30,20 @@ class SignupState extends Equatable {
       password: '',
       status: SignupStatus.initial,
       type: SignupType.email,
-      isHidden: false,
+      isHidden: true,
+      errorMessage: '',
     );
   }
 
   @override
-  List<Object> get props => [email, password, status, type];
+  List<Object> get props => [
+        email,
+        password,
+        status,
+        type,
+        isHidden,
+        errorMessage,
+      ];
 
   SignupState copyWith({
     String? name,
@@ -41,6 +52,7 @@ class SignupState extends Equatable {
     SignupStatus? status,
     SignupType? type,
     bool? isHidden,
+    String? errorMessage,
   }) {
     return SignupState(
       email: email ?? this.email,
@@ -49,6 +61,7 @@ class SignupState extends Equatable {
       type: type ?? this.type,
       isHidden: isHidden ?? this.isHidden,
       name: '',
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 }

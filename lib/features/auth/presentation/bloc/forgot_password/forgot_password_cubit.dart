@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../../data/auth_repository.dart';
+import '../../../data/repositories/auth_repository.dart';
 
 part 'forgot_password_state.dart';
 

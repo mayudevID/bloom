@@ -5,13 +5,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../habit/presentation/pages/habit_tracker_page.dart';
 import '../../pomodoro/presentation/pages/pomodoro_page.dart';
 import '../../todolist/presentation/pages/todolist_page.dart';
-import '../bloc/home_cubit.dart';
+
+import '../bloc/cubit/home_cubit.dart';
 import 'home_page.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
   static Page page() => const MaterialPage<void>(child: MainPage());
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => HomeCubit(),
+      child: const MainPageContent(),
+    );
+  }
+}
+
+class MainPageContent extends StatelessWidget {
+  const MainPageContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +36,8 @@ class MainPage extends StatelessWidget {
         index: selectedTab.index,
         children: [
           const HomePage(),
-          PomodoroPage(),
-          HabitTrackerPage(),
+          const PomodoroPage(),
+          const HabitTrackerPage(),
           ToDoListPage(),
         ],
       ),

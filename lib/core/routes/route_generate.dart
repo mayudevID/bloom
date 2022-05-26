@@ -12,5 +12,7 @@ List<Page> onGenerateAppViewPages(
       return [MainPage.page()];
     case AppStatus.unauthenticated:
       return [OnboardingPage.page()];
+    default:
+      return [];
   }
 }

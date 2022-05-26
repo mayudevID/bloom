@@ -1,24 +1,30 @@
-import 'package:bloom/core/routes/route_name.dart';
-import 'package:bloom/features/habit/data/models/habit_model.dart';
 import 'package:flutter/material.dart';
 import '../../features/auth/presentation/pages/create_account_page.dart';
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
+import '../../features/auth/presentation/pages/onboarding_page.dart';
 import '../../features/auth/presentation/pages/verification_page.dart';
+import '../../features/habit/data/models/habit_model.dart';
 import '../../features/habit/presentation/pages/add_habit_page.dart';
 import '../../features/habit/presentation/pages/habit_detail_page.dart';
+import '../../features/home/pages/main_page.dart';
 import '../../features/pomodoro/data/models/pomodoro_model.dart';
 import '../../features/pomodoro/presentation/pages/timer_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/todolist/data/models/task_model.dart';
 import '../../features/todolist/presentation/pages/add_task_page.dart';
 import '../../features/todolist/presentation/pages/task_detail_page.dart';
+import 'route_name.dart';
 
 class AppRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
 
     switch (settings.name) {
+      case RouteName.ONBOARD:
+        return MaterialPageRoute(builder: (_) => const OnboardingPage());
+      case RouteName.MAIN:
+        return MaterialPageRoute(builder: (_) => const MainPage());
       case RouteName.LOGIN:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case RouteName.REGISTER:

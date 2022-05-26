@@ -1,16 +1,26 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/features/auth/data/auth_repository.dart';
+import 'package:bloom/core/error/signup_exception.dart';
 import 'package:equatable/equatable.dart';
+import '../../../../../core/error/login_exception.dart';
+import '../../../data/repositories/auth_repository.dart';
+import '../../../data/repositories/local_auth_repository.dart';
 
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
   final AuthRepository _authRepository;
+  final LocalUserDataRepository _localUserDataRepository;
 
-  SignupCubit(this._authRepository) : super(SignupState.initial());
+  SignupCubit(
+    this._authRepository,
+    this._localUserDataRepository,
+  ) : super(SignupState.initial());
 
   void hidePassword() {
-    emit(state.copyWith(isHidden: !state.isHidden));
+    emit(state.copyWith(
+      isHidden: !state.isHidden,
+      status: SignupStatus.initial,
+    ));
   }
 
   void nameChanged(String value) {
@@ -44,16 +54,26 @@ class SignupCubit extends Cubit<SignupState> {
     emit(state.copyWith(status: SignupStatus.submitting, type: type));
     try {
       if (type == SignupType.email) {
-        await _authRepository.signUpByEmail(
-            state.name, state.email, state.password);
+        final userData = await _authRepository.signUpByEmail(
+          state.name,
+          state.email,
+          state.password,
+        );
+        await _localUserDataRepository.saveUserData(userData);
         emit(state.copyWith(status: SignupStatus.success));
       } else if (type == SignupType.google) {
-        await _authRepository.signInSignUpByGoogle();
+        final userData = await _authRepository.signInSignUpByGoogle();
+        await _localUserDataRepository.saveUserData(userData);
         emit(state.copyWith(status: SignupStatus.success));
       } else {
-        await _authRepository.signInSignUpByFacebook();
+        final userData = await _authRepository.signInSignUpByFacebook();
+        await _localUserDataRepository.saveUserData(userData);
         emit(state.copyWith(status: SignupStatus.success));
       }
-    } catch (e) {}
+    } on SignUpWithEmailAndPasswordFailure catch (e) {
+      emit(state.copyWith(status: SignupStatus.error, errorMessage: e.message));
+    } on LogInWithGoogleFailure catch (e) {
+      emit(state.copyWith(status: SignupStatus.error, errorMessage: e.message));
+    }
   }
 }

@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 abstract class RouteName {
+  static const MAIN = '/main';
+  static const ONBOARD = '/onboard';
   static const LOGIN = '/login';
   static const REGISTER = '/register';
   static const VERIFICATION = '/verification';

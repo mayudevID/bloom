@@ -6,11 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
-import '../../data/auth_repository.dart';
+import '../../data/repositories/auth_repository.dart';
 import '../widgets/form_input.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
+  static Page page() => const MaterialPage<void>(child: ForgotPasswordPage());
 
   @override
   Widget build(BuildContext context) {
