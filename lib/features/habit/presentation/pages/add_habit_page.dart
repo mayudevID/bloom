@@ -8,6 +8,7 @@ import 'package:weekday_selector/weekday_selector.dart';
 
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
+import '../widgets/get_icon_dialog.dart';
 
 class AddHabitsPage extends StatelessWidget {
   const AddHabitsPage({Key? key}) : super(key: key);
@@ -39,80 +40,7 @@ class AddHabitsPageContent extends StatelessWidget {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return Dialog(
-            insetPadding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                Text("Title", style: textParagraph.copyWith(fontSize: 17)),
-                SizedBox(height: getHeight(10, context)),
-                SizedBox(
-                  width: 250,
-                  height: 250,
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 70,
-                      childAspectRatio: 1,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                    ),
-                    itemCount: iconLocation.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () =>
-                            context.read<AddHabitCubit>().iconChanged(index),
-                        child: BlocBuilder<AddHabitCubit, AddHabitState>(
-                          builder: (context, state) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: (state.selectedIcon == index)
-                                        ? yellowDark
-                                        : naturalBlack,
-                                    width: 3),
-                              ),
-                              child: Image.asset(
-                                iconLocation[index],
-                                scale: 2,
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const Spacer(),
-                Row(
-                  children: [
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Container(
-                        width: 70,
-                        height: 35,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: naturalBlack,
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Close',
-                            style: buttonSmall.copyWith(
-                              color: naturalWhite,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
+          return const GetIconDialog();
         },
       );
     }
@@ -224,9 +152,13 @@ class AddHabitsPageContent extends StatelessWidget {
                         color: const Color(0xffFCF7D3),
                       ),
                       child: BlocBuilder<AddHabitCubit, AddHabitState>(
+                        buildWhen: (previous, current) {
+                          return previous.selectedIcon != current.selectedIcon;
+                        },
                         builder: (context, state) {
+                          print(state.selectedIcon);
                           return Image.asset(
-                            state.iconImg,
+                            iconLocation[state.selectedIcon],
                             width: 32,
                             scale: 3,
                           );
@@ -448,19 +380,19 @@ class AddHabitsPageContent extends StatelessWidget {
               builder: (context, state) {
                 return WeekdaySelector(
                   onChanged: (int day) {
-                    print(day);
-                    final index = day % 7;
-                    context.read<AddHabitCubit>().dayListChanged(index);
+                    // print(day);
+                    // final index = day % 7;
+                    // context.read<AddHabitCubit>().dayListChanged(index);
                     // addHabitsC.setList(index);
                     // print(addHabitsC.dayList);
                   },
-                  selectedFillColor: yellowDark,
-                  color: naturalBlack,
-                  selectedColor: naturalBlack,
-                  fillColor: greyLight,
-                  firstDayOfWeek: 7,
-                  elevation: 0,
-                  selectedElevation: 0,
+                  // selectedFillColor: yellowDark,
+                  // color: naturalBlack,
+                  // selectedColor: naturalBlack,
+                  // fillColor: greyLight,
+                  // firstDayOfWeek: 7,
+                  // elevation: 0,
+                  // selectedElevation: 0,
                   values: state.dayList,
                 );
               },

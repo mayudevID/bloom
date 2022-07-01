@@ -108,8 +108,9 @@ class CreateAccountPageContent extends StatelessWidget {
                           SizedBox(
                             width: 25,
                             height: 25,
-                            child:
-                                CircularProgressIndicator(color: naturalBlack),
+                            child: CircularProgressIndicator(
+                              color: naturalBlack,
+                            ),
                           ),
                           SizedBox(
                             width: getWidth(15, context),

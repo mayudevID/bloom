@@ -40,20 +40,11 @@ class PomodoroCard extends StatelessWidget {
               ),
               child: GestureDetector(
                 onTap: () async {
-                  // var pomodoroDb = await Hive.openBox('pomodoro_db');
-                  // if (pomodoroDb.length == 1) {
-                  //   pomodoroDb.clear();
-                  // } else {
-                  //   pomodoroDb.deleteAt(index);
-                  // }
                   context.read<PomodorosOverviewBloc>().add(
                         PomodorosOverviewPomodoroDeleted(
                           pomodoro,
                         ),
                       );
-                  // context
-                  //     .read<PomodoroBloc>()
-                  //     .add(DeletePomodoroEvent(index: indexPomodoro));
                   Navigator.of(context).pop();
                 },
                 child: Row(

@@ -155,58 +155,6 @@ class PomodoroPageContent extends StatelessWidget {
               },
             ),
           ),
-          // BlocBuilder<PomodoroBloc, PomodoroState>(builder: (context, state) {
-          //   if (state is PomodoroInitial) {
-          //     context.read<PomodoroBloc>().add(DisplayPomodoroEvent());
-          //     return Container();
-          //   } else if (state is DisplayPomodoroLoading) {
-          //     return SizedBox(
-          //       height: getHeight(120, context),
-          //       child: const Center(
-          //         child: CircularProgressIndicator(color: Colors.black),
-          //       ),
-          //     );
-          //   } else if (state is DisplayPomodoroLoaded) {
-          //     return SizedBox(
-          //       height: getHeight(120, context),
-          //       child: ScrollablePositionedList.builder(
-          //         itemCount: state.pomodoro.length,
-          //         itemScrollController: scrollController,
-          //         shrinkWrap: true,
-          //         scrollDirection: Axis.horizontal,
-          //         reverse: true,
-          //         itemBuilder: (context, index) {
-          //           return PomodoroCard(
-          //             index: index,
-          //             indexPomodoro: state.pomodoro.keys.elementAt(index),
-          //             pomodoro: state.pomodoro.values.elementAt(index),
-          //             isLast: index == state.pomodoro.length - 1,
-          //           );
-          //         },
-          //       ),
-          //     );
-          //   } else if (state is DisplayPomodoroEmpty) {
-          //     return SizedBox(
-          //       height: getHeight(120, context),
-          //       child: const Center(
-          //         child: Text(
-          //           'Timer empty',
-          //           style: TextStyle(
-          //             fontFamily: "Poppins",
-          //             fontSize: 14,
-          //           ),
-          //         ),
-          //       ),
-          //     );
-          //   } else {
-          //     return const SizedBox(
-          //       height: 120,
-          //       child: Center(
-          //         child: Text('Error'),
-          //       ),
-          //     );
-          //   }
-          // }),
           SizedBox(height: getHeight(32, context)),
           Container(
             padding: EdgeInsets.symmetric(horizontal: getWidth(24, context)),
@@ -216,79 +164,7 @@ class PomodoroPageContent extends StatelessWidget {
             ),
           ),
           SizedBox(height: getHeight(8, context)),
-          // Obx(() {
-          //   if (pomodoroController.recentList.isNotEmpty) {
-          //     return Container(
-          //       height: Get.height * 120 / 800,
-          //       margin: EdgeInsets.symmetric(horizontal: Get.width * 24 / 360),
-          //       padding: const EdgeInsets.symmetric(
-          //         horizontal: 30,
-          //         vertical: 19,
-          //       ),
-          //       decoration: BoxDecoration(
-          //         borderRadius: BorderRadius.circular(5),
-          //         color: yellowLight,
-          //       ),
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           Column(
-          //             crossAxisAlignment: CrossAxisAlignment.start,
-          //             children: [
-          //               Text(
-          //                 pomodoroController.recentList[0].title,
-          //                 style: textParagraph,
-          //               ),
-          //               Text(
-          //                 "${pomodoroController.recentList[0].durationMinutes}:00",
-          //                 style: mainTitle.copyWith(
-          //                   fontSize: 40,
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //           GestureDetector(
-          //             onTap: () {
-          //               Get.toNamed(
-          //                 RouteName.TIMER,
-          //                 arguments: pomodoroController.recentList[0],
-          //               );
-          //             },
-          //             child: Container(
-          //               width: 123,
-          //               height: 34,
-          //               decoration: BoxDecoration(
-          //                 borderRadius: BorderRadius.circular(30),
-          //                 color: naturalBlack,
-          //               ),
-          //               child: Center(
-          //                 child: Text(
-          //                   "Play",
-          //                   style: buttonSmall.copyWith(
-          //                     color: naturalWhite,
-          //                   ),
-          //                 ),
-          //               ),
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     );
-          //   } else {
-          //     return SizedBox(
-          //       height: Get.height * 120 / 800,
-          //       child: const Center(
-          //         child: Text(
-          //           'Nothing opened recently',
-          //           style: TextStyle(
-          //             fontFamily: "Poppins",
-          //             fontSize: 14,
-          //           ),
-          //         ),
-          //       ),
-          //     );
-          //   }
-          // }),
+          Center(child: Text("Recent List (Next)")),
           SizedBox(height: getHeight(48, context)),
           GestureDetector(
             onTap: () => _addTimerDialog(),
