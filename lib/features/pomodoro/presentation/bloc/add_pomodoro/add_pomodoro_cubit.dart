@@ -13,18 +13,23 @@ class AddPomodoroCubit extends Cubit<AddPomodoroState> {
       : super(AddPomodoroState.initial());
 
   void titleChanged(String value) {
-    emit(state.copyWith(title: value));
+    emit(state.copyWith(title: value, status: AddPomodoroStatus.initial));
   }
 
   void durationChanged(int value) {
-    emit(state.copyWith(duration: value));
+    emit(state.copyWith(duration: value, status: AddPomodoroStatus.initial));
   }
 
   void sessionChanged(int value) {
-    emit(state.copyWith(session: value));
+    emit(state.copyWith(session: value, status: AddPomodoroStatus.initial));
   }
 
   void savePomodoro() async {
+    if (state.status == AddPomodoroStatus.submitting) {
+      return;
+    }
+    emit(state.copyWith(status: AddPomodoroStatus.initial));
+    emit(state.copyWith(status: AddPomodoroStatus.submitting));
     try {
       PomodoroModel pomodoro = PomodoroModel(
         pomodoroId: getRandomId(),
@@ -34,6 +39,7 @@ class AddPomodoroCubit extends Cubit<AddPomodoroState> {
       );
 
       await _pomodorosRepository.savePomodoro(pomodoro);
+      emit(state.copyWith(status: AddPomodoroStatus.success));
     } catch (e) {}
   }
 }

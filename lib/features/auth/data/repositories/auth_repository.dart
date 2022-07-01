@@ -47,7 +47,6 @@ class AuthRepository {
       var _authResult = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       final _userData = await getUserFromFirestore(_authResult.user!.uid);
-      //await localDataSource.saveData(userData);
       return _userData;
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
@@ -61,15 +60,19 @@ class AuthRepository {
           email: _email, password: _password);
       final _photoDefault = await getImageFileFromAssets('icons/profpict.png');
       final _photoURL = await uploadProfilePicture(_photoDefault);
-      const _userData = UserData.empty;
-      _userData.copyWith(
+      final _userData = UserData(
         userId: _authResult.user!.uid,
         name: _name,
         email: _email,
         photoURL: _photoURL,
+        habitStreak: 0,
+        taskCompleted: 0,
+        totalFocus: 0,
+        missed: 0,
+        completed: 0,
+        streakLeft: 0,
       );
       await createNewUserForFirestore(_userData);
-      //await _localUserDataRepository.saveData(userData);
       return _userData;
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
@@ -174,7 +177,6 @@ class AuthRepository {
         "name": user.name,
         "email": user.email,
         "photoUrl": user.photoURL,
-        "isNewUser": user.isNewUser,
       });
       await _firestore.collection('stats').doc(user.userId).set({
         "habitStreak": user.habitStreak,
@@ -183,7 +185,6 @@ class AuthRepository {
         "missed": user.missed,
         "completed": user.completed,
         "streakLeft": user.streakLeft,
-        "isNewUser": user.isNewUser,
       });
     } on Exception catch (e) {
       throw Exception(e);
@@ -216,12 +217,17 @@ class AuthRepository {
           await _firebaseAuth.signInWithCredential(oAuthCredential);
 
       if (_authResult.additionalUserInfo!.isNewUser) {
-        const _userData = UserData.empty;
-        _userData.copyWith(
+        final _userData = UserData(
           userId: _authResult.user!.uid,
           name: _authResult.user!.displayName,
-          email: _authResult.user!.email,
+          email: _authResult.user!.email as String,
           photoURL: _authResult.user!.photoURL,
+          habitStreak: 0,
+          taskCompleted: 0,
+          totalFocus: 0,
+          missed: 0,
+          completed: 0,
+          streakLeft: 0,
         );
         await createNewUserForFirestore(_userData);
         //await localDataSource.saveData(_userData);
@@ -234,22 +240,6 @@ class AuthRepository {
     } catch (e) {
       throw Exception(e);
     }
-  }
-
-  UserData getNewDataModel(firebase_auth.UserCredential userCredential) {
-    return UserData(
-      userId: userCredential.user!.uid,
-      name: userCredential.user!.displayName,
-      email: userCredential.user!.email as String,
-      photoURL: userCredential.user!.photoURL as String,
-      habitStreak: 0,
-      taskCompleted: 1,
-      totalFocus: 0,
-      missed: 0,
-      completed: 0,
-      streakLeft: 0,
-      isNewUser: true,
-    );
   }
 }
 

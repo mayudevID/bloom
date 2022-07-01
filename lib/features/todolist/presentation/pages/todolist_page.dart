@@ -2,6 +2,7 @@
 
 import 'package:bloom/core/routes/route_name.dart';
 import 'package:bloom/core/utils/function.dart';
+import 'package:bloom/features/todolist/domain/todos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/theme.dart';
@@ -11,7 +12,23 @@ import '../bloc/todos_overview/todos_overview_bloc.dart';
 import '../widgets/task_widget.dart';
 
 class ToDoListPage extends StatelessWidget {
-  ToDoListPage({Key? key}) : super(key: key);
+  const ToDoListPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => TodosOverviewBloc(
+        todosRepository: context.read<TodosRepository>(),
+      )..add(
+          const TodosOverviewSubscriptionRequested(),
+        ),
+      child: ToDoListPageContent(),
+    );
+  }
+}
+
+class ToDoListPageContent extends StatelessWidget {
+  ToDoListPageContent({Key? key}) : super(key: key);
   DateTime dateNow = DateTime(
     DateTime.now().year,
     DateTime.now().month,

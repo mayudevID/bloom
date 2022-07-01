@@ -17,7 +17,7 @@ class PomodoroPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => PomodorosOverviewBloc(
         pomodorosRepository: context.read<PomodorosRepository>(),
-      ),
+      )..add(const PomodorosOverviewSubscriptionRequested()),
       child: PomodoroPageContent(),
     );
   }

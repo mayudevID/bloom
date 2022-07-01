@@ -20,7 +20,7 @@ class TimerCircle extends StatelessWidget {
       radius: 293 / 2,
       lineWidth: 12,
       backgroundColor: yellowDark,
-      percent: duration / (earlyTime / 60),
+      percent: duration / (earlyTime * 60),
       reverse: true,
       center: SizedBox(
         child: Text(

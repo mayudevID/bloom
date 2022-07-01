@@ -164,7 +164,7 @@ class CreateAccountPageContent extends StatelessWidget {
                             state.type == SignupType.google) {
                           return const ButtonLogo(type: ButtonType.none);
                         } else {
-                          return const ButtonLogo(type: ButtonType.fb);
+                          return const ButtonLogo(type: ButtonType.google);
                         }
                       },
                     ),

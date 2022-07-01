@@ -13,7 +13,6 @@ class UserData extends Equatable {
   final int missed;
   final int completed;
   final int streakLeft;
-  final bool isNewUser;
 
   const UserData({
     required this.userId,
@@ -26,7 +25,6 @@ class UserData extends Equatable {
     required this.missed,
     required this.completed,
     required this.streakLeft,
-    required this.isNewUser,
   });
 
   bool get isEmpty => this == UserData.empty;
@@ -40,7 +38,6 @@ class UserData extends Equatable {
     missed: 0,
     completed: 0,
     streakLeft: 0,
-    isNewUser: false,
     email: '',
     name: '',
     photoURL: '',
@@ -52,32 +49,30 @@ class UserData extends Equatable {
   ) {
     return UserData(
       userId: user.id,
-      email: user['email'] as String,
-      photoURL: user['photoUrl'] as String,
-      name: user['name'] as String,
-      habitStreak: stat['habitStreak'] as int,
-      taskCompleted: stat['taskCompleted'] as int,
-      totalFocus: stat['totalFocus'] as double,
-      missed: stat['missed'] as int,
-      completed: stat['completed'] as int,
-      streakLeft: stat['streakLeft'] as int,
-      isNewUser: user['isNewUser'] as bool,
+      email: user['email'],
+      photoURL: user['photoUrl'],
+      name: user['name'],
+      habitStreak: stat['habitStreak'],
+      taskCompleted: stat['taskCompleted'],
+      totalFocus: stat['totalFocus'],
+      missed: stat['missed'],
+      completed: stat['completed'],
+      streakLeft: stat['streakLeft'],
     );
   }
 
   factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
-      userId: json['userId'] as String,
-      email: json['email'] as String,
-      photoURL: json['photoUrl'] as String,
-      name: json['name'] as String,
-      habitStreak: json['habitStreak'] as int,
-      taskCompleted: json['taskCompleted'] as int,
-      totalFocus: json['totalFocus'] as double,
-      missed: json['missed'] as int,
-      completed: json['completed'] as int,
-      streakLeft: json['streakLeft'] as int,
-      isNewUser: json['isNewUser'] as bool,
+      userId: json['userId'],
+      email: json['email'],
+      photoURL: json['photoUrl'],
+      name: json['name'],
+      habitStreak: json['habitStreak'],
+      taskCompleted: json['taskCompleted'],
+      totalFocus: json['totalFocus'],
+      missed: json['missed'],
+      completed: json['completed'],
+      streakLeft: json['streakLeft'],
     );
   }
 
@@ -93,7 +88,6 @@ class UserData extends Equatable {
       'missed': missed,
       'completed': completed,
       'streakLeft': streakLeft,
-      'isNewUser': isNewUser,
     };
   }
 
@@ -108,7 +102,6 @@ class UserData extends Equatable {
     int? missed,
     int? completed,
     int? streakLeft,
-    bool? isNewUser,
   }) {
     return UserData(
       userId: userId ?? this.userId,
@@ -121,7 +114,6 @@ class UserData extends Equatable {
       missed: missed ?? this.missed,
       completed: completed ?? this.completed,
       streakLeft: streakLeft ?? this.streakLeft,
-      isNewUser: isNewUser ?? this.isNewUser,
     );
   }
 
@@ -139,6 +131,5 @@ class UserData extends Equatable {
         missed,
         completed,
         streakLeft,
-        isNewUser,
       ];
 }

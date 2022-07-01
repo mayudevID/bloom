@@ -178,10 +178,17 @@ Future<File> getImageFileFromAssets(String path) async {
 
   final file = File('${(await getTemporaryDirectory()).path}/$path');
   await file.create(recursive: true);
-  await file.writeAsBytes(byteData.buffer
-      .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+  await file.writeAsBytes(byteData.buffer.asUint8List(
+    byteData.offsetInBytes,
+    byteData.lengthInBytes,
+  ));
 
-  return file;
+  var pathOld = file.path;
+  var lastSeparator = pathOld.lastIndexOf(Platform.pathSeparator);
+  var newPath =
+      pathOld.substring(0, lastSeparator + 1) + getRandomId().toString();
+
+  return file.rename(newPath);
 }
 
 // DECIDE WHICH DAY TO ENABLE

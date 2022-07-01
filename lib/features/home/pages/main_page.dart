@@ -1,4 +1,6 @@
 // ignore_for_file: must_be_immutable
+import 'package:bloom/core/utils/function.dart';
+import 'package:bloom/core/utils/theme.dart';
 import 'package:bloom/features/home/widgets/navbar_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,40 +36,44 @@ class MainPageContent extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: IndexedStack(
         index: selectedTab.index,
-        children: [
-          const HomePage(),
-          const PomodoroPage(),
-          const HabitTrackerPage(),
+        children: const [
+          HomePage(),
+          PomodoroPage(),
+          HabitTrackerPage(),
           ToDoListPage(),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
+        color: naturalWhite,
         shape: const CircularNotchedRectangle(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            NavbarButton(
-              groupVal: selectedTab,
-              value: HomeTab.home,
-              icon: "home",
-            ),
-            NavbarButton(
-              groupVal: selectedTab,
-              value: HomeTab.pomodoro,
-              icon: "timer",
-            ),
-            NavbarButton(
-              groupVal: selectedTab,
-              value: HomeTab.habit,
-              icon: "calendar",
-            ),
-            NavbarButton(
-              groupVal: selectedTab,
-              value: HomeTab.todo,
-              icon: "clipboard",
-            )
-          ],
+        child: SizedBox(
+          height: getHeight(56, context),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              NavbarButton(
+                groupVal: selectedTab,
+                value: HomeTab.home,
+                icon: "home",
+              ),
+              NavbarButton(
+                groupVal: selectedTab,
+                value: HomeTab.pomodoro,
+                icon: "timer",
+              ),
+              NavbarButton(
+                groupVal: selectedTab,
+                value: HomeTab.habit,
+                icon: "calendar",
+              ),
+              NavbarButton(
+                groupVal: selectedTab,
+                value: HomeTab.todo,
+                icon: "clipboard",
+              )
+            ],
+          ),
         ),
       ),
     );

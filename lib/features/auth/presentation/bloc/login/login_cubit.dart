@@ -43,6 +43,7 @@ class LoginCubit extends Cubit<LoginState> {
     if (state.status == LoginStatus.submitting) {
       return;
     }
+    emit(state.copyWith(status: LoginStatus.initial));
     emit(state.copyWith(status: LoginStatus.submitting, type: type));
     try {
       if (type == LoginType.email) {

@@ -250,6 +250,7 @@ class _AppViewState extends State<AppView> {
             }
           },
           child: Scaffold(
+            backgroundColor: naturalWhite,
             body: Center(
               child: CircularProgressIndicator(
                 color: naturalBlack,

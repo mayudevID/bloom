@@ -13,177 +13,196 @@ class AddTimerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          AddPomodoroCubit(context.read<PomodorosRepository>()),
-      child: Dialog(
-        insetPadding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //SizedBox(height: getHeight(5, context)),
-            Text("Title", style: smallTextLink),
-            SizedBox(height: getHeight(10, context)),
-            Container(
-              height: 35,
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: naturalBlack),
-              ),
-              child: BlocBuilder<AddPomodoroCubit, AddPomodoroState>(
+      create: (context) => AddPomodoroCubit(
+        context.read<PomodorosRepository>(),
+      ),
+      child: const AddTimerDialogContent(),
+    );
+  }
+}
+
+class AddTimerDialogContent extends StatelessWidget {
+  const AddTimerDialogContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      insetPadding: const EdgeInsets.all(20),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //SizedBox(height: getHeight(5, context)),
+          Text("Title", style: smallTextLink),
+          SizedBox(height: getHeight(10, context)),
+          Container(
+            height: 35,
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(color: naturalBlack),
+            ),
+            child: BlocConsumer<AddPomodoroCubit, AddPomodoroState>(
+              listener: (context, state) {
+                if (state.status == AddPomodoroStatus.success) {
+                  Navigator.of(context).pop();
+                }
+              },
+              buildWhen: (previous, current) {
+                return previous.title != current.title;
+              },
+              builder: (context, state) {
+                return TextFormField(
+                  onChanged: (val) {
+                    context.read<AddPomodoroCubit>().titleChanged(val);
+                  },
+                  maxLength: 25,
+                  buildCounter: (BuildContext context,
+                      {int? currentLength, int? maxLength, bool? isFocused}) {
+                    return null;
+                  },
+                  autofocus: true,
+                  style: textForm,
+                  cursorColor: naturalBlack,
+                  decoration: InputDecoration.collapsed(
+                    hintText: "Add Title",
+                    hintStyle: textForm.copyWith(color: greyDark),
+                  ),
+                );
+              },
+            ),
+          ),
+          SizedBox(height: getHeight(10, context)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Duration\n(in Minutes)", style: smallTextLink),
+              BlocBuilder<AddPomodoroCubit, AddPomodoroState>(
                 buildWhen: (previous, current) {
-                  return previous.title != current.title;
+                  return previous.duration != current.duration;
                 },
                 builder: (context, state) {
-                  return TextFormField(
-                    onChanged: (val) {
-                      context.read<AddPomodoroCubit>().titleChanged(val);
-                    },
-                    maxLength: 25,
-                    buildCounter: (BuildContext context,
-                        {int? currentLength, int? maxLength, bool? isFocused}) {
-                      return null;
-                    },
-                    autofocus: true,
-                    style: textForm,
-                    cursorColor: naturalBlack,
-                    decoration: InputDecoration.collapsed(
-                      hintText: "Add Title",
-                      hintStyle: textForm.copyWith(color: greyDark),
+                  return NumberPicker(
+                    itemWidth: 35,
+                    textStyle: textParagraph.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: naturalBlack,
                     ),
+                    selectedTextStyle: textParagraph.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: naturalBlack,
+                      fontSize: 18,
+                    ),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: naturalBlack),
+                    ),
+                    axis: Axis.horizontal,
+                    minValue: 5,
+                    maxValue: 45,
+                    value: state.duration,
+                    onChanged: (value) {
+                      context.read<AddPomodoroCubit>().durationChanged(value);
+                    },
+                    step: 5,
                   );
                 },
               ),
-            ),
-            SizedBox(height: getHeight(10, context)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Duration\n(in Minutes)", style: smallTextLink),
-                BlocBuilder<AddPomodoroCubit, AddPomodoroState>(
-                  buildWhen: (previous, current) {
-                    return previous.duration != current.duration;
-                  },
-                  builder: (context, state) {
-                    return NumberPicker(
-                      itemWidth: 35,
-                      textStyle: textParagraph.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: naturalBlack,
-                      ),
-                      selectedTextStyle: textParagraph.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: naturalBlack,
-                        fontSize: 18,
-                      ),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: naturalBlack),
-                      ),
-                      axis: Axis.horizontal,
-                      minValue: 5,
-                      maxValue: 45,
-                      value: state.duration,
-                      onChanged: (value) {
-                        context.read<AddPomodoroCubit>().durationChanged(value);
-                      },
-                      step: 5,
-                    );
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: getHeight(10, context)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Session(s)", style: smallTextLink),
-                BlocBuilder<AddPomodoroCubit, AddPomodoroState>(
-                  buildWhen: (previous, current) {
-                    return previous.session != current.session;
-                  },
-                  builder: (context, state) {
-                    return NumberPicker(
-                      itemWidth: 35,
-                      textStyle: textParagraph.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: naturalBlack,
-                      ),
-                      selectedTextStyle: textParagraph.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: naturalBlack,
-                        fontSize: 18,
-                      ),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: naturalBlack),
-                      ),
-                      axis: Axis.horizontal,
-                      minValue: 1,
-                      maxValue: 5,
-                      value: state.session,
-                      onChanged: (value) {
-                        context.read<AddPomodoroCubit>().sessionChanged(value);
-                      },
-                      step: 1,
-                    );
-                  },
-                ),
-              ],
-            ),
-            const Spacer(),
-            Row(
-              children: [
-                const Spacer(),
-                GestureDetector(
-                  onTap: () async {
-                    context.read<AddPomodoroCubit>().savePomodoro();
-                  },
-                  child: Container(
-                    width: 70,
-                    height: 35,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
+            ],
+          ),
+          SizedBox(height: getHeight(10, context)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Session(s)", style: smallTextLink),
+              BlocBuilder<AddPomodoroCubit, AddPomodoroState>(
+                buildWhen: (previous, current) {
+                  return previous.session != current.session;
+                },
+                builder: (context, state) {
+                  return NumberPicker(
+                    itemWidth: 35,
+                    textStyle: textParagraph.copyWith(
+                      fontWeight: FontWeight.w600,
                       color: naturalBlack,
                     ),
-                    child: Center(
-                      child: Text(
-                        'Add',
-                        style: buttonSmall.copyWith(
-                          color: naturalWhite,
-                        ),
+                    selectedTextStyle: textParagraph.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: naturalBlack,
+                      fontSize: 18,
+                    ),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: naturalBlack),
+                    ),
+                    axis: Axis.horizontal,
+                    minValue: 1,
+                    maxValue: 5,
+                    value: state.session,
+                    onChanged: (value) {
+                      context.read<AddPomodoroCubit>().sessionChanged(value);
+                    },
+                    step: 1,
+                  );
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: getHeight(10, context)),
+          Row(
+            children: [
+              const Spacer(),
+              GestureDetector(
+                onTap: () async {
+                  context.read<AddPomodoroCubit>().savePomodoro();
+                },
+                child: Container(
+                  width: 70,
+                  height: 35,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: naturalBlack,
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Add',
+                      style: buttonSmall.copyWith(
+                        color: naturalWhite,
                       ),
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    width: 70,
-                    height: 35,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: naturalBlack,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Cancel',
-                        style: buttonSmall.copyWith(
-                          color: naturalWhite,
-                        ),
+              ),
+              SizedBox(width: getWidth(10, context)),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  width: 70,
+                  height: 35,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: naturalBlack,
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Cancel',
+                      style: buttonSmall.copyWith(
+                        color: naturalWhite,
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

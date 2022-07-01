@@ -72,7 +72,7 @@ class HomePageContent extends StatelessWidget {
                       builder: (context, state) {
                         if (state.status == UserStatus.success) {
                           return CachedNetworkImage(
-                            imageUrl: state.userData.name.toString(),
+                            imageUrl: state.userData.photoURL.toString(),
                             imageBuilder: (context, imageProvider) {
                               return Container(
                                 width: 40.0,

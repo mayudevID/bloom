@@ -30,16 +30,18 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     return super.close();
   }
 
-  void _onSet(TimerSet event, Emitter<TimerState> emit) {
+  void _onSet(TimerSet event, Emitter<TimerState> emit) async {
     // ignore: invalid_use_of_visible_for_testing_member
     emit(
       TimerInitial(
-        event.data.durationMinutes,
-        event.data.session,
+        event.data.durationMinutes * 60,
+        1,
         false,
         false,
       ),
     );
+    await Future.delayed(const Duration(milliseconds: 500));
+    _onStarted(TimerStarted(state.duration, state.session), emit);
   }
 
   void _onStarted(TimerStarted event, Emitter<TimerState> emit) {

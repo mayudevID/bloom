@@ -51,6 +51,14 @@ class SignupCubit extends Cubit<SignupState> {
     if (state.status == SignupStatus.submitting) {
       return;
     }
+    emit(state.copyWith(status: SignupStatus.initial));
+    if (state.name.isEmpty) {
+      emit(state.copyWith(
+        status: SignupStatus.error,
+        errorMessage: "Name is required",
+      ));
+      return;
+    }
     emit(state.copyWith(status: SignupStatus.submitting, type: type));
     try {
       if (type == SignupType.email) {
