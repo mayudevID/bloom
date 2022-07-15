@@ -63,8 +63,8 @@ class LocalStoragePomodorosApi extends PomodorosApi {
   @override
   Future<void> deletePomodoro(String id) async {
     final pomodoros = [..._pomodoroStreamController.value];
-    // ignore: unrelated_type_equality_checks
-    final pomodoroIndex = pomodoros.indexWhere((t) => t.pomodoroId == id);
+    final pomodoroIndex =
+        pomodoros.indexWhere((t) => t.pomodoroId == int.tryParse(id));
     if (pomodoroIndex == -1) {
       throw PomodorosNotFoundException();
     } else {

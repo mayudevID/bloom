@@ -19,8 +19,8 @@ class TaskWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        dynamic isDeleted = Navigator.of(context).pushNamed(
+      onTap: () async {
+        dynamic isDeleted = await Navigator.of(context).pushNamed(
           RouteName.TASKDETAIL,
           arguments: taskModel,
         );

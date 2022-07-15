@@ -29,7 +29,7 @@ class AddTodoState extends Equatable {
       title: '',
       dateTime: DateTime.now(),
       description: '',
-      tags: '',
+      tags: 'Basic',
       isRepeat: false,
       isTime: false,
       isChecked: false,

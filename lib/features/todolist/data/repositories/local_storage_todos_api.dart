@@ -63,7 +63,7 @@ class LocalStorageTodosApi extends TodosApi {
   Future<void> deleteTodo(String id) async {
     final todos = [..._todoStreamController.value];
     // ignore: unrelated_type_equality_checks
-    final todoIndex = todos.indexWhere((t) => t.taskId == id);
+    final todoIndex = todos.indexWhere((t) => t.taskId == int.tryParse(id));
     if (todoIndex == -1) {
       throw TodoNotFoundException();
     } else {

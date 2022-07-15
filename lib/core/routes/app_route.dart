@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../features/auth/presentation/pages/create_account_page.dart';
-import '../../features/auth/presentation/pages/forgot_password_page.dart';
-import '../../features/auth/presentation/pages/login_page.dart';
-import '../../features/auth/presentation/pages/onboarding_page.dart';
-import '../../features/auth/presentation/pages/verification_page.dart';
+import '../../features/authentication/presentation/pages/create_account_page.dart';
+import '../../features/authentication/presentation/pages/forgot_password_page.dart';
+import '../../features/authentication/presentation/pages/login_page.dart';
+import '../../features/authentication/presentation/pages/onboarding_page.dart';
+import '../../features/authentication/presentation/pages/verification_page.dart';
 import '../../features/habit/data/models/habit_model.dart';
 import '../../features/habit/presentation/pages/add_habit_page.dart';
 import '../../features/habit/presentation/pages/habit_detail_page.dart';

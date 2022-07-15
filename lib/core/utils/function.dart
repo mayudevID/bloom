@@ -1,15 +1,10 @@
 import 'dart:collection';
 import 'dart:io';
-import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../features/habit/data/models/habit_model.dart';
 import '../../features/todolist/data/models/task_model.dart';
-
-// DEFAULT PHOTO
-const defaultPhoto =
-    'https://firebasestorage.googleapis.com/v0/b/bloom-88be1.appspot.com/o/profilePicture%2Fdefault.png?alt=media&token=5f6b93d6-5bf0-422c-a129-90fc04da9886';
 
 // GET WIDTH
 double getWidth(double sizeDesign, BuildContext context) {

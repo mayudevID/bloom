@@ -107,6 +107,7 @@ class ToDoListPageContent extends StatelessWidget {
                             ),
                             action: SnackBarAction(
                               label: "Undo Delete",
+                              textColor: redAction,
                               onPressed: () {
                                 messenger.hideCurrentSnackBar();
                                 context.read<TodosOverviewBloc>().add(
@@ -125,8 +126,9 @@ class ToDoListPageContent extends StatelessWidget {
                         return SizedBox(
                           height: getHeight(70, context),
                           child: const Center(
-                            child:
-                                CircularProgressIndicator(color: Colors.black),
+                            child: CircularProgressIndicator(
+                              color: Colors.black,
+                            ),
                           ),
                         );
                       } else if (state.status != TodosOverviewStatus.success) {
@@ -168,119 +170,40 @@ class ToDoListPageContent extends StatelessWidget {
                   },
                 ),
               ),
-              // child: FutureBuilder(
-              //   future: taskBox,
-              //   builder: (builder, snapshot) {
-              //     if (snapshot.connectionState == ConnectionState.done) {
-              //       if (snapshot.hasError) {
-              //         return Center(
-              //           child: Text(snapshot.error.toString()),
-              //         );
-              //       } else {
-              //         var taskDb = Hive.box('task_db');
-              //         return ValueListenableBuilder(
-              //           valueListenable: taskDb.listenable(),
-              //           builder: (context, value, child) {
-              //             if (taskDb.isEmpty) {
-              //               return SizedBox(
-              //                 height: Get.height * 70 / 800,
-              //                 child: const Center(
-              //                   child: Text(
-              //                     'Task empty for this date',
-              //                     style: TextStyle(
-              //                       fontFamily: "Poppins",
-              //                       fontSize: 14,
-              //                     ),
-              //                   ),
-              //                 ),
-              //               );
-              //             } else {
-              //               return GetBuilder<ToDoListController>(
-              //                 builder: (_) {
-              //                   Map<int, TaskModel?> dataTask =
-              //                       taskByDateChooser(taskDb,
-              //                           toDoListController.dateSelector);
-              //                   if (dataTask.isEmpty) {
-              //                     return SizedBox(
-              //                       height: Get.height * 70 / 800,
-              //                       child: const Center(
-              //                         child: Text(
-              //                           'Task empty for this date',
-              //                           style: TextStyle(
-              //                             fontFamily: "Poppins",
-              //                             fontSize: 14,
-              //                           ),
-              //                         ),
-              //                       ),
-              //                     );
-              //                   } else {
-              //                     return MediaQuery.removePadding(
-              //                       context: context,
-              //                       removeTop: true,
-              //                       child: ListView.builder(
-              //                         physics:
-              //                             const NeverScrollableScrollPhysics(),
-              //                         shrinkWrap: true,
-              //                         itemCount: dataTask.length,
-              //                         itemBuilder: (context, idx) {
-              //                           return TaskWidget(
-              //                             taskModel:
-              //                                 dataTask.values.elementAt(idx),
-              //                             index: dataTask.keys.elementAt(idx),
-              //                           );
-              //                         },
-              //                       ),
-              //                     );
-              //                   }
-              //                 },
-              //               );
-              //             }
-              //           },
-              //         );
-              //       }
-              //     } else {
-              //       return SizedBox(
-              //         height: Get.height * 70 / 800,
-              //         child: const Center(
-              //           child: CircularProgressIndicator(color: Colors.black),
-              //         ),
-              //       );
-              //     }
-              //   },
-              // ),
             ),
             SizedBox(height: getHeight(40, context)),
             BlocBuilder<TodosOverviewBloc, TodosOverviewState>(
-                builder: (context, state) {
-              if (dateNow.isBefore(state.filter as DateTime) ||
-                  dateNow.isAtSameMomentAs(state.filter as DateTime)) {
-                return Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(RouteName.ADDHABIT);
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 203,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: naturalBlack,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Add new task",
-                          style: buttonSmall.copyWith(
-                            color: naturalWhite,
+              builder: (context, state) {
+                if (dateNow.isBefore(state.filter as DateTime) ||
+                    dateNow.isAtSameMomentAs(state.filter as DateTime)) {
+                  return Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(RouteName.ADDTASK);
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 203,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: naturalBlack,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Add new task",
+                            style: buttonSmall.copyWith(
+                              color: naturalWhite,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              } else {
-                return Container();
-              }
-            }),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
           ],
         ),
       ),

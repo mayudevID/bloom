@@ -1,5 +1,3 @@
-import 'package:bloom/features/auth/data/repositories/local_auth_repository.dart';
-import 'package:bloom/features/auth/presentation/bloc/app/app_bloc.dart';
 import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:bloom/features/home/bloc/user/user_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
+import '../../authentication/data/repositories/local_auth_repository.dart';
 import '../../habit/data/models/habit_model.dart';
 import '../../habit/presentation/bloc/habit_overview/habits_overview_bloc.dart';
 import '../../habit/presentation/widgets/habit_widget.dart';
@@ -193,6 +192,7 @@ class HomePageContent extends StatelessWidget {
                             ),
                             action: SnackBarAction(
                               label: "Undo Delete",
+                              textColor: redAction,
                               onPressed: () {
                                 messenger.hideCurrentSnackBar();
                                 context.read<TodosOverviewBloc>().add(
@@ -222,7 +222,7 @@ class HomePageContent extends StatelessWidget {
                           height: getHeight(70, context),
                           child: const Center(
                             child: Text(
-                              'Task empty for this date',
+                              'Task empty for now',
                               style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontSize: 14,
@@ -290,6 +290,7 @@ class HomePageContent extends StatelessWidget {
                             ),
                             action: SnackBarAction(
                               label: "Undo Delete",
+                              textColor: redAction,
                               onPressed: () {
                                 messenger.hideCurrentSnackBar();
                                 context.read<HabitsOverviewBloc>().add(
@@ -319,7 +320,7 @@ class HomePageContent extends StatelessWidget {
                           height: getHeight(70, context),
                           child: const Center(
                             child: Text(
-                              'Task empty for this date',
+                              'Habits empty for this date',
                               style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontSize: 14,

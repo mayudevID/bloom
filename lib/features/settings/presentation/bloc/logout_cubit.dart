@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/features/auth/data/repositories/local_auth_repository.dart';
 import 'package:equatable/equatable.dart';
-import '../../../auth/data/repositories/auth_repository.dart';
+
+import '../../../authentication/data/repositories/auth_repository.dart';
+import '../../../authentication/data/repositories/local_auth_repository.dart';
 
 part 'logout_state.dart';
 

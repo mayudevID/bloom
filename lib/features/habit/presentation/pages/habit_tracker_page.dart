@@ -114,6 +114,7 @@ class HabitTrackerPageContent extends StatelessWidget {
                               ),
                               action: SnackBarAction(
                                 label: "Undo Delete",
+                                textColor: redAction,
                                 onPressed: () {
                                   messenger.hideCurrentSnackBar();
                                   context.read<HabitsOverviewBloc>().add(

@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/error/login_exception.dart';
 import '../../../../core/error/signup_exception.dart';
 import '../../../../core/utils/function.dart';
@@ -230,11 +229,9 @@ class AuthRepository {
           streakLeft: 0,
         );
         await createNewUserForFirestore(_userData);
-        //await localDataSource.saveData(_userData);
         return _userData;
       } else {
         final _userData = await getUserFromFirestore(_authResult.user!.uid);
-        //await localDataSource.saveData(user);
         return _userData;
       }
     } catch (e) {

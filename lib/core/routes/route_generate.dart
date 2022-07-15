@@ -1,5 +1,5 @@
-import 'package:bloom/features/auth/presentation/bloc/app/app_bloc.dart';
-import 'package:bloom/features/auth/presentation/pages/onboarding_page.dart';
+import 'package:bloom/features/authentication/presentation/bloc/app/app_bloc.dart';
+import 'package:bloom/features/authentication/presentation/pages/onboarding_page.dart';
 import 'package:flutter/material.dart';
 import '../../features/home/pages/main_page.dart';
 

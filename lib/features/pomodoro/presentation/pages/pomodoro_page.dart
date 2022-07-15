@@ -96,10 +96,12 @@ class PomodoroPageContent extends StatelessWidget {
                         ),
                         action: SnackBarAction(
                           label: "Undo Delete",
+                          textColor: redAction,
                           onPressed: () {
                             messenger.hideCurrentSnackBar();
                             context.read<PomodorosOverviewBloc>().add(
-                                const PomodorosOverviewUndoDeletionRequested());
+                                  const PomodorosOverviewUndoDeletionRequested(),
+                                );
                           },
                         ),
                       ),
@@ -108,7 +110,7 @@ class PomodoroPageContent extends StatelessWidget {
               ),
             ],
             child: BlocBuilder<PomodorosOverviewBloc, PomodorosOverviewState>(
-              builder: (context, state) {
+              builder: (_, state) {
                 if (state.pomodoros.isEmpty) {
                   if (state.status == PomodorosOverviewStatus.loading) {
                     return SizedBox(
@@ -142,8 +144,17 @@ class PomodoroPageContent extends StatelessWidget {
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       reverse: true,
-                      itemBuilder: (context, index) {
-                        return PomodoroCard(
+                      itemBuilder: (_, index) {
+                        return pomodoroCard(
+                          onTap: () async {
+                            context.read<PomodorosOverviewBloc>().add(
+                                  PomodorosOverviewPomodoroDeleted(
+                                    state.pomodoros[index],
+                                  ),
+                                );
+                            Navigator.of(context).pop();
+                          },
+                          context: context,
                           index: index,
                           pomodoro: state.pomodoros[index],
                           isLast: index == state.pomodoros.length - 1,

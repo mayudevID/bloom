@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/core/error/signup_exception.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../../core/error/login_exception.dart';
+import '../../../../../core/error/signup_exception.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../../../data/repositories/local_auth_repository.dart';
 

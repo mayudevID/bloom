@@ -13,7 +13,7 @@ class AddTaskPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddTodoCubit(context.read<TodosRepository>()),
+      create: (_) => AddTodoCubit(context.read<TodosRepository>()),
       child: const AddTaskPageContent(),
     );
   }
@@ -24,6 +24,7 @@ class AddTaskPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final title = context.select((AddTodoCubit cubit) => cubit.state.title);
     Future<DateTime> _getTime() async {
       TimeOfDay? pickedTime;
       final DateTime? pickedDate = await showDatePicker(
@@ -87,15 +88,6 @@ class AddTaskPageContent extends StatelessWidget {
                   );
                 },
               ),
-              // child: TextFormField(
-              //   controller: addTaskC.titleController,
-              //   style: textForm,
-              //   cursorColor: naturalBlack,
-              //   decoration: InputDecoration.collapsed(
-              //     hintText: "Input title",
-              //     hintStyle: textForm.copyWith(color: greyDark),
-              //   ),
-              // ),
             ),
             SizedBox(height: getHeight(16, context)),
             Align(
@@ -327,37 +319,35 @@ class AddTaskPageContent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                     color: greyLight,
                   ),
-                  child: Center(
-                    child: BlocBuilder<AddTodoCubit, AddTodoState>(
-                      builder: (context, state) {
-                        return DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            borderRadius: BorderRadius.circular(10),
-                            icon: const Visibility(
-                              visible: false,
-                              child: Icon(Icons.arrow_downward),
-                            ),
-                            value: state.tags,
-                            items: ['Basic', 'Important'].map((item) {
-                              return DropdownMenuItem(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: interBold12.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                  child: BlocBuilder<AddTodoCubit, AddTodoState>(
+                    builder: (context, state) {
+                      return DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          borderRadius: BorderRadius.circular(10),
+                          // icon: const Visibility(
+                          //   visible: false,
+                          //   child: Icon(Icons.arrow_downward),
+                          // ),
+                          value: state.tags,
+                          items: ['Basic', 'Important'].map((item) {
+                            return DropdownMenuItem(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: interBold12.copyWith(
+                                  fontWeight: FontWeight.w400,
                                 ),
-                              );
-                            }).toList(),
-                            onChanged: (newVal) {
-                              context
-                                  .read<AddTodoCubit>()
-                                  .tagsChanged(newVal as String);
-                            },
-                          ),
-                        );
-                      },
-                    ),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (newVal) {
+                            context
+                                .read<AddTodoCubit>()
+                                .tagsChanged(newVal as String);
+                          },
+                        ),
+                      );
+                    },
                   ),
                 )
               ],
@@ -365,8 +355,6 @@ class AddTaskPageContent extends StatelessWidget {
             const Spacer(),
             GestureDetector(
               onTap: () async {
-                final title =
-                    context.select((AddTodoCubit cubit) => cubit.state.title);
                 if (title.trim().isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(

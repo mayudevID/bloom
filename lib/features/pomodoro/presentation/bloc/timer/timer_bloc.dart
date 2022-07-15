@@ -35,7 +35,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     emit(
       TimerInitial(
         event.data.durationMinutes * 60,
-        1,
+        (state.session == 0) ? 1 : state.session + 1,
         false,
         false,
       ),
@@ -75,7 +75,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     emit(
       event.duration > 0
           ? TimerRunInProgress(event.duration, state.session, true, false)
-          : const TimerRunComplete(0, 0, false, true),
+          : TimerRunComplete(0, state.session, false, true),
     );
   }
 }
