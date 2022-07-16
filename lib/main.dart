@@ -41,6 +41,8 @@ void main() {
             ledColor: Colors.white,
             vibrationPattern: mediumVibrationPattern,
             channelShowBadge: true,
+            playSound: true,
+            soundSource: "resource://raw/res_music",
           ),
           NotificationChannel(
             channelKey: 'task_channel',
@@ -51,6 +53,8 @@ void main() {
             ledColor: Colors.white,
             vibrationPattern: mediumVibrationPattern,
             channelShowBadge: true,
+            playSound: true,
+            soundSource: "resource://raw/res_music",
           ),
           NotificationChannel(
             channelKey: 'habit_channel',
@@ -61,6 +65,8 @@ void main() {
             ledColor: Colors.white,
             vibrationPattern: mediumVibrationPattern,
             channelShowBadge: true,
+            playSound: true,
+            soundSource: "resource://raw/res_music",
           ),
         ],
         debug: true,
@@ -171,13 +177,13 @@ class _AppViewState extends State<AppView> {
         final prefs = await SharedPreferences.getInstance();
         TaskModel? taskModel =
             LocalStorageTodosIdle(prefs).getData(taskIdTarget);
-        dynamic isDeleted = Navigator.of(context).pushNamed(
+        dynamic isDeleted = await Navigator.of(context).pushNamed(
           RouteName.TASKDETAIL,
           arguments: taskModel,
         );
         if (isDeleted as bool) {
           Future.delayed(
-            const Duration(milliseconds: 200),
+            const Duration(milliseconds: 100),
             () async {
               AwesomeNotifications().cancel(taskModel!.taskId);
               context.read<TodosOverviewBloc>().add(
@@ -193,13 +199,13 @@ class _AppViewState extends State<AppView> {
         final prefs = await SharedPreferences.getInstance();
         HabitModel? habitModel =
             LocalStorageHabitsIdle(prefs).getData(habitIdTarget);
-        dynamic isDeleted = Navigator.of(context).pushNamed(
+        dynamic isDeleted = await Navigator.of(context).pushNamed(
           RouteName.HABITDETAIL,
           arguments: habitModel,
         );
         if (isDeleted as bool) {
           Future.delayed(
-            const Duration(milliseconds: 200),
+            const Duration(milliseconds: 100),
             () async {
               for (var i = 0; i < habitModel!.dayList.length; i++) {
                 AwesomeNotifications().cancel(
@@ -235,16 +241,14 @@ class _AppViewState extends State<AppView> {
           listener: (context, state) {
             if (state.status == AppStatus.unauthenticated) {
               Timer(const Duration(seconds: 1), () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
+                Navigator.of(context).pushReplacementNamed(
                   RouteName.ONBOARD,
-                  (Route<dynamic> route) => false,
                 );
               });
             } else if (state.status == AppStatus.authenticated) {
               Timer(const Duration(seconds: 1), () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
+                Navigator.of(context).pushReplacementNamed(
                   RouteName.MAIN,
-                  (Route<dynamic> route) => false,
                 );
               });
             }

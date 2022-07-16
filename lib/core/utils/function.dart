@@ -82,22 +82,17 @@ DateTime parseDate(TaskModel taskModel) {
 }
 
 // SORT TASKS BY DATE
-Map<int, TaskModel> sortTaskByDate(List<TaskModel> taskList) {
-  Map<int, TaskModel> dataTask = <int, TaskModel>{};
+List<TaskModel> sortTaskByDate(List<TaskModel> taskList) {
+  List<TaskModel> dataTask = [];
   for (var i = 0; i < taskList.length; i++) {
-    dataTask[i] = taskList[i];
+    if (taskList[i].dateTime.isAfter(DateTime.now())) {
+      dataTask.add(taskList[i]);
+    }
   }
 
-  List sortedKeys = dataTask.keys.toList(growable: false)
-    ..sort(
-        (k1, k2) => dataTask[k1]!.dateTime.compareTo(dataTask[k2]!.dateTime));
+  dataTask.sort((t1, t2) => t1.dateTime.compareTo(t1.dateTime));
 
-  LinkedHashMap<int, TaskModel> sortedTask = LinkedHashMap.fromIterable(
-    sortedKeys,
-    key: (k) => k,
-    value: (k) => dataTask[k] as TaskModel,
-  );
-  return sortedTask;
+  return dataTask;
 }
 
 // SORT HABITS BY DATE

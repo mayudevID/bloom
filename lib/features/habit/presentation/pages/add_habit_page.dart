@@ -39,8 +39,8 @@ class AddHabitsPageContent extends StatelessWidget {
       return showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const GetIconDialog();
+        builder: (BuildContext _) {
+          return getIconDialog(context);
         },
       );
     }
@@ -192,7 +192,7 @@ class AddHabitsPageContent extends StatelessWidget {
             SizedBox(height: getHeight(32, context)),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text("Habits Name", style: textParagraph),
+              child: Text("Habit Name", style: textParagraph),
             ),
             SizedBox(height: getHeight(4, context)),
             Container(
@@ -220,15 +220,6 @@ class AddHabitsPageContent extends StatelessWidget {
                   );
                 },
               ),
-              // child: TextFormField(
-              //   controller: addHabitsC.titleController,
-              //   style: textForm,
-              //   cursorColor: naturalBlack,
-              //   decoration: InputDecoration.collapsed(
-              //     hintText: "Input title",
-              //     hintStyle: textForm.copyWith(color: greyDark),
-              //   ),
-              // ),
             ),
             SizedBox(height: getHeight(16, context)),
             Align(
@@ -263,17 +254,6 @@ class AddHabitsPageContent extends StatelessWidget {
                   );
                 },
               ),
-              // child: TextFormField(
-              //   controller: addHabitsC.goalsController,
-              //   style: textForm,
-              //   maxLines: 4,
-              //   maxLength: 1000,
-              //   cursorColor: naturalBlack,
-              //   decoration: InputDecoration.collapsed(
-              //     hintText: "Input goals",
-              //     hintStyle: textForm.copyWith(color: greyDark),
-              //   ),
-              // ),
             ),
             SizedBox(height: getHeight(16, context)),
             Row(
@@ -332,7 +312,8 @@ class AddHabitsPageContent extends StatelessWidget {
                         builder: (context, state) {
                           return Text(
                             todToString(
-                                TimeOfDay.fromDateTime(state.timeOfDay)),
+                              TimeOfDay.fromDateTime(state.timeOfDay),
+                            ),
                             style: interBold12.copyWith(
                               fontWeight: FontWeight.w400,
                             ),
@@ -377,44 +358,26 @@ class AddHabitsPageContent extends StatelessWidget {
             ),
             SizedBox(height: getHeight(16, context)),
             BlocBuilder<AddHabitCubit, AddHabitState>(
+              buildWhen: (previous, current) {
+                return previous.dayList != current.dayList;
+              },
               builder: (context, state) {
                 return WeekdaySelector(
                   onChanged: (int day) {
-                    // print(day);
-                    // final index = day % 7;
-                    // context.read<AddHabitCubit>().dayListChanged(index);
-                    // addHabitsC.setList(index);
-                    // print(addHabitsC.dayList);
+                    final index = day % 7;
+                    context.read<AddHabitCubit>().dayListChanged(index);
                   },
-                  // selectedFillColor: yellowDark,
-                  // color: naturalBlack,
-                  // selectedColor: naturalBlack,
-                  // fillColor: greyLight,
-                  // firstDayOfWeek: 7,
-                  // elevation: 0,
-                  // selectedElevation: 0,
+                  selectedFillColor: yellowDark,
+                  color: naturalBlack,
+                  selectedColor: naturalBlack,
+                  fillColor: greyLight,
+                  firstDayOfWeek: 7,
+                  elevation: 0,
+                  selectedElevation: 0,
                   values: state.dayList,
                 );
               },
             ),
-            // Obx(() {
-            //   return WeekdaySelector(
-            //     onChanged: (int day) {
-            //       print(day);
-            //       final index = day % 7;
-            //       addHabitsC.setList(index);
-            //       print(addHabitsC.dayList);
-            //     },
-            //     selectedFillColor: yellowDark,
-            //     color: naturalBlack,
-            //     selectedColor: naturalBlack,
-            //     fillColor: greyLight,
-            //     firstDayOfWeek: 7,
-            //     elevation: 0,
-            //     selectedElevation: 0,
-            //     values: addHabitsC.dayList,
-            //   );
-            // }),
             const Spacer(),
             GestureDetector(
               onTap: () async {

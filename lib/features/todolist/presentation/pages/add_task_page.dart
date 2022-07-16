@@ -109,7 +109,7 @@ class AddTaskPageContent extends StatelessWidget {
                 builder: (context, state) {
                   return TextFormField(
                     onChanged: (val) {
-                      context.read<AddTodoCubit>().titleChanged(val);
+                      context.read<AddTodoCubit>().descriptionChanged(val);
                     },
                     style: textForm,
                     maxLines: 5,
@@ -321,7 +321,7 @@ class AddTaskPageContent extends StatelessWidget {
                   ),
                   child: BlocBuilder<AddTodoCubit, AddTodoState>(
                     builder: (context, state) {
-                      return DropdownButtonHideUnderline(
+                      return Center(
                         child: DropdownButton(
                           borderRadius: BorderRadius.circular(10),
                           // icon: const Visibility(

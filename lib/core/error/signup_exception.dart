@@ -19,11 +19,11 @@ class SignUpWithEmailAndPasswordFailure implements Exception {
         );
       case 'operation-not-allowed':
         return const SignUpWithEmailAndPasswordFailure(
-          'Operation is not allowed.  Please contact support.',
+          'Operation is not allowed. Please contact support.',
         );
       case 'weak-password':
         return const SignUpWithEmailAndPasswordFailure(
-          'Please enter a stronger password.',
+          'Please enter a stronger password (min 6 char).',
         );
       default:
         return const SignUpWithEmailAndPasswordFailure();

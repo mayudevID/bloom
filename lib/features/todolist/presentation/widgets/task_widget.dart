@@ -26,7 +26,7 @@ class TaskWidget extends StatelessWidget {
         );
         if (isDeleted as bool) {
           Future.delayed(
-            const Duration(milliseconds: 200),
+            const Duration(milliseconds: 100),
             () async {
               AwesomeNotifications().cancel(taskModel!.taskId);
               context.read<TodosOverviewBloc>().add(
@@ -100,13 +100,17 @@ class TaskWidget extends StatelessWidget {
               children: [
                 Image.asset("assets/icons/calendar_unselect.png", width: 13),
                 SizedBox(width: getWidth(2, context)),
-                Text(DateFormat('EEEE').format(taskModel!.dateTime),
-                    style: smallText.copyWith(fontSize: 8)),
+                Text(
+                  DateFormat('EEEE').format(taskModel!.dateTime),
+                  style: smallText.copyWith(fontSize: 8),
+                ),
                 SizedBox(width: getWidth(16, context)),
                 Image.asset("assets/icons/clock.png", width: 12),
                 SizedBox(width: getWidth(2, context)),
-                Text(DateFormat('jm').format(taskModel!.dateTime),
-                    style: smallText.copyWith(fontSize: 8)),
+                Text(
+                  DateFormat('jm').format(taskModel!.dateTime),
+                  style: smallText.copyWith(fontSize: 8),
+                ),
               ],
             )
           ],

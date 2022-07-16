@@ -39,7 +39,8 @@ class AddHabitState extends Equatable {
       missed: 0,
       streak: 0,
       streakLeft: 0,
-      dayList: const [false, false, false, false, false, false, false],
+      // ignore: prefer_const_literals_to_create_immutables
+      dayList: [false, false, false, false, false, false, false],
       checkedDays: const [],
       openDays: const [],
       selectedIcon: 0,

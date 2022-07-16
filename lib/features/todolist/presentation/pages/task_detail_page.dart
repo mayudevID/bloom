@@ -128,7 +128,9 @@ class TaskDetailPageContent extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                initTaskModel.description,
+                (initTaskModel.description.isEmpty)
+                    ? "No Description"
+                    : initTaskModel.description,
                 style: interBold12.copyWith(
                   fontWeight: FontWeight.w400,
                 ),

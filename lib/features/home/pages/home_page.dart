@@ -232,24 +232,36 @@ class HomePageContent extends StatelessWidget {
                         );
                       }
                     } else {
-                      List<TaskModel> dataTask = taskByDateChooser(
-                        state.todos,
-                        state.filter as DateTime,
-                      );
-                      return MediaQuery.removePadding(
-                        removeTop: true,
-                        context: context,
-                        child: ListView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          children: [
-                            for (final taskModel in dataTask)
-                              TaskWidget(
-                                taskModel: taskModel,
-                              )
-                          ],
-                        ),
-                      );
+                      List<TaskModel> dataTask = sortTaskByDate(state.todos);
+                      if (dataTask.isNotEmpty) {
+                        return MediaQuery.removePadding(
+                          removeTop: true,
+                          context: context,
+                          child: ListView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            children: [
+                              for (final taskModel in dataTask)
+                                TaskWidget(
+                                  taskModel: taskModel,
+                                )
+                            ],
+                          ),
+                        );
+                      } else {
+                        return SizedBox(
+                          height: getHeight(70, context),
+                          child: const Center(
+                            child: Text(
+                              'Task empty for now',
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
                     }
                   },
                 ),

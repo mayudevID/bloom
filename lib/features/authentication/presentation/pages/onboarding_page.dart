@@ -2,7 +2,6 @@
 
 import 'package:bloom/core/routes/route_name.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/function.dart';

@@ -26,7 +26,7 @@ class HabitWidget extends StatelessWidget {
         );
         if (isDeleted as bool) {
           Future.delayed(
-            const Duration(milliseconds: 200),
+            const Duration(milliseconds: 100),
             () async {
               for (var i = 0; i < habitModel!.dayList.length; i++) {
                 AwesomeNotifications().cancel(
