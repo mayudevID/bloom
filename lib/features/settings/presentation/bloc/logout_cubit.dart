@@ -15,7 +15,7 @@ class LogoutCubit extends Cubit<LogoutState> {
     this._localUserDataRepository,
   ) : super(LogoutState.initial());
 
-  void logOut() async {
+  Future<void> logOut() async {
     if (state.status == LogoutStatus.processing) {
       return;
     }

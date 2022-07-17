@@ -1,3 +1,4 @@
+import 'package:bloom/core/routes/route_name.dart';
 import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:bloom/features/home/bloc/user/user_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -139,7 +140,7 @@ class HomePageContent extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      //Get.toNamed(RouteName.SETTINGS);
+                      Navigator.of(context).pushNamed(RouteName.SETTINGS);
                     },
                     child: Image.asset(
                       "assets/icons/settings.png",

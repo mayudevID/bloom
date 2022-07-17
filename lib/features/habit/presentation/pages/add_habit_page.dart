@@ -1,6 +1,7 @@
 import 'package:bloom/core/utils/constant.dart';
 import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:bloom/features/habit/presentation/bloc/add_habit/add_habit_cubit.dart';
+import 'package:bloom/features/habit/presentation/widgets/get_duration_days.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -33,96 +34,6 @@ class AddHabitsPageContent extends StatelessWidget {
         initialTime: TimeOfDay.now(),
       );
       return pickTime;
-    }
-
-    Future _getIcon() {
-      return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext _) {
-          return getIconDialog(context);
-        },
-      );
-    }
-
-    Future _getDurationDays() {
-      return showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            insetPadding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                Text("Duration (days)", style: buttonSmall),
-                const SizedBox(height: 5),
-                SizedBox(
-                  width: 250,
-                  height: 70,
-                  child: Center(
-                    child: BlocBuilder<AddHabitCubit, AddHabitState>(
-                      builder: (context, state) {
-                        return NumberPicker(
-                          itemWidth: 60,
-                          textStyle: textParagraph.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: naturalBlack,
-                            fontSize: 16,
-                          ),
-                          selectedTextStyle: textParagraph.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: naturalBlack,
-                            fontSize: 20,
-                          ),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: naturalBlack),
-                          ),
-                          axis: Axis.horizontal,
-                          minValue: 1,
-                          maxValue: 100,
-                          value: state.durationDays,
-                          onChanged: (value) {
-                            context
-                                .read<AddHabitCubit>()
-                                .durationChanged(value);
-                          },
-                          step: 1,
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                Row(
-                  children: [
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: Container(
-                        width: 70,
-                        height: 35,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: naturalBlack,
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Back',
-                            style: buttonSmall.copyWith(
-                              color: naturalWhite,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        },
-      );
     }
 
     return Scaffold(
@@ -170,7 +81,15 @@ class AddHabitsPageContent extends StatelessWidget {
                     left: 54,
                     bottom: 54,
                     child: GestureDetector(
-                      onTap: () => _getIcon(),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (_) {
+                            return getIconDialog(context);
+                          },
+                        );
+                      },
                       child: Container(
                         width: 20,
                         height: 20,
@@ -261,7 +180,15 @@ class AddHabitsPageContent extends StatelessWidget {
               children: [
                 Text("Duration", style: textParagraph),
                 GestureDetector(
-                  onTap: () => _getDurationDays(),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (_) {
+                        return getDurationDays(context);
+                      },
+                    );
+                  },
                   child: Container(
                     width: 88,
                     height: 32,

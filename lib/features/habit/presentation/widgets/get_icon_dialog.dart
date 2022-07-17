@@ -30,7 +30,7 @@ Dialog getIconDialog(BuildContext context) {
               mainAxisSpacing: 15,
             ),
             itemCount: iconLocation.length,
-            itemBuilder: (context, index) {
+            itemBuilder: (_, index) {
               return GestureDetector(
                 onTap: () {
                   context.read<AddHabitCubit>().iconChanged(index);
