@@ -35,7 +35,7 @@ class AddHabitState extends Equatable {
       title: '',
       goals: '',
       timeOfDay: DateTime.now(),
-      durationDays: 7,
+      durationDays: 3,
       missed: 0,
       streak: 0,
       streakLeft: 0,

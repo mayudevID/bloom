@@ -87,10 +87,15 @@ class HomePageContent extends StatelessWidget {
                               );
                             },
                             placeholder: (context, url) {
-                              return const SizedBox(
+                              return Container(
+                                padding: const EdgeInsets.all(8),
                                 width: 40.0,
                                 height: 40.0,
-                                child: CircularProgressIndicator(),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: naturalBlack,
+                                  ),
+                                ),
                               );
                             },
                             errorWidget: (context, url, error) {
@@ -102,10 +107,15 @@ class HomePageContent extends StatelessWidget {
                             },
                           );
                         } else {
-                          return const SizedBox(
+                          return Container(
+                            padding: const EdgeInsets.all(8),
                             width: 40.0,
                             height: 40.0,
-                            child: CircularProgressIndicator(),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: naturalBlack,
+                              ),
+                            ),
                           );
                         }
                       },

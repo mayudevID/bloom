@@ -9,7 +9,6 @@ import '../bloc/add_habit/add_habit_cubit.dart';
 
 Dialog getIconDialog(BuildContext context) {
   return Dialog(
-    insetPadding: const EdgeInsets.all(20),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0),
     ),
@@ -34,24 +33,23 @@ Dialog getIconDialog(BuildContext context) {
               return GestureDetector(
                 onTap: () {
                   context.read<AddHabitCubit>().iconChanged(index);
+                  Navigator.pop(context);
                 },
-                child: BlocBuilder<AddHabitCubit, AddHabitState>(
-                  builder: (context, state) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                            color: (state.selectedIcon == index)
-                                ? yellowDark
-                                : naturalBlack,
-                            width: 3),
-                      ),
-                      child: Image.asset(
-                        iconLocation[index],
-                        scale: 2,
-                      ),
-                    );
-                  },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: naturalBlack,
+                      // color: (state.selectedIcon == index)
+                      //     ? yellowDark
+                      //     : naturalBlack,
+                      width: 3,
+                    ),
+                  ),
+                  child: Image.asset(
+                    iconLocation[index],
+                    scale: 2,
+                  ),
                 ),
               );
             },

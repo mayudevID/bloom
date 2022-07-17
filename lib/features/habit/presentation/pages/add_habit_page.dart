@@ -28,6 +28,10 @@ class AddHabitsPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dayList =
+        context.select((AddHabitCubit cubit) => cubit.state.dayList);
+    final title = context.select((AddHabitCubit cubit) => cubit.state.title);
+
     Future<TimeOfDay?> _getTime() async {
       final TimeOfDay? pickTime = await showTimePicker(
         context: context,
@@ -63,11 +67,7 @@ class AddHabitsPageContent extends StatelessWidget {
                         color: const Color(0xffFCF7D3),
                       ),
                       child: BlocBuilder<AddHabitCubit, AddHabitState>(
-                        buildWhen: (previous, current) {
-                          return previous.selectedIcon != current.selectedIcon;
-                        },
                         builder: (context, state) {
-                          print(state.selectedIcon);
                           return Image.asset(
                             iconLocation[state.selectedIcon],
                             width: 32,
@@ -185,7 +185,10 @@ class AddHabitsPageContent extends StatelessWidget {
                       context: context,
                       barrierDismissible: false,
                       builder: (_) {
-                        return getDurationDays(context);
+                        return BlocProvider.value(
+                          value: context.read<AddHabitCubit>(),
+                          child: getDurationDays(context),
+                        );
                       },
                     );
                   },
@@ -247,14 +250,6 @@ class AddHabitsPageContent extends StatelessWidget {
                           );
                         },
                       ),
-                      // child: Obx(() {
-                      //   return Text(
-                      //     todToString(addHabitsC.timeOfDayHabits.value),
-                      //     style: interBold12.copyWith(
-                      //       fontWeight: FontWeight.w400,
-                      //     ),
-                      //   );
-                      // }),
                     ),
                   ),
                 )
@@ -285,9 +280,6 @@ class AddHabitsPageContent extends StatelessWidget {
             ),
             SizedBox(height: getHeight(16, context)),
             BlocBuilder<AddHabitCubit, AddHabitState>(
-              buildWhen: (previous, current) {
-                return previous.dayList != current.dayList;
-              },
               builder: (context, state) {
                 return WeekdaySelector(
                   onChanged: (int day) {
@@ -308,10 +300,6 @@ class AddHabitsPageContent extends StatelessWidget {
             const Spacer(),
             GestureDetector(
               onTap: () async {
-                final dayList = context
-                    .select((AddHabitCubit cubit) => cubit.state.dayList);
-                final title =
-                    context.select((AddHabitCubit cubit) => cubit.state.title);
                 if (dayList.contains(true) == false) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -339,21 +327,6 @@ class AddHabitsPageContent extends StatelessWidget {
                     ),
                   );
                 }
-                // Get.snackbar(
-                //   "Choose date first",
-                //   "Select one or more days to schedule",
-                //   colorText: naturalWhite,
-                //   snackPosition: SnackPosition.BOTTOM,
-                //   margin: const EdgeInsets.only(
-                //     bottom: 80,
-                //     left: 30,
-                //     right: 30,
-                //   ),
-                //   backgroundColor: naturalBlack,
-                //   animationDuration: const Duration(milliseconds: 100),
-                //   forwardAnimationCurve: Curves.fastOutSlowIn,
-                //   reverseAnimationCurve: Curves.fastOutSlowIn,
-                // );
               },
               child: Container(
                 width: 202,
