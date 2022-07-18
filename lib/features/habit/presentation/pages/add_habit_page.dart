@@ -2,6 +2,7 @@ import 'package:bloom/core/utils/constant.dart';
 import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:bloom/features/habit/presentation/bloc/add_habit/add_habit_cubit.dart';
 import 'package:bloom/features/habit/presentation/widgets/get_duration_days.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -28,8 +29,8 @@ class AddHabitsPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dayList =
-        context.select((AddHabitCubit cubit) => cubit.state.dayList);
+    // final dayList =
+    //     context.select((AddHabitCubit cubit) => cubit.state.dayList);
     final title = context.select((AddHabitCubit cubit) => cubit.state.title);
 
     Future<TimeOfDay?> _getTime() async {
@@ -226,7 +227,12 @@ class AddHabitsPageContent extends StatelessWidget {
                     if (pick != null) {
                       final now = DateTime.now();
                       final target = DateTime(
-                          now.year, now.month, now.day, pick.hour, pick.minute);
+                        now.year,
+                        now.month,
+                        now.day,
+                        pick.hour,
+                        pick.minute,
+                      );
                       context.read<AddHabitCubit>().timeChanged(target);
                     }
                   },
@@ -293,14 +299,22 @@ class AddHabitsPageContent extends StatelessWidget {
                   firstDayOfWeek: 7,
                   elevation: 0,
                   selectedElevation: 0,
-                  values: state.dayList,
+                  values: [
+                    state.sunday,
+                    state.monday,
+                    state.tuesday,
+                    state.wednesday,
+                    state.thursday,
+                    state.friday,
+                    state.saturday
+                  ],
                 );
               },
             ),
             const Spacer(),
             GestureDetector(
               onTap: () async {
-                if (dayList.contains(true) == false) {
+                if ([].contains(true) == false) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text(

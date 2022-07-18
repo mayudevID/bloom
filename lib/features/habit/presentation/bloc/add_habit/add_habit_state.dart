@@ -9,7 +9,13 @@ class AddHabitState extends Equatable {
   final int missed;
   final int streak;
   final int streakLeft;
-  final List<bool> dayList;
+  final bool sunday;
+  final bool monday;
+  final bool tuesday;
+  final bool wednesday;
+  final bool thursday;
+  final bool friday;
+  final bool saturday;
   final List<bool> checkedDays;
   final List<bool> openDays;
   final int selectedIcon;
@@ -23,7 +29,13 @@ class AddHabitState extends Equatable {
     required this.missed,
     required this.streak,
     required this.streakLeft,
-    required this.dayList,
+    required this.sunday,
+    required this.monday,
+    required this.tuesday,
+    required this.wednesday,
+    required this.thursday,
+    required this.friday,
+    required this.saturday,
     required this.checkedDays,
     required this.openDays,
     required this.selectedIcon,
@@ -39,8 +51,13 @@ class AddHabitState extends Equatable {
       missed: 0,
       streak: 0,
       streakLeft: 0,
-      // ignore: prefer_const_literals_to_create_immutables
-      dayList: [false, false, false, false, false, false, false],
+      sunday: false,
+      monday: false,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
+      saturday: false,
       checkedDays: const [],
       openDays: const [],
       selectedIcon: 0,
@@ -57,7 +74,13 @@ class AddHabitState extends Equatable {
         missed,
         streak,
         streakLeft,
-        dayList,
+        sunday,
+        monday,
+        tuesday,
+        wednesday,
+        thursday,
+        friday,
+        saturday,
         checkedDays,
         openDays,
         selectedIcon,
@@ -72,7 +95,13 @@ class AddHabitState extends Equatable {
     int? missed,
     int? streak,
     int? streakLeft,
-    List<bool>? dayList,
+    bool? sunday,
+    bool? monday,
+    bool? tuesday,
+    bool? wednesday,
+    bool? thursday,
+    bool? friday,
+    bool? saturday,
     List<bool>? checkedDays,
     List<bool>? openDays,
     int? selectedIcon,
@@ -86,7 +115,13 @@ class AddHabitState extends Equatable {
       missed: missed ?? this.missed,
       streak: streak ?? this.streak,
       streakLeft: streakLeft ?? this.streakLeft,
-      dayList: dayList ?? this.dayList,
+      sunday: sunday ?? this.sunday,
+      monday: monday ?? this.monday,
+      tuesday: tuesday ?? this.tuesday,
+      wednesday: wednesday ?? this.wednesday,
+      friday: friday ?? this.friday,
+      thursday: thursday ?? this.thursday,
+      saturday: saturday ?? this.saturday,
       checkedDays: checkedDays ?? this.checkedDays,
       openDays: openDays ?? this.openDays,
       selectedIcon: selectedIcon ?? this.selectedIcon,

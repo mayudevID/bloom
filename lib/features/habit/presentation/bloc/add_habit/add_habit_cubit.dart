@@ -35,22 +35,30 @@ class AddHabitCubit extends Cubit<AddHabitState> {
     emit(state.copyWith(durationDays: value));
   }
 
-  // void missedChanged(int value) {
-  //   emit(state.copyWith(missed: value));
-  // }
-
-  // void streakChanged(int value) {
-  //   emit(state.copyWith(streak: value));
-  // }
-
-  // void streakLeftChanged(int value) {
-  //   emit(state.copyWith(streakLeft: value));
-  // }
-
-  void dayListChanged(int value) {
-    List<bool> newDaysList = state.dayList;
-    newDaysList[value] = !newDaysList[value];
-    emit(state.copyWith(dayList: newDaysList));
+  void dayListChanged(int val) {
+    switch (val) {
+      case 0:
+        emit(state.copyWith(sunday: !state.sunday));
+        break;
+      case 1:
+        emit(state.copyWith(monday: !state.monday));
+        break;
+      case 2:
+        emit(state.copyWith(tuesday: !state.tuesday));
+        break;
+      case 3:
+        emit(state.copyWith(wednesday: !state.wednesday));
+        break;
+      case 4:
+        emit(state.copyWith(thursday: !state.thursday));
+        break;
+      case 5:
+        emit(state.copyWith(friday: !state.friday));
+        break;
+      case 6:
+        emit(state.copyWith(saturday: !state.saturday));
+        break;
+    }
   }
 
   void checkedDaysChanged(List<bool> value) {
@@ -63,18 +71,18 @@ class AddHabitCubit extends Cubit<AddHabitState> {
 
   void saveHabit() async {
     try {
-      Map<int, bool> dayMap = state.dayList.asMap();
+      //Map<int, bool> dayMap = state.dayList.asMap();
 
-      List<int> dayListOn = [];
-      dayMap.forEach((key, value) {
-        if (value == true) {
-          if (key == 0) {
-            dayListOn.add(7);
-          } else {
-            dayListOn.add(key);
-          }
-        }
-      });
+      // List<int> dayListOn = [];
+      // dayMap.forEach((key, value) {
+      //   if (value == true) {
+      //     if (key == 0) {
+      //       dayListOn.add(7);
+      //     } else {
+      //       dayListOn.add(key);
+      //     }
+      //   }
+      // });
 
       HabitModel habitModel = HabitModel(
         habitId: getRandomId(),
@@ -86,7 +94,8 @@ class AddHabitCubit extends Cubit<AddHabitState> {
         missed: state.missed,
         streak: state.streak,
         streakLeft: state.durationDays,
-        dayList: dayListOn,
+        //dayList: dayListOn,
+        dayList: [],
         checkedDays: List.filled(state.durationDays, false),
         openDays: List.filled(state.durationDays, false),
       );
@@ -103,3 +112,15 @@ class AddHabitCubit extends Cubit<AddHabitState> {
     } catch (e) {}
   }
 }
+
+// void missedChanged(int value) {
+  //   emit(state.copyWith(missed: value));
+  // }
+
+  // void streakChanged(int value) {
+  //   emit(state.copyWith(streak: value));
+  // }
+
+  // void streakLeftChanged(int value) {
+  //   emit(state.copyWith(streakLeft: value));
+  // }
