@@ -17,11 +17,11 @@ class HabitTrackerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          HabitsOverviewBloc(habitsRepository: context.read<HabitsRepository>())
-            ..add(
-              const HabitsOverviewSubscriptionRequested(),
-            ),
+      create: (context) => HabitsOverviewBloc(
+        habitsRepository: context.read<HabitsRepository>(),
+      )..add(
+          const HabitsOverviewSubscriptionRequested(),
+        ),
       child: HabitTrackerPageContent(),
     );
   }
@@ -37,199 +37,190 @@ class HabitTrackerPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          HabitsOverviewBloc(habitsRepository: context.read<HabitsRepository>())
-            ..add(
-              const HabitsOverviewSubscriptionRequested(),
+    return Scaffold(
+      backgroundColor: naturalWhite,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text("Habit Tracker", style: mainSubTitle),
             ),
-      child: Scaffold(
-        backgroundColor: naturalWhite,
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Text("Habit Tracker", style: mainSubTitle),
-              ),
-              SizedBox(height: getHeight(24, context)),
-              CalendarWidget(
-                initialDate: DateTime.now(),
-                firstDate: DateTime(DateTime.now().year, 1, 1),
-                lastDate: DateTime(DateTime.now().year, 12, 31),
-                onDateSelected: (date) {
-                  print(date);
-                  context.read<HabitsOverviewBloc>().add(
-                        HabitsOverviewFilterChanged(date ?? dateNow),
-                      );
-                },
-                leftMargin: (MediaQuery.of(context).size.width / 2) - 20,
-              ),
-              SizedBox(height: getHeight(32, context)),
-              Container(
-                margin: const EdgeInsets.only(left: 24),
-                child: Text(
-                  "My Tracker",
-                  style: textParagraph.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
+            SizedBox(height: getHeight(24, context)),
+            CalendarWidget(
+              initialDate: DateTime.now(),
+              firstDate: DateTime(DateTime.now().year, 1, 1),
+              lastDate: DateTime(DateTime.now().year, 12, 31),
+              onDateSelected: (date) {
+                context.read<HabitsOverviewBloc>().add(
+                      HabitsOverviewFilterChanged(date ?? dateNow),
+                    );
+              },
+              leftMargin: (MediaQuery.of(context).size.width / 2) - 20,
+            ),
+            SizedBox(height: getHeight(32, context)),
+            Container(
+              margin: const EdgeInsets.only(left: 24),
+              child: Text(
+                "My Tracker",
+                style: textParagraph.copyWith(
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(height: getHeight(8, context)),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 24),
-                child: MultiBlocListener(
-                  listeners: [
-                    BlocListener<HabitsOverviewBloc, HabitsOverviewState>(
-                      listenWhen: (previous, current) =>
-                          previous.status != current.status,
-                      listener: (context, state) {
-                        if (state.status == HabitsOverviewStatus.failure) {
-                          ScaffoldMessenger.of(context)
-                            ..hideCurrentSnackBar()
-                            ..showSnackBar(
-                              const SnackBar(
-                                content: Text("Error"),
-                              ),
-                            );
-                        }
-                      },
-                    ),
-                    BlocListener<HabitsOverviewBloc, HabitsOverviewState>(
-                      listenWhen: (previous, current) =>
-                          previous.lastDeletedHabit !=
-                              current.lastDeletedHabit &&
-                          current.lastDeletedHabit != null,
-                      listener: (context, state) {
-                        final deletedHabit = state.lastDeletedHabit!;
-                        final messenger = ScaffoldMessenger.of(context);
-                        messenger
+            ),
+            SizedBox(height: getHeight(8, context)),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 24),
+              child: MultiBlocListener(
+                listeners: [
+                  BlocListener<HabitsOverviewBloc, HabitsOverviewState>(
+                    listenWhen: (previous, current) =>
+                        previous.status != current.status,
+                    listener: (context, state) {
+                      if (state.status == HabitsOverviewStatus.failure) {
+                        ScaffoldMessenger.of(context)
                           ..hideCurrentSnackBar()
                           ..showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Habit "${deletedHabit.title}" deleted',
-                              ),
-                              action: SnackBarAction(
-                                label: "Undo Delete",
-                                textColor: redAction,
-                                onPressed: () {
-                                  messenger.hideCurrentSnackBar();
-                                  context.read<HabitsOverviewBloc>().add(
-                                        const HabitsOverviewUndoDeletionRequested(),
-                                      );
-                                },
-                              ),
+                            const SnackBar(
+                              content: Text("Error"),
                             ),
                           );
-                      },
-                    ),
-                  ],
-                  child: BlocBuilder<HabitsOverviewBloc, HabitsOverviewState>(
-                    builder: (context, state) {
-                      if (state.habits.isEmpty) {
-                        if (state.status == HabitsOverviewStatus.loading) {
-                          return SizedBox(
-                            height: getHeight(70, context),
-                            child: const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.black,
-                              ),
-                            ),
-                          );
-                        } else if (state.status !=
-                            HabitsOverviewStatus.success) {
-                          return const SizedBox();
-                        } else {
-                          return SizedBox(
-                            height: getHeight(70, context),
-                            child: const Center(
-                              child: Text(
-                                'Habit empty for this date',
-                                style: TextStyle(
-                                  fontFamily: "Poppins",
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                      } else {
-                        List<HabitModel> dataHabit = habitByDateChooser(
-                          state.habits,
-                          state.filter as DateTime,
-                        );
-                        if (dataHabit.isNotEmpty) {
-                          return MediaQuery.removePadding(
-                            removeTop: true,
-                            context: context,
-                            child: ListView(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              children: [
-                                for (HabitModel habitModel in dataHabit)
-                                  HabitWidget(
-                                    habitModel: habitModel,
-                                  )
-                              ],
-                            ),
-                          );
-                        } else {
-                          return SizedBox(
-                            height: getHeight(70, context),
-                            child: const Center(
-                              child: Text(
-                                'Habit empty for this date',
-                                style: TextStyle(
-                                  fontFamily: "Poppins",
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          );
-                        }
                       }
                     },
                   ),
+                  BlocListener<HabitsOverviewBloc, HabitsOverviewState>(
+                    listenWhen: (previous, current) =>
+                        previous.lastDeletedHabit != current.lastDeletedHabit &&
+                        current.lastDeletedHabit != null,
+                    listener: (context, state) {
+                      final deletedHabit = state.lastDeletedHabit!;
+                      final messenger = ScaffoldMessenger.of(context);
+                      messenger
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Habit "${deletedHabit.title}" deleted',
+                            ),
+                            action: SnackBarAction(
+                              label: "Undo Delete",
+                              textColor: redAction,
+                              onPressed: () {
+                                messenger.hideCurrentSnackBar();
+                                context.read<HabitsOverviewBloc>().add(
+                                      const HabitsOverviewUndoDeletionRequested(),
+                                    );
+                              },
+                            ),
+                          ),
+                        );
+                    },
+                  ),
+                ],
+                child: BlocBuilder<HabitsOverviewBloc, HabitsOverviewState>(
+                  builder: (context, state) {
+                    if (state.habits.isEmpty) {
+                      if (state.status == HabitsOverviewStatus.loading) {
+                        return SizedBox(
+                          height: getHeight(70, context),
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.black,
+                            ),
+                          ),
+                        );
+                      } else if (state.status != HabitsOverviewStatus.success) {
+                        return const SizedBox();
+                      } else {
+                        return SizedBox(
+                          height: getHeight(70, context),
+                          child: const Center(
+                            child: Text(
+                              'Habit empty for this date',
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    } else {
+                      List<HabitModel> dataHabit = habitByDateChooser(
+                        state.habits,
+                        state.filter as DateTime,
+                      );
+                      print(dataHabit);
+                      if (dataHabit.isNotEmpty) {
+                        return MediaQuery.removePadding(
+                          removeTop: true,
+                          context: context,
+                          child: ListView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            children: [
+                              for (HabitModel habitModel in dataHabit)
+                                HabitWidget(
+                                  habitModel: habitModel,
+                                )
+                            ],
+                          ),
+                        );
+                      } else {
+                        return SizedBox(
+                          height: getHeight(70, context),
+                          child: const Center(
+                            child: Text(
+                              'Habit empty for this date',
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                  },
                 ),
               ),
-              SizedBox(height: getHeight(40, context)),
-              BlocBuilder<HabitsOverviewBloc, HabitsOverviewState>(
-                builder: (context, state) {
-                  if (dateNow.isBefore(state.filter as DateTime) ||
-                      dateNow.isAtSameMomentAs(state.filter as DateTime)) {
-                    return Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(RouteName.ADDHABIT);
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 203,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: naturalBlack,
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Add Habit",
-                              style: buttonSmall.copyWith(
-                                color: naturalWhite,
-                              ),
+            ),
+            SizedBox(height: getHeight(40, context)),
+            BlocBuilder<HabitsOverviewBloc, HabitsOverviewState>(
+              builder: (context, state) {
+                if (dateNow.isBefore(state.filter as DateTime) ||
+                    dateNow.isAtSameMomentAs(state.filter as DateTime)) {
+                  return Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(RouteName.ADDHABIT);
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 203,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: naturalBlack,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Add Habit",
+                            style: buttonSmall.copyWith(
+                              color: naturalWhite,
                             ),
                           ),
                         ),
                       ),
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-            ],
-          ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          ],
         ),
       ),
     );

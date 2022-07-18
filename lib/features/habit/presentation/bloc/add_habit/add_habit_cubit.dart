@@ -92,6 +92,8 @@ class AddHabitCubit extends Cubit<AddHabitState> {
         }
       });
 
+      print(dayListOn);
+
       HabitModel habitModel = HabitModel(
         habitId: getRandomId(),
         iconImg: state.iconImg,
@@ -112,8 +114,6 @@ class AddHabitCubit extends Cubit<AddHabitState> {
       }
 
       //EDIT USER
-
-      /////////
 
       await _habitsRepository.saveHabit(habitModel);
     } catch (e) {}

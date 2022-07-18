@@ -332,8 +332,9 @@ class HomePageContent extends StatelessWidget {
                         return SizedBox(
                           height: getHeight(70, context),
                           child: const Center(
-                            child:
-                                CircularProgressIndicator(color: Colors.black),
+                            child: CircularProgressIndicator(
+                              color: Colors.black,
+                            ),
                           ),
                         );
                       } else if (state.status != HabitsOverviewStatus.success) {
@@ -343,7 +344,7 @@ class HomePageContent extends StatelessWidget {
                           height: getHeight(70, context),
                           child: const Center(
                             child: Text(
-                              'Habits empty for this date',
+                              'Habit empty for this date',
                               style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontSize: 14,
@@ -353,24 +354,38 @@ class HomePageContent extends StatelessWidget {
                         );
                       }
                     } else {
-                      List<HabitModel> dataHabit = habitByDateChooser(
+                      List<HabitModel> dataHabit = sortHabitsByDate(
                         state.habits,
-                        state.filter as DateTime,
                       );
-                      return MediaQuery.removePadding(
-                        removeTop: true,
-                        context: context,
-                        child: ListView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          children: [
-                            for (final habitModel in dataHabit)
-                              HabitWidget(
-                                habitModel: habitModel,
-                              )
-                          ],
-                        ),
-                      );
+                      if (dataHabit.isNotEmpty) {
+                        return MediaQuery.removePadding(
+                          removeTop: true,
+                          context: context,
+                          child: ListView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            children: [
+                              for (final habitModel in dataHabit)
+                                HabitWidget(
+                                  habitModel: habitModel,
+                                )
+                            ],
+                          ),
+                        );
+                      } else {
+                        return SizedBox(
+                          height: getHeight(70, context),
+                          child: const Center(
+                            child: Text(
+                              'Habit empty for this date',
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
                     }
                   },
                 ),

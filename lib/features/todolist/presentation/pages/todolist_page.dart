@@ -151,6 +151,7 @@ class ToDoListPageContent extends StatelessWidget {
                         state.todos,
                         state.filter as DateTime,
                       );
+                      print(dataTask);
                       if (dataTask.isNotEmpty) {
                         return MediaQuery.removePadding(
                           removeTop: true,

@@ -84,9 +84,9 @@ DateTime parseDate(TaskModel taskModel) {
 // SORT TASKS BY DATE
 List<TaskModel> sortTaskByDate(List<TaskModel> taskList) {
   List<TaskModel> dataTask = [];
-  for (var i = 0; i < taskList.length; i++) {
-    if (taskList[i].dateTime.isAfter(DateTime.now())) {
-      dataTask.add(taskList[i]);
+  for (TaskModel taskModel in taskList) {
+    if (taskModel.dateTime.isAfter(DateTime.now())) {
+      dataTask.add(taskModel);
     }
   }
 
@@ -96,28 +96,21 @@ List<TaskModel> sortTaskByDate(List<TaskModel> taskList) {
 }
 
 // SORT HABITS BY DATE
-Map<int, HabitModel> sortHabitsByDate(List<HabitModel> habitList) {
-  Map<int, HabitModel> dataHabits = <int, HabitModel>{};
-  for (var i = 0; i < habitList.length; i++) {
-    HabitModel habitModel = habitList[i];
-    for (var j = 0; j < habitModel.dayList.length; j++) {
-      if (habitModel.dayList[j] == DateTime.now().weekday) {
-        dataHabits[i] = habitModel;
+List<HabitModel> sortHabitsByDate(List<HabitModel> habitList) {
+  List<HabitModel> dataHabits = [];
+  for (HabitModel habitModel in habitList) {
+    for (int day in habitModel.dayList) {
+      if (day == DateTime.now().weekday) {
+        dataHabits.add(habitModel);
+        break;
       }
     }
   }
 
-  List sortedKeys = dataHabits.keys.toList(growable: false)
-    ..sort((k1, k2) =>
-        toDouble(TimeOfDay.fromDateTime(dataHabits[k1]!.timeOfDay)).compareTo(
-            toDouble(TimeOfDay.fromDateTime(dataHabits[k2]!.timeOfDay))));
+  dataHabits.sort((t1, t2) => toDouble(TimeOfDay.fromDateTime(t1.timeOfDay))
+      .compareTo(toDouble(TimeOfDay.fromDateTime(t2.timeOfDay))));
 
-  LinkedHashMap<int, HabitModel> sortedHabits = LinkedHashMap.fromIterable(
-    sortedKeys,
-    key: (k) => k,
-    value: (k) => dataHabits[k] as HabitModel,
-  );
-  return sortedHabits;
+  return dataHabits;
 }
 
 // CHOOSE TASKS BY DATE
@@ -140,9 +133,9 @@ List<HabitModel> habitByDateChooser(
   List<HabitModel> dataHabitNow = <HabitModel>[];
   for (HabitModel habitModel in habitList) {
     for (int day in habitModel.dayList) {
-      if (day == 3) {
-        print('$day ${dateSelect.weekday}');
+      if (day == dateSelect.weekday) {
         dataHabitNow.add(habitModel);
+        break;
       }
     }
   }

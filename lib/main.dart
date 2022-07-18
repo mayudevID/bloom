@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/core/routes/app_route.dart';
 import 'package:bloom/core/utils/notification_stream.dart';
-import 'package:bloom/features/habit/data/repositories/local_storage_habits_idle.dart';
+import 'package:bloom/features/habit/data/repositories/backup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'core/routes/route_name.dart';

@@ -26,7 +26,7 @@ class TaskWidget extends StatelessWidget {
         );
         if (isDeleted as bool) {
           Future.delayed(
-            const Duration(milliseconds: 100),
+            const Duration(milliseconds: 50),
             () async {
               AwesomeNotifications().cancel(taskModel!.taskId);
               context.read<TodosOverviewBloc>().add(
