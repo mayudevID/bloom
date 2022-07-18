@@ -92,7 +92,7 @@ class PomodoroPageContent extends StatelessWidget {
                     ..showSnackBar(
                       SnackBar(
                         content: Text(
-                          deletedPomodoro.title,
+                          'Pomodoro "${deletedPomodoro.title}" deleted',
                         ),
                         action: SnackBarAction(
                           label: "Undo Delete",

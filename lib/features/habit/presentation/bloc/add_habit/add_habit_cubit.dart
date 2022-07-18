@@ -71,18 +71,26 @@ class AddHabitCubit extends Cubit<AddHabitState> {
 
   void saveHabit() async {
     try {
-      //Map<int, bool> dayMap = state.dayList.asMap();
+      Map<int, bool> dayMap = [
+        state.sunday,
+        state.monday,
+        state.tuesday,
+        state.wednesday,
+        state.thursday,
+        state.friday,
+        state.saturday
+      ].asMap();
 
-      // List<int> dayListOn = [];
-      // dayMap.forEach((key, value) {
-      //   if (value == true) {
-      //     if (key == 0) {
-      //       dayListOn.add(7);
-      //     } else {
-      //       dayListOn.add(key);
-      //     }
-      //   }
-      // });
+      List<int> dayListOn = [];
+      dayMap.forEach((key, value) {
+        if (value == true) {
+          if (key == 0) {
+            dayListOn.add(7);
+          } else {
+            dayListOn.add(key);
+          }
+        }
+      });
 
       HabitModel habitModel = HabitModel(
         habitId: getRandomId(),
@@ -94,8 +102,7 @@ class AddHabitCubit extends Cubit<AddHabitState> {
         missed: state.missed,
         streak: state.streak,
         streakLeft: state.durationDays,
-        //dayList: dayListOn,
-        dayList: [],
+        dayList: dayListOn,
         checkedDays: List.filled(state.durationDays, false),
         openDays: List.filled(state.durationDays, false),
       );

@@ -1,8 +1,12 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:async';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/core/routes/app_route.dart';
+import 'package:bloom/core/utils/notification_stream.dart';
 import 'package:bloom/features/habit/data/repositories/local_storage_habits_idle.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get/get.dart';
 import 'core/routes/route_name.dart';
 import 'features/authentication/data/repositories/auth_repository.dart';
 import 'features/authentication/data/repositories/local_auth_repository.dart';
@@ -69,7 +73,6 @@ void main() {
             soundSource: "resource://raw/res_music",
           ),
         ],
-        debug: true,
       );
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
@@ -80,13 +83,19 @@ void main() {
         sharedPreferences: sharedPreferences,
       );
       final habitsRepository = HabitsRepository(
-        habitsApi: LocalStorageHabitsApi(plugin: sharedPreferences),
+        habitsApi: LocalStorageHabitsApi(
+          plugin: sharedPreferences,
+        ),
       );
       final todosRepository = TodosRepository(
-        todosApi: LocalStorageTodosApi(plugin: sharedPreferences),
+        todosApi: LocalStorageTodosApi(
+          plugin: sharedPreferences,
+        ),
       );
       final pomodorosRepository = PomodorosRepository(
-        pomodorosApi: LocalStoragePomodorosApi(plugin: sharedPreferences),
+        pomodorosApi: LocalStoragePomodorosApi(
+          plugin: sharedPreferences,
+        ),
       );
       runApp(
         MyApp(
@@ -95,6 +104,7 @@ void main() {
           habitsRepository: habitsRepository,
           todosrepository: todosRepository,
           pomodorosRepository: pomodorosRepository,
+          sharedPreferences: sharedPreferences,
         ),
       );
     },
@@ -108,6 +118,7 @@ class MyApp extends StatelessWidget {
   final TodosRepository _todosrepository;
   final PomodorosRepository _pomodorosRepository;
   final LocalUserDataRepository _localUserDataRepository;
+  final SharedPreferences _sharedPreferences;
 
   const MyApp({
     Key? key,
@@ -116,15 +127,25 @@ class MyApp extends StatelessWidget {
     required TodosRepository todosrepository,
     required PomodorosRepository pomodorosRepository,
     required LocalUserDataRepository localAuthRepository,
+    required SharedPreferences sharedPreferences,
   })  : _authRepository = authRepository,
         _habitsRepository = habitsRepository,
         _todosrepository = todosrepository,
         _pomodorosRepository = pomodorosRepository,
         _localUserDataRepository = localAuthRepository,
+        _sharedPreferences = sharedPreferences,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final notificationStream = Get.put(
+      NotificationStream(
+        _habitsRepository,
+        _sharedPreferences,
+      ),
+      permanent: true,
+    );
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<AuthRepository>(
@@ -151,85 +172,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class AppView extends StatefulWidget {
+class AppView extends StatelessWidget {
   const AppView({Key? key}) : super(key: key);
-
-  @override
-  State<AppView> createState() => _AppViewState();
-}
-
-class _AppViewState extends State<AppView> {
-  @override
-  void initState() {
-    super.initState();
-
-    AwesomeNotifications().displayedStream.listen((notification) async {
-      if (notification.channelKey == 'habit_channel') {
-        int? habitIdTarget = int.tryParse(notification.body!.split(" - ")[0]);
-        final prefs = await SharedPreferences.getInstance();
-        LocalStorageHabitsIdle(prefs).getSave(habitIdTarget);
-      }
-    });
-
-    AwesomeNotifications().actionStream.listen((notification) async {
-      if (notification.channelKey == 'task_channel') {
-        int? taskIdTarget = int.tryParse(notification.body!.split(" - ")[0]);
-        final prefs = await SharedPreferences.getInstance();
-        TaskModel? taskModel =
-            LocalStorageTodosIdle(prefs).getData(taskIdTarget);
-        dynamic isDeleted = await Navigator.of(context).pushNamed(
-          RouteName.TASKDETAIL,
-          arguments: taskModel,
-        );
-        if (isDeleted as bool) {
-          Future.delayed(
-            const Duration(milliseconds: 100),
-            () async {
-              AwesomeNotifications().cancel(taskModel!.taskId);
-              context.read<TodosOverviewBloc>().add(
-                    TodosOverviewTodoDeleted(
-                      taskModel,
-                    ),
-                  );
-            },
-          );
-        }
-      } else if (notification.channelKey == 'habit_channel') {
-        int? habitIdTarget = int.tryParse(notification.body!.split(" - ")[0]);
-        final prefs = await SharedPreferences.getInstance();
-        HabitModel? habitModel =
-            LocalStorageHabitsIdle(prefs).getData(habitIdTarget);
-        dynamic isDeleted = await Navigator.of(context).pushNamed(
-          RouteName.HABITDETAIL,
-          arguments: habitModel,
-        );
-        if (isDeleted as bool) {
-          Future.delayed(
-            const Duration(milliseconds: 100),
-            () async {
-              for (var i = 0; i < habitModel!.dayList.length; i++) {
-                AwesomeNotifications().cancel(
-                  habitModel.habitId * habitModel.dayList[i],
-                );
-              }
-              context.read<HabitsOverviewBloc>().add(
-                    HabitsOverviewHabitDeleted(
-                      habitModel,
-                    ),
-                  );
-            },
-          );
-        }
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    AwesomeNotifications().displayedSink.close();
-    AwesomeNotifications().actionSink.close();
-  }
 
   @override
   Widget build(BuildContext context) {

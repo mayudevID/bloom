@@ -20,7 +20,7 @@ class HabitWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        dynamic isDeleted = Navigator.of(context).pushNamed(
+        dynamic isDeleted = await Navigator.of(context).pushNamed(
           RouteName.HABITDETAIL,
           arguments: habitModel,
         );

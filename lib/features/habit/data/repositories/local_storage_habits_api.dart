@@ -63,7 +63,7 @@ class LocalStorageHabitsApi extends HabitsApi {
   Future<void> deleteHabit(String id) async {
     final habits = [..._habitStreamController.value];
     // ignore: unrelated_type_equality_checks
-    final habitIndex = habits.indexWhere((t) => t.habitId == id);
+    final habitIndex = habits.indexWhere((t) => t.habitId == int.tryParse(id));
     if (habitIndex == -1) {
       throw HabitsNotFoundException();
     } else {

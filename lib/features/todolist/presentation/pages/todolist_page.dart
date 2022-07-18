@@ -54,7 +54,6 @@ class ToDoListPageContent extends StatelessWidget {
               firstDate: DateTime(DateTime.now().year, 1, 1),
               lastDate: DateTime(DateTime.now().year, 12, 31),
               onDateSelected: (date) {
-                print(date);
                 context.read<TodosOverviewBloc>().add(
                       TodosOverviewFilterChanged(date ?? dateNow),
                     );
@@ -103,7 +102,7 @@ class ToDoListPageContent extends StatelessWidget {
                         ..showSnackBar(
                           SnackBar(
                             content: Text(
-                              deletedHabit.title,
+                              'To do list "${deletedHabit.title}" deleted',
                             ),
                             action: SnackBarAction(
                               label: "Undo Delete",
@@ -160,7 +159,7 @@ class ToDoListPageContent extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             children: [
-                              for (final taskModel in dataTask)
+                              for (TaskModel taskModel in dataTask)
                                 TaskWidget(
                                   taskModel: taskModel,
                                 )

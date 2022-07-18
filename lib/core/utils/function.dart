@@ -140,7 +140,8 @@ List<HabitModel> habitByDateChooser(
   List<HabitModel> dataHabitNow = <HabitModel>[];
   for (HabitModel habitModel in habitList) {
     for (int day in habitModel.dayList) {
-      if (day == dateSelect.weekday) {
+      if (day == 3) {
+        print('$day ${dateSelect.weekday}');
         dataHabitNow.add(habitModel);
       }
     }

@@ -11,7 +11,7 @@ class LocalStorageHabitsIdle {
 
   static const kHabitsCollectionKey = '__habits_collection_key__';
 
-  void getSave(int? id) {
+  Future<void> getSave(int? id) async {
     final habitsJson = plugin.getString(kHabitsCollectionKey);
     if (habitsJson != null) {
       final habits = List<Map>.from(json.decode(habitsJson) as List)
@@ -25,12 +25,22 @@ class LocalStorageHabitsIdle {
       if (openDaysVal < habitModel.openDays.length) {
         List<bool> newOpenDays = habitModel.openDays;
         newOpenDays[openDaysVal] = true;
-        habitModel.copyWith(
+        final newHabitModel = HabitModel(
+          habitId: habitModel.habitId,
+          iconImg: habitModel.iconImg,
+          title: habitModel.title,
+          goals: habitModel.goals,
+          timeOfDay: habitModel.timeOfDay,
+          durationDays: habitModel.durationDays,
           missed: habitModel.missed + 1,
+          streak: habitModel.streak,
+          streakLeft: habitModel.streakLeft,
+          dayList: habitModel.dayList,
+          checkedDays: habitModel.checkedDays,
           openDays: newOpenDays,
         );
-        habits[habitIndex] = habitModel;
-        plugin.setString(kHabitsCollectionKey, json.encode(habits));
+        habits[habitIndex] = newHabitModel;
+        await plugin.setString(kHabitsCollectionKey, json.encode(habits));
         //EDIT USER
       }
     }

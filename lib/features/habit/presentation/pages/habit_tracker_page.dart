@@ -110,7 +110,7 @@ class HabitTrackerPageContent extends StatelessWidget {
                           ..showSnackBar(
                             SnackBar(
                               content: Text(
-                                deletedHabit.title,
+                                'Habit "${deletedHabit.title}" deleted',
                               ),
                               action: SnackBarAction(
                                 label: "Undo Delete",
@@ -118,7 +118,8 @@ class HabitTrackerPageContent extends StatelessWidget {
                                 onPressed: () {
                                   messenger.hideCurrentSnackBar();
                                   context.read<HabitsOverviewBloc>().add(
-                                      const HabitsOverviewUndoDeletionRequested());
+                                        const HabitsOverviewUndoDeletionRequested(),
+                                      );
                                 },
                               ),
                             ),
@@ -134,7 +135,8 @@ class HabitTrackerPageContent extends StatelessWidget {
                             height: getHeight(70, context),
                             child: const Center(
                               child: CircularProgressIndicator(
-                                  color: Colors.black),
+                                color: Colors.black,
+                              ),
                             ),
                           );
                         } else if (state.status !=
@@ -145,7 +147,7 @@ class HabitTrackerPageContent extends StatelessWidget {
                             height: getHeight(70, context),
                             child: const Center(
                               child: Text(
-                                'Task empty for this date',
+                                'Habit empty for this date',
                                 style: TextStyle(
                                   fontFamily: "Poppins",
                                   fontSize: 14,
@@ -159,20 +161,35 @@ class HabitTrackerPageContent extends StatelessWidget {
                           state.habits,
                           state.filter as DateTime,
                         );
-                        return MediaQuery.removePadding(
-                          removeTop: true,
-                          context: context,
-                          child: ListView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            children: [
-                              for (final habitModel in dataHabit)
-                                HabitWidget(
-                                  habitModel: habitModel,
-                                )
-                            ],
-                          ),
-                        );
+                        if (dataHabit.isNotEmpty) {
+                          return MediaQuery.removePadding(
+                            removeTop: true,
+                            context: context,
+                            child: ListView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              children: [
+                                for (HabitModel habitModel in dataHabit)
+                                  HabitWidget(
+                                    habitModel: habitModel,
+                                  )
+                              ],
+                            ),
+                          );
+                        } else {
+                          return SizedBox(
+                            height: getHeight(70, context),
+                            child: const Center(
+                              child: Text(
+                                'Habit empty for this date',
+                                style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
                       }
                     },
                   ),

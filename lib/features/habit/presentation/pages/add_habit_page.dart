@@ -29,9 +29,31 @@ class AddHabitsPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final dayList =
-    //     context.select((AddHabitCubit cubit) => cubit.state.dayList);
-    final title = context.select((AddHabitCubit cubit) => cubit.state.title);
+    final monday = context.select(
+      (AddHabitCubit cubit) => cubit.state.monday,
+    );
+    final sunday = context.select(
+      (AddHabitCubit cubit) => cubit.state.sunday,
+    );
+    final thursday = context.select(
+      (AddHabitCubit cubit) => cubit.state.thursday,
+    );
+    final wednesday = context.select(
+      (AddHabitCubit cubit) => cubit.state.wednesday,
+    );
+    final tuesday = context.select(
+      (AddHabitCubit cubit) => cubit.state.tuesday,
+    );
+    final friday = context.select(
+      (AddHabitCubit cubit) => cubit.state.friday,
+    );
+    final saturday = context.select(
+      (AddHabitCubit cubit) => cubit.state.saturday,
+    );
+
+    final title = context.select(
+      (AddHabitCubit cubit) => cubit.state.title,
+    );
 
     Future<TimeOfDay?> _getTime() async {
       final TimeOfDay? pickTime = await showTimePicker(
@@ -314,7 +336,13 @@ class AddHabitsPageContent extends StatelessWidget {
             const Spacer(),
             GestureDetector(
               onTap: () async {
-                if ([].contains(true) == false) {
+                if (monday == false &&
+                    sunday == false &&
+                    tuesday == false &&
+                    wednesday == false &&
+                    thursday == false &&
+                    friday == false &&
+                    saturday == false) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text(

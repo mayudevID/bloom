@@ -199,7 +199,7 @@ class HomePageContent extends StatelessWidget {
                         ..showSnackBar(
                           SnackBar(
                             content: Text(
-                              deletedTodo.title,
+                              'To do list "${deletedTodo.title}" deleted',
                             ),
                             action: SnackBarAction(
                               label: "Undo Delete",
@@ -309,7 +309,7 @@ class HomePageContent extends StatelessWidget {
                         ..showSnackBar(
                           SnackBar(
                             content: Text(
-                              deletedHabit.title,
+                              'Habit "${deletedHabit.title}" deleted',
                             ),
                             action: SnackBarAction(
                               label: "Undo Delete",
