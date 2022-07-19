@@ -7,6 +7,10 @@ abstract class TimerEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class SetUserData extends TimerEvent {
+  const SetUserData();
+}
+
 class TimerSet extends TimerEvent {
   const TimerSet(this.data);
   final PomodoroModel data;

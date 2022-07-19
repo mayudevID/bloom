@@ -41,8 +41,13 @@ class AddTaskPageContent extends StatelessWidget {
         );
       }
       if (pickedDate != null && pickedTime != null) {
-        return DateTime(pickedDate.year, pickedDate.month, pickedDate.day,
-            pickedTime.hour, pickedTime.minute);
+        return DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
       } else {
         return DateTime(1970);
       }
@@ -210,8 +215,12 @@ class AddTaskPageContent extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                           color: greyLight,
                         ),
-                        child:
-                            Center(child: Text("Pick time", style: smallText)),
+                        child: Center(
+                          child: Text(
+                            "Pick time",
+                            style: smallText,
+                          ),
+                        ),
                       ),
                     );
                   }
@@ -220,70 +229,6 @@ class AddTaskPageContent extends StatelessWidget {
                 }
               },
             ),
-            // Obx(() {
-            //   if (addTaskC.isTime.value) {
-            //     if (addTaskC.isChoose.value) {
-            //       return GestureDetector(
-            //         onTap: () {
-            //           pickTime();
-            //         },
-            //         child: Row(
-            //           mainAxisAlignment: MainAxisAlignment.center,
-            //           children: [
-            //             Container(
-            //               width: 150,
-            //               height: 32,
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(5),
-            //                 color: greyLight,
-            //               ),
-            //               child: Center(
-            //                 child: Text(
-            //                   DateFormat('E, dd MMM y')
-            //                       .format(addTaskC.dateChoose.value),
-            //                   style: smallText,
-            //                 ),
-            //               ),
-            //             ),
-            //             SizedBox(width: getWidth(8)),
-            //             Container(
-            //               width: 120,
-            //               height: 32,
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(5),
-            //                 color: greyLight,
-            //               ),
-            //               child: Center(
-            //                 child: Text(
-            //                   DateFormat('jm')
-            //                       .format(addTaskC.dateChoose.value),
-            //                   style: smallText,
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       );
-            //     } else {
-            //       return GestureDetector(
-            //         onTap: () {
-            //           pickTime();
-            //         },
-            //         child: Container(
-            //           width: 278,
-            //           height: 32,
-            //           decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(5),
-            //             color: greyLight,
-            //           ),
-            //           child: Center(child: Text("Pick time", style: smallText)),
-            //         ),
-            //       );
-            //     }
-            //   } else {
-            //     return Container();
-            //   }
-            // }),
             SizedBox(height: getHeight(24, context)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -324,10 +269,6 @@ class AddTaskPageContent extends StatelessWidget {
                       return Center(
                         child: DropdownButton(
                           borderRadius: BorderRadius.circular(10),
-                          // icon: const Visibility(
-                          //   visible: false,
-                          //   child: Icon(Icons.arrow_downward),
-                          // ),
                           value: state.tags,
                           items: ['Basic', 'Important'].map((item) {
                             return DropdownMenuItem(
@@ -341,9 +282,9 @@ class AddTaskPageContent extends StatelessWidget {
                             );
                           }).toList(),
                           onChanged: (newVal) {
-                            context
-                                .read<AddTodoCubit>()
-                                .tagsChanged(newVal as String);
+                            context.read<AddTodoCubit>().tagsChanged(
+                                  newVal as String,
+                                );
                           },
                         ),
                       );

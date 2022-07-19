@@ -79,7 +79,7 @@ void main() {
       );
       final sharedPreferences = await SharedPreferences.getInstance();
       final authRepository = AuthRepository();
-      final localAuthRepository = LocalUserDataRepository(
+      final localUserDataRepository = LocalUserDataRepository(
         sharedPreferences: sharedPreferences,
       );
       final habitsRepository = HabitsRepository(
@@ -100,7 +100,7 @@ void main() {
       runApp(
         MyApp(
           authRepository: authRepository,
-          localAuthRepository: localAuthRepository,
+          localUserDataRepository: localUserDataRepository,
           habitsRepository: habitsRepository,
           todosrepository: todosRepository,
           pomodorosRepository: pomodorosRepository,
@@ -126,13 +126,13 @@ class MyApp extends StatelessWidget {
     required HabitsRepository habitsRepository,
     required TodosRepository todosrepository,
     required PomodorosRepository pomodorosRepository,
-    required LocalUserDataRepository localAuthRepository,
+    required LocalUserDataRepository localUserDataRepository,
     required SharedPreferences sharedPreferences,
   })  : _authRepository = authRepository,
         _habitsRepository = habitsRepository,
         _todosrepository = todosrepository,
         _pomodorosRepository = pomodorosRepository,
-        _localUserDataRepository = localAuthRepository,
+        _localUserDataRepository = localUserDataRepository,
         _sharedPreferences = sharedPreferences,
         super(key: key);
 

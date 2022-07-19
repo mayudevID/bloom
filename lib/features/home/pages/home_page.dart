@@ -26,6 +26,7 @@ class HomePage extends StatelessWidget {
         BlocProvider(
           create: (context) => TodosOverviewBloc(
             todosRepository: context.read<TodosRepository>(),
+            localUserDataRepository: context.read<LocalUserDataRepository>(),
           )..add(
               const TodosOverviewSubscriptionRequested(),
             ),
@@ -67,7 +68,9 @@ class HomePageContent extends StatelessWidget {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteName.PROFILE);
+                    },
                     child: BlocBuilder<UserBloc, UserState>(
                       builder: (context, state) {
                         if (state.status == UserStatus.success) {

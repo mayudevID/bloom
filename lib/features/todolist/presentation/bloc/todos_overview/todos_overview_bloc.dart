@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloom/features/authentication/data/models/user_data.dart';
+import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
 import 'package:bloom/features/todolist/data/models/task_model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -8,9 +10,11 @@ part 'todos_overview_event.dart';
 part 'todos_overview_state.dart';
 
 class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
-  TodosOverviewBloc({
-    required TodosRepository todosRepository,
-  })  : _todosRepository = todosRepository,
+  TodosOverviewBloc(
+      {required TodosRepository todosRepository,
+      required LocalUserDataRepository localUserDataRepository})
+      : _todosRepository = todosRepository,
+        _localUserDataRepository = localUserDataRepository,
         super(TodosOverviewState()) {
     on<TodosOverviewSubscriptionRequested>(_onSubscriptionRequested);
     on<TodosOverviewTodoCompletionToggled>(_onTodoCompletionToggled);
@@ -22,6 +26,7 @@ class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
   }
 
   final TodosRepository _todosRepository;
+  final LocalUserDataRepository _localUserDataRepository;
 
   Future<void> _onSubscriptionRequested(
     TodosOverviewSubscriptionRequested event,
@@ -47,6 +52,22 @@ class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
   ) async {
     final newTodo = event.todo.copyWith(isChecked: event.isCompleted);
     await _todosRepository.saveTodo(newTodo);
+    final currUserData = await _localUserDataRepository.getUserData().first;
+    final newUserData = UserData(
+      userId: currUserData.userId,
+      email: currUserData.email,
+      photoURL: currUserData.photoURL,
+      name: currUserData.name,
+      habitStreak: currUserData.habitStreak,
+      taskCompleted: (event.isCompleted == true)
+          ? currUserData.taskCompleted + 1
+          : currUserData.taskCompleted - 1,
+      totalFocus: currUserData.totalFocus,
+      missed: currUserData.missed,
+      completed: currUserData.completed,
+      streakLeft: currUserData.streakLeft,
+    );
+    await _localUserDataRepository.saveUserData(newUserData);
   }
 
   Future<void> _onTodoDeleted(

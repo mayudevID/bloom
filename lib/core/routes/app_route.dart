@@ -3,6 +3,7 @@ import '../../features/authentication/presentation/pages/create_account_page.dar
 import '../../features/authentication/presentation/pages/forgot_password_page.dart';
 import '../../features/authentication/presentation/pages/login_page.dart';
 import '../../features/authentication/presentation/pages/onboarding_page.dart';
+import '../../features/authentication/presentation/pages/profile.dart';
 import '../../features/authentication/presentation/pages/verification_page.dart';
 import '../../features/habit/data/models/habit_model.dart';
 import '../../features/habit/presentation/pages/add_habit_page.dart';
@@ -57,8 +58,8 @@ class AppRoute {
         );
       case RouteName.SETTINGS:
         return MaterialPageRoute(builder: (_) => const SettingsPage());
-      //case RouteName.PROFILE:
-      //  return MaterialPageRoute(builder: (_) => ProfilePage());
+      case RouteName.PROFILE:
+        return MaterialPageRoute(builder: (_) => const ProfilePage());
       //case RouteName.EDITPROFILE:
       //  return MaterialPageRoute(builder: (_) => EditProfilePage());
       //case RouteName.TASKHISTORY:

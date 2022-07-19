@@ -6,6 +6,7 @@ import 'package:bloom/features/todolist/domain/todos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/theme.dart';
+import '../../../authentication/data/repositories/local_auth_repository.dart';
 import '../../../habit/presentation/widgets/calendar_widget/calendar_widget.dart';
 import '../../data/models/task_model.dart';
 import '../bloc/todos_overview/todos_overview_bloc.dart';
@@ -19,6 +20,7 @@ class ToDoListPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => TodosOverviewBloc(
         todosRepository: context.read<TodosRepository>(),
+        localUserDataRepository: context.read<LocalUserDataRepository>(),
       )..add(
           const TodosOverviewSubscriptionRequested(),
         ),

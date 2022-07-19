@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
 import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
+import '../../../../authentication/data/models/user_data.dart';
 import 'ticker.dart';
 import 'package:equatable/equatable.dart';
 part 'timer_event.dart';
@@ -8,13 +10,15 @@ part 'timer_state.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
   final Ticker _ticker;
-  //static const int _duration = 60;
-  //static const int _session = 1;
+  final LocalUserDataRepository _localUserDataRepository;
 
   StreamSubscription<int>? _tickerSubscription;
 
-  TimerBloc({required Ticker ticker})
-      : _ticker = ticker,
+  TimerBloc({
+    required Ticker ticker,
+    required LocalUserDataRepository localUserDataRepository,
+  })  : _ticker = ticker,
+        _localUserDataRepository = localUserDataRepository,
         super(const LoadingState(0, 0, false, false)) {
     on<TimerSet>(_onSet);
     on<TimerStarted>(_onStarted);
@@ -22,6 +26,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     on<TimerResumed>(_onResumed);
     //on<TimerReset>(_onReset);
     on<TimerTicked>(_onTicked);
+    on<SetUserData>(_setUserData);
   }
 
   @override
@@ -30,8 +35,25 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     return super.close();
   }
 
+  Future<void> _setUserData(SetUserData event, Emitter<TimerState> emit) async {
+    final currUserData = await _localUserDataRepository.getUserData().first;
+    final newUserData = UserData(
+      userId: currUserData.userId,
+      email: currUserData.email,
+      photoURL: currUserData.photoURL,
+      name: currUserData.name,
+      habitStreak: currUserData.habitStreak,
+      taskCompleted: currUserData.taskCompleted,
+      totalFocus:
+          currUserData.totalFocus + (state.duration * state.session / 60),
+      missed: currUserData.missed,
+      completed: currUserData.completed,
+      streakLeft: currUserData.streakLeft,
+    );
+    await _localUserDataRepository.saveUserData(newUserData);
+  }
+
   void _onSet(TimerSet event, Emitter<TimerState> emit) async {
-    // ignore: invalid_use_of_visible_for_testing_member
     emit(
       TimerInitial(
         event.data.durationMinutes * 60,
