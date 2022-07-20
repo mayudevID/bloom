@@ -27,6 +27,9 @@ class LocalUserDataRepository {
   }
 
   Stream<UserData> getUserData() => _userStreamController.asBroadcastStream();
+  UserData getUserDataDirect() => UserData.fromJson(
+        json.decode(_sharedPreferences.getString(kUserDataKey) ?? ""),
+      );
 
   Future<void> saveUserData(UserData userData) async {
     _userStreamController.add(userData);

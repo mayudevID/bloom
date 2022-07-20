@@ -172,19 +172,23 @@ class AuthRepository {
 
   Future<void> createNewUserForFirestore(UserData user) async {
     try {
-      await _firestore.collection('users').doc(user.userId).set({
-        "name": user.name,
-        "email": user.email,
-        "photoUrl": user.photoURL,
-      });
-      await _firestore.collection('stats').doc(user.userId).set({
-        "habitStreak": user.habitStreak,
-        "taskCompleted": user.taskCompleted,
-        "totalFocus": user.totalFocus,
-        "missed": user.missed,
-        "completed": user.completed,
-        "streakLeft": user.streakLeft,
-      });
+      await _firestore.collection('users').doc(currentUser.id).set(
+        {
+          "name": user.name,
+          "email": user.email,
+          "photoUrl": user.photoURL,
+        },
+      );
+      await _firestore.collection('stats').doc(currentUser.id).set(
+        {
+          "habitStreak": user.habitStreak,
+          "taskCompleted": user.taskCompleted,
+          "totalFocus": user.totalFocus,
+          "missed": user.missed,
+          "completed": user.completed,
+          "streakLeft": user.streakLeft,
+        },
+      );
     } on Exception catch (e) {
       throw Exception(e);
     }
@@ -192,22 +196,40 @@ class AuthRepository {
 
   Future<String> uploadProfilePicture(File? fileData) async {
     if (fileData != null) {
-      String path = basename(fileData.path);
-      String photoLoc = 'profilePicture/$path';
-      final ref = _firebaseStorage.ref(photoLoc);
-      UploadTask uploadTask = ref.putFile(fileData);
+      var pathOld = fileData.path;
+      var lastSeparator = pathOld.lastIndexOf(Platform.pathSeparator);
+      var newPath = pathOld.substring(0, lastSeparator + 1) + currentUser.id;
+      final newFileData = await fileData.rename(newPath);
+      String path = basename(newFileData.path);
+      final ref = _firebaseStorage.ref('profilePicture/$path');
+      UploadTask uploadTask = ref.putFile(newFileData);
       final snapshotData = await uploadTask.whenComplete(() {});
       final photoDownload = snapshotData.ref.getDownloadURL();
       return photoDownload;
     } else {
-      return "Null";
+      return "Empty";
     }
   }
 
-  // Future<void> deleteProfilePicture() async {
-  //   //String photoURL = Get.find<UserController>().userModel.value.photoUrl;
-  //   await FirebaseStorage.instance.refFromURL(photoURL).delete();
-  // }
+  Future<void> deleteProfilePicture(String photoURL) async {
+    await _firebaseStorage.refFromURL(photoURL).delete();
+  }
+
+  Future<void> updateName(String name) async {
+    await _firestore.collection('users').doc(currentUser.id).update(
+      {
+        "name": name,
+      },
+    );
+  }
+
+  Future<void> updatePhoto(String url) async {
+    await _firestore.collection('users').doc(currentUser.id).update(
+      {
+        "photoUrl": url,
+      },
+    );
+  }
 
   Future<UserData> createOrGet(
       firebase_auth.OAuthCredential oAuthCredential) async {

@@ -1,3 +1,4 @@
+import 'package:bloom/core/routes/route_name.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -122,7 +123,9 @@ class ProfilePageContent extends StatelessWidget {
             ),
             SizedBox(height: getHeight(8, context)),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed(RouteName.EDITPROFILE);
+              },
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: naturalBlack),
@@ -202,7 +205,7 @@ class ProfilePageContent extends StatelessWidget {
                           builder: (builder, state) {
                             return Text(
                               (state.status == UserStatus.success)
-                                  ? state.userData.totalFocus.toString()
+                                  ? state.userData.totalFocus.toStringAsFixed(1)
                                   : 0.toString(),
                               style: const TextStyle(
                                 fontFamily: "Poppins",

@@ -1,21 +1,13 @@
-// ignore_for_file: unused_local_variable
-
 import 'dart:async';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/core/routes/app_route.dart';
 import 'package:bloom/core/utils/notification_stream.dart';
-import 'package:bloom/features/habit/data/repositories/backup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'core/routes/route_name.dart';
 import 'features/authentication/data/repositories/auth_repository.dart';
 import 'features/authentication/data/repositories/local_auth_repository.dart';
 import 'features/authentication/presentation/bloc/app/app_bloc.dart';
-import 'features/habit/data/models/habit_model.dart';
-import 'features/habit/presentation/bloc/habit_overview/habits_overview_bloc.dart';
-import 'features/todolist/data/models/task_model.dart';
-import 'features/todolist/data/repositories/local_storage_todos_idle.dart';
-import 'features/todolist/presentation/bloc/todos_overview/todos_overview_bloc.dart';
 import 'firebase_options.dart';
 import 'package:bloom/features/todolist/data/repositories/local_storage_todos_api.dart';
 import 'package:bloom/features/todolist/domain/todos_repository.dart';
@@ -138,6 +130,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final notificationStream = Get.put(
       NotificationStream(
         _habitsRepository,
