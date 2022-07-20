@@ -9,6 +9,7 @@ class PomodorosRepository {
   final PomodorosApi _pomodorosApi;
 
   Stream<List<PomodoroModel>> getPomodoros() => _pomodorosApi.getPomodoros();
+  Stream<PomodoroModel> getRecentList() => _pomodorosApi.getRecentList();
   Future<void> savePomodoro(PomodoroModel pomodoro) =>
       _pomodorosApi.savePomodoro(pomodoro);
   Future<void> deletePomodoro(String id) => _pomodorosApi.deletePomodoro(id);

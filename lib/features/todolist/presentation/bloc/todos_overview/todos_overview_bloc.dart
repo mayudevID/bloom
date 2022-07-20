@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:bloom/features/authentication/data/models/user_data.dart';
 import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
 import 'package:bloom/features/todolist/data/models/task_model.dart';
+import 'package:bloom/features/todolist/data/repositories/todo_history/todos_history_api.dart';
+import 'package:bloom/features/todolist/domain/todos_history_repository.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/todos_repository.dart';
@@ -12,8 +14,10 @@ part 'todos_overview_state.dart';
 class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
   TodosOverviewBloc(
       {required TodosRepository todosRepository,
+      required TodosHistoryRepository todosHistoryRepository,
       required LocalUserDataRepository localUserDataRepository})
       : _todosRepository = todosRepository,
+        _todosHistoryRepository = todosHistoryRepository,
         _localUserDataRepository = localUserDataRepository,
         super(TodosOverviewState()) {
     on<TodosOverviewSubscriptionRequested>(_onSubscriptionRequested);
@@ -26,6 +30,7 @@ class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
   }
 
   final TodosRepository _todosRepository;
+  final TodosHistoryRepository _todosHistoryRepository;
   final LocalUserDataRepository _localUserDataRepository;
 
   Future<void> _onSubscriptionRequested(
@@ -76,6 +81,7 @@ class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
   ) async {
     emit(state.copyWith(lastDeletedTodo: () => event.todo));
     await _todosRepository.deleteTodo(event.todo.taskId.toString());
+    await _todosHistoryRepository.saveTodo(event.todo);
   }
 
   Future<void> _onUndoDeletionRequested(

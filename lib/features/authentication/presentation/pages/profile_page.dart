@@ -251,7 +251,9 @@ class ProfilePageContent extends StatelessWidget {
             ),
             SizedBox(height: getHeight(8, context)),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed(RouteName.TASKHISTORY);
+              },
               child: Container(
                 height: getHeight(48, context),
                 decoration: BoxDecoration(

@@ -1,3 +1,4 @@
+import 'package:bloom/features/todolist/presentation/pages/todolist_history_page.dart';
 import 'package:flutter/material.dart';
 import '../../features/authentication/presentation/pages/create_account_page.dart';
 import '../../features/authentication/presentation/pages/edit_profile_page.dart';
@@ -63,8 +64,8 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const ProfilePage());
       case RouteName.EDITPROFILE:
         return MaterialPageRoute(builder: (_) => const EditProfilePage());
-      //case RouteName.TASKHISTORY:
-      //  return MaterialPageRoute(builder: (_) => TaskHistoryPage());
+      case RouteName.TASKHISTORY:
+        return MaterialPageRoute(builder: (_) => const ToDoListHistoryPage());
       //case RouteName.STATISTICS:
       //  return MaterialPageRoute(builder: (_) => StatisticsPage());
       default:

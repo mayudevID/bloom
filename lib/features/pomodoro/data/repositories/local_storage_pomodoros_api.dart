@@ -20,12 +20,19 @@ class LocalStoragePomodorosApi extends PomodorosApi {
 
   final _pomodoroStreamController =
       BehaviorSubject<List<PomodoroModel>>.seeded(const []);
+  final _pomodoroRecentListStreamController =
+      BehaviorSubject<PomodoroModel>.seeded(PomodoroModel.empty);
 
   @visibleForTesting
   static const kPomodorosCollectionKey = '__pomodoros_collection_key__';
+  static const kPomodorosRlCollectionKey = '__pomodoroRl_collection_key__';
 
   String? _getValue(String key) => _plugin.getString(key);
   Future<void> _setValue(String key, String value) =>
+      _plugin.setString(key, value);
+
+  String? _getValueRl(String key) => _plugin.getString(key);
+  Future<void> _setValueRl(String key, String value) =>
       _plugin.setString(key, value);
 
   void _init() {
@@ -39,11 +46,23 @@ class LocalStoragePomodorosApi extends PomodorosApi {
     } else {
       _pomodoroStreamController.add(const []);
     }
+
+    final pomodoroRecentList = _getValueRl(kPomodorosRlCollectionKey);
+    if (pomodoroRecentList != null) {
+      final pomodoro = PomodoroModel.fromJson(json.decode(pomodoroRecentList));
+      _pomodoroRecentListStreamController.add(pomodoro);
+    } else {
+      _pomodoroRecentListStreamController.add(PomodoroModel.empty);
+    }
   }
 
   @override
   Stream<List<PomodoroModel>> getPomodoros() =>
       _pomodoroStreamController.asBroadcastStream();
+
+  @override
+  Stream<PomodoroModel> getRecentList() =>
+      _pomodoroRecentListStreamController.asBroadcastStream();
 
   @override
   Future<void> savePomodoro(PomodoroModel pomodoroMo) {
@@ -58,6 +77,15 @@ class LocalStoragePomodorosApi extends PomodorosApi {
 
     _pomodoroStreamController.add(pomodoros);
     return _setValue(kPomodorosCollectionKey, json.encode(pomodoros));
+  }
+
+  @override
+  Future<void> saveRecentList(PomodoroModel pomodoroModel) {
+    _pomodoroRecentListStreamController.add(pomodoroModel);
+    return _setValue(
+      kPomodorosRlCollectionKey,
+      json.encode(pomodoroModel.toJson()),
+    );
   }
 
   @override

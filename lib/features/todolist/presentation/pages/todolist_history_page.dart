@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../domain/todos_history_repository.dart';
-import '../bloc/bloc/todos_history_bloc.dart';
+import '../bloc/todos_history/todos_history_bloc.dart';
 import '../widgets/task_widget_deleted.dart';
 
 class ToDoListHistoryPage extends StatelessWidget {
@@ -74,6 +74,16 @@ class ToDoListHistoryPageContent extends StatelessWidget {
                                       taskModel,
                                     ),
                                   );
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'History \'${taskModel.title}\' deleted',
+                                    ),
+                                  ),
+                                );
                             },
                           )
                       ],

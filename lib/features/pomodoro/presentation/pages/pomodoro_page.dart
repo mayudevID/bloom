@@ -17,7 +17,9 @@ class PomodoroPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => PomodorosOverviewBloc(
         pomodorosRepository: context.read<PomodorosRepository>(),
-      )..add(const PomodorosOverviewSubscriptionRequested()),
+      )..add(
+          const PomodorosOverviewSubscriptionRequested(),
+        ),
       child: PomodoroPageContent(),
     );
   }
@@ -175,7 +177,20 @@ class PomodoroPageContent extends StatelessWidget {
             ),
           ),
           SizedBox(height: getHeight(8, context)),
-          Center(child: Text("Recent List (Next)")),
+          Center(
+            child: SizedBox(
+              height: getHeight(120, context),
+              child: const Center(
+                child: Text(
+                  'Recent list empty',
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ),
+          ),
           SizedBox(height: getHeight(48, context)),
           GestureDetector(
             onTap: () => _addTimerDialog(),

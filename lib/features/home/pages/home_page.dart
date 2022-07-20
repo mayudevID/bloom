@@ -12,6 +12,7 @@ import '../../habit/data/models/habit_model.dart';
 import '../../habit/presentation/bloc/habit_overview/habits_overview_bloc.dart';
 import '../../habit/presentation/widgets/habit_widget.dart';
 import '../../todolist/data/models/task_model.dart';
+import '../../todolist/domain/todos_history_repository.dart';
 import '../../todolist/domain/todos_repository.dart';
 import '../../todolist/presentation/bloc/todos_overview/todos_overview_bloc.dart';
 import '../../todolist/presentation/widgets/task_widget.dart';
@@ -26,6 +27,7 @@ class HomePage extends StatelessWidget {
         BlocProvider(
           create: (context) => TodosOverviewBloc(
             todosRepository: context.read<TodosRepository>(),
+            todosHistoryRepository: context.read<TodosHistoryRepository>(),
             localUserDataRepository: context.read<LocalUserDataRepository>(),
           )..add(
               const TodosOverviewSubscriptionRequested(),

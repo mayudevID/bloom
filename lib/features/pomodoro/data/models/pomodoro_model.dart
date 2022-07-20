@@ -29,6 +29,13 @@ class PomodoroModel {
     );
   }
 
+  static final empty = PomodoroModel(
+    title: '',
+    session: 0,
+    pomodoroId: 0,
+    durationMinutes: 0,
+  );
+
   factory PomodoroModel.fromJson(Map<String, dynamic> json) =>
       _$PomodoroModelFromJson(json);
 

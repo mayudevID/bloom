@@ -7,11 +7,15 @@ abstract class PomodoroRecentEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ChangedRecent extends PomodoroRecentEvent {
-  final PomodoroModel pomodoro;
+class PomodoroRecentSubscriptionRequested extends PomodoroRecentEvent {
+  const PomodoroRecentSubscriptionRequested();
+}
 
-  const ChangedRecent(this.pomodoro);
+class PomodoroRecentSaved extends PomodoroRecentEvent {
+  const PomodoroRecentSaved(this.pomodoroModel);
+
+  final PomodoroModel pomodoroModel;
 
   @override
-  List<Object> get props => [pomodoro];
+  List<Object> get props => [pomodoroModel];
 }
