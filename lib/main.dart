@@ -8,8 +8,10 @@ import 'core/routes/route_name.dart';
 import 'features/authentication/data/repositories/auth_repository.dart';
 import 'features/authentication/data/repositories/local_auth_repository.dart';
 import 'features/authentication/presentation/bloc/app/app_bloc.dart';
+import 'features/todolist/data/repositories/todo/local_storage_todos_api.dart';
+import 'features/todolist/data/repositories/todo_history/local_storage_history_todos_api.dart';
+import 'features/todolist/domain/todos_history_repository.dart';
 import 'firebase_options.dart';
-import 'package:bloom/features/todolist/data/repositories/local_storage_todos_api.dart';
 import 'package:bloom/features/todolist/domain/todos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,6 +86,11 @@ void main() {
           plugin: sharedPreferences,
         ),
       );
+      final todosHistoryRepository = TodosHistoryRepository(
+        todosApi: LocalStorageHistoryTodosApi(
+          plugin: sharedPreferences,
+        ),
+      );
       final pomodorosRepository = PomodorosRepository(
         pomodorosApi: LocalStoragePomodorosApi(
           plugin: sharedPreferences,
@@ -94,7 +101,8 @@ void main() {
           authRepository: authRepository,
           localUserDataRepository: localUserDataRepository,
           habitsRepository: habitsRepository,
-          todosrepository: todosRepository,
+          todosRepository: todosRepository,
+          todosHistoryRepository: todosHistoryRepository,
           pomodorosRepository: pomodorosRepository,
           sharedPreferences: sharedPreferences,
         ),
@@ -107,7 +115,8 @@ void main() {
 class MyApp extends StatelessWidget {
   final AuthRepository _authRepository;
   final HabitsRepository _habitsRepository;
-  final TodosRepository _todosrepository;
+  final TodosRepository _todosRepository;
+  final TodosHistoryRepository _todosHistoryRepository;
   final PomodorosRepository _pomodorosRepository;
   final LocalUserDataRepository _localUserDataRepository;
   final SharedPreferences _sharedPreferences;
@@ -116,13 +125,15 @@ class MyApp extends StatelessWidget {
     Key? key,
     required AuthRepository authRepository,
     required HabitsRepository habitsRepository,
-    required TodosRepository todosrepository,
+    required TodosRepository todosRepository,
+    required TodosHistoryRepository todosHistoryRepository,
     required PomodorosRepository pomodorosRepository,
     required LocalUserDataRepository localUserDataRepository,
     required SharedPreferences sharedPreferences,
   })  : _authRepository = authRepository,
         _habitsRepository = habitsRepository,
-        _todosrepository = todosrepository,
+        _todosRepository = todosRepository,
+        _todosHistoryRepository = todosHistoryRepository,
         _pomodorosRepository = pomodorosRepository,
         _localUserDataRepository = localUserDataRepository,
         _sharedPreferences = sharedPreferences,
@@ -151,7 +162,10 @@ class MyApp extends StatelessWidget {
           create: (_) => _habitsRepository,
         ),
         RepositoryProvider<TodosRepository>(
-          create: (_) => _todosrepository,
+          create: (_) => _todosRepository,
+        ),
+        RepositoryProvider<TodosHistoryRepository>(
+          create: (_) => _todosHistoryRepository,
         ),
         RepositoryProvider<PomodorosRepository>(
           create: (_) => _pomodorosRepository,

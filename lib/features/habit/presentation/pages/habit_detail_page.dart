@@ -1,3 +1,4 @@
+import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
 import 'package:bloom/features/habit/data/models/habit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ class HabitsDetailPage extends StatelessWidget {
       create: (context) => HabitDetailBloc(
         habitModel: initHabitModel,
         habitsRepository: context.read<HabitsRepository>(),
+        localUserDataRepository: context.read<LocalUserDataRepository>(),
       ),
       child: HabitsDetailPageContent(initHabitModel: initHabitModel),
     );

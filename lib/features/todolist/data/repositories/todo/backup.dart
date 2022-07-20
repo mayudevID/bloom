@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/task_model.dart';
+import '../../models/task_model.dart';
 
 class LocalStorageTodosIdle {
   LocalStorageTodosIdle(this.plugin);
