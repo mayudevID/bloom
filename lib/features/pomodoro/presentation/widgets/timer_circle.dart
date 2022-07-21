@@ -14,13 +14,14 @@ class TimerCircle extends StatelessWidget {
   Widget build(BuildContext context) {
     final duration = context.select((TimerBloc bloc) => bloc.state.duration);
     final minutesStr =
-        ((duration / 60) % 60).floor().toString().padLeft(2, '0');
-    final secondsStr = (duration % 60).floor().toString().padLeft(2, '0');
+        ((duration / 1000 / 60) % 60).floor().toString().padLeft(2, '0');
+    final secondsStr =
+        (duration / 1000 % 60).floor().toString().padLeft(2, '0');
     return CircularPercentIndicator(
       radius: 293 / 2,
       lineWidth: 12,
       backgroundColor: yellowDark,
-      percent: duration / (earlyTime * 60),
+      percent: duration / (earlyTime * 60 * 1000),
       reverse: true,
       center: SizedBox(
         child: Text(

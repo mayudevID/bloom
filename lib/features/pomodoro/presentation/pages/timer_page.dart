@@ -23,7 +23,9 @@ class TimerPage extends StatelessWidget {
       create: (context) => TimerBloc(
         ticker: const Ticker(),
         localUserDataRepository: context.read<LocalUserDataRepository>(),
-      )..add(TimerSet(initPomodoroModel)),
+      )..add(
+          TimerSet(initPomodoroModel),
+        ),
       child: TimerPageContent(pModel: initPomodoroModel),
     );
   }

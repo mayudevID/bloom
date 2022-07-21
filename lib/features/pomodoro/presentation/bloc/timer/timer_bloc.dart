@@ -56,7 +56,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   void _onSet(TimerSet event, Emitter<TimerState> emit) async {
     emit(
       TimerInitial(
-        event.data.durationMinutes * 60,
+        event.data.durationMinutes * 60 * 1000,
         (state.session == 0) ? 1 : state.session + 1,
         false,
         false,
