@@ -10,6 +10,7 @@ import '../../features/authentication/presentation/pages/verification_page.dart'
 import '../../features/habit/data/models/habit_model.dart';
 import '../../features/habit/presentation/pages/add_habit_page.dart';
 import '../../features/habit/presentation/pages/habit_detail_page.dart';
+import '../../features/habit/presentation/pages/habit_statistic_page.dart';
 import '../../features/home/pages/main_page.dart';
 import '../../features/pomodoro/data/models/pomodoro_model.dart';
 import '../../features/pomodoro/presentation/pages/timer_page.dart';
@@ -66,8 +67,8 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const EditProfilePage());
       case RouteName.TASKHISTORY:
         return MaterialPageRoute(builder: (_) => const ToDoListHistoryPage());
-      //case RouteName.STATISTICS:
-      //  return MaterialPageRoute(builder: (_) => StatisticsPage());
+      case RouteName.HABITSTATISTIC:
+        return MaterialPageRoute(builder: (_) => HabitStatisticPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

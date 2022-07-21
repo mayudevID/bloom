@@ -15,6 +15,6 @@ abstract class RouteName {
   static const HABITDETAIL = '/habit-detail';
   static const SETTINGS = '/settings';
   static const TASKHISTORY = '/task-history';
-  static const STATISTICS = '/statistics';
+  static const HABITSTATISTIC = '/statistics';
   static const EDITPROFILE = '/edit-profile';
 }

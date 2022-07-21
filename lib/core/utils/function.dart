@@ -21,7 +21,7 @@ String twoDigits(int n) => n.toString().padLeft(2, '0');
 
 // SUBTRACT DATE
 double getSubtractTwelveDaysAgo() {
-  return DateTime.now().subtract(const Duration(days: 12)).day.toDouble();
+  return DateTime.now().subtract(const Duration(days: 11)).day.toDouble();
 }
 
 // GET NUMBER OF DAYS IN THIS MONTH
