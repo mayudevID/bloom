@@ -12,6 +12,8 @@ class PomodorosRepository {
   Stream<PomodoroModel> getRecentList() => _pomodorosApi.getRecentList();
   Future<void> savePomodoro(PomodoroModel pomodoro) =>
       _pomodorosApi.savePomodoro(pomodoro);
+  Future<void> saveRecentList(PomodoroModel pomodoro) =>
+      _pomodorosApi.saveRecentList(pomodoro);
   Future<void> deletePomodoro(String id) => _pomodorosApi.deletePomodoro(id);
   Future<int> clearCompleted() => _pomodorosApi.clearCompleted();
   Future<int> completeAll({required bool isCompleted}) =>

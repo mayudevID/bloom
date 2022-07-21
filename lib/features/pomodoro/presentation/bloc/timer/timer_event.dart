@@ -8,7 +8,9 @@ abstract class TimerEvent extends Equatable {
 }
 
 class SetUserData extends TimerEvent {
-  const SetUserData();
+  const SetUserData(this.data);
+
+  final PomodoroModel data;
 }
 
 class TimerSet extends TimerEvent {

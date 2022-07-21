@@ -45,7 +45,7 @@ class TimerPageContent extends StatelessWidget {
           if (state is TimerRunComplete) {
             createTimerNotification(pModel, state.session);
             if (state.isCompleted && state.session == pModel.session) {
-              context.read<TimerBloc>().add(const SetUserData());
+              context.read<TimerBloc>().add(SetUserData(pModel));
             }
           }
         },

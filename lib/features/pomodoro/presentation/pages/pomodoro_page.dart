@@ -1,12 +1,15 @@
 // ignore_for_file: must_be_immutable
+import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
 import 'package:bloom/features/pomodoro/domain/pomodoros_repository.dart';
 import 'package:bloom/features/pomodoro/presentation/widgets/add_timer_dialog.dart';
+import 'package:bloom/features/pomodoro/presentation/widgets/pomodoro_recent_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../bloc/pomodoro_overview/pomodoros_overview_bloc.dart';
+import '../bloc/pomodoro_recent/pomodoro_recent_bloc.dart';
 import '../widgets/pomodoro_card.dart';
 
 class PomodoroPage extends StatelessWidget {
@@ -14,12 +17,23 @@ class PomodoroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PomodorosOverviewBloc(
-        pomodorosRepository: context.read<PomodorosRepository>(),
-      )..add(
-          const PomodorosOverviewSubscriptionRequested(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => PomodorosOverviewBloc(
+            pomodorosRepository: context.read<PomodorosRepository>(),
+          )..add(
+              const PomodorosOverviewSubscriptionRequested(),
+            ),
         ),
+        BlocProvider(
+          create: (context) => PomodoroRecentBloc(
+            pomodorosRepository: context.read<PomodorosRepository>(),
+          )..add(
+              const PomodoroRecentSubscriptionRequested(),
+            ),
+        ),
+      ],
       child: PomodoroPageContent(),
     );
   }
@@ -177,19 +191,40 @@ class PomodoroPageContent extends StatelessWidget {
             ),
           ),
           SizedBox(height: getHeight(8, context)),
-          Center(
-            child: SizedBox(
-              height: getHeight(120, context),
-              child: const Center(
-                child: Text(
-                  'Recent list empty',
-                  style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 14,
+          BlocBuilder<PomodoroRecentBloc, PomodoroRecentState>(
+            builder: (context, state) {
+              if (state.status == PomodoroRecentStatus.success) {
+                if (state.pomodoro == PomodoroModel.empty) {
+                  return SizedBox(
+                    height: getHeight(120, context),
+                    child: const Center(
+                      child: Text(
+                        'Nothing opened recently',
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return PomodoroRecentWidget(pomodoroModel: state.pomodoro);
+                }
+              } else {
+                return SizedBox(
+                  height: getHeight(120, context),
+                  child: const Center(
+                    child: Text(
+                      'Nothing opened recently',
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
+                );
+              }
+            },
           ),
           SizedBox(height: getHeight(48, context)),
           GestureDetector(

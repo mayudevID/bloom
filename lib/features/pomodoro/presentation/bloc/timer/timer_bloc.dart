@@ -44,8 +44,8 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
       name: currUserData.name,
       habitStreak: currUserData.habitStreak,
       taskCompleted: currUserData.taskCompleted,
-      totalFocus:
-          currUserData.totalFocus + (state.duration * state.session / 60),
+      totalFocus: currUserData.totalFocus +
+          (event.data.durationMinutes * event.data.session / 60),
       missed: currUserData.missed,
       completed: currUserData.completed,
       streakLeft: currUserData.streakLeft,
