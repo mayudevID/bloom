@@ -3,6 +3,7 @@ import 'package:bloom/features/authentication/data/repositories/auth_repository.
 import 'package:bloom/features/settings/presentation/bloc/logout_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
@@ -57,6 +58,47 @@ class SettingsPageContent extends StatelessWidget {
               ],
             ),
             SizedBox(height: getHeight(51, context)),
+            Row(
+              children: [
+                Text(
+                  "Last backup:",
+                  style: textParagraph.copyWith(fontSize: 11),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  DateFormat('EEEE, dd MMMM y,')
+                      .add_jm()
+                      .format(DateTime.now()),
+                  style: textParagraph.copyWith(fontSize: 11),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: getHeight(10, context),
+            ),
+            Container(
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: naturalWhite,
+                border: Border.all(color: naturalBlack, width: 0.5),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.cached),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text("Backup", style: buttonSmall),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: getHeight(15, context),
+            ),
             GestureDetector(
               onTap: () async {
                 await context.read<LogoutCubit>().logOut();

@@ -329,6 +329,7 @@ class ProfilePageContent extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: getHeight(50, context)),
           ],
         ),
       ),
