@@ -82,7 +82,7 @@ class LocalStoragePomodorosApi extends PomodorosApi {
   @override
   Future<void> saveRecentList(PomodoroModel pomodoroModel) {
     _pomodoroRecentListStreamController.add(pomodoroModel);
-    return _setValue(
+    return _setValueRl(
       kPomodorosRlCollectionKey,
       json.encode(pomodoroModel.toJson()),
     );

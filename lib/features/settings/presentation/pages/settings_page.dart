@@ -1,6 +1,7 @@
 import 'package:bloom/core/routes/route_name.dart';
 import 'package:bloom/features/authentication/data/repositories/auth_repository.dart';
-import 'package:bloom/features/settings/presentation/bloc/logout_cubit.dart';
+import 'package:bloom/features/settings/domian/settings_repository.dart';
+import 'package:bloom/features/settings/presentation/bloc/settings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,9 @@ import 'package:intl/intl.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../../authentication/data/repositories/local_auth_repository.dart';
+import '../../../habit/domain/habits_repository.dart';
+import '../../../pomodoro/domain/pomodoros_repository.dart';
+import '../../../todolist/domain/todos_repository.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -15,12 +19,11 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) {
-        return LogoutCubit(
-          context.read<AuthRepository>(),
-          context.read<LocalUserDataRepository>(),
-        );
-      },
+      create: (context) => SettingsCubit(
+        authRepository: context.read<AuthRepository>(),
+        localUserDataRepository: context.read<LocalUserDataRepository>(),
+        settingsRepository: context.read<SettingsRepository>(),
+      ),
       child: const SettingsPageContent(),
     );
   }
@@ -78,35 +81,99 @@ class SettingsPageContent extends StatelessWidget {
             SizedBox(
               height: getHeight(10, context),
             ),
-            Container(
-              height: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: naturalWhite,
-                border: Border.all(color: naturalBlack, width: 0.5),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.cached),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text("Backup", style: buttonSmall),
-                ],
+            GestureDetector(
+              onTap: () {
+                context.read<SettingsCubit>().backupData();
+              },
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: naturalWhite,
+                  border: Border.all(color: naturalBlack, width: 0.5),
+                ),
+                child: BlocConsumer<SettingsCubit, SettingsState>(
+                  listener: (context, state) {
+                    if (state.backupStatus == BackupStatus.success) {
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(
+                          const SnackBar(
+                            content: Text("Backup success"),
+                          ),
+                        );
+                    } else if (state.backupStatus == BackupStatus.success) {
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(
+                          const SnackBar(
+                            content: Text("Error: Unexpected"),
+                          ),
+                        );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state.backupStatus == BackupStatus.initial) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.cached),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Backup",
+                            style: buttonSmall,
+                          ),
+                        ],
+                      );
+                    } else if (state.backupStatus == BackupStatus.processing) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 22,
+                            height: 22,
+                            child: CircularProgressIndicator(
+                              color: naturalBlack,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            "Loading",
+                            style: buttonSmall.copyWith(
+                              color: naturalBlack,
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.cached),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Backup",
+                            style: buttonSmall,
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                ),
               ),
             ),
             SizedBox(
               height: getHeight(15, context),
             ),
             GestureDetector(
-              onTap: () async {
-                await context.read<LogoutCubit>().logOut();
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  RouteName.LOGIN,
-                  (route) => false,
-                );
+              onTap: () {
+                context.read<SettingsCubit>().logOut();
               },
               child: Container(
                 height: 40,
@@ -114,9 +181,18 @@ class SettingsPageContent extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   color: redLight,
                 ),
-                child: BlocBuilder<LogoutCubit, LogoutState>(
+                child: BlocConsumer<SettingsCubit, SettingsState>(
+                  listener: (context, state) {
+                    if (state.logoutStatus == LogoutStatus.success) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        RouteName.LOGIN,
+                        (route) => false,
+                      );
+                    }
+                  },
                   builder: (context, state) {
-                    if (state.status == LogoutStatus.initial) {
+                    if (state.logoutStatus == LogoutStatus.initial) {
                       return Center(
                         child: Text(
                           "Logout",
@@ -125,15 +201,16 @@ class SettingsPageContent extends StatelessWidget {
                           ),
                         ),
                       );
-                    } else if (state.status == LogoutStatus.processing) {
+                    } else if (state.logoutStatus == LogoutStatus.processing) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
                             width: 22,
                             height: 22,
-                            child:
-                                CircularProgressIndicator(color: naturalWhite),
+                            child: CircularProgressIndicator(
+                              color: naturalWhite,
+                            ),
                           ),
                           const SizedBox(
                             width: 15,
@@ -147,10 +224,12 @@ class SettingsPageContent extends StatelessWidget {
                         ],
                       );
                     } else {
-                      return Text(
-                        "Loading",
-                        style: buttonSmall.copyWith(
-                          color: naturalWhite,
+                      return Center(
+                        child: Text(
+                          "Logout",
+                          style: buttonSmall.copyWith(
+                            color: naturalWhite,
+                          ),
                         ),
                       );
                     }

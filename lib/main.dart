@@ -2,12 +2,16 @@ import 'dart:async';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloom/core/routes/app_route.dart';
 import 'package:bloom/core/utils/notification_stream.dart';
+import 'package:bloom/features/settings/data/firebase_database_api.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'core/routes/route_name.dart';
 import 'features/authentication/data/repositories/auth_repository.dart';
 import 'features/authentication/data/repositories/local_auth_repository.dart';
 import 'features/authentication/presentation/bloc/app/app_bloc.dart';
+import 'features/settings/domian/settings_repository.dart';
 import 'features/todolist/data/repositories/todo/local_storage_todos_api.dart';
 import 'features/todolist/data/repositories/todo_history/local_storage_history_todos_api.dart';
 import 'features/todolist/domain/todos_history_repository.dart';
@@ -72,7 +76,12 @@ void main() {
         options: DefaultFirebaseOptions.currentPlatform,
       );
       final sharedPreferences = await SharedPreferences.getInstance();
-      final authRepository = AuthRepository();
+      final firebaseFirestore = FirebaseFirestore.instance;
+      final firebaseAuth = FirebaseAuth.instance;
+      final authRepository = AuthRepository(
+        firestore: firebaseFirestore,
+        firebaseAuth: firebaseAuth,
+      );
       final localUserDataRepository = LocalUserDataRepository(
         sharedPreferences: sharedPreferences,
       );
@@ -96,6 +105,13 @@ void main() {
           plugin: sharedPreferences,
         ),
       );
+      final settingsRepository = SettingsRepository(
+        settingsApi: FirebaseDatabaseApi(
+          plugin: sharedPreferences,
+          firebaseFirestore: firebaseFirestore,
+          firebaseAuth: firebaseAuth,
+        ),
+      );
       runApp(
         MyApp(
           authRepository: authRepository,
@@ -104,6 +120,7 @@ void main() {
           todosRepository: todosRepository,
           todosHistoryRepository: todosHistoryRepository,
           pomodorosRepository: pomodorosRepository,
+          settingsRepository: settingsRepository,
           sharedPreferences: sharedPreferences,
         ),
       );
@@ -119,6 +136,7 @@ class MyApp extends StatelessWidget {
   final TodosHistoryRepository _todosHistoryRepository;
   final PomodorosRepository _pomodorosRepository;
   final LocalUserDataRepository _localUserDataRepository;
+  final SettingsRepository _settingsRepository;
   final SharedPreferences _sharedPreferences;
 
   const MyApp({
@@ -129,6 +147,7 @@ class MyApp extends StatelessWidget {
     required TodosHistoryRepository todosHistoryRepository,
     required PomodorosRepository pomodorosRepository,
     required LocalUserDataRepository localUserDataRepository,
+    required SettingsRepository settingsRepository,
     required SharedPreferences sharedPreferences,
   })  : _authRepository = authRepository,
         _habitsRepository = habitsRepository,
@@ -136,6 +155,7 @@ class MyApp extends StatelessWidget {
         _todosHistoryRepository = todosHistoryRepository,
         _pomodorosRepository = pomodorosRepository,
         _localUserDataRepository = localUserDataRepository,
+        _settingsRepository = settingsRepository,
         _sharedPreferences = sharedPreferences,
         super(key: key);
 
@@ -170,6 +190,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<PomodorosRepository>(
           create: (_) => _pomodorosRepository,
         ),
+        RepositoryProvider<SettingsRepository>(
+          create: (_) => _settingsRepository,
+        ),
       ],
       child: BlocProvider(
         create: (context) => AppBloc(authRepository: _authRepository),
@@ -190,19 +213,16 @@ class AppView extends StatelessWidget {
         onWillPop: () async => false,
         child: BlocListener<AppBloc, AppState>(
           listener: (context, state) {
-            if (state.status == AppStatus.unauthenticated) {
-              Timer(const Duration(seconds: 1), () {
+            Timer(
+              const Duration(seconds: 1),
+              () {
                 Navigator.of(context).pushReplacementNamed(
-                  RouteName.ONBOARD,
+                  (state.status == AppStatus.unauthenticated)
+                      ? RouteName.ONBOARD
+                      : RouteName.MAIN,
                 );
-              });
-            } else if (state.status == AppStatus.authenticated) {
-              Timer(const Duration(seconds: 1), () {
-                Navigator.of(context).pushReplacementNamed(
-                  RouteName.MAIN,
-                );
-              });
-            }
+              },
+            );
           },
           child: Scaffold(
             backgroundColor: naturalWhite,
