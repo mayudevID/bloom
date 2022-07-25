@@ -34,7 +34,14 @@ class SettingsCubit extends Cubit<SettingsState> {
       await _authRepository.signOut();
       await _localUserDataRepository.deleteUserData();
       emit(state.copyWith(logoutStatus: LogoutStatus.success));
-    } catch (e) {}
+    } catch (e) {
+      emit(
+        state.copyWith(
+          logoutStatus: LogoutStatus.error,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
   }
 
   Future<void> backupData() async {
@@ -46,6 +53,13 @@ class SettingsCubit extends Cubit<SettingsState> {
     try {
       await _settingsRepository.backupData();
       emit(state.copyWith(backupStatus: BackupStatus.success));
-    } catch (e) {}
+    } catch (e) {
+      emit(
+        state.copyWith(
+          backupStatus: BackupStatus.error,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
   }
 }

@@ -36,208 +36,221 @@ class SettingsPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: naturalWhite,
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Image.asset("assets/icons/arrow_back.png", width: 24),
+      body: BlocListener<SettingsCubit, SettingsState>(
+        listener: (context, state) {
+          if (state.logoutStatus == LogoutStatus.error) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(state.errorMessage),
                 ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.5 - 48 - 50,
+              );
+          } else if (state.logoutStatus == LogoutStatus.success) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              RouteName.LOGIN,
+              (route) => false,
+            );
+          }
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child:
+                        Image.asset("assets/icons/arrow_back.png", width: 24),
                   ),
-                  child: Text(
-                    "Settings",
-                    style: mainSubTitle,
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.5 - 48 - 50,
+                    ),
+                    child: Text(
+                      "Settings",
+                      style: mainSubTitle,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: getHeight(51, context)),
-            Row(
-              children: [
-                Text(
-                  "Last backup:",
-                  style: textParagraph.copyWith(fontSize: 11),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  DateFormat('EEEE, dd MMMM y,')
-                      .add_jm()
-                      .format(DateTime.now()),
-                  style: textParagraph.copyWith(fontSize: 11),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: getHeight(10, context),
-            ),
-            GestureDetector(
-              onTap: () {
-                context.read<SettingsCubit>().backupData();
-              },
-              child: Container(
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: naturalWhite,
-                  border: Border.all(color: naturalBlack, width: 0.5),
-                ),
-                child: BlocConsumer<SettingsCubit, SettingsState>(
-                  listener: (context, state) {
-                    if (state.backupStatus == BackupStatus.success) {
-                      ScaffoldMessenger.of(context)
-                        ..hideCurrentSnackBar()
-                        ..showSnackBar(
-                          const SnackBar(
-                            content: Text("Backup success"),
-                          ),
-                        );
-                    } else if (state.backupStatus == BackupStatus.success) {
-                      ScaffoldMessenger.of(context)
-                        ..hideCurrentSnackBar()
-                        ..showSnackBar(
-                          const SnackBar(
-                            content: Text("Error: Unexpected"),
-                          ),
-                        );
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state.backupStatus == BackupStatus.initial) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.cached),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "Backup",
-                            style: buttonSmall,
-                          ),
-                        ],
-                      );
-                    } else if (state.backupStatus == BackupStatus.processing) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 22,
-                            height: 22,
-                            child: CircularProgressIndicator(
-                              color: naturalBlack,
+                ],
+              ),
+              SizedBox(height: getHeight(51, context)),
+              Row(
+                children: [
+                  Text(
+                    "Last backup:",
+                    style: textParagraph.copyWith(fontSize: 11),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    DateFormat('EEEE, dd MMMM y,').add_jm().format(
+                          DateTime.now(),
+                        ),
+                    style: textParagraph.copyWith(fontSize: 11),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: getHeight(10, context),
+              ),
+              GestureDetector(
+                onTap: () {
+                  context.read<SettingsCubit>().backupData();
+                },
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: naturalWhite,
+                    border: Border.all(color: naturalBlack, width: 0.5),
+                  ),
+                  child: BlocConsumer<SettingsCubit, SettingsState>(
+                    listener: (context, state) {
+                      if (state.backupStatus == BackupStatus.success) {
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(
+                            const SnackBar(
+                              content: Text("Backup success"),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            "Loading",
-                            style: buttonSmall.copyWith(
-                              color: naturalBlack,
+                          );
+                      } else if (state.backupStatus == BackupStatus.success) {
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(
+                            const SnackBar(
+                              content: Text("Error: Unexpected"),
                             ),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.cached),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "Backup",
-                            style: buttonSmall,
-                          ),
-                        ],
-                      );
-                    }
-                  },
+                          );
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state.backupStatus == BackupStatus.initial) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.cached),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Backup",
+                              style: buttonSmall,
+                            ),
+                          ],
+                        );
+                      } else if (state.backupStatus ==
+                          BackupStatus.processing) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                color: naturalBlack,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              "Loading",
+                              style: buttonSmall.copyWith(
+                                color: naturalBlack,
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.cached),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Backup",
+                              style: buttonSmall,
+                            ),
+                          ],
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: getHeight(15, context),
-            ),
-            GestureDetector(
-              onTap: () {
-                context.read<SettingsCubit>().logOut();
-              },
-              child: Container(
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: redLight,
-                ),
-                child: BlocConsumer<SettingsCubit, SettingsState>(
-                  listener: (context, state) {
-                    if (state.logoutStatus == LogoutStatus.success) {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        RouteName.LOGIN,
-                        (route) => false,
-                      );
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state.logoutStatus == LogoutStatus.initial) {
-                      return Center(
-                        child: Text(
-                          "Logout",
-                          style: buttonSmall.copyWith(
-                            color: naturalWhite,
-                          ),
-                        ),
-                      );
-                    } else if (state.logoutStatus == LogoutStatus.processing) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 22,
-                            height: 22,
-                            child: CircularProgressIndicator(
-                              color: naturalWhite,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            "Loading",
+              SizedBox(
+                height: getHeight(15, context),
+              ),
+              GestureDetector(
+                onTap: () {
+                  context.read<SettingsCubit>().logOut();
+                },
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: redLight,
+                  ),
+                  child: BlocBuilder<SettingsCubit, SettingsState>(
+                    builder: (context, state) {
+                      if (state.logoutStatus == LogoutStatus.initial) {
+                        return Center(
+                          child: Text(
+                            "Logout",
                             style: buttonSmall.copyWith(
                               color: naturalWhite,
                             ),
                           ),
-                        ],
-                      );
-                    } else {
-                      return Center(
-                        child: Text(
-                          "Logout",
-                          style: buttonSmall.copyWith(
-                            color: naturalWhite,
+                        );
+                      } else if (state.logoutStatus ==
+                          LogoutStatus.processing) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                color: naturalWhite,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              "Loading",
+                              style: buttonSmall.copyWith(
+                                color: naturalWhite,
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Center(
+                          child: Text(
+                            "Logout",
+                            style: buttonSmall.copyWith(
+                              color: naturalWhite,
+                            ),
                           ),
-                        ),
-                      );
-                    }
-                  },
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

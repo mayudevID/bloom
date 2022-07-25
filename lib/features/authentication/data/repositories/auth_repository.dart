@@ -121,7 +121,7 @@ class AuthRepository {
       await Future.wait([
         _firebaseAuth.signOut(),
         GoogleSignIn().signOut(),
-        _facebookAuth.logOut()
+        //_facebookAuth.logOut()
       ]);
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw LogOutFailure();

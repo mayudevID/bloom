@@ -65,6 +65,33 @@ class LoginPageContent extends StatelessWidget {
                       RouteName.MAIN,
                       (route) => false,
                     );
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) {
+                        return AlertDialog(
+                          insetPadding: const EdgeInsets.only(
+                            left: 120,
+                            right: 120,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          content: SizedBox(
+                            height: 100,
+                            child: Center(
+                              child: SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: CircularProgressIndicator(
+                                  color: naturalBlack,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
                   }
                 },
                 child: Column(
@@ -102,8 +129,9 @@ class LoginPageContent extends StatelessWidget {
                 },
                 child: Container(
                   height: getHeight(56, context),
-                  margin:
-                      EdgeInsets.symmetric(horizontal: getWidth(30, context)),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: getWidth(30, context),
+                  ),
                   decoration: BoxDecoration(
                     color: yellowDark,
                     borderRadius: BorderRadius.circular(10),

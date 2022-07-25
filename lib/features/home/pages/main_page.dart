@@ -14,8 +14,6 @@ import 'home_page.dart';
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
-  static Page page() => const MaterialPage<void>(child: MainPage());
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

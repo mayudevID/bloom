@@ -209,27 +209,19 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WillPopScope(
-        onWillPop: () async => false,
-        child: BlocListener<AppBloc, AppState>(
-          listener: (context, state) {
-            Timer(
-              const Duration(seconds: 1),
-              () {
-                Navigator.of(context).pushReplacementNamed(
-                  (state.status == AppStatus.unauthenticated)
-                      ? RouteName.ONBOARD
-                      : RouteName.MAIN,
-                );
-              },
-            );
-          },
-          child: Scaffold(
-            backgroundColor: naturalWhite,
-            body: Center(
-              child: CircularProgressIndicator(
-                color: naturalBlack,
-              ),
+      home: BlocListener<AppBloc, AppState>(
+        listener: (context, state) {
+          Navigator.of(context).pushReplacementNamed(
+            (state.status == AppStatus.unauthenticated)
+                ? RouteName.ONBOARD
+                : RouteName.MAIN,
+          );
+        },
+        child: Scaffold(
+          backgroundColor: naturalWhite,
+          body: Center(
+            child: CircularProgressIndicator(
+              color: naturalBlack,
             ),
           ),
         ),
