@@ -20,13 +20,31 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeCubit(),
-      child: const MainPageContent(),
+      child: MainPageContent(isGetData: isGetData),
     );
   }
 }
 
-class MainPageContent extends StatelessWidget {
-  const MainPageContent({Key? key}) : super(key: key);
+class MainPageContent extends StatefulWidget {
+  const MainPageContent({Key? key, required this.isGetData}) : super(key: key);
+
+  final bool isGetData;
+
+  @override
+  State<MainPageContent> createState() => _MainPageContentState();
+}
+
+class _MainPageContentState extends State<MainPageContent> {
+  void loadData() async {
+    await Future.delayed(const Duration(milliseconds: 700));
+    context.read<HomeCubit>().getDataBackup(widget.isGetData);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +52,50 @@ class MainPageContent extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: IndexedStack(
-        index: selectedTab.index,
-        children: const [
-          HomePage(),
-          PomodoroPage(),
-          HabitTrackerPage(),
-          ToDoListPage(),
-        ],
+      body: BlocListener<HomeCubit, HomeState>(
+        listener: (context, state) async {
+          if (state.status == LoadStatus.load) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return AlertDialog(
+                  insetPadding: const EdgeInsets.only(
+                    left: 120,
+                    right: 120,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  content: SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(
+                          color: naturalBlack,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          } else if (state.status == LoadStatus.finish) {
+            Navigator.of(context).pop();
+            context.read<HomeCubit>().finishToDone();
+          }
+        },
+        child: IndexedStack(
+          index: selectedTab.index,
+          children: const [
+            HomePage(),
+            PomodoroPage(),
+            HabitTrackerPage(),
+            ToDoListPage(),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: naturalWhite,

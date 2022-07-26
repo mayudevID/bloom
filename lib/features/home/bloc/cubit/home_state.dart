@@ -2,7 +2,7 @@ part of 'home_cubit.dart';
 
 enum HomeTab { home, pomodoro, habit, todo }
 
-enum LoadStatus { initial, open, close }
+enum LoadStatus { initial, load, finish, done }
 
 class HomeState extends Equatable {
   const HomeState({

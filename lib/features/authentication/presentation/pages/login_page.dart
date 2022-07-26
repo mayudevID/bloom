@@ -63,34 +63,6 @@ class LoginPageContent extends StatelessWidget {
                       arguments: true,
                     );
                   }
-
-                  // showDialog(
-                  //   context: context,
-                  //   barrierDismissible: false,
-                  //   builder: (context) {
-                  //     return AlertDialog(
-                  //       insetPadding: const EdgeInsets.only(
-                  //         left: 120,
-                  //         right: 120,
-                  //       ),
-                  //       shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(20.0),
-                  //       ),
-                  //       content: SizedBox(
-                  //         height: 100,
-                  //         child: Center(
-                  //           child: SizedBox(
-                  //             width: 50,
-                  //             height: 50,
-                  //             child: CircularProgressIndicator(
-                  //               color: naturalBlack,
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     );
-                  //   },
-                  // );
                 },
                 child: Column(
                   children: [

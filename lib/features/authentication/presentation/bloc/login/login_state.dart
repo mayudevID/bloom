@@ -4,13 +4,10 @@ enum LoginStatus { initial, submitting, success, error }
 
 enum LoginType { email, google, fb }
 
-enum LoadStatus { initial, opening, closing }
-
 class LoginState extends Equatable {
   final String email;
   final String password;
   final LoginStatus status;
-  final LoadStatus loadStatus;
   final LoginType type;
   final bool isHidden;
   final String errorMessage;
@@ -19,7 +16,6 @@ class LoginState extends Equatable {
     required this.email,
     required this.password,
     required this.status,
-    required this.loadStatus,
     required this.type,
     required this.isHidden,
     required this.errorMessage,
@@ -30,7 +26,6 @@ class LoginState extends Equatable {
       email: '',
       password: '',
       status: LoginStatus.initial,
-      loadStatus: LoadStatus.initial,
       type: LoginType.email,
       isHidden: true,
       errorMessage: '',
@@ -42,7 +37,6 @@ class LoginState extends Equatable {
         email,
         password,
         status,
-        loadStatus,
         type,
         isHidden,
         errorMessage,
@@ -52,7 +46,6 @@ class LoginState extends Equatable {
     String? email,
     String? password,
     LoginStatus? status,
-    LoadStatus? loadStatus,
     LoginType? type,
     bool? isHidden,
     String? errorMessage,
@@ -61,7 +54,6 @@ class LoginState extends Equatable {
       email: email ?? this.email,
       password: password ?? this.password,
       status: status ?? this.status,
-      loadStatus: loadStatus ?? this.loadStatus,
       type: type ?? this.type,
       isHidden: isHidden ?? this.isHidden,
       errorMessage: errorMessage ?? this.errorMessage,

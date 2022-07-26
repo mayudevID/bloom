@@ -1,4 +1,3 @@
-import 'package:bloom/features/todolist/presentation/pages/todolist_history_page.dart';
 import 'package:flutter/material.dart';
 import '../../features/authentication/presentation/pages/create_account_page.dart';
 import '../../features/authentication/presentation/pages/edit_profile_page.dart';
@@ -18,6 +17,7 @@ import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/todolist/data/models/task_model.dart';
 import '../../features/todolist/presentation/pages/add_task_page.dart';
 import '../../features/todolist/presentation/pages/task_detail_page.dart';
+import '../../features/todolist/presentation/pages/todolist_history_page.dart';
 import 'route_name.dart';
 
 class AppRoute {
@@ -28,7 +28,11 @@ class AppRoute {
       case RouteName.ONBOARD:
         return MaterialPageRoute(builder: (_) => const OnboardingPage());
       case RouteName.MAIN:
-        return MaterialPageRoute(builder: (_) => const MainPage());
+        return MaterialPageRoute(
+          builder: (_) => MainPage(
+            isGetData: args as bool,
+          ),
+        );
       case RouteName.LOGIN:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case RouteName.REGISTER:

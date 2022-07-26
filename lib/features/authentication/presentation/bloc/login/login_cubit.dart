@@ -61,10 +61,7 @@ class LoginCubit extends Cubit<LoginState> {
         final userData = await _authRepository.signInSignUpByFacebook();
         await _localUserDataRepository.saveUserData(userData);
         emit(
-          state.copyWith(
-            status: LoginStatus.success,
-            loadStatus: LoadStatus.opening,
-          ),
+          state.copyWith(status: LoginStatus.success),
         );
       }
     } on LogInWithEmailAndPasswordFailure catch (e) {
