@@ -18,4 +18,6 @@ class PomodorosRepository {
   Future<int> clearCompleted() => _pomodorosApi.clearCompleted();
   Future<int> completeAll({required bool isCompleted}) =>
       _pomodorosApi.completeAll(isCompleted: isCompleted);
+  Future<void> saveFromBackup(List<PomodoroModel> listPomodoro) =>
+      _pomodorosApi.saveFromBackup(listPomodoro);
 }

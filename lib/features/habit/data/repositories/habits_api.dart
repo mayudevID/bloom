@@ -7,6 +7,7 @@ abstract class HabitsApi {
   Future<void> deleteHabit(String id);
   Future<int> clearCompleted();
   Future<int> completeAll({required bool isCompleted});
+  Future<void> saveFromBackup(List<HabitModel> listHabit);
 }
 
 class HabitsNotFoundException implements Exception {}

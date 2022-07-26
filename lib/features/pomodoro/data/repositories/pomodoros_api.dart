@@ -9,6 +9,7 @@ abstract class PomodorosApi {
   Future<void> deletePomodoro(String id);
   Future<int> clearCompleted();
   Future<int> completeAll({required bool isCompleted});
+  Future<void> saveFromBackup(List<PomodoroModel> listPomodoro);
 }
 
 class PomodorosNotFoundException implements Exception {}

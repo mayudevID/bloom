@@ -1,7 +1,10 @@
 // ignore_for_file: must_be_immutable
 import 'package:bloom/core/utils/function.dart';
 import 'package:bloom/core/utils/theme.dart';
+import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:bloom/features/home/widgets/navbar_button.dart';
+import 'package:bloom/features/pomodoro/domain/pomodoros_repository.dart';
+import 'package:bloom/features/todolist/domain/todos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../habit/presentation/pages/habit_tracker_page.dart';
@@ -19,7 +22,11 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(),
+      create: (context) => HomeCubit(
+        pomodorosRepository: context.read<PomodorosRepository>(),
+        habitsRepository: context.read<HabitsRepository>(),
+        todosRepository: context.read<TodosRepository>(),
+      ),
       child: MainPageContent(isGetData: isGetData),
     );
   }
@@ -53,7 +60,7 @@ class _MainPageContentState extends State<MainPageContent> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: BlocListener<HomeCubit, HomeState>(
-        listener: (context, state) async {
+        listener: (context, state) {
           if (state.status == LoadStatus.load) {
             showDialog(
               context: context,

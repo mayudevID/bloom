@@ -14,4 +14,6 @@ class TodosRepository {
   Future<int> clearCompleted() => _todosApi.clearCompleted();
   Future<int> completeAll({required bool isCompleted}) =>
       _todosApi.completeAll(isCompleted: isCompleted);
+  Future<void> saveFromBackup(List<TaskModel> listTask) =>
+      _todosApi.saveFromBackup(listTask);
 }

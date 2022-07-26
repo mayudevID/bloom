@@ -74,6 +74,12 @@ class LocalStorageHabitsApi extends HabitsApi {
   }
 
   @override
+  Future<void> saveFromBackup(List<HabitModel> listHabit) {
+    // TODO: implement saveFromBackup
+    throw UnimplementedError();
+  }
+
+  @override
   Future<int> clearCompleted() {
     // TODO: implement clearCompleted
     throw UnimplementedError();

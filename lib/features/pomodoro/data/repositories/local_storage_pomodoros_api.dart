@@ -103,6 +103,12 @@ class LocalStoragePomodorosApi extends PomodorosApi {
   }
 
   @override
+  Future<void> saveFromBackup(List<PomodoroModel> listPomodoro) {
+    // TODO: implement saveFromBackup
+    throw UnimplementedError();
+  }
+
+  @override
   Future<int> clearCompleted() {
     // TODO: implement clearCompleted
     throw UnimplementedError();

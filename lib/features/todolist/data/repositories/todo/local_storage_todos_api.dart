@@ -74,6 +74,12 @@ class LocalStorageTodosApi extends TodosApi {
   }
 
   @override
+  Future<void> saveFromBackup(List<TaskModel> listTask) {
+    // TODO: implement saveFromBackup
+    throw UnimplementedError();
+  }
+
+  @override
   Future<int> clearCompleted() {
     // TODO: implement clearCompleted
     throw UnimplementedError();

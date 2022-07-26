@@ -14,4 +14,6 @@ class HabitsRepository {
   Future<int> clearCompleted() => _habitsApi.clearCompleted();
   Future<int> completeAll({required bool isCompleted}) =>
       _habitsApi.completeAll(isCompleted: isCompleted);
+  Future<void> saveFromBackup(List<HabitModel> listHabit) =>
+      _habitsApi.saveFromBackup(listHabit);
 }
