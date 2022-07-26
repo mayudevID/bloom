@@ -16,10 +16,6 @@ import '../widgets/form_input_password.dart';
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
-  static Route<void> route() {
-    return MaterialPageRoute(builder: (_) => const LoginPage());
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -64,35 +60,37 @@ class LoginPageContent extends StatelessWidget {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       RouteName.MAIN,
                       (route) => false,
-                    );
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) {
-                        return AlertDialog(
-                          insetPadding: const EdgeInsets.only(
-                            left: 120,
-                            right: 120,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          content: SizedBox(
-                            height: 100,
-                            child: Center(
-                              child: SizedBox(
-                                width: 50,
-                                height: 50,
-                                child: CircularProgressIndicator(
-                                  color: naturalBlack,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
+                      arguments: true,
                     );
                   }
+
+                  // showDialog(
+                  //   context: context,
+                  //   barrierDismissible: false,
+                  //   builder: (context) {
+                  //     return AlertDialog(
+                  //       insetPadding: const EdgeInsets.only(
+                  //         left: 120,
+                  //         right: 120,
+                  //       ),
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(20.0),
+                  //       ),
+                  //       content: SizedBox(
+                  //         height: 100,
+                  //         child: Center(
+                  //           child: SizedBox(
+                  //             width: 50,
+                  //             height: 50,
+                  //             child: CircularProgressIndicator(
+                  //               color: naturalBlack,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     );
+                  //   },
+                  // );
                 },
                 child: Column(
                   children: [

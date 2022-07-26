@@ -12,7 +12,9 @@ import '../bloc/cubit/home_cubit.dart';
 import 'home_page.dart';
 
 class MainPage extends StatelessWidget {
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({Key? key, required this.isGetData}) : super(key: key);
+
+  final bool isGetData;
 
   @override
   Widget build(BuildContext context) {
