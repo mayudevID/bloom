@@ -13,15 +13,15 @@ part 'settings_state.dart';
 class SettingsCubit extends Cubit<SettingsState> {
   final AuthRepository _authRepository;
   final LocalUserDataRepository _localUserDataRepository;
-  final SettingsRepository _settingsRepository;
+  final SaveBackupRepository _saveBackupRepository;
 
   SettingsCubit({
     required AuthRepository authRepository,
     required LocalUserDataRepository localUserDataRepository,
-    required SettingsRepository settingsRepository,
+    required SaveBackupRepository saveBackupRepository,
   })  : _authRepository = authRepository,
         _localUserDataRepository = localUserDataRepository,
-        _settingsRepository = settingsRepository,
+        _saveBackupRepository = saveBackupRepository,
         super(SettingsState.initial());
 
   Future<void> logOut() async {
@@ -51,7 +51,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
     emit(state.copyWith(backupStatus: BackupStatus.processing));
     try {
-      await _settingsRepository.backupData();
+      await _saveBackupRepository.backupData();
       emit(state.copyWith(backupStatus: BackupStatus.success));
     } catch (e) {
       emit(

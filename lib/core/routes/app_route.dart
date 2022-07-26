@@ -10,7 +10,7 @@ import '../../features/habit/data/models/habit_model.dart';
 import '../../features/habit/presentation/pages/add_habit_page.dart';
 import '../../features/habit/presentation/pages/habit_detail_page.dart';
 import '../../features/habit/presentation/pages/habit_statistic_page.dart';
-import '../../features/home/pages/main_page.dart';
+import '../../features/home/presentation/pages/main_page.dart';
 import '../../features/pomodoro/data/models/pomodoro_model.dart';
 import '../../features/pomodoro/presentation/pages/timer_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';

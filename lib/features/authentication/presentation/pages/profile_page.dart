@@ -1,11 +1,11 @@
-import 'package:bloom/core/routes/route_name.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/routes/route_name.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
-import '../../../home/bloc/user/user_bloc.dart';
+import '../../../home/presentation/bloc/user/user_bloc.dart';
 import '../../data/repositories/local_auth_repository.dart';
 
 class ProfilePage extends StatelessWidget {

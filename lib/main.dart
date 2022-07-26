@@ -1,22 +1,24 @@
-import 'dart:async';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:bloom/core/routes/app_route.dart';
-import 'package:bloom/core/utils/notification_stream.dart';
-import 'package:bloom/features/settings/data/firebase_database_api.dart';
+import 'package:bloom/features/home/data/load_backup_api.dart';
+import 'package:bloom/features/home/domain/load_backup_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
+import 'core/routes/app_route.dart';
 import 'core/routes/route_name.dart';
+import 'core/utils/notification_stream.dart';
 import 'features/authentication/data/repositories/auth_repository.dart';
 import 'features/authentication/data/repositories/local_auth_repository.dart';
 import 'features/authentication/presentation/bloc/app/app_bloc.dart';
+import 'features/home/data/load_backup_storage_api.dart';
+import 'features/settings/data/save_backup.dart';
 import 'features/settings/domian/settings_repository.dart';
 import 'features/todolist/data/repositories/todo/local_storage_todos_api.dart';
 import 'features/todolist/data/repositories/todo_history/local_storage_history_todos_api.dart';
 import 'features/todolist/domain/todos_history_repository.dart';
+import 'features/todolist/domain/todos_repository.dart';
 import 'firebase_options.dart';
-import 'package:bloom/features/todolist/domain/todos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -105,9 +107,15 @@ void main() {
           plugin: sharedPreferences,
         ),
       );
-      final settingsRepository = SettingsRepository(
-        settingsApi: FirebaseDatabaseApi(
+      final saveBackupRepository = SaveBackupRepository(
+        saveBackupApi: SaveBackupApi(
           plugin: sharedPreferences,
+          firebaseFirestore: firebaseFirestore,
+          firebaseAuth: firebaseAuth,
+        ),
+      );
+      final loadBackupRepository = LoadBackupRepository(
+        loadBackupApi: LoadBackupStorageApi(
           firebaseFirestore: firebaseFirestore,
           firebaseAuth: firebaseAuth,
         ),
@@ -120,7 +128,8 @@ void main() {
           todosRepository: todosRepository,
           todosHistoryRepository: todosHistoryRepository,
           pomodorosRepository: pomodorosRepository,
-          settingsRepository: settingsRepository,
+          saveBackupRepository: saveBackupRepository,
+          loadBackupRepository: loadBackupRepository,
           sharedPreferences: sharedPreferences,
         ),
       );
@@ -136,7 +145,8 @@ class MyApp extends StatelessWidget {
   final TodosHistoryRepository _todosHistoryRepository;
   final PomodorosRepository _pomodorosRepository;
   final LocalUserDataRepository _localUserDataRepository;
-  final SettingsRepository _settingsRepository;
+  final SaveBackupRepository _saveBackupRepository;
+  final LoadBackupRepository _loadBackupRepository;
   final SharedPreferences _sharedPreferences;
 
   const MyApp({
@@ -147,7 +157,8 @@ class MyApp extends StatelessWidget {
     required TodosHistoryRepository todosHistoryRepository,
     required PomodorosRepository pomodorosRepository,
     required LocalUserDataRepository localUserDataRepository,
-    required SettingsRepository settingsRepository,
+    required SaveBackupRepository saveBackupRepository,
+    required LoadBackupRepository loadBackupRepository,
     required SharedPreferences sharedPreferences,
   })  : _authRepository = authRepository,
         _habitsRepository = habitsRepository,
@@ -155,7 +166,8 @@ class MyApp extends StatelessWidget {
         _todosHistoryRepository = todosHistoryRepository,
         _pomodorosRepository = pomodorosRepository,
         _localUserDataRepository = localUserDataRepository,
-        _settingsRepository = settingsRepository,
+        _saveBackupRepository = saveBackupRepository,
+        _loadBackupRepository = loadBackupRepository,
         _sharedPreferences = sharedPreferences,
         super(key: key);
 
@@ -190,8 +202,11 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<PomodorosRepository>(
           create: (_) => _pomodorosRepository,
         ),
-        RepositoryProvider<SettingsRepository>(
-          create: (_) => _settingsRepository,
+        RepositoryProvider<SaveBackupRepository>(
+          create: (_) => _saveBackupRepository,
+        ),
+        RepositoryProvider<LoadBackupRepository>(
+          create: (_) => _loadBackupRepository,
         ),
       ],
       child: BlocProvider(

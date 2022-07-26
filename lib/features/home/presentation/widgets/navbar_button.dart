@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/cubit/home_cubit.dart';
+import '../bloc/main/home_cubit.dart';
 
 class NavbarButton extends StatelessWidget {
   final HomeTab groupVal;

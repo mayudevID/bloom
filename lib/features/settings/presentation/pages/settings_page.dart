@@ -22,7 +22,7 @@ class SettingsPage extends StatelessWidget {
       create: (context) => SettingsCubit(
         authRepository: context.read<AuthRepository>(),
         localUserDataRepository: context.read<LocalUserDataRepository>(),
-        settingsRepository: context.read<SettingsRepository>(),
+        saveBackupRepository: context.read<SaveBackupRepository>(),
       ),
       child: const SettingsPageContent(),
     );
