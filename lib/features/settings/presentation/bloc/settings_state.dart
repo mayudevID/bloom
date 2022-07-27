@@ -17,12 +17,12 @@ class SettingsState extends Equatable {
     required this.updatedAt,
   });
 
-  factory SettingsState.initial() {
+  factory SettingsState.initial(DateTime? initUpdatedAt) {
     return SettingsState(
       logoutStatus: LogoutStatus.initial,
       backupStatus: BackupStatus.initial,
       errorMessage: '',
-      updatedAt: DateTime.now(),
+      updatedAt: (initUpdatedAt != null) ? initUpdatedAt : DateTime(0),
     );
   }
 

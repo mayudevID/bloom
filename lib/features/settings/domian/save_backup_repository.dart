@@ -7,5 +7,7 @@ class SaveBackupRepository {
 
   final SaveBackupApi _saveBackupApi;
 
-  Future<void> backupData() => _saveBackupApi.backupData();
+  Future<DateTime> backupData() => _saveBackupApi.backupData();
+  DateTime? getUpdateDate() => _saveBackupApi.getUpdateDate();
+  Future<void> deleteUpdateDate() => _saveBackupApi.deleteUpdateDate();
 }

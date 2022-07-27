@@ -72,7 +72,7 @@ class AppRoute {
       case RouteName.TASKHISTORY:
         return MaterialPageRoute(builder: (_) => const ToDoListHistoryPage());
       case RouteName.HABITSTATISTIC:
-        return MaterialPageRoute(builder: (_) => HabitStatisticPage());
+        return MaterialPageRoute(builder: (_) => const HabitStatisticPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -84,22 +84,3 @@ class AppRoute {
     }
   }
 }
-
-// class AppPages {
-//   static final pages = {
-//     RouteName.LOGIN: (context) => const LoginPage(),
-//     RouteName.REGISTER: (context) => const CreateAccountPage(),
-//     RouteName.FORGETPASS: (context) => ForgotPasswordPage(),
-//     RouteName.VERIFICATION: (context) => VerificationPage(),
-//     RouteName.TIMER: (context) => TimerPage(),
-//     //RouteName.PROFILE: (context) => ProfilePage(),
-//     RouteName.ADDTASK: (context) => AddTaskPage(),
-//     RouteName.ADDHABIT: (context) => AddHabitsPage(),
-//     RouteName.TASKDETAIL: (context) => TaskDetailPage(),
-//     RouteName.SETTINGS: (context) => SettingsPage(),
-//     RouteName.HABITDETAIL: (context) => HabitsDetailPage(),
-//     //RouteName.TASKHISTORY: (context) => const TaskHistoryPage(),
-//     //RouteName.STATISTICS: (context) => StatisticsPage(),
-//     //RouteName.EDITPROFILE: (context) => EditProfilePage(),
-//   };
-// }

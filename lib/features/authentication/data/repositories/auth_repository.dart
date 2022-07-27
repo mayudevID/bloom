@@ -123,7 +123,7 @@ class AuthRepository {
         GoogleSignIn().signOut(),
         //_facebookAuth.logOut()
       ]);
-    } on firebase_auth.FirebaseAuthException catch (e) {
+    } on firebase_auth.FirebaseAuthException {
       throw LogOutFailure();
     }
   }

@@ -3,6 +3,7 @@ import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:bloom/features/pomodoro/domain/pomodoros_repository.dart';
 import 'package:bloom/features/todolist/domain/todos_history_repository.dart';
 import 'package:bloom/features/todolist/domain/todos_repository.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../authentication/data/repositories/auth_repository.dart';
@@ -27,7 +28,9 @@ class SettingsCubit extends Cubit<SettingsState> {
         _habitsRepository = habitsRepository,
         _todosRepository = todosRepository,
         _todosHistoryRepository = todosHistoryRepository,
-        super(SettingsState.initial());
+        super(SettingsState.initial(
+          saveBackupRepository.getUpdateDate(),
+        ));
 
   final AuthRepository _authRepository;
   final LocalUserDataRepository _localUserDataRepository;
@@ -44,12 +47,15 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
     emit(state.copyWith(logoutStatus: LogoutStatus.processing));
     try {
+      final oldUserData = _localUserDataRepository.getUserDataDirect();
+      CachedNetworkImage.evictFromCache(oldUserData.photoURL as String);
       await _authRepository.signOut();
       await _localUserDataRepository.deleteUserData();
       await _pomodorosRepository.clearCompleted();
       await _habitsRepository.clearCompleted();
       await _todosRepository.clearCompleted();
       await _todosHistoryRepository.clearCompleted();
+      await _saveBackupRepository.deleteUpdateDate();
       emit(state.copyWith(logoutStatus: LogoutStatus.success));
     } catch (e) {
       emit(
@@ -68,8 +74,13 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
     emit(state.copyWith(backupStatus: BackupStatus.processing));
     try {
-      await _saveBackupRepository.backupData();
-      emit(state.copyWith(backupStatus: BackupStatus.success));
+      final updateAt = await _saveBackupRepository.backupData();
+      emit(
+        state.copyWith(
+          backupStatus: BackupStatus.success,
+          updatedAt: updateAt,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(

@@ -94,11 +94,17 @@ class SettingsPageContent extends StatelessWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  Text(
-                    DateFormat('EEEE, dd MMMM y,').add_jm().format(
-                          DateTime.now(),
-                        ),
-                    style: textParagraph.copyWith(fontSize: 11),
+                  BlocBuilder<SettingsCubit, SettingsState>(
+                    builder: (context, state) {
+                      return Text(
+                        (state.updatedAt != DateTime(0))
+                            ? DateFormat('EEEE, dd MMMM y,')
+                                .add_jm()
+                                .format(state.updatedAt)
+                            : "No Updated",
+                        style: textParagraph.copyWith(fontSize: 11),
+                      );
+                    },
                   ),
                 ],
               ),

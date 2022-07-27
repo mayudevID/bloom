@@ -118,8 +118,6 @@ class UserData extends Equatable {
   }
 
   @override
-  // ignore: habit
-  // TODO: implement props
   List<Object?> get props => [
         userId,
         email,

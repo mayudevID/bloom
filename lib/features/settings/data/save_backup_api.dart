@@ -1,7 +1,9 @@
 abstract class SaveBackupApi {
   const SaveBackupApi();
 
-  Future<void> backupData() async {}
+  DateTime? getUpdateDate();
+  Future<DateTime> backupData();
+  Future<void> deleteUpdateDate();
 }
 
 class BackupException implements Exception {}
