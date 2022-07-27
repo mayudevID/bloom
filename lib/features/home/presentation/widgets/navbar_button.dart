@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/main/home_cubit.dart';
+import '../bloc/main/main_cubit.dart';
 
 class NavbarButton extends StatelessWidget {
-  final HomeTab groupVal;
-  final HomeTab value;
+  final MainTab groupVal;
+  final MainTab value;
   final String icon;
 
   const NavbarButton(
@@ -18,7 +18,7 @@ class NavbarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.read<HomeCubit>().setTab(value),
+      onTap: () => context.read<MainCubit>().setTab(value),
       child: Image.asset(
         groupVal == value
             ? 'assets/icons/${icon}_select.png'

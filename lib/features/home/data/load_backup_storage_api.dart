@@ -25,7 +25,7 @@ class LoadBackupStorageApi extends LoadBackupApi {
         .doc(_firebaseAuth.currentUser!.uid)
         .get();
 
-    if (data.exists) {
+    if (data.exists && data.get('habitsData') != null) {
       final dataList =
           List<Map>.from(json.decode(data.get('habitsData')) as List)
               .map((jsonMap) =>
@@ -45,7 +45,7 @@ class LoadBackupStorageApi extends LoadBackupApi {
         .doc(_firebaseAuth.currentUser!.uid)
         .get();
 
-    if (data.exists) {
+    if (data.exists && data.get('pomodorosData') != null) {
       final dataList =
           List<Map>.from(json.decode(data.get('pomodorosData')) as List)
               .map((jsonMap) =>
@@ -65,7 +65,7 @@ class LoadBackupStorageApi extends LoadBackupApi {
         .doc(_firebaseAuth.currentUser!.uid)
         .get();
 
-    if (data.exists) {
+    if (data.exists && data.get('todosData') != null) {
       final dataList =
           List<Map>.from(json.decode(data.get('todosData')) as List)
               .map((jsonMap) =>

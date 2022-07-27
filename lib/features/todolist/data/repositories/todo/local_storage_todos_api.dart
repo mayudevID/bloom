@@ -62,7 +62,6 @@ class LocalStorageTodosApi extends TodosApi {
   @override
   Future<void> deleteTodo(String id) async {
     final todos = [..._todoStreamController.value];
-    // ignore: unrelated_type_equality_checks
     final todoIndex = todos.indexWhere((t) => t.taskId == int.tryParse(id));
     if (todoIndex == -1) {
       throw TodoNotFoundException();
@@ -75,14 +74,16 @@ class LocalStorageTodosApi extends TodosApi {
 
   @override
   Future<void> saveFromBackup(List<TaskModel> listTask) {
-    // TODO: implement saveFromBackup
-    throw UnimplementedError();
+    _todoStreamController.add(listTask);
+    return _setValue(kTodosCollectionKey, json.encode(listTask));
   }
 
   @override
-  Future<int> clearCompleted() {
-    // TODO: implement clearCompleted
-    throw UnimplementedError();
+  Future<int> clearCompleted() async {
+    await _plugin.remove(kTodosCollectionKey);
+    await _plugin.remove('__todos_history_collection_key__');
+    _todoStreamController.close();
+    return 1;
   }
 
   @override
@@ -90,27 +91,4 @@ class LocalStorageTodosApi extends TodosApi {
     // TODO: implement completeAll
     throw UnimplementedError();
   }
-
-  // @override
-  // Future<int> clearCompleted() async {
-  //   final todos = [..._todoStreamController.value];
-  //   final completedTodosAmount = todos.where((t) => t.isCompleted).length;
-  //   todos.removeWhere((t) => t.isCompleted);
-  //   _todoStreamController.add(todos);
-  //   await _setValue(kTodosCollectionKey, json.encode(todos));
-  //   return completedTodosAmount;
-  // }
-
-  // @override
-  // Future<int> completeAll({required bool isCompleted}) async {
-  //   final todos = [..._todoStreamController.value];
-  //   final changedTodosAmount =
-  //       todos.where((t) => t.isCompleted != isCompleted).length;
-  //   final newTodos = [
-  //     for (final todo in todos) todo.copyWith(isCompleted: isCompleted)
-  //   ];
-  //   _todoStreamController.add(newTodos);
-  //   await _setValue(kTodosCollectionKey, json.encode(newTodos));
-  //   return changedTodosAmount;
-  // }
 }

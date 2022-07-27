@@ -9,7 +9,8 @@ import '../../../pomodoro/domain/pomodoros_repository.dart';
 import '../../../pomodoro/presentation/pages/pomodoro_page.dart';
 import '../../../todolist/domain/todos_repository.dart';
 import '../../../todolist/presentation/pages/todolist_page.dart';
-import '../bloc/main/home_cubit.dart';
+import '../../domain/load_backup_repository.dart';
+import '../bloc/main/main_cubit.dart';
 import '../widgets/navbar_button.dart';
 import 'home_page.dart';
 
@@ -21,10 +22,11 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(
+      create: (context) => MainCubit(
         pomodorosRepository: context.read<PomodorosRepository>(),
         habitsRepository: context.read<HabitsRepository>(),
         todosRepository: context.read<TodosRepository>(),
+        loadBackupRepository: context.read<LoadBackupRepository>(),
       ),
       child: MainPageContent(isGetData: isGetData),
     );
@@ -43,7 +45,7 @@ class MainPageContent extends StatefulWidget {
 class _MainPageContentState extends State<MainPageContent> {
   void loadData() async {
     await Future.delayed(const Duration(milliseconds: 700));
-    context.read<HomeCubit>().getDataBackup(widget.isGetData);
+    context.read<MainCubit>().getDataBackup(widget.isGetData);
   }
 
   @override
@@ -54,11 +56,11 @@ class _MainPageContentState extends State<MainPageContent> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedTab = context.select((HomeCubit cubit) => cubit.state.tab);
+    final selectedTab = context.select((MainCubit cubit) => cubit.state.tab);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: BlocListener<HomeCubit, HomeState>(
+      body: BlocListener<MainCubit, MainState>(
         listener: (context, state) {
           if (state.status == LoadStatus.load) {
             showDialog(
@@ -90,7 +92,7 @@ class _MainPageContentState extends State<MainPageContent> {
             );
           } else if (state.status == LoadStatus.finish) {
             Navigator.of(context).pop();
-            context.read<HomeCubit>().finishToDone();
+            context.read<MainCubit>().finishToDone();
           }
         },
         child: IndexedStack(
@@ -114,22 +116,22 @@ class _MainPageContentState extends State<MainPageContent> {
             children: [
               NavbarButton(
                 groupVal: selectedTab,
-                value: HomeTab.home,
+                value: MainTab.home,
                 icon: "home",
               ),
               NavbarButton(
                 groupVal: selectedTab,
-                value: HomeTab.pomodoro,
+                value: MainTab.pomodoro,
                 icon: "timer",
               ),
               NavbarButton(
                 groupVal: selectedTab,
-                value: HomeTab.habit,
+                value: MainTab.habit,
                 icon: "calendar",
               ),
               NavbarButton(
                 groupVal: selectedTab,
-                value: HomeTab.todo,
+                value: MainTab.todo,
                 icon: "clipboard",
               )
             ],

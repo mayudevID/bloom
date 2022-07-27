@@ -75,14 +75,15 @@ class LocalStorageHabitsApi extends HabitsApi {
 
   @override
   Future<void> saveFromBackup(List<HabitModel> listHabit) {
-    // TODO: implement saveFromBackup
-    throw UnimplementedError();
+    _habitStreamController.add(listHabit);
+    return _setValue(kHabitsCollectionKey, json.encode(listHabit));
   }
 
   @override
-  Future<int> clearCompleted() {
-    // TODO: implement clearCompleted
-    throw UnimplementedError();
+  Future<int> clearCompleted() async {
+    _habitStreamController.close();
+    await _plugin.remove(kHabitsCollectionKey);
+    return 1;
   }
 
   @override

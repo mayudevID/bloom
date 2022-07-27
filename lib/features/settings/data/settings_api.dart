@@ -1,5 +1,5 @@
-abstract class SettingsApi {
-  const SettingsApi();
+abstract class SaveBackupApi {
+  const SaveBackupApi();
 
   Future<void> backupData() async {}
 }

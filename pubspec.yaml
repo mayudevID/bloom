@@ -61,7 +61,7 @@ dependencies:
   marquee: ^2.2.0
   numberpicker: ^2.1.1
   percent_indicator: ^4.0.0
-  scrollable_positioned_list: ^0.2.3
+  scrollable_positioned_list: ^0.3.2
   shared_preferences: ^2.0.13
   syncfusion_flutter_gauges: ^20.2.39
   table_calendar: ^3.0.3

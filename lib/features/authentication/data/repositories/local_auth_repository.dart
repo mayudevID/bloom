@@ -41,13 +41,6 @@ class LocalUserDataRepository {
 
   Future<void> deleteUserData() async {
     await _sharedPreferences.remove(kUserDataKey);
+    _userStreamController.add(UserData.empty);
   }
 }
-
-// Future<UserData> getUserData() async {
-  //   var userDataJson = _sharedPreferences.getString(kUserDataKey);
-  //   if (userDataJson == null) {
-  //     return UserData.empty;
-  //   }
-  //   return UserData.fromJson(json.decode(userDataJson));
-  // }

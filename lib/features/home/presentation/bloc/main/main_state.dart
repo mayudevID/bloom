@@ -1,16 +1,16 @@
-part of 'home_cubit.dart';
+part of 'main_cubit.dart';
 
-enum HomeTab { home, pomodoro, habit, todo }
+enum MainTab { home, pomodoro, habit, todo }
 
 enum LoadStatus { initial, load, finish, done }
 
-class HomeState extends Equatable {
-  const HomeState({
-    this.tab = HomeTab.home,
+class MainState extends Equatable {
+  const MainState({
+    this.tab = MainTab.home,
     this.status = LoadStatus.initial,
   });
 
-  final HomeTab tab;
+  final MainTab tab;
   final LoadStatus status;
 
   @override

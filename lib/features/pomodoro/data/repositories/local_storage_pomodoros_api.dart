@@ -104,14 +104,17 @@ class LocalStoragePomodorosApi extends PomodorosApi {
 
   @override
   Future<void> saveFromBackup(List<PomodoroModel> listPomodoro) {
-    // TODO: implement saveFromBackup
-    throw UnimplementedError();
+    _pomodoroStreamController.add(listPomodoro);
+    return _setValue(kPomodorosCollectionKey, json.encode(listPomodoro));
   }
 
   @override
-  Future<int> clearCompleted() {
-    // TODO: implement clearCompleted
-    throw UnimplementedError();
+  Future<int> clearCompleted() async {
+    await _plugin.remove(kPomodorosCollectionKey);
+    await _plugin.remove(kPomodorosRlCollectionKey);
+    _pomodoroStreamController.close();
+    _pomodoroRecentListStreamController.close();
+    return 1;
   }
 
   @override
