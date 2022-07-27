@@ -1,17 +1,18 @@
-import 'package:bloom/core/routes/route_name.dart';
-import 'package:bloom/features/authentication/data/repositories/auth_repository.dart';
-import 'package:bloom/features/habit/domain/habits_repository.dart';
-import 'package:bloom/features/pomodoro/domain/pomodoros_repository.dart';
-import 'package:bloom/features/settings/domian/save_backup_repository.dart';
-import 'package:bloom/features/settings/presentation/bloc/settings_cubit.dart';
-import 'package:bloom/features/todolist/domain/todos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/routes/route_name.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
+import '../../../authentication/data/repositories/auth_repository.dart';
 import '../../../authentication/data/repositories/local_auth_repository.dart';
+import '../../../habit/domain/habits_repository.dart';
+import '../../../pomodoro/domain/pomodoros_repository.dart';
+import '../../../todolist/domain/todos_history_repository.dart';
+import '../../../todolist/domain/todos_repository.dart';
+import '../../domian/save_backup_repository.dart';
+import '../bloc/settings_cubit.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class SettingsPage extends StatelessWidget {
         pomodorosRepository: context.read<PomodorosRepository>(),
         habitsRepository: context.read<HabitsRepository>(),
         todosRepository: context.read<TodosRepository>(),
+        todosHistoryRepository: context.read<TodosHistoryRepository>(),
       ),
       child: const SettingsPageContent(),
     );

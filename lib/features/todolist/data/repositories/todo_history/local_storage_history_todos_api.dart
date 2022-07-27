@@ -72,4 +72,11 @@ class LocalStorageHistoryTodosApi extends TodosHistoryApi {
       return _setValue(kTodosCollectionKey, json.encode(todos));
     }
   }
+
+  @override
+  Future<int> clearCompleted() async {
+    await _plugin.remove(kTodosCollectionKey);
+    _todoStreamController.add([]);
+    return 1;
+  }
 }

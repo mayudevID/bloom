@@ -81,8 +81,8 @@ class LocalStorageHabitsApi extends HabitsApi {
 
   @override
   Future<int> clearCompleted() async {
-    _habitStreamController.close();
     await _plugin.remove(kHabitsCollectionKey);
+    _habitStreamController.add([]);
     return 1;
   }
 

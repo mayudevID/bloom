@@ -81,8 +81,7 @@ class LocalStorageTodosApi extends TodosApi {
   @override
   Future<int> clearCompleted() async {
     await _plugin.remove(kTodosCollectionKey);
-    await _plugin.remove('__todos_history_collection_key__');
-    _todoStreamController.close();
+    _todoStreamController.add([]);
     return 1;
   }
 

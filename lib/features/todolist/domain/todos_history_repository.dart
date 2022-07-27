@@ -11,4 +11,5 @@ class TodosHistoryRepository {
   Stream<List<TaskModel>> getTodos() => _todosApi.getTodos();
   Future<void> saveTodo(TaskModel todo) => _todosApi.saveTodo(todo);
   Future<void> deleteTodo(String id) => _todosApi.deleteTodo(id);
+  Future<void> clearCompleted() => _todosApi.clearCompleted();
 }

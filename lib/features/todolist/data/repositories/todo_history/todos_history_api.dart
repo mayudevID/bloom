@@ -5,6 +5,7 @@ abstract class TodosHistoryApi {
   Stream<List<TaskModel>> getTodos();
   Future<void> saveTodo(TaskModel taskModel);
   Future<void> deleteTodo(String id);
+  Future<int> clearCompleted();
 }
 
 class TodoHistoryNotFoundException implements Exception {}

@@ -112,8 +112,8 @@ class LocalStoragePomodorosApi extends PomodorosApi {
   Future<int> clearCompleted() async {
     await _plugin.remove(kPomodorosCollectionKey);
     await _plugin.remove(kPomodorosRlCollectionKey);
-    _pomodoroStreamController.close();
-    _pomodoroRecentListStreamController.close();
+    _pomodoroStreamController.add([]);
+    _pomodoroRecentListStreamController.add(PomodoroModel.empty);
     return 1;
   }
 

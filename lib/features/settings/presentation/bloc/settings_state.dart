@@ -8,33 +8,43 @@ class SettingsState extends Equatable {
   final LogoutStatus logoutStatus;
   final BackupStatus backupStatus;
   final String errorMessage;
+  final DateTime updatedAt;
 
   const SettingsState({
     required this.logoutStatus,
     required this.backupStatus,
     required this.errorMessage,
+    required this.updatedAt,
   });
 
   factory SettingsState.initial() {
-    return const SettingsState(
+    return SettingsState(
       logoutStatus: LogoutStatus.initial,
       backupStatus: BackupStatus.initial,
       errorMessage: '',
+      updatedAt: DateTime.now(),
     );
   }
 
   @override
-  List<Object> get props => [logoutStatus, backupStatus];
+  List<Object> get props => [
+        logoutStatus,
+        backupStatus,
+        errorMessage,
+        updatedAt,
+      ];
 
   SettingsState copyWith({
     LogoutStatus? logoutStatus,
     BackupStatus? backupStatus,
     String? errorMessage,
+    DateTime? updatedAt,
   }) {
     return SettingsState(
       logoutStatus: logoutStatus ?? this.logoutStatus,
       backupStatus: backupStatus ?? this.backupStatus,
       errorMessage: errorMessage ?? this.errorMessage,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }

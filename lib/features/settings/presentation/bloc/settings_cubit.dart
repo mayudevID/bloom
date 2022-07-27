@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:bloom/features/pomodoro/domain/pomodoros_repository.dart';
+import 'package:bloom/features/todolist/domain/todos_history_repository.dart';
 import 'package:bloom/features/todolist/domain/todos_repository.dart';
 import 'package:equatable/equatable.dart';
 
@@ -18,12 +19,14 @@ class SettingsCubit extends Cubit<SettingsState> {
     required PomodorosRepository pomodorosRepository,
     required HabitsRepository habitsRepository,
     required TodosRepository todosRepository,
+    required TodosHistoryRepository todosHistoryRepository,
   })  : _authRepository = authRepository,
         _localUserDataRepository = localUserDataRepository,
         _saveBackupRepository = saveBackupRepository,
         _pomodorosRepository = pomodorosRepository,
         _habitsRepository = habitsRepository,
         _todosRepository = todosRepository,
+        _todosHistoryRepository = todosHistoryRepository,
         super(SettingsState.initial());
 
   final AuthRepository _authRepository;
@@ -32,6 +35,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   final PomodorosRepository _pomodorosRepository;
   final HabitsRepository _habitsRepository;
   final TodosRepository _todosRepository;
+  final TodosHistoryRepository _todosHistoryRepository;
 
   Future<void> logOut() async {
     if (state.logoutStatus == LogoutStatus.processing ||
@@ -45,6 +49,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       await _pomodorosRepository.clearCompleted();
       await _habitsRepository.clearCompleted();
       await _todosRepository.clearCompleted();
+      await _todosHistoryRepository.clearCompleted();
       emit(state.copyWith(logoutStatus: LogoutStatus.success));
     } catch (e) {
       emit(
