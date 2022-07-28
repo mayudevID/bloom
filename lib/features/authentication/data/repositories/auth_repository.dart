@@ -2,6 +2,8 @@
 
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:path/path.dart' as path_package;
 import 'package:bloom/core/error/logout_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -240,11 +242,23 @@ class AuthRepository {
           await _firebaseAuth.signInWithCredential(oAuthCredential);
 
       if (authResult.additionalUserInfo!.isNewUser) {
+        final File photoDefault;
+
+        if (authResult.user!.photoURL != null) {
+          var imageId = await ImageDownloader.downloadImage(
+              authResult.user!.photoURL as String);
+          var pathDownload = await ImageDownloader.findPath(imageId!);
+          photoDefault = File(pathDownload!);
+        } else {
+          photoDefault = await getImageFileFromAssets('icons/profpict.png');
+        }
+
+        final photoURL = await uploadProfilePicture(photoDefault);
         final userData = UserData(
           userId: authResult.user!.uid,
           name: authResult.user!.displayName,
           email: authResult.user!.email as String,
-          photoURL: authResult.user!.photoURL,
+          photoURL: photoURL,
           habitStreak: 0,
           taskCompleted: 0,
           totalFocus: 0,
@@ -258,8 +272,10 @@ class AuthRepository {
         final userData = await getUserFromFirestore(authResult.user!.uid);
         return userData;
       }
-    } catch (e) {
-      throw Exception(e);
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      throw LogInWithGoogleFailure.fromCode(e.code);
+    } on PlatformException catch (e) {
+      throw LogInWithGoogleFailure.fromCode(e.code);
     }
   }
 }

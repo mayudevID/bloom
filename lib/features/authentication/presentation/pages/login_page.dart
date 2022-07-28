@@ -161,9 +161,9 @@ class LoginPageContent extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       FocusManager.instance.primaryFocus?.unfocus();
-                      // context
-                      //     .read<LoginCubit>()
-                      //     .loginWithCredentials(LoginType.google);
+                      context
+                          .read<LoginCubit>()
+                          .loginWithCredentials(LoginType.google);
                     },
                     child: BlocBuilder<LoginCubit, LoginState>(
                       builder: (context, state) {

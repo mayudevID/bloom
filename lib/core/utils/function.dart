@@ -147,16 +147,6 @@ List<HabitModel> habitByDateChooser(
   return dataHabitNow;
 }
 
-// POMODORO TO MAP
-// Map<int, PomodoroModel> pomodoroToMap(Box pomodoroDb) {
-//   Map<int, PomodoroModel> dataPomodoro = <int, PomodoroModel>{};
-//   for (var i = 0; i < pomodoroDb.length; i++) {
-//     PomodoroModel pomodoroModel = pomodoroDb.getAt(i);
-//     dataPomodoro[i] = pomodoroModel;
-//   }
-//   return dataPomodoro;
-// }
-
 // CONVERT ASSETS TO FILE IMAGE
 Future<File> getImageFileFromAssets(String path) async {
   final byteData = await rootBundle.load('assets/$path');

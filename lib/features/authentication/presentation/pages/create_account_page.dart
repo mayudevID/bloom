@@ -60,7 +60,8 @@ class CreateAccountPageContent extends StatelessWidget {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       RouteName.MAIN,
                       (route) => false,
-                      arguments: false,
+                      arguments:
+                          (state.status != SignupType.email) ? true : false,
                     );
                   }
                 },
