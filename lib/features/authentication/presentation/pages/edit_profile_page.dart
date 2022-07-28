@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloom/features/authentication/data/repositories/auth_repository.dart';
 import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
 import 'package:bloom/features/authentication/presentation/bloc/edit_profile/edit_profile_cubit.dart';
+import 'package:bloom/features/authentication/presentation/widgets/exit_edit_profile_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,7 +38,7 @@ class EditProfilePageContent extends StatelessWidget {
         source: ImageSource.gallery,
       );
       if (fileData != null) {
-        File? croppedFile = await ImageCropper().cropImage(
+        final croppedFile = await ImageCropper().cropImage(
           sourcePath: fileData.path,
           cropStyle: CropStyle.circle,
           compressFormat: ImageCompressFormat.png,
@@ -48,20 +49,25 @@ class EditProfilePageContent extends StatelessWidget {
             CropAspectRatioPreset.ratio4x3,
             CropAspectRatioPreset.ratio16x9
           ],
-          androidUiSettings: AndroidUiSettings(
-            toolbarTitle: 'Photo Crop',
-            toolbarColor: Colors.black,
-            toolbarWidgetColor: naturalWhite,
-            initAspectRatio: CropAspectRatioPreset.original,
-            statusBarColor: Colors.black,
-            lockAspectRatio: false,
-          ),
-          iosUiSettings: const IOSUiSettings(
-            minimumAspectRatio: 1.0,
-          ),
+          uiSettings: [
+            AndroidUiSettings(
+              toolbarTitle: 'Photo Crop',
+              toolbarColor: Colors.black,
+              toolbarWidgetColor: naturalWhite,
+              initAspectRatio: CropAspectRatioPreset.original,
+              statusBarColor: Colors.black,
+              lockAspectRatio: false,
+            ),
+            IOSUiSettings(
+              minimumAspectRatio: 1.0,
+            ),
+          ],
         );
         if (croppedFile != null) {
-          context.read<EditProfileCubit>().changedTempPicture(croppedFile);
+          // ignore: use_build_context_synchronously
+          context.read<EditProfileCubit>().changedTempPicture(
+                File(croppedFile.path),
+              );
         }
       }
     }
@@ -301,8 +307,12 @@ class EditProfilePageContent extends StatelessWidget {
                           BlocProvider.of<EditProfileCubit>(context)
                               .state
                               .newName) {
-                    //Dialog
-                    print("HI");
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const ExitEditProfileDialog();
+                      },
+                    );
                   } else {
                     Navigator.of(context).pop();
                   }

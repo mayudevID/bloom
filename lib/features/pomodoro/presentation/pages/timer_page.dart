@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../bloc/timer/ticker.dart';
-import '../widgets/exit_dialog.dart';
+import '../widgets/exit_timer_dialog.dart';
 
 class TimerPage extends StatelessWidget {
   const TimerPage({
@@ -189,7 +189,7 @@ class BackMenu extends StatelessWidget {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return const ExitDialog();
+          return const ExitTimerDialog();
         },
       );
     }

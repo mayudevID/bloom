@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 
-class ExitDialog extends StatelessWidget {
-  const ExitDialog({Key? key}) : super(key: key);
+class ExitTimerDialog extends StatelessWidget {
+  const ExitTimerDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
