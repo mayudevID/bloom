@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloom/core/error/login_exception.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 
 import '../../../data/repositories/auth_repository.dart';
 import '../../../data/repositories/local_auth_repository.dart';
@@ -67,6 +68,8 @@ class LoginCubit extends Cubit<LoginState> {
     } on LogInWithEmailAndPasswordFailure catch (e) {
       emit(state.copyWith(status: LoginStatus.error, errorMessage: e.message));
     } on LogInWithGoogleFailure catch (e) {
+      emit(state.copyWith(status: LoginStatus.error, errorMessage: e.message));
+    } on PlatformException catch (e) {
       emit(state.copyWith(status: LoginStatus.error, errorMessage: e.message));
     }
   }

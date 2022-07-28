@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import '../../../../../core/error/login_exception.dart';
 import '../../../../../core/error/signup_exception.dart';
 import '../../../data/repositories/auth_repository.dart';
@@ -81,6 +82,8 @@ class SignupCubit extends Cubit<SignupState> {
     } on SignUpWithEmailAndPasswordFailure catch (e) {
       emit(state.copyWith(status: SignupStatus.error, errorMessage: e.message));
     } on LogInWithGoogleFailure catch (e) {
+      emit(state.copyWith(status: SignupStatus.error, errorMessage: e.message));
+    } on PlatformException catch (e) {
       emit(state.copyWith(status: SignupStatus.error, errorMessage: e.message));
     }
   }

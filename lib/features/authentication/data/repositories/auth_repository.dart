@@ -3,14 +3,14 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
-import 'package:image_downloader/image_downloader.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:path/path.dart' as path_package;
-import 'package:bloom/core/error/logout_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../../../../core/error/login_exception.dart';
+import '../../../../core/error/logout_exception.dart';
 import '../../../../core/error/signup_exception.dart';
 import '../../../../core/utils/function.dart';
 import '../models/user.dart';
@@ -105,18 +105,24 @@ class AuthRepository {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
 
-      final googleCredential = firebase_auth.GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
+        final googleCredential = firebase_auth.GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
 
-      final userData = await createOrGet(googleCredential);
-      return userData;
+        final userData = await createOrGet(googleCredential);
+        return userData;
+      } else {
+        throw const LogInWithGoogleFailure("Google Sign-in cancelled");
+      }
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
+    } on PlatformException {
+      rethrow;
     }
   }
 
@@ -245,15 +251,17 @@ class AuthRepository {
         final File photoDefault;
 
         if (authResult.user!.photoURL != null) {
-          var imageId = await ImageDownloader.downloadImage(
-              authResult.user!.photoURL as String);
-          var pathDownload = await ImageDownloader.findPath(imageId!);
-          photoDefault = File(pathDownload!);
+          photoDefault = await DefaultCacheManager()
+              .getSingleFile(authResult.user!.photoURL as String);
         } else {
           photoDefault = await getImageFileFromAssets('icons/profpict.png');
         }
 
         final photoURL = await uploadProfilePicture(photoDefault);
+        DefaultCacheManager()
+          ..emptyCache()
+          ..dispose();
+
         final userData = UserData(
           userId: authResult.user!.uid,
           name: authResult.user!.displayName,
@@ -275,7 +283,7 @@ class AuthRepository {
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
     } on PlatformException catch (e) {
-      throw LogInWithGoogleFailure.fromCode(e.code);
+      throw PlatformException(code: e.code);
     }
   }
 }
