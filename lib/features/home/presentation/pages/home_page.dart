@@ -206,15 +206,15 @@ class HomePageContent extends StatelessWidget {
                             content: Text(
                               'To do list "${deletedTodo.title}" deleted',
                             ),
-                            action: SnackBarAction(
-                              label: "Undo Delete",
-                              textColor: redAction,
-                              onPressed: () {
-                                messenger.hideCurrentSnackBar();
-                                context.read<TodosOverviewBloc>().add(
-                                    const TodosOverviewUndoDeletionRequested());
-                              },
-                            ),
+                            // action: SnackBarAction(
+                            //   label: "Undo Delete",
+                            //   textColor: redAction,
+                            //   onPressed: () {
+                            //     messenger.hideCurrentSnackBar();
+                            //     context.read<TodosOverviewBloc>().add(
+                            //         const TodosOverviewUndoDeletionRequested());
+                            //   },
+                            // ),
                           ),
                         );
                     },
@@ -316,15 +316,15 @@ class HomePageContent extends StatelessWidget {
                             content: Text(
                               'Habit "${deletedHabit.title}" deleted',
                             ),
-                            action: SnackBarAction(
-                              label: "Undo Delete",
-                              textColor: redAction,
-                              onPressed: () {
-                                messenger.hideCurrentSnackBar();
-                                context.read<HabitsOverviewBloc>().add(
-                                    const HabitsOverviewUndoDeletionRequested());
-                              },
-                            ),
+                            // action: SnackBarAction(
+                            //   label: "Undo Delete",
+                            //   textColor: redAction,
+                            //   onPressed: () {
+                            //     messenger.hideCurrentSnackBar();
+                            //     context.read<HabitsOverviewBloc>().add(
+                            //         const HabitsOverviewUndoDeletionRequested());
+                            //   },
+                            // ),
                           ),
                         );
                     },

@@ -104,16 +104,16 @@ class HabitTrackerPageContent extends StatelessWidget {
                             content: Text(
                               'Habit "${deletedHabit.title}" deleted',
                             ),
-                            action: SnackBarAction(
-                              label: "Undo Delete",
-                              textColor: redAction,
-                              onPressed: () {
-                                messenger.hideCurrentSnackBar();
-                                context.read<HabitsOverviewBloc>().add(
-                                      const HabitsOverviewUndoDeletionRequested(),
-                                    );
-                              },
-                            ),
+                            // action: SnackBarAction(
+                            //   label: "Undo Delete",
+                            //   textColor: redAction,
+                            //   onPressed: () {
+                            //     messenger.hideCurrentSnackBar();
+                            //     context.read<HabitsOverviewBloc>().add(
+                            //           const HabitsOverviewUndoDeletionRequested(),
+                            //         );
+                            //   },
+                            // ),
                           ),
                         );
                     },

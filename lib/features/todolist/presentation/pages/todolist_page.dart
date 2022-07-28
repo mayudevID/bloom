@@ -108,15 +108,15 @@ class ToDoListPageContent extends StatelessWidget {
                             content: Text(
                               'To do list "${deletedHabit.title}" deleted',
                             ),
-                            action: SnackBarAction(
-                              label: "Undo Delete",
-                              textColor: redAction,
-                              onPressed: () {
-                                messenger.hideCurrentSnackBar();
-                                context.read<TodosOverviewBloc>().add(
-                                    const TodosOverviewUndoDeletionRequested());
-                              },
-                            ),
+                            // action: SnackBarAction(
+                            //   label: "Undo Delete",
+                            //   textColor: redAction,
+                            //   onPressed: () {
+                            //     messenger.hideCurrentSnackBar();
+                            //     context.read<TodosOverviewBloc>().add(
+                            //         const TodosOverviewUndoDeletionRequested());
+                            //   },
+                            // ),
                           ),
                         );
                     },

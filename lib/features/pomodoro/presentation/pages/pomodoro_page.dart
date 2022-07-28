@@ -110,16 +110,16 @@ class PomodoroPageContent extends StatelessWidget {
                         content: Text(
                           'Pomodoro "${deletedPomodoro.title}" deleted',
                         ),
-                        action: SnackBarAction(
-                          label: "Undo Delete",
-                          textColor: redAction,
-                          onPressed: () {
-                            messenger.hideCurrentSnackBar();
-                            context.read<PomodorosOverviewBloc>().add(
-                                  const PomodorosOverviewUndoDeletionRequested(),
-                                );
-                          },
-                        ),
+                        // action: SnackBarAction(
+                        //   label: "Undo Delete",
+                        //   textColor: redAction,
+                        //   onPressed: () {
+                        //     messenger.hideCurrentSnackBar();
+                        //     context.read<PomodorosOverviewBloc>().add(
+                        //           const PomodorosOverviewUndoDeletionRequested(),
+                        //         );
+                        //   },
+                        // ),
                       ),
                     );
                 },
