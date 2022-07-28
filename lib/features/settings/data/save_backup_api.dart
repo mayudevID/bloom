@@ -1,8 +1,10 @@
+import '../../authentication/data/models/user_data.dart';
+
 abstract class SaveBackupApi {
   const SaveBackupApi();
 
   DateTime? getUpdateDate();
-  Future<DateTime> backupData();
+  Future<DateTime> backupData(UserData statData);
   Future<void> deleteUpdateDate();
 }
 

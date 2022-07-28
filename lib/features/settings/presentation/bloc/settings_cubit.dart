@@ -74,7 +74,8 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
     emit(state.copyWith(backupStatus: BackupStatus.processing));
     try {
-      final updateAt = await _saveBackupRepository.backupData();
+      final statData = _localUserDataRepository.getUserDataDirect();
+      final updateAt = await _saveBackupRepository.backupData(statData);
       emit(
         state.copyWith(
           backupStatus: BackupStatus.success,

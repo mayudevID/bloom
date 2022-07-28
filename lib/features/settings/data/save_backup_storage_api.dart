@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../authentication/data/models/user_data.dart';
 import 'save_backup_api.dart';
 
 class SaveBackupStorageApi extends SaveBackupApi {
@@ -25,7 +26,7 @@ class SaveBackupStorageApi extends SaveBackupApi {
   static const kUpdateData = '__update_key__';
 
   @override
-  Future<DateTime> backupData() async {
+  Future<DateTime> backupData(UserData statData) async {
     final pomodoros = _plugin.getString(kPomodorosCollectionKey);
     final habits = _plugin.getString(kHabitsCollectionKey);
     final todos = _plugin.getString(kTodosCollectionKey);
@@ -40,6 +41,20 @@ class SaveBackupStorageApi extends SaveBackupApi {
         'habitsData': habits,
         'todosData': todos,
         'updatedAt': updateAt.toIso8601String(),
+      },
+    );
+
+    await _firebaseFirestore
+        .collection('stats')
+        .doc(_firebaseAuth.currentUser!.uid)
+        .set(
+      {
+        "habitStreak": statData.habitStreak,
+        "taskCompleted": statData.taskCompleted,
+        "totalFocus": statData.totalFocus,
+        "missed": statData.missed,
+        "completed": statData.completed,
+        "streakLeft": statData.streakLeft,
       },
     );
 

@@ -1,3 +1,4 @@
+import '../../authentication/data/models/user_data.dart';
 import '../data/save_backup_api.dart';
 
 class SaveBackupRepository {
@@ -7,7 +8,8 @@ class SaveBackupRepository {
 
   final SaveBackupApi _saveBackupApi;
 
-  Future<DateTime> backupData() => _saveBackupApi.backupData();
+  Future<DateTime> backupData(UserData statData) =>
+      _saveBackupApi.backupData(statData);
   DateTime? getUpdateDate() => _saveBackupApi.getUpdateDate();
   Future<void> deleteUpdateDate() => _saveBackupApi.deleteUpdateDate();
 }
