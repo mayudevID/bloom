@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:bloom/core/utils/constant.dart';
+import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
 import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:bloom/features/habit/presentation/bloc/add_habit/add_habit_cubit.dart';
 import 'package:bloom/features/habit/presentation/widgets/get_duration_days.dart';
@@ -19,7 +20,10 @@ class AddHabitsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddHabitCubit(context.read<HabitsRepository>()),
+      create: (context) => AddHabitCubit(
+        habitsRepository: context.read<HabitsRepository>(),
+        localUserDataRepository: context.read<LocalUserDataRepository>(),
+      ),
       child: const AddHabitsPageContent(),
     );
   }

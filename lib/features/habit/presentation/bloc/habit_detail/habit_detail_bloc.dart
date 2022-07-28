@@ -33,6 +33,8 @@ class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
 
   Future<void> _onChanged(
       HabitChanged event, Emitter<HabitDetailState> emit) async {
+    final isChecked = event.missed < state.missed;
+
     final habit = (state.initialHabit ?? emptyModel()).copyWith(
       missed: event.missed,
       streak: event.streak,
@@ -48,12 +50,17 @@ class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
         email: oldUserData.email,
         photoURL: oldUserData.photoURL,
         name: oldUserData.name,
-        habitStreak: oldUserData.habitStreak + 1,
+        habitStreak: (isChecked)
+            ? oldUserData.habitStreak + 1
+            : oldUserData.habitStreak - 1,
         taskCompleted: oldUserData.taskCompleted,
         totalFocus: oldUserData.totalFocus,
-        missed: oldUserData.missed,
-        completed: oldUserData.completed,
-        streakLeft: oldUserData.streakLeft,
+        missed: (isChecked) ? oldUserData.missed - 1 : oldUserData.missed + 1,
+        completed:
+            (isChecked) ? oldUserData.completed + 1 : oldUserData.completed - 1,
+        streakLeft: (isChecked)
+            ? oldUserData.streakLeft - 1
+            : oldUserData.streakLeft + 1,
       );
       await _localUserDataRepository.saveUserData(newUserData);
       emit(

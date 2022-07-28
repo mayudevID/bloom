@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloom/core/utils/function.dart';
+import 'package:bloom/features/authentication/data/models/user_data.dart';
+import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
 import 'package:bloom/features/habit/data/models/habit_model.dart';
 import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -11,9 +13,15 @@ import '../../../../../core/utils/notifications.dart';
 part 'add_habit_state.dart';
 
 class AddHabitCubit extends Cubit<AddHabitState> {
-  final HabitsRepository _habitsRepository;
+  AddHabitCubit({
+    required HabitsRepository habitsRepository,
+    required LocalUserDataRepository localUserDataRepository,
+  })  : _habitsRepository = habitsRepository,
+        _localUserDataRepository = localUserDataRepository,
+        super(AddHabitState.initial());
 
-  AddHabitCubit(this._habitsRepository) : super(AddHabitState.initial());
+  final HabitsRepository _habitsRepository;
+  final LocalUserDataRepository _localUserDataRepository;
 
   void iconChanged(int value) {
     String iconTarget = iconLocation[value];
@@ -116,9 +124,23 @@ class AddHabitCubit extends Cubit<AddHabitState> {
         createHabitNotification(habitModel, habitModel.dayList[i]);
       }
 
-      //EDIT USER ??
-
       await _habitsRepository.saveHabit(habitModel);
+
+      final oldUserData = _localUserDataRepository.getUserDataDirect();
+      final newUserData = UserData(
+        userId: oldUserData.userId,
+        email: oldUserData.email,
+        photoURL: oldUserData.photoURL,
+        name: oldUserData.name,
+        habitStreak: oldUserData.habitStreak,
+        taskCompleted: oldUserData.taskCompleted,
+        totalFocus: oldUserData.totalFocus,
+        missed: oldUserData.missed,
+        completed: oldUserData.completed,
+        streakLeft: oldUserData.streakLeft + state.streakLeft,
+      );
+
+      await _localUserDataRepository.saveUserData(newUserData);
     } catch (e) {
       throw Exception();
     }

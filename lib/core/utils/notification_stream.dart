@@ -1,19 +1,23 @@
 import 'dart:convert';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
 import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../features/authentication/data/models/user_data.dart';
 import '../../features/habit/data/models/habit_model.dart';
 
 class NotificationStream extends GetxController {
   NotificationStream(
     this.habitsRepository,
     this.sharedPreferences,
+    this.localUserDataRepository,
   );
   final HabitsRepository habitsRepository;
   final SharedPreferences sharedPreferences;
+  final LocalUserDataRepository localUserDataRepository;
 
   static const kHabitsCollectionKey = '__habits_collection_key__';
 
@@ -23,7 +27,7 @@ class NotificationStream extends GetxController {
 
     AwesomeNotifications().displayedStream.listen((notification) async {
       if (notification.channelKey == 'habit_channel') {
-        int? habitIdTarget = int.tryParse(notification.body!.split(" - ")[0]);
+        final habitIdTarget = int.tryParse(notification.body!.split(" - ")[0]);
 
         final habitsJson = sharedPreferences.getString(kHabitsCollectionKey);
         if (habitsJson != null) {
@@ -34,10 +38,10 @@ class NotificationStream extends GetxController {
           final habitIndex =
               habits.indexWhere((h) => h.habitId == habitIdTarget);
           final habitModel = habits[habitIndex];
-          int openDaysVal =
+          final openDaysVal =
               habitModel.openDays.where((item) => item == true).length;
           if (openDaysVal < habitModel.openDays.length) {
-            List<bool> newOpenDays = habitModel.openDays;
+            final newOpenDays = habitModel.openDays;
             newOpenDays[openDaysVal] = true;
             final newHabitModel = HabitModel(
               habitId: habitModel.habitId,
@@ -55,7 +59,22 @@ class NotificationStream extends GetxController {
             );
 
             habitsRepository.saveHabit(newHabitModel);
-            //EDIT USER??
+
+            final oldUserData = localUserDataRepository.getUserDataDirect();
+            final newUserData = UserData(
+              userId: oldUserData.userId,
+              email: oldUserData.email,
+              photoURL: oldUserData.photoURL,
+              name: oldUserData.name,
+              habitStreak: oldUserData.habitStreak,
+              taskCompleted: oldUserData.taskCompleted,
+              totalFocus: oldUserData.totalFocus,
+              missed: oldUserData.missed + 1,
+              completed: oldUserData.completed,
+              streakLeft: oldUserData.streakLeft,
+            );
+
+            localUserDataRepository.saveUserData(newUserData);
           }
         }
       }

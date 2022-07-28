@@ -177,6 +177,7 @@ class MyApp extends StatelessWidget {
       NotificationStream(
         _habitsRepository,
         _sharedPreferences,
+        _localUserDataRepository,
       ),
       permanent: true,
     );
