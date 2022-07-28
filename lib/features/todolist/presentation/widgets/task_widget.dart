@@ -83,7 +83,6 @@ class TaskWidget extends StatelessWidget {
                               isCompleted: value!,
                             ),
                           );
-                      //EDIT USER
                     },
                   ),
                 ),

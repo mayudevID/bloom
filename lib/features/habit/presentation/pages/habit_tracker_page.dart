@@ -3,6 +3,7 @@
 import 'package:bloom/core/routes/route_name.dart';
 import 'package:bloom/features/habit/data/models/habit_model.dart';
 import 'package:bloom/features/habit/domain/habits_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/function.dart';
@@ -152,7 +153,9 @@ class HabitTrackerPageContent extends StatelessWidget {
                         state.habits,
                         state.filter as DateTime,
                       );
-                      print(dataHabit);
+                      if (kDebugMode) {
+                        print(dataHabit);
+                      }
                       if (dataHabit.isNotEmpty) {
                         return MediaQuery.removePadding(
                           removeTop: true,

@@ -1,13 +1,13 @@
 // ignore_for_file: must_be_immutable
-import 'package:bloom/core/routes/route_name.dart';
-import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
-import 'package:bloom/features/pomodoro/presentation/bloc/pomodoro_overview/pomodoros_overview_bloc.dart';
-import 'package:bloom/features/pomodoro/presentation/bloc/pomodoro_recent/pomodoro_recent_bloc.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
+import '../../../../core/routes/route_name.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
+import '../../data/models/pomodoro_model.dart';
+import '../bloc/pomodoro_recent/pomodoro_recent_bloc.dart';
 
 Widget pomodoroCard({
   required BuildContext context,

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields, curly_braces_in_flow_control_structures, prefer_const_constructors, sized_box_for_whitespace
+// ignore_for_file: prefer_final_fields, curly_braces_in_flow_control_structures, prefer_const_constructors, sized_box_for_whitespace, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';

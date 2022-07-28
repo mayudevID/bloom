@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:bloom/core/utils/constant.dart';
 import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:bloom/features/habit/presentation/bloc/add_habit/add_habit_cubit.dart';
@@ -5,7 +7,6 @@ import 'package:bloom/features/habit/presentation/widgets/get_duration_days.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'package:weekday_selector/weekday_selector.dart';
 
 import '../../../../core/utils/function.dart';

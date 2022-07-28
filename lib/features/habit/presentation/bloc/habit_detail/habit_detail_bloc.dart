@@ -33,9 +33,6 @@ class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
 
   Future<void> _onChanged(
       HabitChanged event, Emitter<HabitDetailState> emit) async {
-    // ignore: todo
-    // TODO: implement event handler
-
     final habit = (state.initialHabit ?? emptyModel()).copyWith(
       missed: event.missed,
       streak: event.streak,
@@ -45,7 +42,7 @@ class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
 
     try {
       await _habitsRepository.saveHabit(habit);
-      final oldUserData = await _localUserDataRepository.getUserDataDirect();
+      final oldUserData = _localUserDataRepository.getUserDataDirect();
       final newUserData = UserData(
         userId: oldUserData.userId,
         email: oldUserData.email,

@@ -1,11 +1,10 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/features/authentication/data/models/user_data.dart';
-import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
-import 'package:bloom/features/todolist/data/models/task_model.dart';
-import 'package:bloom/features/todolist/data/repositories/todo_history/todos_history_api.dart';
-import 'package:bloom/features/todolist/domain/todos_history_repository.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../authentication/data/models/user_data.dart';
+import '../../../../authentication/data/repositories/local_auth_repository.dart';
+import '../../../data/models/task_model.dart';
+import '../../../domain/todos_history_repository.dart';
 import '../../../domain/todos_repository.dart';
 
 part 'todos_overview_event.dart';
@@ -57,7 +56,7 @@ class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
   ) async {
     final newTodo = event.todo.copyWith(isChecked: event.isCompleted);
     await _todosRepository.saveTodo(newTodo);
-    final currUserData = await _localUserDataRepository.getUserData().first;
+    final currUserData = _localUserDataRepository.getUserDataDirect();
     final newUserData = UserData(
       userId: currUserData.userId,
       email: currUserData.email,

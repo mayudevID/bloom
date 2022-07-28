@@ -115,8 +115,9 @@ class LoginPageContent extends StatelessWidget {
                           SizedBox(
                             width: 25,
                             height: 25,
-                            child:
-                                CircularProgressIndicator(color: naturalBlack),
+                            child: CircularProgressIndicator(
+                              color: naturalBlack,
+                            ),
                           ),
                           SizedBox(
                             width: getWidth(15, context),
@@ -138,13 +139,12 @@ class LoginPageContent extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // const ButtonLogo(platformLogo: 'fb'),
                   GestureDetector(
                     onTap: () {
                       FocusManager.instance.primaryFocus?.unfocus();
-                      context
-                          .read<LoginCubit>()
-                          .loginWithCredentials(LoginType.fb);
+                      // context
+                      //     .read<LoginCubit>()
+                      //     .loginWithCredentials(LoginType.fb);
                     },
                     child: BlocBuilder<LoginCubit, LoginState>(
                       builder: (context, state) {
@@ -161,9 +161,9 @@ class LoginPageContent extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       FocusManager.instance.primaryFocus?.unfocus();
-                      context
-                          .read<LoginCubit>()
-                          .loginWithCredentials(LoginType.google);
+                      // context
+                      //     .read<LoginCubit>()
+                      //     .loginWithCredentials(LoginType.google);
                     },
                     child: BlocBuilder<LoginCubit, LoginState>(
                       builder: (context, state) {

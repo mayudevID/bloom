@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/features/authentication/data/repositories/auth_repository.dart';
-import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../authentication/data/models/user_data.dart';
+import '../../../../authentication/data/repositories/local_auth_repository.dart';
 
 part 'habit_statistic_event.dart';
 part 'habit_statistic_state.dart';
@@ -22,7 +21,7 @@ class HabitStatisticBloc
     GetAllStatistic event,
     Emitter<HabitStatisticState> emit,
   ) async {
-    final userData = await _localUserDataRepository.getUserDataDirect();
+    final userData = _localUserDataRepository.getUserDataDirect();
     emit(HabitStatisticLoaded(userData));
   }
 }

@@ -1,15 +1,14 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:ffi';
-
-import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
-import 'package:bloom/features/habit/presentation/bloc/habit_statistic/habit_statistic_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
+import '../../../authentication/data/repositories/local_auth_repository.dart';
+import '../bloc/habit_statistic/habit_statistic_bloc.dart';
 import '../widgets/habit_statistic_widget.dart';
 
 class HabitStatisticPage extends StatelessWidget {
@@ -37,10 +36,11 @@ class HabitStatisticPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LinearWidgetPointer linearWidget(index) {
-      print(index);
+      if (kDebugMode) {
+        print(index);
+      }
       return LinearWidgetPointer(
         position: LinearElementPosition.outside,
-        //markerAlignment: LinearMarkerAlignment.start,
         value: index.toDouble(),
         child: Container(
           height: getHeight((index == 11) ? 120 : 183, context),

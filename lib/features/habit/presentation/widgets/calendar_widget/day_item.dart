@@ -18,7 +18,7 @@ class DayItem extends StatelessWidget {
   final Color? dotsColor;
   final Color? dayNameColor;
 
-  DayItem({
+  const DayItem({
     Key? key,
     required this.dayNumber,
     required this.shortName,

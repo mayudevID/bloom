@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,9 +43,9 @@ String todToString(TimeOfDay timeOfDay) {
   int minutes = timeOfDay.minute;
   if (hours > 13) {
     hours = hours % 12;
-    newFormat = twoDigits(hours) + ":" + twoDigits(minutes) + " PM";
+    newFormat = "${twoDigits(hours)}:${twoDigits(minutes)} PM";
   } else {
-    newFormat = twoDigits(hours) + ":" + twoDigits(minutes) + " AM";
+    newFormat = "${twoDigits(hours)}:${twoDigits(minutes)} AM";
   }
   return newFormat;
 }

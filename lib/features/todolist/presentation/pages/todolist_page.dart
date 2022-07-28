@@ -3,6 +3,7 @@
 import 'package:bloom/core/routes/route_name.dart';
 import 'package:bloom/core/utils/function.dart';
 import 'package:bloom/features/todolist/domain/todos_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/theme.dart';
@@ -155,7 +156,9 @@ class ToDoListPageContent extends StatelessWidget {
                         state.todos,
                         state.filter as DateTime,
                       );
-                      print(dataTask);
+                      if (kDebugMode) {
+                        print(dataTask);
+                      }
                       if (dataTask.isNotEmpty) {
                         return MediaQuery.removePadding(
                           removeTop: true,

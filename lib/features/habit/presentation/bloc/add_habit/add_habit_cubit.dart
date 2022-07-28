@@ -3,6 +3,7 @@ import 'package:bloom/core/utils/function.dart';
 import 'package:bloom/features/habit/data/models/habit_model.dart';
 import 'package:bloom/features/habit/domain/habits_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../../../core/utils/constant.dart';
 import '../../../../../core/utils/notifications.dart';
@@ -92,7 +93,9 @@ class AddHabitCubit extends Cubit<AddHabitState> {
         }
       });
 
-      print(dayListOn);
+      if (kDebugMode) {
+        print(dayListOn);
+      }
 
       HabitModel habitModel = HabitModel(
         habitId: getRandomId(),
@@ -113,10 +116,12 @@ class AddHabitCubit extends Cubit<AddHabitState> {
         createHabitNotification(habitModel, habitModel.dayList[i]);
       }
 
-      //EDIT USER
+      //EDIT USER ??
 
       await _habitsRepository.saveHabit(habitModel);
-    } catch (e) {}
+    } catch (e) {
+      throw Exception();
+    }
   }
 }
 

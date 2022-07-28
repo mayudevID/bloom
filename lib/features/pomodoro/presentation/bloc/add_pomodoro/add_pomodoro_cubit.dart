@@ -40,6 +40,8 @@ class AddPomodoroCubit extends Cubit<AddPomodoroState> {
 
       await _pomodorosRepository.savePomodoro(pomodoro);
       emit(state.copyWith(status: AddPomodoroStatus.success));
-    } catch (e) {}
+    } catch (e) {
+      throw Exception();
+    }
   }
 }

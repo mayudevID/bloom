@@ -1,6 +1,8 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as path_package;
 import 'package:bloom/core/error/logout_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -43,27 +45,27 @@ class AuthRepository {
 
   Future<UserData> signInByEmail(String email, String password) async {
     try {
-      var _authResult = await _firebaseAuth.signInWithEmailAndPassword(
+      var authResult = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      final _userData = await getUserFromFirestore(_authResult.user!.uid);
-      return _userData;
+      final userData = await getUserFromFirestore(authResult.user!.uid);
+      return userData;
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
     }
   }
 
   Future<UserData> signUpByEmail(
-      String _name, String _email, String _password) async {
+      String name, String email, String password) async {
     try {
-      var _authResult = await _firebaseAuth.createUserWithEmailAndPassword(
-          email: _email, password: _password);
-      final _photoDefault = await getImageFileFromAssets('icons/profpict.png');
-      final _photoURL = await uploadProfilePicture(_photoDefault);
-      final _userData = UserData(
-        userId: _authResult.user!.uid,
-        name: _name,
-        email: _email,
-        photoURL: _photoURL,
+      var authResult = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      final photoDefault = await getImageFileFromAssets('icons/profpict.png');
+      final photoURL = await uploadProfilePicture(photoDefault);
+      final userData = UserData(
+        userId: authResult.user!.uid,
+        name: name,
+        email: email,
+        photoURL: photoURL,
         habitStreak: 0,
         taskCompleted: 0,
         totalFocus: 0,
@@ -71,8 +73,8 @@ class AuthRepository {
         completed: 0,
         streakLeft: 0,
       );
-      await createNewUserForFirestore(_userData);
-      return _userData;
+      await createNewUserForFirestore(userData);
+      return userData;
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
     }
@@ -90,8 +92,8 @@ class AuthRepository {
       //await credentialSave.put('token', loginResult.accessToken!.token);
       //credentialSave.close();
 
-      final _userData = await createOrGet(facebookAuthCredential);
-      return _userData;
+      final userData = await createOrGet(facebookAuthCredential);
+      return userData;
     } on FirebaseException catch (e) {
       throw Exception(e);
     }
@@ -109,8 +111,8 @@ class AuthRepository {
         idToken: googleAuth?.idToken,
       );
 
-      final _userData = await createOrGet(googleCredential);
-      return _userData;
+      final userData = await createOrGet(googleCredential);
+      return userData;
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
     }
@@ -200,7 +202,7 @@ class AuthRepository {
       var lastSeparator = pathOld.lastIndexOf(Platform.pathSeparator);
       var newPath = pathOld.substring(0, lastSeparator + 1) + currentUser.id;
       final newFileData = await fileData.rename(newPath);
-      String path = basename(newFileData.path);
+      String path = path_package.basename(newFileData.path);
       final ref = _firebaseStorage.ref('profilePicture/$path');
       UploadTask uploadTask = ref.putFile(newFileData);
       final snapshotData = await uploadTask.whenComplete(() {});
@@ -234,15 +236,15 @@ class AuthRepository {
   Future<UserData> createOrGet(
       firebase_auth.OAuthCredential oAuthCredential) async {
     try {
-      var _authResult =
+      var authResult =
           await _firebaseAuth.signInWithCredential(oAuthCredential);
 
-      if (_authResult.additionalUserInfo!.isNewUser) {
-        final _userData = UserData(
-          userId: _authResult.user!.uid,
-          name: _authResult.user!.displayName,
-          email: _authResult.user!.email as String,
-          photoURL: _authResult.user!.photoURL,
+      if (authResult.additionalUserInfo!.isNewUser) {
+        final userData = UserData(
+          userId: authResult.user!.uid,
+          name: authResult.user!.displayName,
+          email: authResult.user!.email as String,
+          photoURL: authResult.user!.photoURL,
           habitStreak: 0,
           taskCompleted: 0,
           totalFocus: 0,
@@ -250,11 +252,11 @@ class AuthRepository {
           completed: 0,
           streakLeft: 0,
         );
-        await createNewUserForFirestore(_userData);
-        return _userData;
+        await createNewUserForFirestore(userData);
+        return userData;
       } else {
-        final _userData = await getUserFromFirestore(_authResult.user!.uid);
-        return _userData;
+        final userData = await getUserFromFirestore(authResult.user!.uid);
+        return userData;
       }
     } catch (e) {
       throw Exception(e);

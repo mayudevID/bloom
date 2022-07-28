@@ -66,7 +66,6 @@ class DayStreakWidget extends StatelessWidget {
                                   checkedDays: newCheckedDays,
                                 ),
                               );
-                          //EDIT USER
                         }
                       : null,
                 );

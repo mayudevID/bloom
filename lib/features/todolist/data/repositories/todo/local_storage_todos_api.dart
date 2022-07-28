@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_renaming_method_parameters
+// ignore_for_file: avoid_renaming_method_parameters, depend_on_referenced_packages
 
 import 'dart:convert';
 
@@ -87,7 +87,6 @@ class LocalStorageTodosApi extends TodosApi {
 
   @override
   Future<int> completeAll({required bool isCompleted}) {
-    // TODO: implement completeAll
     throw UnimplementedError();
   }
 }
