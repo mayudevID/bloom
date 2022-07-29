@@ -230,7 +230,7 @@ class AppView extends StatelessWidget {
             (state.status == AppStatus.unauthenticated)
                 ? RouteName.ONBOARD
                 : RouteName.MAIN,
-            arguments: (state.status == AppStatus.authenticated) ? false : null,
+            arguments: false,
           );
         },
         child: Scaffold(

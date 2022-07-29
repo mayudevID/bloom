@@ -137,7 +137,7 @@ class AddHabitCubit extends Cubit<AddHabitState> {
         totalFocus: oldUserData.totalFocus,
         missed: oldUserData.missed,
         completed: oldUserData.completed,
-        streakLeft: oldUserData.streakLeft + state.streakLeft,
+        streakLeft: oldUserData.streakLeft + state.durationDays,
       );
 
       await _localUserDataRepository.saveUserData(newUserData);
@@ -146,15 +146,3 @@ class AddHabitCubit extends Cubit<AddHabitState> {
     }
   }
 }
-
-// void missedChanged(int value) {
-  //   emit(state.copyWith(missed: value));
-  // }
-
-  // void streakChanged(int value) {
-  //   emit(state.copyWith(streak: value));
-  // }
-
-  // void streakLeftChanged(int value) {
-  //   emit(state.copyWith(streakLeft: value));
-  // }

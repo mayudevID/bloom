@@ -32,7 +32,7 @@ class MainCubit extends Cubit<MainState> {
 
   Future<void> getDataBackup(bool isGetData) async {
     if (isGetData == false) {
-      emit(const MainState(status: LoadStatus.finish));
+      emit(const MainState(status: LoadStatus.done));
       return;
     }
     emit(const MainState(status: LoadStatus.load));
