@@ -16,13 +16,13 @@ class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
   HabitDetailBloc({
     required HabitsRepository habitsRepository,
     required LocalUserDataRepository localUserDataRepository,
-    required HabitModel? habitModel,
+    required HabitModel habitModel,
   })  : _habitsRepository = habitsRepository,
         _localUserDataRepository = localUserDataRepository,
         super(
           HabitDetailState(
             initialHabit: habitModel,
-            missed: habitModel!.missed,
+            missed: habitModel.missed,
             streak: habitModel.streak,
             streakLeft: habitModel.streakLeft,
             checkedDays: habitModel.checkedDays,

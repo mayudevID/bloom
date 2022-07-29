@@ -1,19 +1,21 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/core/utils/function.dart';
-import 'package:bloom/features/todolist/domain/todos_repository.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../../core/utils/function.dart';
 import '../../../../../core/utils/notifications.dart';
 import '../../../data/models/task_model.dart';
+import '../../../domain/todos_repository.dart';
 
-part 'add_todo_state.dart';
+part 'edit_todo_state.dart';
 
-class AddTodoCubit extends Cubit<AddTodoState> {
-  final TodosRepository _todosRepository;
-  AddTodoCubit({
+class EditTodoCubit extends Cubit<EditTodoState> {
+  EditTodoCubit({
     required TodosRepository todosRepository,
+    required TaskModel taskModel,
   })  : _todosRepository = todosRepository,
-        super(AddTodoState.initial());
+        super(EditTodoState.initial(taskModel));
+
+  final TodosRepository _todosRepository;
 
   void titleChanged(String value) {
     emit(state.copyWith(title: value));

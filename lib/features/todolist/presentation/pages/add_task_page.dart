@@ -15,7 +15,9 @@ class AddTaskPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AddTodoCubit(context.read<TodosRepository>()),
+      create: (_) => AddTodoCubit(
+        todosRepository: context.read<TodosRepository>(),
+      ),
       child: const AddTaskPageContent(),
     );
   }
