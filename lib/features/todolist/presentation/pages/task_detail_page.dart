@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
@@ -49,7 +50,23 @@ class TaskDetailPageContent extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Image.asset("assets/icons/share.png", width: 24),
+                  GestureDetector(
+                    onTap: () {
+                      final isChecked =
+                          (initTaskModel.isChecked) ? "Finished" : "Unfinished";
+                      Share.share('''
+                        To-do list: ${initTaskModel.title}\n
+                        Time: ${initTaskModel.dateTime}
+                        ${initTaskModel.tags} Task\n\n
+                        ${initTaskModel.description}\n\n
+                        Status: $isChecked
+                      ''');
+                    },
+                    child: Image.asset(
+                      "assets/icons/share.png",
+                      width: 24,
+                    ),
+                  ),
                   SizedBox(width: getWidth(16, context)),
                   GestureDetector(
                     onTap: () async {

@@ -2,6 +2,7 @@ import 'package:bloom/features/authentication/data/repositories/local_auth_repos
 import 'package:bloom/features/habit/data/models/habit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../domain/habits_repository.dart';
@@ -37,6 +38,16 @@ class HabitsDetailPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final missedCurrent = context.select(
+      (HabitDetailBloc bloc) => bloc.state.missed,
+    );
+    final streakCurrent = context.select(
+      (HabitDetailBloc bloc) => bloc.state.streak,
+    );
+    final streakLeftCurrent = context.select(
+      (HabitDetailBloc bloc) => bloc.state.streakLeft,
+    );
+
     return Scaffold(
       backgroundColor: naturalWhite,
       body: Container(
@@ -54,7 +65,29 @@ class HabitsDetailPageContent extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                Image.asset("assets/icons/share.png", width: 24),
+                GestureDetector(
+                  onTap: () {
+                    final goals = (initHabitModel.goals == "")
+                        ? "No goals"
+                        : initHabitModel.goals;
+                    final openDaysVal = initHabitModel.openDays
+                        .where((item) => item == true)
+                        .length;
+                    final total = (streakCurrent / openDaysVal) * 100;
+                    Share.share('''
+                      Habit: ${initHabitModel.title}\n
+                      Goals: $goals\n\n
+                      $openDaysVal of ${initHabitModel.durationDays}\n
+                      Missed: $missedCurrent of $openDaysVal\n
+                      Streak: $streakCurrent of $openDaysVal ($total%)\n
+                      Streak Left: $streakLeftCurrent
+                    ''');
+                  },
+                  child: Image.asset(
+                    "assets/icons/share.png",
+                    width: 24,
+                  ),
+                ),
                 SizedBox(width: getWidth(16, context)),
                 GestureDetector(
                   onTap: () async {
