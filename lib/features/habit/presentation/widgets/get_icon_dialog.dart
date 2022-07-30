@@ -5,8 +5,9 @@ import '../../../../core/utils/constant.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../bloc/add_habit/add_habit_cubit.dart';
+import '../bloc/edit_habit/edit_habit_cubit.dart';
 
-Dialog getIconDialog(BuildContext context) {
+Dialog getIconDialog(BuildContext context, HabitPageType type) {
   return Dialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0),
@@ -31,7 +32,9 @@ Dialog getIconDialog(BuildContext context) {
             itemBuilder: (_, index) {
               return GestureDetector(
                 onTap: () {
-                  context.read<AddHabitCubit>().iconChanged(index);
+                  (type == HabitPageType.add)
+                      ? context.read<AddHabitCubit>().iconChanged(index)
+                      : context.read<EditHabitCubit>().iconChanged(index);
                   Navigator.pop(context);
                 },
                 child: Container(

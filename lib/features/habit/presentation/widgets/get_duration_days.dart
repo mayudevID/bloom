@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:numberpicker/numberpicker.dart';
 
+import '../../../../core/utils/constant.dart';
 import '../../../../core/utils/theme.dart';
 import '../bloc/add_habit/add_habit_cubit.dart';
+import '../bloc/edit_habit/edit_habit_cubit.dart';
 
-Dialog getDurationDays(BuildContext context) {
+Dialog getDurationDays(BuildContext context, HabitPageType type) {
   return Dialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0),
@@ -23,67 +25,74 @@ Dialog getDurationDays(BuildContext context) {
             width: 250,
             height: 70,
             child: Center(
-              child: BlocBuilder<AddHabitCubit, AddHabitState>(
-                builder: (context, state) {
-                  return NumberPicker(
-                    itemWidth: 60,
-                    textStyle: textParagraph.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: naturalBlack,
-                      fontSize: 16,
+              child: (type == HabitPageType.add)
+                  ? BlocBuilder<AddHabitCubit, AddHabitState>(
+                      builder: (context, state) {
+                        return NumberPicker(
+                          itemWidth: 60,
+                          textStyle: textParagraph.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: naturalBlack,
+                            fontSize: 16,
+                          ),
+                          selectedTextStyle: textParagraph.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: naturalBlack,
+                            fontSize: 20,
+                          ),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: naturalBlack),
+                          ),
+                          axis: Axis.horizontal,
+                          minValue: 1,
+                          maxValue: 100,
+                          value: state.durationDays,
+                          onChanged: (value) {
+                            context
+                                .read<AddHabitCubit>()
+                                .durationChanged(value);
+                          },
+                          step: 1,
+                        );
+                      },
+                    )
+                  : BlocBuilder<EditHabitCubit, EditHabitState>(
+                      builder: (context, state) {
+                        return NumberPicker(
+                          itemWidth: 60,
+                          textStyle: textParagraph.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: naturalBlack,
+                            fontSize: 16,
+                          ),
+                          selectedTextStyle: textParagraph.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: naturalBlack,
+                            fontSize: 20,
+                          ),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: naturalBlack),
+                          ),
+                          axis: Axis.horizontal,
+                          minValue: state.openDays
+                                  .where((item) => item == true)
+                                  .length +
+                              1,
+                          maxValue: 100,
+                          value: state.durationDays,
+                          onChanged: (value) {
+                            context
+                                .read<EditHabitCubit>()
+                                .durationChanged(value);
+                          },
+                          step: 1,
+                        );
+                      },
                     ),
-                    selectedTextStyle: textParagraph.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: naturalBlack,
-                      fontSize: 20,
-                    ),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: naturalBlack),
-                    ),
-                    axis: Axis.horizontal,
-                    minValue: 1,
-                    maxValue: 100,
-                    value: state.durationDays,
-                    onChanged: (value) {
-                      context.read<AddHabitCubit>().durationChanged(value);
-                    },
-                    step: 1,
-                  );
-                },
-              ),
-
-              // child: BlocBuilder<AddHabitCubit, AddHabitState>(
-              //   builder: (_, state) {
-              //     return NumberPicker(
-              //       itemWidth: 60,
-              //       textStyle: textParagraph.copyWith(
-              //         fontWeight: FontWeight.w600,
-              //         color: naturalBlack,
-              //         fontSize: 16,
-              //       ),
-              //       selectedTextStyle: textParagraph.copyWith(
-              //         fontWeight: FontWeight.w600,
-              //         color: naturalBlack,
-              //         fontSize: 20,
-              //       ),
-              //       decoration: BoxDecoration(
-              //         shape: BoxShape.rectangle,
-              //         borderRadius: BorderRadius.circular(10),
-              //         border: Border.all(color: naturalBlack),
-              //       ),
-              //       axis: Axis.horizontal,
-              //       minValue: 1,
-              //       maxValue: 100,
-              //       value: state.durationDays,
-              //       onChanged: (value) {
-              //         context.read<AddHabitCubit>().durationChanged(value);
-              //       },
-              //       step: 1,
-              //     );
-              //   },
-              // ),
             ),
           ),
           const Spacer(),

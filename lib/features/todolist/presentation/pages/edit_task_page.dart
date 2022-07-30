@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:bloom/features/todolist/domain/todos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +7,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../data/models/task_model.dart';
-import '../bloc/add_todo/add_todo_cubit.dart';
+import '../../domain/todos_repository.dart';
 import '../bloc/edit_todo/edit_todo_cubit.dart';
 
 class EditTaskPage extends StatelessWidget {
@@ -26,17 +25,20 @@ class EditTaskPage extends StatelessWidget {
         taskModel: initTaskModel,
         todosRepository: context.read<TodosRepository>(),
       ),
-      child: const EditTaskPageContent(),
+      child: EditTaskPageContent(initTaskModel: initTaskModel),
     );
   }
 }
 
 class EditTaskPageContent extends StatelessWidget {
-  const EditTaskPageContent({Key? key}) : super(key: key);
+  const EditTaskPageContent({Key? key, required this.initTaskModel})
+      : super(key: key);
+
+  final TaskModel initTaskModel;
 
   @override
   Widget build(BuildContext context) {
-    final title = context.select((AddTodoCubit cubit) => cubit.state.title);
+    final title = context.select((EditTodoCubit cubit) => cubit.state.title);
     Future<DateTime> _getTime() async {
       TimeOfDay? pickedTime;
       final DateTime? pickedDate = await showDatePicker(
@@ -87,14 +89,15 @@ class EditTaskPageContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
                 color: greyLight,
               ),
-              child: BlocBuilder<AddTodoCubit, AddTodoState>(
+              child: BlocBuilder<EditTodoCubit, EditTodoState>(
                 buildWhen: (previous, current) {
                   return previous.title != current.title;
                 },
                 builder: (context, state) {
                   return TextFormField(
+                    initialValue: initTaskModel.title,
                     onChanged: (val) {
-                      context.read<AddTodoCubit>().titleChanged(val);
+                      context.read<EditTodoCubit>().titleChanged(val);
                     },
                     style: textForm,
                     cursorColor: naturalBlack,
@@ -119,14 +122,15 @@ class EditTaskPageContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
                 color: greyLight,
               ),
-              child: BlocBuilder<AddTodoCubit, AddTodoState>(
+              child: BlocBuilder<EditTodoCubit, EditTodoState>(
                 buildWhen: (previous, current) {
                   return previous.description != current.description;
                 },
                 builder: (context, state) {
                   return TextFormField(
+                    initialValue: initTaskModel.description,
                     onChanged: (val) {
-                      context.read<AddTodoCubit>().descriptionChanged(val);
+                      context.read<EditTodoCubit>().descriptionChanged(val);
                     },
                     style: textForm,
                     maxLines: 5,
@@ -148,7 +152,7 @@ class EditTaskPageContent extends StatelessWidget {
                 SizedBox(
                   width: 34,
                   height: 20,
-                  child: BlocBuilder<AddTodoCubit, AddTodoState>(
+                  child: BlocBuilder<EditTodoCubit, EditTodoState>(
                     builder: (context, state) {
                       return Switch(
                         inactiveTrackColor: greyLight,
@@ -156,7 +160,7 @@ class EditTaskPageContent extends StatelessWidget {
                         activeColor: naturalBlack,
                         value: state.isTime,
                         onChanged: (val) {
-                          context.read<AddTodoCubit>().isTimeChanged(val);
+                          context.read<EditTodoCubit>().isTimeChanged(val);
                         },
                       );
                     },
@@ -165,7 +169,7 @@ class EditTaskPageContent extends StatelessWidget {
               ],
             ),
             SizedBox(height: getHeight(8, context)),
-            BlocBuilder<AddTodoCubit, AddTodoState>(
+            BlocBuilder<EditTodoCubit, EditTodoState>(
               builder: (context, state) {
                 if (state.isTime) {
                   if (state.isChoose) {
@@ -173,7 +177,7 @@ class EditTaskPageContent extends StatelessWidget {
                       onTap: () async {
                         var pick = await _getTime();
                         if (pick != DateTime(1970)) {
-                          context.read<AddTodoCubit>().timeChanged(pick);
+                          context.read<EditTodoCubit>().timeChanged(pick);
                         }
                       },
                       child: Row(
@@ -217,7 +221,7 @@ class EditTaskPageContent extends StatelessWidget {
                       onTap: () async {
                         var pick = await _getTime();
                         if (pick != DateTime(1970)) {
-                          context.read<AddTodoCubit>().timeChanged(pick);
+                          context.read<EditTodoCubit>().timeChanged(pick);
                         }
                       },
                       child: Container(
@@ -276,7 +280,7 @@ class EditTaskPageContent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                     color: greyLight,
                   ),
-                  child: BlocBuilder<AddTodoCubit, AddTodoState>(
+                  child: BlocBuilder<EditTodoCubit, EditTodoState>(
                     builder: (context, state) {
                       return Center(
                         child: DropdownButton(
@@ -294,7 +298,7 @@ class EditTaskPageContent extends StatelessWidget {
                             );
                           }).toList(),
                           onChanged: (newVal) {
-                            context.read<AddTodoCubit>().tagsChanged(
+                            context.read<EditTodoCubit>().tagsChanged(
                                   newVal as String,
                                 );
                           },
@@ -317,8 +321,10 @@ class EditTaskPageContent extends StatelessWidget {
                     ),
                   );
                 } else {
-                  context.read<AddTodoCubit>().saveTodo();
-                  Navigator.of(context).pop();
+                  context.read<EditTodoCubit>().saveTodo();
+                  Navigator.of(context)
+                    ..pop()
+                    ..pop(false);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text(

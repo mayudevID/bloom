@@ -10,7 +10,9 @@ abstract class RouteName {
   static const TIMER = '/timer-page';
   static const PROFILE = '/profile';
   static const ADDTASK = '/add-task';
+  static const EDITTASK = '/edit-task';
   static const ADDHABIT = '/add-habit';
+  static const EDITHABIT = '/edit-habit';
   static const TASKDETAIL = '/task-detail';
   static const HABITDETAIL = '/habit-detail';
   static const SETTINGS = '/settings';

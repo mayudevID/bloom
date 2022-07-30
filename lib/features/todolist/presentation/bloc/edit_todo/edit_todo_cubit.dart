@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -13,9 +14,11 @@ class EditTodoCubit extends Cubit<EditTodoState> {
     required TodosRepository todosRepository,
     required TaskModel taskModel,
   })  : _todosRepository = todosRepository,
+        _taskModel = taskModel,
         super(EditTodoState.initial(taskModel));
 
   final TodosRepository _todosRepository;
+  final TaskModel _taskModel;
 
   void titleChanged(String value) {
     emit(state.copyWith(title: value));
@@ -43,22 +46,25 @@ class EditTodoCubit extends Cubit<EditTodoState> {
 
   void saveTodo() async {
     try {
-      TaskModel taskModel = TaskModel(
-        taskId: getRandomId(),
+      TaskModel newTaskModel = TaskModel(
+        taskId: _taskModel.taskId,
         title: state.title,
         dateTime: state.dateTime,
         description: state.description,
         tags: state.tags,
-        isRepeat: false,
+        isRepeat: state.isRepeat,
         isTime: state.isTime,
-        isChecked: false,
+        isChecked: state.isChecked,
       );
 
       if (state.isTime && state.isChoose) {
-        createTaskNotification(taskModel);
+        if (state.dateTime != _taskModel.dateTime) {
+          AwesomeNotifications().cancel(_taskModel.taskId);
+          createTaskNotification(newTaskModel);
+        }
       }
 
-      await _todosRepository.saveTodo(taskModel);
+      await _todosRepository.saveTodo(newTaskModel);
 
       //return true;
     } catch (e) {

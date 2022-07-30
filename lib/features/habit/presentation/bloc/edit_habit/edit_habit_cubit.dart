@@ -1,27 +1,32 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloc/bloc.dart';
+import 'package:bloom/core/utils/function.dart';
+import 'package:bloom/features/authentication/data/models/user_data.dart';
+import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
+import 'package:bloom/features/habit/data/models/habit_model.dart';
+import 'package:bloom/features/habit/domain/habits_repository.dart';
+import 'package:bloom/features/habit/presentation/bloc/habit_overview/habits_overview_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../../../core/utils/constant.dart';
-import '../../../../../core/utils/function.dart';
 import '../../../../../core/utils/notifications.dart';
-import '../../../../authentication/data/models/user_data.dart';
-import '../../../../authentication/data/repositories/local_auth_repository.dart';
-import '../../../data/models/habit_model.dart';
-import '../../../domain/habits_repository.dart';
 
-part 'add_habit_state.dart';
+part 'edit_habit_state.dart';
 
-class AddHabitCubit extends Cubit<AddHabitState> {
-  AddHabitCubit({
-    required HabitsRepository habitsRepository,
-    required LocalUserDataRepository localUserDataRepository,
-  })  : _habitsRepository = habitsRepository,
+class EditHabitCubit extends Cubit<EditHabitState> {
+  EditHabitCubit(
+      {required HabitsRepository habitsRepository,
+      required LocalUserDataRepository localUserDataRepository,
+      required HabitModel habitModel})
+      : _habitsRepository = habitsRepository,
         _localUserDataRepository = localUserDataRepository,
-        super(AddHabitState.initial());
+        _habitModel = habitModel,
+        super(EditHabitState.initial(habitModel));
 
   final HabitsRepository _habitsRepository;
   final LocalUserDataRepository _localUserDataRepository;
+  final HabitModel _habitModel;
 
   void iconChanged(int value) {
     String iconTarget = iconLocation[value];
@@ -105,8 +110,8 @@ class AddHabitCubit extends Cubit<AddHabitState> {
         print(dayListOn);
       }
 
-      HabitModel habitModel = HabitModel(
-        habitId: getRandomId(),
+      HabitModel newHabitModel = HabitModel(
+        habitId: _habitModel.habitId,
         iconImg: state.iconImg,
         title: state.title,
         goals: state.goals,
@@ -116,15 +121,22 @@ class AddHabitCubit extends Cubit<AddHabitState> {
         streak: state.streak,
         streakLeft: state.durationDays,
         dayList: dayListOn,
-        checkedDays: List.filled(state.durationDays, false),
-        openDays: List.filled(state.durationDays, false),
+        checkedDays: state.checkedDays,
+        openDays: state.openDays,
       );
 
-      for (var i = 0; i < habitModel.dayList.length; i++) {
-        createHabitNotification(habitModel, habitModel.dayList[i]);
+      if (listEquals(_habitModel.dayList, newHabitModel.dayList) == false) {
+        for (var i = 0; i < _habitModel.dayList.length; i++) {
+          AwesomeNotifications().cancel(
+            _habitModel.habitId * _habitModel.dayList[i],
+          );
+        }
+        for (var i = 0; i < newHabitModel.dayList.length; i++) {
+          createHabitNotification(newHabitModel, newHabitModel.dayList[i]);
+        }
       }
 
-      await _habitsRepository.saveHabit(habitModel);
+      await _habitsRepository.saveHabit(newHabitModel);
 
       final oldUserData = _localUserDataRepository.getUserDataDirect();
       final newUserData = UserData(

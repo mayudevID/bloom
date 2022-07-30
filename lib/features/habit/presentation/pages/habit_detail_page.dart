@@ -1,3 +1,4 @@
+import 'package:bloom/core/routes/route_name.dart';
 import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
 import 'package:bloom/features/habit/data/models/habit_model.dart';
 import 'package:flutter/material.dart';
@@ -260,7 +261,12 @@ class HabitsDetailPageContent extends StatelessWidget {
             ),
             SizedBox(height: getHeight(56, context)),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  RouteName.EDITHABIT,
+                  arguments: initHabitModel,
+                );
+              },
               child: Container(
                 width: 202,
                 height: 40,

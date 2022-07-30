@@ -8,6 +8,7 @@ import '../../features/authentication/presentation/pages/profile_page.dart';
 import '../../features/authentication/presentation/pages/verification_page.dart';
 import '../../features/habit/data/models/habit_model.dart';
 import '../../features/habit/presentation/pages/add_habit_page.dart';
+import '../../features/habit/presentation/pages/edit_habit_page.dart';
 import '../../features/habit/presentation/pages/habit_detail_page.dart';
 import '../../features/habit/presentation/pages/habit_statistic_page.dart';
 import '../../features/home/presentation/pages/main_page.dart';
@@ -16,6 +17,7 @@ import '../../features/pomodoro/presentation/pages/timer_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/todolist/data/models/task_model.dart';
 import '../../features/todolist/presentation/pages/add_task_page.dart';
+import '../../features/todolist/presentation/pages/edit_task_page.dart';
 import '../../features/todolist/presentation/pages/task_detail_page.dart';
 import '../../features/todolist/presentation/pages/todolist_history_page.dart';
 import 'route_name.dart';
@@ -43,6 +45,12 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const VerificationPage());
       case RouteName.ADDHABIT:
         return MaterialPageRoute(builder: (_) => const AddHabitsPage());
+      case RouteName.EDITHABIT:
+        return MaterialPageRoute(
+          builder: (_) => EditHabitsPage(
+            initHabitModel: args as HabitModel,
+          ),
+        );
       case RouteName.HABITDETAIL:
         return MaterialPageRoute(
           builder: (_) => HabitsDetailPage(
@@ -57,6 +65,12 @@ class AppRoute {
         );
       case RouteName.ADDTASK:
         return MaterialPageRoute(builder: (_) => const AddTaskPage());
+      case RouteName.EDITTASK:
+        return MaterialPageRoute(
+          builder: (_) => EditTaskPage(
+            initTaskModel: args as TaskModel,
+          ),
+        );
       case RouteName.TASKDETAIL:
         return MaterialPageRoute(
           builder: (_) => TaskDetailPage(

@@ -1,17 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:bloom/core/utils/constant.dart';
-import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
-import 'package:bloom/features/habit/domain/habits_repository.dart';
-import 'package:bloom/features/habit/presentation/bloc/add_habit/add_habit_cubit.dart';
-import 'package:bloom/features/habit/presentation/widgets/get_duration_days.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weekday_selector/weekday_selector.dart';
 
+import '../../../../core/utils/constant.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
+import '../../../authentication/data/repositories/local_auth_repository.dart';
+import '../../domain/habits_repository.dart';
+import '../bloc/add_habit/add_habit_cubit.dart';
+import '../widgets/get_duration_days.dart';
 import '../widgets/get_icon_dialog.dart';
 
 class AddHabitsPage extends StatelessWidget {
@@ -114,7 +113,7 @@ class AddHabitsPageContent extends StatelessWidget {
                           context: context,
                           barrierDismissible: false,
                           builder: (_) {
-                            return getIconDialog(context);
+                            return getIconDialog(context, HabitPageType.add);
                           },
                         );
                       },
@@ -215,7 +214,7 @@ class AddHabitsPageContent extends StatelessWidget {
                       builder: (_) {
                         return BlocProvider.value(
                           value: context.read<AddHabitCubit>(),
-                          child: getDurationDays(context),
+                          child: getDurationDays(context, HabitPageType.add),
                         );
                       },
                     );

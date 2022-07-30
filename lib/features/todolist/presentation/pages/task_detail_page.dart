@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../../core/routes/route_name.dart';
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../data/models/task_model.dart';
@@ -149,14 +150,43 @@ class TaskDetailPageContent extends StatelessWidget {
                 ),
               ),
               SizedBox(height: getHeight(4, context)),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    (initTaskModel.description.isEmpty)
+                        ? "No Description"
+                        : initTaskModel.description,
+                    style: interBold12.copyWith(
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
               Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  (initTaskModel.description.isEmpty)
-                      ? "No Description"
-                      : initTaskModel.description,
-                  style: interBold12.copyWith(
-                    fontWeight: FontWeight.w400,
+                alignment: Alignment.bottomCenter,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      RouteName.EDITTASK,
+                      arguments: initTaskModel,
+                    );
+                  },
+                  child: Container(
+                    width: 202,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: naturalBlack,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Edit",
+                        style: buttonSmall.copyWith(
+                          color: naturalWhite,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
