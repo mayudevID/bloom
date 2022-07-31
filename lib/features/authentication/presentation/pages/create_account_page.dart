@@ -14,7 +14,6 @@ import '../widgets/form_input_password.dart';
 
 class CreateAccountPage extends StatelessWidget {
   const CreateAccountPage({Key? key}) : super(key: key);
-  static Page page() => const MaterialPage<void>(child: CreateAccountPage());
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +41,10 @@ class CreateAccountPageContent extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: getHeight(88, context)),
-              Image.asset("assets/icons/logo.png",
-                  width: getWidth(100, context)),
+              Image.asset(
+                "assets/icons/logo.png",
+                width: getWidth(100, context),
+              ),
               Text("Create Account", style: mainTitle),
               SizedBox(height: getHeight(32, context)),
               BlocListener<SignupCubit, SignupState>(

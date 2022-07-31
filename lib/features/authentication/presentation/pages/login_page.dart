@@ -82,7 +82,7 @@ class LoginPageContent extends StatelessWidget {
                   padding: EdgeInsets.only(right: getWidth(30, context)),
                   child: GestureDetector(
                     onTap: () {
-                      // Get.toNamed(RouteName.FORGETPASS);
+                      Navigator.of(context).pushNamed(RouteName.FORGETPASS);
                     },
                     child: Text("Forgot Password?", style: smallTextLink),
                   ),

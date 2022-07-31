@@ -1,7 +1,9 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:io';
+import 'package:bloom/core/error/forgot_pass_exception.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:path/path.dart' as path_package;
@@ -138,33 +140,34 @@ class AuthRepository {
     }
   }
 
-  // Future<void> resetPassword(String email) async {
-  //   try {
-  //     var providerList = await _firebaseAuth.fetchSignInMethodsForEmail(email);
-  //     print(providerList);
-  //     if (providerList.contains('password')) {
-  //       await _auth.sendPasswordResetEmail(email: email);
-  //     } else {
-  //       Get.snackbar(
-  //         "Account not listed",
-  //         "Email is linked to Google Account/Facebook, not password",
-  //         colorText: naturalWhite,
-  //         snackPosition: SnackPosition.BOTTOM,
-  //         margin: const EdgeInsets.only(
-  //           bottom: 80,
-  //           left: 30,
-  //           right: 30,
-  //         ),
-  //         backgroundColor: naturalBlack,
-  //         animationDuration: const Duration(milliseconds: 100),
-  //         forwardAnimationCurve: Curves.fastOutSlowIn,
-  //         reverseAnimationCurve: Curves.fastOutSlowIn,
-  //       );
-  //     }
-  //   } on FirebaseException catch (e) {
-  //     throw Exception(e);
-  //   }
-  // }
+  Future<void> resetPassword(String email) async {
+    try {
+      final providerList =
+          await _firebaseAuth.fetchSignInMethodsForEmail(email);
+      if (kDebugMode) print(providerList);
+      // if (providerList.contains('password')) {
+      //   await _auth.sendPasswordResetEmail(email: email);
+      // } else {
+      // Get.snackbar(
+      //   "Account not listed",
+      //   "Email is linked to Google Account/Facebook, not password",
+      //   colorText: naturalWhite,
+      //   snackPosition: SnackPosition.BOTTOM,
+      //   margin: const EdgeInsets.only(
+      //     bottom: 80,
+      //     left: 30,
+      //     right: 30,
+      //   ),
+      //   backgroundColor: naturalBlack,
+      //   animationDuration: const Duration(milliseconds: 100),
+      //   forwardAnimationCurve: Curves.fastOutSlowIn,
+      //   reverseAnimationCurve: Curves.fastOutSlowIn,
+      // );
+      // }
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      throw SendEmailFailure.fromCode(e.code);
+    }
+  }
 
   //* ------------------ FIREBASE ------------------
 

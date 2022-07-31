@@ -11,12 +11,13 @@ import '../widgets/form_input.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
-  static Page page() => const MaterialPage<void>(child: ForgotPasswordPage());
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ForgotPasswordCubit(context.read<AuthRepository>()),
+      create: (context) => ForgotPasswordCubit(
+        authRepository: context.read<AuthRepository>(),
+      ),
       child: const ForgotPasswordPageContent(),
     );
   }
@@ -27,6 +28,9 @@ class ForgotPasswordPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final email = context.select(
+      (ForgotPasswordCubit cubit) => cubit.state.email,
+    );
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: naturalWhite,
@@ -48,7 +52,25 @@ class ForgotPasswordPageContent extends StatelessWidget {
             SizedBox(height: getHeight(18, context)),
             BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
               listener: (context, state) {
-                if (state.status == SendStatus.error) {}
+                if (state.status == SendStatus.success) {
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                      const SnackBar(
+                        content: Text("Email sent, please check your email"),
+                      ),
+                    );
+                } else if (state.status == SendStatus.error) {
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          state.errorMessage,
+                        ),
+                      ),
+                    );
+                }
               },
               child: const FormInput(
                 formType: FormType.forgotPassword,
@@ -59,7 +81,20 @@ class ForgotPasswordPageContent extends StatelessWidget {
             SizedBox(height: getHeight(24, context)),
             GestureDetector(
               onTap: () async {
-                context.read<ForgotPasswordCubit>().sendRequestForgotPassword();
+                FocusManager.instance.primaryFocus?.unfocus();
+                if (email.trim().isEmpty) {
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                      const SnackBar(
+                        content: Text("Please input an email"),
+                      ),
+                    );
+                } else {
+                  context
+                      .read<ForgotPasswordCubit>()
+                      .sendRequestForgotPassword();
+                }
               },
               child: Container(
                 height: 56,

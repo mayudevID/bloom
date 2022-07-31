@@ -368,7 +368,7 @@ class AddHabitsPageContent extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text(
-                        "Habits Added",
+                        "Habit Added",
                       ),
                     ),
                   );
