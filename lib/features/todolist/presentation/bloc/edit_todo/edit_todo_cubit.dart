@@ -62,6 +62,8 @@ class EditTodoCubit extends Cubit<EditTodoState> {
           AwesomeNotifications().cancel(_taskModel.taskId);
           createTaskNotification(newTaskModel);
         }
+      } else if (state.isTime == false) {
+        AwesomeNotifications().cancel(_taskModel.taskId);
       }
 
       await _todosRepository.saveTodo(newTaskModel);

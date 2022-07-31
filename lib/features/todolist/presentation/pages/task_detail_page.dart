@@ -152,7 +152,7 @@ class TaskDetailPageContent extends StatelessWidget {
               SizedBox(height: getHeight(4, context)),
               Expanded(
                 child: Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.topLeft,
                   child: Text(
                     (initTaskModel.description.isEmpty)
                         ? "No Description"
@@ -190,6 +190,9 @@ class TaskDetailPageContent extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(
+                height: getHeight(109, context),
+              )
             ],
           ),
         ),

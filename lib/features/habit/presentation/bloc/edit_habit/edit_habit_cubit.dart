@@ -110,6 +110,14 @@ class EditHabitCubit extends Cubit<EditHabitState> {
         print(dayListOn);
       }
 
+      List<bool> addMoreDays(List<bool> old) {
+        final temp = old;
+        final addNew =
+            List.filled(state.durationDays - _habitModel.durationDays, false);
+        temp.addAll(addNew);
+        return temp;
+      }
+
       HabitModel newHabitModel = HabitModel(
         habitId: _habitModel.habitId,
         iconImg: state.iconImg,
@@ -119,13 +127,19 @@ class EditHabitCubit extends Cubit<EditHabitState> {
         durationDays: state.durationDays,
         missed: state.missed,
         streak: state.streak,
-        streakLeft: state.durationDays,
+        streakLeft: state.durationDays -
+            state.checkedDays.where((element) => element == true).length,
         dayList: dayListOn,
-        checkedDays: state.checkedDays,
-        openDays: state.openDays,
+        checkedDays: (_habitModel.durationDays < state.durationDays)
+            ? addMoreDays(state.checkedDays)
+            : state.checkedDays.take(state.durationDays).toList(),
+        openDays: (_habitModel.durationDays < state.durationDays)
+            ? addMoreDays(state.openDays)
+            : state.openDays.take(state.durationDays).toList(),
       );
 
-      if (listEquals(_habitModel.dayList, newHabitModel.dayList) == false) {
+      if (listEquals(_habitModel.dayList, newHabitModel.dayList) == false ||
+          _habitModel.timeOfDay != newHabitModel.timeOfDay) {
         for (var i = 0; i < _habitModel.dayList.length; i++) {
           AwesomeNotifications().cancel(
             _habitModel.habitId * _habitModel.dayList[i],
@@ -149,7 +163,11 @@ class EditHabitCubit extends Cubit<EditHabitState> {
         totalFocus: oldUserData.totalFocus,
         missed: oldUserData.missed,
         completed: oldUserData.completed,
-        streakLeft: oldUserData.streakLeft + state.durationDays,
+        streakLeft: (_habitModel.durationDays < state.durationDays)
+            ? oldUserData.streakLeft +
+                (state.durationDays - _habitModel.durationDays)
+            : oldUserData.streakLeft -
+                (_habitModel.durationDays - state.durationDays),
       );
 
       await _localUserDataRepository.saveUserData(newUserData);

@@ -75,7 +75,7 @@ class EditTaskPageContent extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-            Text("New Task", style: mainSubTitle),
+            Text("Edit Task", style: mainSubTitle),
             SizedBox(height: getHeight(32, context)),
             Align(
               alignment: Alignment.centerLeft,

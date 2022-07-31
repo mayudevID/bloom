@@ -27,7 +27,7 @@ class AddTodoState extends Equatable {
     return AddTodoState(
       taskId: 0,
       title: '',
-      dateTime: DateTime.now(),
+      dateTime: DateTime(0),
       description: '',
       tags: 'Basic',
       isRepeat: false,

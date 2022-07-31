@@ -75,7 +75,7 @@ class AddHabitsPageContent extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-            Center(child: Text("New Habits", style: mainSubTitle)),
+            Center(child: Text("New Habit", style: mainSubTitle)),
             SizedBox(height: getHeight(16, context)),
             Container(
               width: 74,
