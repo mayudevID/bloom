@@ -1,5 +1,7 @@
 part of 'edit_habit_cubit.dart';
 
+enum EditHabitStatus { init, load, saved, error }
+
 class EditHabitState extends Equatable {
   final String iconImg;
   final String title;
@@ -19,6 +21,8 @@ class EditHabitState extends Equatable {
   final List<bool> checkedDays;
   final List<bool> openDays;
   final int selectedIcon;
+  final EditHabitStatus editHabitStatus;
+  final HabitModel newHabitModel;
 
   const EditHabitState({
     required this.iconImg,
@@ -39,6 +43,8 @@ class EditHabitState extends Equatable {
     required this.checkedDays,
     required this.openDays,
     required this.selectedIcon,
+    required this.editHabitStatus,
+    required this.newHabitModel,
   });
 
   factory EditHabitState.initial(HabitModel habitModel) {
@@ -63,6 +69,8 @@ class EditHabitState extends Equatable {
       selectedIcon: iconLocation.indexWhere(
         (element) => element == habitModel.iconImg,
       ),
+      editHabitStatus: EditHabitStatus.init,
+      newHabitModel: habitModel,
     );
   }
 
@@ -86,6 +94,8 @@ class EditHabitState extends Equatable {
         checkedDays,
         openDays,
         selectedIcon,
+        editHabitStatus,
+        newHabitModel,
       ];
 
   EditHabitState copyWith({
@@ -107,6 +117,8 @@ class EditHabitState extends Equatable {
     List<bool>? checkedDays,
     List<bool>? openDays,
     int? selectedIcon,
+    EditHabitStatus? editHabitStatus,
+    HabitModel? newHabitModel,
   }) {
     return EditHabitState(
       iconImg: iconImg ?? this.iconImg,
@@ -127,6 +139,8 @@ class EditHabitState extends Equatable {
       checkedDays: checkedDays ?? this.checkedDays,
       openDays: openDays ?? this.openDays,
       selectedIcon: selectedIcon ?? this.selectedIcon,
+      editHabitStatus: editHabitStatus ?? this.editHabitStatus,
+      newHabitModel: newHabitModel ?? this.newHabitModel,
     );
   }
 }

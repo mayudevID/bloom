@@ -2,7 +2,6 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../../core/utils/function.dart';
 import '../../../../../core/utils/notifications.dart';
 import '../../../data/models/task_model.dart';
 import '../../../domain/todos_repository.dart';
@@ -45,6 +44,7 @@ class EditTodoCubit extends Cubit<EditTodoState> {
   }
 
   void saveTodo() async {
+    emit(state.copyWith(editTodoStatus: EditTodoStatus.load));
     try {
       TaskModel newTaskModel = TaskModel(
         taskId: _taskModel.taskId,
@@ -68,9 +68,16 @@ class EditTodoCubit extends Cubit<EditTodoState> {
 
       await _todosRepository.saveTodo(newTaskModel);
 
-      //return true;
+      final getNewData = await _todosRepository.getTodos().first;
+      final newDataRecentIndex = getNewData
+          .indexWhere((element) => element.taskId == _taskModel.taskId);
+
+      emit(state.copyWith(
+        editTodoStatus: EditTodoStatus.saved,
+        newTaskModel: getNewData[newDataRecentIndex],
+      ));
     } catch (e) {
-      //return false;
+      emit(state.copyWith(editTodoStatus: EditTodoStatus.error));
     }
   }
 }

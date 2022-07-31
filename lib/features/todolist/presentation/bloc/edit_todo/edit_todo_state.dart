@@ -1,5 +1,7 @@
 part of 'edit_todo_cubit.dart';
 
+enum EditTodoStatus { init, load, saved, error }
+
 class EditTodoState extends Equatable {
   final int taskId;
   final String title;
@@ -10,6 +12,8 @@ class EditTodoState extends Equatable {
   final bool isTime;
   final bool isChecked;
   final bool isChoose;
+  final EditTodoStatus editTodoStatus;
+  final TaskModel newTaskModel;
 
   const EditTodoState({
     required this.taskId,
@@ -21,6 +25,8 @@ class EditTodoState extends Equatable {
     required this.isTime,
     required this.isChecked,
     required this.isChoose,
+    required this.editTodoStatus,
+    required this.newTaskModel,
   });
 
   factory EditTodoState.initial(TaskModel taskModel) {
@@ -34,6 +40,8 @@ class EditTodoState extends Equatable {
       isTime: taskModel.isTime,
       isChecked: taskModel.isChecked,
       isChoose: taskModel.isTime,
+      editTodoStatus: EditTodoStatus.init,
+      newTaskModel: taskModel,
     );
   }
 
@@ -48,6 +56,8 @@ class EditTodoState extends Equatable {
         isTime,
         isChecked,
         isChoose,
+        editTodoStatus,
+        newTaskModel,
       ];
 
   EditTodoState copyWith({
@@ -60,6 +70,8 @@ class EditTodoState extends Equatable {
     bool? isTime,
     bool? isChecked,
     bool? isChoose,
+    EditTodoStatus? editTodoStatus,
+    TaskModel? newTaskModel,
   }) {
     return EditTodoState(
       taskId: taskId ?? this.taskId,
@@ -71,6 +83,8 @@ class EditTodoState extends Equatable {
       isTime: isTime ?? this.isTime,
       isChecked: isChecked ?? this.isChecked,
       isChoose: isChoose ?? this.isChoose,
+      editTodoStatus: editTodoStatus ?? this.editTodoStatus,
+      newTaskModel: newTaskModel ?? this.newTaskModel,
     );
   }
 }

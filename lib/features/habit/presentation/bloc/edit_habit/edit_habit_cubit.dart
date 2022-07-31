@@ -1,16 +1,14 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloc/bloc.dart';
-import 'package:bloom/core/utils/function.dart';
-import 'package:bloom/features/authentication/data/models/user_data.dart';
-import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
-import 'package:bloom/features/habit/data/models/habit_model.dart';
-import 'package:bloom/features/habit/domain/habits_repository.dart';
-import 'package:bloom/features/habit/presentation/bloc/habit_overview/habits_overview_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../../../core/utils/constant.dart';
 import '../../../../../core/utils/notifications.dart';
+import '../../../../authentication/data/models/user_data.dart';
+import '../../../../authentication/data/repositories/local_auth_repository.dart';
+import '../../../data/models/habit_model.dart';
+import '../../../domain/habits_repository.dart';
 
 part 'edit_habit_state.dart';
 
@@ -84,6 +82,7 @@ class EditHabitCubit extends Cubit<EditHabitState> {
   }
 
   void saveHabit() async {
+    emit(state.copyWith(editHabitStatus: EditHabitStatus.load));
     try {
       Map<int, bool> dayMap = [
         state.sunday,
@@ -111,7 +110,7 @@ class EditHabitCubit extends Cubit<EditHabitState> {
       }
 
       List<bool> addMoreDays(List<bool> old) {
-        final temp = old;
+        final temp = old.toList();
         final addNew =
             List.filled(state.durationDays - _habitModel.durationDays, false);
         temp.addAll(addNew);
@@ -171,7 +170,18 @@ class EditHabitCubit extends Cubit<EditHabitState> {
       );
 
       await _localUserDataRepository.saveUserData(newUserData);
-    } catch (e) {
+
+      final getNewData = await _habitsRepository.getHabits().first;
+      final newDataRecentIndex = getNewData
+          .indexWhere((element) => element.habitId == _habitModel.habitId);
+
+      emit(state.copyWith(
+        editHabitStatus: EditHabitStatus.saved,
+        newHabitModel: getNewData[newDataRecentIndex],
+      ));
+    } on Exception catch (e) {
+      emit(state.copyWith(editHabitStatus: EditHabitStatus.error));
+      print(e);
       throw Exception();
     }
   }
