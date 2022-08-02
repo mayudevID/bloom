@@ -21,6 +21,10 @@ class SendEmailFailure implements Exception {
         return const SendEmailFailure(
           'Incorrect email or password, please try again.',
         );
+      case 'missing-android-pkg-name':
+        return const SendEmailFailure(
+          'An Android package name must be provided if the Android app is required to be installed.',
+        );
       default:
         return const SendEmailFailure();
     }

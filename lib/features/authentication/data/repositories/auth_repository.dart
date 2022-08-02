@@ -145,25 +145,13 @@ class AuthRepository {
       final providerList =
           await _firebaseAuth.fetchSignInMethodsForEmail(email);
       if (kDebugMode) print(providerList);
-      // if (providerList.contains('password')) {
-      //   await _auth.sendPasswordResetEmail(email: email);
-      // } else {
-      // Get.snackbar(
-      //   "Account not listed",
-      //   "Email is linked to Google Account/Facebook, not password",
-      //   colorText: naturalWhite,
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   margin: const EdgeInsets.only(
-      //     bottom: 80,
-      //     left: 30,
-      //     right: 30,
-      //   ),
-      //   backgroundColor: naturalBlack,
-      //   animationDuration: const Duration(milliseconds: 100),
-      //   forwardAnimationCurve: Curves.fastOutSlowIn,
-      //   reverseAnimationCurve: Curves.fastOutSlowIn,
-      // );
-      // }
+      if (providerList.contains('password')) {
+        await _firebaseAuth.sendPasswordResetEmail(email: email);
+      } else {
+        throw const SendEmailFailure(
+          "Email not found or email already registered only via Google or Facebook",
+        );
+      }
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw SendEmailFailure.fromCode(e.code);
     }
