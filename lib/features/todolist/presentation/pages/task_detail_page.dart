@@ -56,10 +56,12 @@ class TaskDetailPageContent extends StatelessWidget {
                       final isChecked =
                           (initTaskModel.isChecked) ? "Finished" : "Unfinished";
                       Share.share('''
-                        To-do list: ${initTaskModel.title}\n
+                        To-do list: ${initTaskModel.title}
                         Time: ${initTaskModel.dateTime}
-                        ${initTaskModel.tags} Task\n\n
-                        ${initTaskModel.description}\n\n
+                        ${initTaskModel.tags} Task
+
+                        ${initTaskModel.description}
+
                         Status: $isChecked
                       ''');
                     },

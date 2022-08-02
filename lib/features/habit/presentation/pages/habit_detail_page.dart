@@ -76,11 +76,12 @@ class HabitsDetailPageContent extends StatelessWidget {
                         .length;
                     final total = (streakCurrent / openDaysVal) * 100;
                     Share.share('''
-                      Habit: ${initHabitModel.title}\n
-                      Goals: $goals\n\n
-                      $openDaysVal of ${initHabitModel.durationDays}\n
-                      Missed: $missedCurrent of $openDaysVal\n
-                      Streak: $streakCurrent of $openDaysVal ($total%)\n
+                      Habit: ${initHabitModel.title}
+                      Goals: $goals
+
+                      $openDaysVal of ${initHabitModel.durationDays}
+                      Missed: $missedCurrent of $openDaysVal
+                      Streak: $streakCurrent of $openDaysVal ($total%)
                       Streak Left: $streakLeftCurrent
                     ''');
                   },
