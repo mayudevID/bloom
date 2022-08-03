@@ -31,6 +31,7 @@ class MainCubit extends Cubit<MainState> {
   }
 
   Future<void> getDataBackup(bool isGetData) async {
+    await Future.delayed(const Duration(milliseconds: 700));
     if (isGetData == false) {
       emit(const MainState(status: LoadStatus.done));
       return;

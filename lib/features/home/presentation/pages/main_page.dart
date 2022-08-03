@@ -27,32 +27,14 @@ class MainPage extends StatelessWidget {
         habitsRepository: context.read<HabitsRepository>(),
         todosRepository: context.read<TodosRepository>(),
         loadBackupRepository: context.read<LoadBackupRepository>(),
-      ),
-      child: MainPageContent(isGetData: isGetData),
+      )..getDataBackup(isGetData),
+      child: const MainPageContent(),
     );
   }
 }
 
-class MainPageContent extends StatefulWidget {
-  const MainPageContent({Key? key, required this.isGetData}) : super(key: key);
-
-  final bool isGetData;
-
-  @override
-  State<MainPageContent> createState() => _MainPageContentState();
-}
-
-class _MainPageContentState extends State<MainPageContent> {
-  void loadData() async {
-    await Future.delayed(const Duration(milliseconds: 700));
-    context.read<MainCubit>().getDataBackup(widget.isGetData);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
+class MainPageContent extends StatelessWidget {
+  const MainPageContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -141,8 +123,3 @@ class _MainPageContentState extends State<MainPageContent> {
     );
   }
 }
-
-// CustomNavBar(
-//         items: const ["home", "timer", "calendar", "clipboard"],
-//         selectedIndex: state.index,
-//       ),
