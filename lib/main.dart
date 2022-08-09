@@ -28,112 +28,108 @@ import 'features/habit/domain/habits_repository.dart';
 import 'features/pomodoro/data/repositories/local_storage_pomodoros_api.dart';
 import 'features/pomodoro/domain/pomodoros_repository.dart';
 
-void main() {
-  return BlocOverrides.runZoned(
-    () async {
-      WidgetsFlutterBinding.ensureInitialized();
-      AwesomeNotifications().initialize(
-        'resource://drawable/res_app_icon',
-        [
-          NotificationChannel(
-            channelKey: 'pomodoro_channel',
-            channelName: 'Pomodoro notifications',
-            channelDescription: 'Notification channel for pomodoro timer',
-            defaultColor: yellowDark,
-            importance: NotificationImportance.High,
-            ledColor: Colors.white,
-            vibrationPattern: mediumVibrationPattern,
-            channelShowBadge: true,
-            playSound: true,
-            soundSource: "resource://raw/res_music",
-          ),
-          NotificationChannel(
-            channelKey: 'task_channel',
-            channelName: 'Task notifications',
-            channelDescription: 'Notification channel for task reminder',
-            defaultColor: yellowDark,
-            importance: NotificationImportance.High,
-            ledColor: Colors.white,
-            vibrationPattern: mediumVibrationPattern,
-            channelShowBadge: true,
-            playSound: true,
-            soundSource: "resource://raw/res_music",
-          ),
-          NotificationChannel(
-            channelKey: 'habit_channel',
-            channelName: 'Habits notifications',
-            channelDescription: 'Notification channel for habit reminder',
-            defaultColor: yellowDark,
-            importance: NotificationImportance.High,
-            ledColor: Colors.white,
-            vibrationPattern: mediumVibrationPattern,
-            channelShowBadge: true,
-            playSound: true,
-            soundSource: "resource://raw/res_music",
-          ),
-        ],
-      );
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-      final sharedPreferences = await SharedPreferences.getInstance();
-      final firebaseFirestore = FirebaseFirestore.instance;
-      final firebaseAuth = FirebaseAuth.instance;
-      final authRepository = AuthRepository(
-        firestore: firebaseFirestore,
-        firebaseAuth: firebaseAuth,
-      );
-      final localUserDataRepository = LocalUserDataRepository(
-        sharedPreferences: sharedPreferences,
-      );
-      final habitsRepository = HabitsRepository(
-        habitsApi: LocalStorageHabitsApi(
-          plugin: sharedPreferences,
-        ),
-      );
-      final todosRepository = TodosRepository(
-        todosApi: LocalStorageTodosApi(
-          plugin: sharedPreferences,
-        ),
-      );
-      final todosHistoryRepository = TodosHistoryRepository(
-        todosApi: LocalStorageHistoryTodosApi(
-          plugin: sharedPreferences,
-        ),
-      );
-      final pomodorosRepository = PomodorosRepository(
-        pomodorosApi: LocalStoragePomodorosApi(
-          plugin: sharedPreferences,
-        ),
-      );
-      final saveBackupRepository = SaveBackupRepository(
-        saveBackupApi: SaveBackupStorageApi(
-          plugin: sharedPreferences,
-          firebaseFirestore: firebaseFirestore,
-          firebaseAuth: firebaseAuth,
-        ),
-      );
-      final loadBackupRepository = LoadBackupRepository(
-        loadBackupApi: LoadBackupStorageApi(
-          firebaseFirestore: firebaseFirestore,
-          firebaseAuth: firebaseAuth,
-        ),
-      );
-      runApp(
-        MyApp(
-          authRepository: authRepository,
-          localUserDataRepository: localUserDataRepository,
-          habitsRepository: habitsRepository,
-          todosRepository: todosRepository,
-          todosHistoryRepository: todosHistoryRepository,
-          pomodorosRepository: pomodorosRepository,
-          saveBackupRepository: saveBackupRepository,
-          loadBackupRepository: loadBackupRepository,
-          sharedPreferences: sharedPreferences,
-        ),
-      );
-    },
-    blocObserver: AppBlocObserver(),
+void main() async {
+  Bloc.observer = AppBlocObserver();
+  WidgetsFlutterBinding.ensureInitialized();
+  AwesomeNotifications().initialize(
+    'resource://drawable/res_app_icon',
+    [
+      NotificationChannel(
+        channelKey: 'pomodoro_channel',
+        channelName: 'Pomodoro notifications',
+        channelDescription: 'Notification channel for pomodoro timer',
+        defaultColor: yellowDark,
+        importance: NotificationImportance.High,
+        ledColor: Colors.white,
+        vibrationPattern: mediumVibrationPattern,
+        channelShowBadge: true,
+        playSound: true,
+        soundSource: "resource://raw/res_music",
+      ),
+      NotificationChannel(
+        channelKey: 'task_channel',
+        channelName: 'Task notifications',
+        channelDescription: 'Notification channel for task reminder',
+        defaultColor: yellowDark,
+        importance: NotificationImportance.High,
+        ledColor: Colors.white,
+        vibrationPattern: mediumVibrationPattern,
+        channelShowBadge: true,
+        playSound: true,
+        soundSource: "resource://raw/res_music",
+      ),
+      NotificationChannel(
+        channelKey: 'habit_channel',
+        channelName: 'Habits notifications',
+        channelDescription: 'Notification channel for habit reminder',
+        defaultColor: yellowDark,
+        importance: NotificationImportance.High,
+        ledColor: Colors.white,
+        vibrationPattern: mediumVibrationPattern,
+        channelShowBadge: true,
+        playSound: true,
+        soundSource: "resource://raw/res_music",
+      ),
+    ],
+  );
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  final sharedPreferences = await SharedPreferences.getInstance();
+  final firebaseFirestore = FirebaseFirestore.instance;
+  final firebaseAuth = FirebaseAuth.instance;
+  final authRepository = AuthRepository(
+    firestore: firebaseFirestore,
+    firebaseAuth: firebaseAuth,
+  );
+  final localUserDataRepository = LocalUserDataRepository(
+    sharedPreferences: sharedPreferences,
+  );
+  final habitsRepository = HabitsRepository(
+    habitsApi: LocalStorageHabitsApi(
+      plugin: sharedPreferences,
+    ),
+  );
+  final todosRepository = TodosRepository(
+    todosApi: LocalStorageTodosApi(
+      plugin: sharedPreferences,
+    ),
+  );
+  final todosHistoryRepository = TodosHistoryRepository(
+    todosApi: LocalStorageHistoryTodosApi(
+      plugin: sharedPreferences,
+    ),
+  );
+  final pomodorosRepository = PomodorosRepository(
+    pomodorosApi: LocalStoragePomodorosApi(
+      plugin: sharedPreferences,
+    ),
+  );
+  final saveBackupRepository = SaveBackupRepository(
+    saveBackupApi: SaveBackupStorageApi(
+      plugin: sharedPreferences,
+      firebaseFirestore: firebaseFirestore,
+      firebaseAuth: firebaseAuth,
+    ),
+  );
+  final loadBackupRepository = LoadBackupRepository(
+    loadBackupApi: LoadBackupStorageApi(
+      firebaseFirestore: firebaseFirestore,
+      firebaseAuth: firebaseAuth,
+    ),
+  );
+  runApp(
+    MyApp(
+      authRepository: authRepository,
+      localUserDataRepository: localUserDataRepository,
+      habitsRepository: habitsRepository,
+      todosRepository: todosRepository,
+      todosHistoryRepository: todosHistoryRepository,
+      pomodorosRepository: pomodorosRepository,
+      saveBackupRepository: saveBackupRepository,
+      loadBackupRepository: loadBackupRepository,
+      sharedPreferences: sharedPreferences,
+    ),
   );
 }
 

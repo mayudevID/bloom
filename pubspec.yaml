@@ -28,7 +28,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   awesome_notifications: ^0.6.20
-  bloc: ^8.0.3
+  bloc: ^8.1.0
   build_runner: ^2.1.7
   cached_network_image: ^3.2.1
   carousel_slider: ^4.0.0
