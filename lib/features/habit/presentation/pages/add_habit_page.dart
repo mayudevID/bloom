@@ -59,7 +59,7 @@ class AddHabitsPageContent extends StatelessWidget {
       (AddHabitCubit cubit) => cubit.state.title,
     );
 
-    Future<TimeOfDay?> _getTime() async {
+    Future<TimeOfDay?> getTime() async {
       final TimeOfDay? pickTime = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
@@ -249,7 +249,7 @@ class AddHabitsPageContent extends StatelessWidget {
                 Text("Time", style: textParagraph),
                 GestureDetector(
                   onTap: () async {
-                    var pick = await _getTime();
+                    var pick = await getTime();
                     if (pick != null) {
                       final now = DateTime.now();
                       final target = DateTime(

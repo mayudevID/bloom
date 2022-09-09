@@ -21,10 +21,15 @@ Future<void> createTaskNotification(TaskModel taskModel) async {
       wakeUpScreen: true,
       category: NotificationCategory.Reminder,
     ),
-    schedule: NotificationCalendar.fromDate(
-      date: taskModel.dateTime,
+    schedule: NotificationCalendar(
+      year: taskModel.dateTime.year,
+      month: taskModel.dateTime.month,
+      day: taskModel.dateTime.day,
+      hour: taskModel.dateTime.hour,
+      minute: taskModel.dateTime.minute,
+      second: 0,
+      millisecond: 0,
       allowWhileIdle: true,
-      preciseAlarm: true,
     ),
   );
 }

@@ -45,7 +45,7 @@ class PomodoroPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future _addTimerDialog() {
+    Future addTimerDialog() {
       return showDialog(
         context: context,
         barrierDismissible: false,
@@ -228,7 +228,7 @@ class PomodoroPageContent extends StatelessWidget {
           ),
           SizedBox(height: getHeight(48, context)),
           GestureDetector(
-            onTap: () => _addTimerDialog(),
+            onTap: () => addTimerDialog(),
             child: Container(
               height: 40,
               margin: EdgeInsets.symmetric(horizontal: getWidth(85, context)),

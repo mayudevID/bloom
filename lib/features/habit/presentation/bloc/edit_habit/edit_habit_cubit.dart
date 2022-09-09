@@ -179,9 +179,9 @@ class EditHabitCubit extends Cubit<EditHabitState> {
         editHabitStatus: EditHabitStatus.saved,
         newHabitModel: getNewData[newDataRecentIndex],
       ));
-    } on Exception catch (e) {
+    } on Exception {
       emit(state.copyWith(editHabitStatus: EditHabitStatus.error));
-      print(e);
+      // print(e);
       throw Exception();
     }
   }

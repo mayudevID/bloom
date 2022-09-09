@@ -33,7 +33,7 @@ class EditProfilePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _pickProfilePicture() async {
+    void pickProfilePicture() async {
       final fileData = await ImagePicker().pickImage(
         source: ImageSource.gallery,
       );
@@ -151,7 +151,7 @@ class EditProfilePageContent extends StatelessWidget {
               ),
               SizedBox(height: getHeight(8, context)),
               GestureDetector(
-                onTap: () => _pickProfilePicture(),
+                onTap: () => pickProfilePicture(),
                 child: Text(
                   "Change Profile Picture",
                   style: textParagraph,

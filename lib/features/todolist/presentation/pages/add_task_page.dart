@@ -29,13 +29,13 @@ class AddTaskPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = context.select((AddTodoCubit cubit) => cubit.state.title);
-    Future<DateTime> _getTime() async {
+    Future<DateTime> getTime() async {
       TimeOfDay? pickedTime;
       final DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(), // Refer step 1
-        firstDate: DateTime(DateTime.now().year), // Refer step 2
-        lastDate: DateTime.now().add(const Duration(days: 365)), // Refer step 2
+        initialDate: DateTime.now(),
+        firstDate: DateTime(DateTime.now().year),
+        lastDate: DateTime.now().add(const Duration(days: 365)),
         selectableDayPredicate: decideWhichDayToEnable,
       );
       if (pickedDate != null) {
@@ -163,7 +163,7 @@ class AddTaskPageContent extends StatelessWidget {
                   if (state.isChoose) {
                     return GestureDetector(
                       onTap: () async {
-                        var pick = await _getTime();
+                        var pick = await getTime();
                         if (pick != DateTime(1970)) {
                           context.read<AddTodoCubit>().timeChanged(pick);
                         }
@@ -207,7 +207,7 @@ class AddTaskPageContent extends StatelessWidget {
                   } else {
                     return GestureDetector(
                       onTap: () async {
-                        var pick = await _getTime();
+                        var pick = await getTime();
                         if (pick != DateTime(1970)) {
                           context.read<AddTodoCubit>().timeChanged(pick);
                         }

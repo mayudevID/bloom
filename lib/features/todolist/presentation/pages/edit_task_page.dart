@@ -41,7 +41,7 @@ class EditTaskPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final title = context.select((EditTodoCubit cubit) => cubit.state.title);
 
-    Future<DateTime> _getTime() async {
+    Future<DateTime> getTime() async {
       TimeOfDay? pickedTime;
       final DateTime? pickedDate = await showDatePicker(
         context: context,
@@ -189,7 +189,7 @@ class EditTaskPageContent extends StatelessWidget {
                     if (state.isChoose) {
                       return GestureDetector(
                         onTap: () async {
-                          var pick = await _getTime();
+                          var pick = await getTime();
                           if (pick != DateTime(1970)) {
                             context.read<EditTodoCubit>().timeChanged(pick);
                           }
@@ -233,7 +233,7 @@ class EditTaskPageContent extends StatelessWidget {
                     } else {
                       return GestureDetector(
                         onTap: () async {
-                          var pick = await _getTime();
+                          var pick = await getTime();
                           if (pick != DateTime(1970)) {
                             context.read<EditTodoCubit>().timeChanged(pick);
                           }
