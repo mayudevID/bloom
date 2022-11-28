@@ -27,28 +27,28 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  awesome_notifications: ^0.6.20
+  awesome_notifications: ^0.7.4+1
   bloc: ^8.1.0
   build_runner: ^2.1.7
   cached_network_image: ^3.2.1
   carousel_slider: ^4.0.0
-  cloud_firestore: ^3.1.6
-  connectivity_plus: ^2.2.0
+  cloud_firestore: ^4.1.0
+  connectivity_plus: ^3.0.2
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1
   equatable: ^2.0.3
-  firebase_analytics: ^9.1.0
-  firebase_analytics_web: ^0.4.0+6
-  firebase_auth: ^3.3.5
-  firebase_core: ^1.11.0
-  firebase_storage: ^10.2.5
+  firebase_analytics: ^10.0.6
+  firebase_analytics_web: ^0.5.1+5
+  firebase_auth: ^4.1.4
+  firebase_core: ^2.3.0
+  firebase_storage: ^11.0.6
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_cache_manager: ^3.3.0
   flutter_datetime_picker: ^1.5.1
-  flutter_facebook_auth: ^4.4.0+1
-  flutter_launcher_icons: ^0.10.0
+  flutter_facebook_auth: ^5.0.6
+  flutter_launcher_icons: ^0.11.0
   flutter_native_splash: ^2.0.1+1
   get: ^4.6.5
   google_sign_in: ^5.2.3
@@ -61,7 +61,7 @@ dependencies:
   numberpicker: ^2.1.1
   percent_indicator: ^4.0.0
   scrollable_positioned_list: ^0.3.2
-  share_plus: ^4.0.10
+  share_plus: ^6.3.0
   shared_preferences: ^2.0.13
   syncfusion_flutter_gauges: ^20.2.39
   table_calendar: ^3.0.3
