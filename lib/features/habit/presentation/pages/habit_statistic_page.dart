@@ -204,73 +204,86 @@ class HabitStatisticPageContent extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: getHeight(16, context)),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                SizedBox(
-                                  height: 183,
-                                  child: SfLinearGauge(
-                                    minimum: 0,
-                                    maximum: 100,
-                                    interval: 20,
-                                    showTicks: false,
-                                    showAxisTrack: false,
-                                    orientation:
-                                        LinearGaugeOrientation.vertical,
-                                    axisTrackStyle: const LinearAxisTrackStyle(
-                                      color: Colors.transparent,
-                                    ),
-                                    axisLabelStyle: smallText.copyWith(
-                                      color: naturalBlack,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: getHeight(25, context),
-                                ),
-                              ],
-                            ),
-                            SfLinearGauge(
-                              minimum: subtractTwelveDaysAgo,
-                              maximum: subtractTwelveDaysAgo + 11,
-                              interval: 1,
-                              showTicks: false,
-                              labelFormatterCallback: (String val) {
-                                int? date = int.tryParse(val);
-                                int valueReturn = date! % dayCount;
-                                if (valueReturn == 0) {
-                                  return date.toString();
-                                } else {
-                                  return valueReturn.toString();
-                                }
-                              },
-                              axisTrackStyle: const LinearAxisTrackStyle(
-                                color: Colors.transparent,
-                              ),
-                              axisLabelStyle: smallText.copyWith(
-                                color: naturalBlack,
-                              ),
-                              markerPointers:
-                                  List<LinearWidgetPointer>.generate(
-                                12,
-                                (index) {
-                                  int date = subtractTwelveDaysAgo.toInt();
-                                  return linearWidget(date + index);
-                                },
-                                growable: false,
-                              ),
-                            ),
-                          ],
+                      const Text(
+                        "No Data",
+                        style: TextStyle(
+                          color: Colors.black,
                         ),
                       ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 24),
+                      //   child: Row(
+                      //     crossAxisAlignment: CrossAxisAlignment.end,
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Column(
+                      //         children: [
+                      //           SizedBox(
+                      //             height: 183,
+                      //             child: SfLinearGauge(
+                      //               minimum: 0,
+                      //               maximum: 100,
+                      //               interval: 20,
+                      //               showTicks: false,
+                      //               showAxisTrack: false,
+                      //               orientation:
+                      //                   LinearGaugeOrientation.vertical,
+                      //               axisTrackStyle: const LinearAxisTrackStyle(
+                      //                 color: Colors.transparent,
+                      //               ),
+                      //               axisLabelStyle: smallText.copyWith(
+                      //                 color: naturalBlack,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //           SizedBox(
+                      //             height: getHeight(25, context),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //       SfLinearGauge(
+                      //         minimum: subtractTwelveDaysAgo,
+                      //         maximum: subtractTwelveDaysAgo + 11,
+                      //         interval: 1,
+                      //         showTicks: false,
+                      //         labelFormatterCallback: (String val) {
+                      //           int? date = int.tryParse(val);
+                      //           int valueReturn = date! % dayCount;
+                      //           if (valueReturn == 0) {
+                      //             return date.toString();
+                      //           } else {
+                      //             return valueReturn.toString();
+                      //           }
+                      //         },
+                      //         axisTrackStyle: const LinearAxisTrackStyle(
+                      //           color: Colors.transparent,
+                      //         ),
+                      //         axisLabelStyle: smallText.copyWith(
+                      //           color: naturalBlack,
+                      //         ),
+                      //         markerPointers:
+                      //             List<LinearWidgetPointer>.generate(
+                      //           12,
+                      //           (index) {
+                      //             int date = subtractTwelveDaysAgo.toInt();
+                      //             return linearWidget(date + index);
+                      //           },
+                      //           growable: false,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
-                  Container(),
+                  const Center(
+                    child: Text(
+                      "No Data",
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

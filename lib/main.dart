@@ -142,7 +142,6 @@ class MyApp extends StatelessWidget {
   final LocalUserDataRepository _localUserDataRepository;
   final SaveBackupRepository _saveBackupRepository;
   final LoadBackupRepository _loadBackupRepository;
-  final SharedPreferences _sharedPreferences;
 
   const MyApp({
     Key? key,
@@ -163,18 +162,13 @@ class MyApp extends StatelessWidget {
         _localUserDataRepository = localUserDataRepository,
         _saveBackupRepository = saveBackupRepository,
         _loadBackupRepository = loadBackupRepository,
-        _sharedPreferences = sharedPreferences,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     final notificationStream = Get.put(
-      NotificationStream(
-        _habitsRepository,
-        _sharedPreferences,
-        _localUserDataRepository,
-      ),
+      NotificationStream(),
       permanent: true,
     );
 
