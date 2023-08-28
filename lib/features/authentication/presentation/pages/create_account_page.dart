@@ -62,7 +62,7 @@ class CreateAccountPageContent extends StatelessWidget {
                       RouteName.MAIN,
                       (route) => false,
                       arguments:
-                          (state.status != SignupType.email) ? true : false,
+                          (state.type != SignupType.email) ? true : false,
                     );
                   }
                 },

@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,26 +32,26 @@ class HabitStatisticPageContent extends StatelessWidget {
   final dayCount = getNumberOfDays();
   final subtractTwelveDaysAgo = getSubtractTwelveDaysAgo();
 
+  LinearWidgetPointer linearWidget(int index, BuildContext context) {
+    if (kDebugMode) {
+      print(index);
+    }
+    return LinearWidgetPointer(
+      position: LinearElementPosition.outside,
+      value: index.toDouble(),
+      child: Container(
+        height: getHeight((index == 11) ? 120 : 183, context),
+        width: 8,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: naturalBlack,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    LinearWidgetPointer linearWidget(index) {
-      if (kDebugMode) {
-        print(index);
-      }
-      return LinearWidgetPointer(
-        position: LinearElementPosition.outside,
-        value: index.toDouble(),
-        child: Container(
-          height: getHeight((index == 11) ? 120 : 183, context),
-          width: 8,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: naturalBlack,
-          ),
-        ),
-      );
-    }
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(

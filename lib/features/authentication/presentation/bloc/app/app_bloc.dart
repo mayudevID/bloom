@@ -35,6 +35,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   void _onLogoutRequested(AppLogoutRequested event, Emitter<AppState> emit) {
+    // ignore: sdk_version_since
     unawaited(_authRepository.signOut());
   }
 
