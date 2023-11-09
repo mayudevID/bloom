@@ -27,13 +27,13 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  awesome_notifications: ^0.7.4+1
+  awesome_notifications: ^0.8.2
   bloc: ^8.1.0
   build_runner: ^2.1.7
   cached_network_image: ^3.2.1
   carousel_slider: ^4.0.0
   cloud_firestore: ^4.1.0
-  connectivity_plus: ^4.0.2
+  connectivity_plus: ^5.0.1
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1
   equatable: ^2.0.3
@@ -63,7 +63,7 @@ dependencies:
   scrollable_positioned_list: ^0.3.2
   share_plus: ^7.0.2
   shared_preferences: ^2.0.13
-  syncfusion_flutter_gauges: ^22.2.10
+  syncfusion_flutter_gauges: ^23.1.44
   table_calendar: ^3.0.3
   tutorial_coach_mark: ^1.2.1
   weekday_selector: ^1.0.0
@@ -75,7 +75,7 @@ flutter_icons:
 
 dev_dependencies:
   change_app_package_name: ^1.0.0
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
 

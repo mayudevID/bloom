@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -46,35 +49,20 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAXEBS2BFkWxPxP3pilg2vow5ZLP1efMoU',
-    appId: '1:533114573770:web:2421186589d8e992387533',
-    messagingSenderId: '533114573770',
-    projectId: 'bloom-88be1',
-    authDomain: 'bloom-88be1.firebaseapp.com',
-    databaseURL: 'https://bloom-88be1-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'bloom-88be1.appspot.com',
-    measurementId: 'G-TRXG4NJH3K',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAnXmS-HUXUtWTiXLbW46er3oxl3Bxf9MY',
-    appId: '1:533114573770:android:7f75863faf8c4f86387533',
-    messagingSenderId: '533114573770',
-    projectId: 'bloom-88be1',
-    databaseURL: 'https://bloom-88be1-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'bloom-88be1.appspot.com',
+    apiKey: 'AIzaSyA2k-Mt8WqDZB_Y-LVn76jo8QcUKsMrOBY',
+    appId: '1:408370217553:android:ea77352f363612b0536e70',
+    messagingSenderId: '408370217553',
+    projectId: 'bloom-616ad',
+    storageBucket: 'bloom-616ad.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDrZFVgxBFG5YrdpJoS6WRchLRk7BiUDZc',
-    appId: '1:533114573770:ios:79d0ed23f21f8731387533',
-    messagingSenderId: '533114573770',
-    projectId: 'bloom-88be1',
-    databaseURL: 'https://bloom-88be1-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'bloom-88be1.appspot.com',
-    androidClientId: '533114573770-m2bg413eb2vp2gqg3ub4cfv467nv8m6h.apps.googleusercontent.com',
-    iosClientId: '533114573770-2v8go7bkk6s9lp139idq667h5uoosic1.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD2P4526GepMSjosEwy-jHtwG_zuGQHa5U',
+    appId: '1:408370217553:ios:13abb11f6ea186c8536e70',
+    messagingSenderId: '408370217553',
+    projectId: 'bloom-616ad',
+    storageBucket: 'bloom-616ad.appspot.com',
     iosBundleId: 'com.example.bloom',
   );
 }
