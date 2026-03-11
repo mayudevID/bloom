@@ -312,10 +312,10 @@ class WeekdaySelectorTheme extends InheritedTheme {
   ///
   /// The [data] argument must not be null.
   const WeekdaySelectorTheme({
-    Key? key,
+    super.key,
     required this.data,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   /// Specifies the appearance for descendant [WeekdayButton] widgets.
   final WeekdaySelectorThemeData data;

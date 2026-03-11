@@ -57,7 +57,7 @@ const defaultDisplayedDays = {
 /// Requires one of its ancestors to be a [Material] widget.
 class WeekdaySelector extends StatelessWidget {
   WeekdaySelector({
-    Key? key,
+    super.key,
     required this.onChanged,
     required this.values,
     this.shortWeekdays = defaultShortWeekdays,
@@ -90,8 +90,7 @@ class WeekdaySelector extends StatelessWidget {
   })  : assert(values.length == 7),
         assert(shortWeekdays.length == 7),
         assert(weekdays.length == 7),
-        assert(displayedDays.every(defaultDisplayedDays.contains)),
-        super(key: key);
+        assert(displayedDays.every(defaultDisplayedDays.contains));
 
   /// Very short names for days of the week, starting with Sunday, e.g. 'S'.
   ///
@@ -303,7 +302,7 @@ class WeekdaySelector extends StatelessWidget {
 class WeekdayButton extends StatelessWidget {
   /// Creates a [WeekdayButton] widget.
   const WeekdayButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.tooltip,
     required this.onPressed,
@@ -331,8 +330,7 @@ class WeekdayButton extends StatelessWidget {
     this.selectedShape,
     this.disabledShape,
   })  : assert(text.length != 0),
-        assert(tooltip.length != 0),
-        super(key: key);
+        assert(tooltip.length != 0);
 
   /// The displayed text on the day button.
   ///
@@ -463,13 +461,13 @@ class WeekdayButton extends StatelessWidget {
       currentElevation = elevation ?? weekdayTheme?.elevation ?? 1;
       currentFocusColor = focusColor ??
           weekdayTheme?.focusColor ??
-          theme.buttonTheme.colorScheme!.onSurface.withOpacity(0.12);
+          theme.buttonTheme.colorScheme!.onSurface.withValues(alpha: 0.12);
       currentHoverColor = hoverColor ??
           weekdayTheme?.hoverColor ??
-          theme.buttonTheme.colorScheme!.onSurface.withOpacity(0.04);
+          theme.buttonTheme.colorScheme!.onSurface.withValues(alpha: 0.04);
       currentSplashColor = splashColor ??
           weekdayTheme?.splashColor ??
-          theme.buttonTheme.colorScheme!.onSurface.withOpacity(0.16);
+          theme.buttonTheme.colorScheme!.onSurface.withValues(alpha: 0.16);
       currentTextStyle = textStyle ??
           weekdayTheme?.textStyle ??
           theme.textTheme.bodyMedium!.copyWith(color: currentColor);
@@ -485,13 +483,13 @@ class WeekdayButton extends StatelessWidget {
           selectedElevation ?? weekdayTheme?.selectedElevation ?? 2;
       currentFocusColor = selectedFocusColor ??
           weekdayTheme?.selectedFocusColor ??
-          theme.buttonTheme.colorScheme!.primary.withOpacity(0.12);
+          theme.buttonTheme.colorScheme!.primary.withValues(alpha: 0.12);
       currentHoverColor = selectedHoverColor ??
           weekdayTheme?.selectedHoverColor ??
-          theme.buttonTheme.colorScheme!.primary.withOpacity(0.04);
+          theme.buttonTheme.colorScheme!.primary.withValues(alpha: 0.04);
       currentSplashColor = selectedSplashColor ??
           weekdayTheme?.selectedSplashColor ??
-          theme.buttonTheme.colorScheme!.primary.withOpacity(0.16);
+          theme.buttonTheme.colorScheme!.primary.withValues(alpha: 0.16);
       currentShape = selectedShape ?? weekdayTheme?.selectedShape;
       currentTextStyle = selectedTextStyle ??
           weekdayTheme?.selectedTextStyle ??
@@ -501,10 +499,10 @@ class WeekdayButton extends StatelessWidget {
           disabledElevation ?? weekdayTheme?.disabledElevation ?? 0;
       currentColor = disabledColor ??
           weekdayTheme?.disabledColor ??
-          theme.colorScheme.onSurface.withOpacity(0.38);
+          theme.colorScheme.onSurface.withValues(alpha: 0.38);
       currentFillColor = disabledFillColor ??
           weekdayTheme?.disabledFillColor ??
-          theme.colorScheme.onSurface.withOpacity(0.05);
+          theme.colorScheme.onSurface.withValues(alpha: 0.05);
       currentShape = disabledShape ?? weekdayTheme?.disabledShape;
       currentTextStyle = disabledTextStyle ??
           weekdayTheme?.disabledTextStyle ??

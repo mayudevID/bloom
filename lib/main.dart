@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:get/get.dart';
 import 'core/routes/app_route.dart';
 import 'core/routes/route_name.dart';
-import 'core/utils/notification_stream.dart';
 import 'features/authentication/data/repositories/auth_repository.dart';
 import 'features/authentication/data/repositories/local_auth_repository.dart';
 import 'features/authentication/presentation/bloc/app/app_bloc.dart';
@@ -164,12 +162,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    // final notificationStream = Get.put(
-    //   NotificationStream(),
-    //   permanent: true,
-    // );
-
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<AuthRepository>(

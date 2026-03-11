@@ -77,7 +77,7 @@ class HomePageContent extends StatelessWidget {
                         return const SizedBox(
                           width: 40.0,
                           height: 40.0,
-                          child: Icon(Icons.error),
+                          child: Icon(Icons.people),
                         );
                       },
                     ),

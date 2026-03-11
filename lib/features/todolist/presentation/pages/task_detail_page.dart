@@ -56,7 +56,9 @@ class TaskDetailPageContent extends StatelessWidget {
                     onTap: () {
                       final isChecked =
                           (initTaskModel.isChecked) ? "Finished" : "Unfinished";
-                      Share.share('''
+                      SharePlus.instance.share(
+                        ShareParams(
+                          text: '''
                         To-do list: ${initTaskModel.title}
                         Time: ${initTaskModel.dateTime}
                         ${initTaskModel.tags} Task
@@ -64,7 +66,9 @@ class TaskDetailPageContent extends StatelessWidget {
                         ${initTaskModel.description}
 
                         Status: $isChecked
-                      ''');
+                      ''',
+                        ),
+                      );
                     },
                     child: Image.asset(
                       "assets/icons/share.png",
