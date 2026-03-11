@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:bloom/features/authentication/data/repositories/auth_repository.dart';
-import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
-import 'package:bloom/features/authentication/presentation/bloc/edit_profile/edit_profile_cubit.dart';
-import 'package:bloom/features/authentication/presentation/widgets/exit_edit_profile_dialog.dart';
+import '../../data/repositories/auth_repository.dart';
+import '../../data/repositories/local_auth_repository.dart';
+import '../bloc/edit_profile/edit_profile_cubit.dart';
+import '../widgets/exit_edit_profile_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,22 +40,14 @@ class EditProfilePageContent extends StatelessWidget {
       if (fileData != null) {
         final croppedFile = await ImageCropper().cropImage(
           sourcePath: fileData.path,
-          cropStyle: CropStyle.circle,
           compressFormat: ImageCompressFormat.png,
-          compressQuality: 100,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.original,
-            CropAspectRatioPreset.ratio3x2,
-            CropAspectRatioPreset.ratio4x3,
-            CropAspectRatioPreset.ratio16x9
-          ],
+          compressQuality: 98,
           uiSettings: [
             AndroidUiSettings(
               toolbarTitle: 'Photo Crop',
               toolbarColor: Colors.black,
               toolbarWidgetColor: naturalWhite,
               initAspectRatio: CropAspectRatioPreset.original,
-              statusBarColor: Colors.black,
               lockAspectRatio: false,
             ),
             IOSUiSettings(

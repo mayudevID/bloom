@@ -9,15 +9,15 @@ import '../bloc/signup/signup_cubit.dart';
 enum FormType { login, signup, forgotPassword }
 
 class FormInput extends StatelessWidget {
-  final String icon;
-  final String hintText;
-  final FormType formType;
   const FormInput({
     Key? key,
     required this.icon,
     required this.hintText,
     required this.formType,
   }) : super(key: key);
+  final String icon;
+  final String hintText;
+  final FormType formType;
 
   @override
   Widget build(BuildContext context) {

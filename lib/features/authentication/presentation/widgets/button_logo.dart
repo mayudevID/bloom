@@ -4,8 +4,8 @@ import '../../../../core/utils/theme.dart';
 enum ButtonType { fb, google, none }
 
 class ButtonLogo extends StatelessWidget {
-  final ButtonType type;
   const ButtonLogo({Key? key, required this.type}) : super(key: key);
+  final ButtonType type;
 
   @override
   Widget build(BuildContext context) {

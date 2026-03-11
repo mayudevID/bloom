@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:bloom/features/authentication/data/models/user_data.dart';
+import '../../../data/models/user_data.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
@@ -12,8 +12,6 @@ import '../../../data/repositories/local_auth_repository.dart';
 part 'edit_profile_state.dart';
 
 class EditProfileCubit extends Cubit<EditProfileState> {
-  final AuthRepository _authRepository;
-  final LocalUserDataRepository _localUserDataRepository;
 
   EditProfileCubit(
     this._authRepository,
@@ -23,6 +21,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
             _localUserDataRepository.getUserDataDirect(),
           ),
         );
+  final AuthRepository _authRepository;
+  final LocalUserDataRepository _localUserDataRepository;
 
   void changedTempPicture(File file) {
     emit(state.copyWith(
@@ -42,13 +42,25 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
     emit(state.copyWith(status: EditProfileStatus.submitting));
 
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile ||
-        connectivityResult == ConnectivityResult.wifi) {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
       try {
         final result = await InternetAddress.lookup('google.com')
             .timeout(const Duration(seconds: 5));
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          final oldData = _localUserDataRepository.getUserDataDirect();
+          final userId = oldData.userId;
+          if (userId == null || userId.isEmpty) {
+            emit(
+              state.copyWith(
+                status: EditProfileStatus.error,
+                errorMessage: 'User data is invalid',
+              ),
+            );
+            return;
+          }
+
           String? newUrl;
           if (state.isPictureChanged) {
             final photoURLold = state.initPhoto;
@@ -57,6 +69,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
             );
             newUrl = await _authRepository.uploadProfilePicture(
               state.profilePictureTemp,
+              userId,
             );
             await _authRepository.updatePhoto(newUrl);
             CachedNetworkImage.evictFromCache(photoURLold);
@@ -64,7 +77,6 @@ class EditProfileCubit extends Cubit<EditProfileState> {
           if (state.newName != state.initName) {
             await _authRepository.updateName(state.newName);
           }
-          final oldData = _localUserDataRepository.getUserDataDirect();
           final newUserData = UserData(
             userId: oldData.userId,
             email: oldData.email,

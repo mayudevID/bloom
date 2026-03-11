@@ -248,7 +248,7 @@ class HomePageContent extends StatelessWidget {
                         );
                       }
                     } else {
-                      List<TaskModel> dataTask = sortTaskByDate(state.todos);
+                      final List<TaskModel> dataTask = sortTaskByDate(state.todos);
                       if (dataTask.isNotEmpty) {
                         return MediaQuery.removePadding(
                           removeTop: true,
@@ -359,7 +359,7 @@ class HomePageContent extends StatelessWidget {
                         );
                       }
                     } else {
-                      List<HabitModel> dataHabit = sortHabitsByDate(
+                      final List<HabitModel> dataHabit = sortHabitsByDate(
                         state.habits,
                       );
                       if (dataHabit.isNotEmpty) {

@@ -20,7 +20,7 @@ class LocalUserDataRepository {
       BehaviorSubject<UserData>.seeded(UserData.empty);
 
   void _init() {
-    var userDataJson = _sharedPreferences.getString(kUserDataKey);
+    final userDataJson = _sharedPreferences.getString(kUserDataKey);
     if (userDataJson == null) {
       _userStreamController.add(UserData.empty);
     } else {

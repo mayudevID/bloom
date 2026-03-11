@@ -1,6 +1,6 @@
-import 'package:bloom/core/routes/route_name.dart';
-import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
-import 'package:bloom/features/habit/data/models/habit_model.dart';
+import '../../../../core/routes/route_name.dart';
+import '../../../authentication/data/repositories/local_auth_repository.dart';
+import '../../data/models/habit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
@@ -137,7 +137,7 @@ class HabitsDetailPageContent extends StatelessWidget {
                 ),
                 BlocBuilder<HabitDetailBloc, HabitDetailState>(
                   builder: (context, state) {
-                    int count =
+                    final int count =
                         state.checkedDays.where((item) => item == true).length;
                     return Text(
                       "$count/${initHabitModel.durationDays}",

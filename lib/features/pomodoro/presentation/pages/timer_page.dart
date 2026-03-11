@@ -1,8 +1,8 @@
-import 'package:bloom/core/utils/notifications.dart';
-import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
-import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
-import 'package:bloom/features/pomodoro/presentation/bloc/timer/timer_bloc.dart';
-import 'package:bloom/features/pomodoro/presentation/widgets/timer_circle.dart';
+import '../../../../core/utils/notifications.dart';
+import '../../../authentication/data/repositories/local_auth_repository.dart';
+import '../../data/models/pomodoro_model.dart';
+import '../bloc/timer/timer_bloc.dart';
+import '../widgets/timer_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/function.dart';
@@ -89,7 +89,7 @@ class TimerPageContent extends StatelessWidget {
                             BoxShadow(
                               offset: const Offset(0, 2),
                               blurRadius: 7,
-                              color: Colors.black.withOpacity(0.25),
+                              color: Colors.black.withValues(alpha: 0.25),
                             )
                           ],
                         ),
@@ -175,8 +175,8 @@ class TimerPageContent extends StatelessWidget {
 }
 
 class BackMenu extends StatelessWidget {
-  final PomodoroModel data;
   const BackMenu({Key? key, required this.data}) : super(key: key);
+  final PomodoroModel data;
 
   @override
   Widget build(BuildContext context) {
@@ -208,8 +208,8 @@ class BackMenu extends StatelessWidget {
 }
 
 class SessionDisplay extends StatelessWidget {
-  final PomodoroModel data;
   const SessionDisplay({Key? key, required this.data}) : super(key: key);
+  final PomodoroModel data;
 
   @override
   Widget build(BuildContext context) {

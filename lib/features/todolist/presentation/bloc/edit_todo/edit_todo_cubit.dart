@@ -46,7 +46,7 @@ class EditTodoCubit extends Cubit<EditTodoState> {
   void saveTodo() async {
     emit(state.copyWith(editTodoStatus: EditTodoStatus.load));
     try {
-      TaskModel newTaskModel = TaskModel(
+      final TaskModel newTaskModel = TaskModel(
         taskId: _taskModel.taskId,
         title: state.title,
         dateTime: state.dateTime,

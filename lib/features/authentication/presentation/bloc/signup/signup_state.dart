@@ -5,13 +5,6 @@ enum SignupStatus { initial, submitting, success, error }
 enum SignupType { email, google, fb }
 
 class SignupState extends Equatable {
-  final String name;
-  final String email;
-  final String password;
-  final SignupStatus status;
-  final SignupType type;
-  final bool isHidden;
-  final String errorMessage;
 
   const SignupState({
     required this.name,
@@ -34,6 +27,13 @@ class SignupState extends Equatable {
       errorMessage: '',
     );
   }
+  final String name;
+  final String email;
+  final String password;
+  final SignupStatus status;
+  final SignupType type;
+  final bool isHidden;
+  final String errorMessage;
 
   @override
   List<Object> get props => [

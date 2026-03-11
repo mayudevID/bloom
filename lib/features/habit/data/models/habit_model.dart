@@ -3,18 +3,6 @@ part 'habit_model.g.dart';
 
 @JsonSerializable()
 class HabitModel {
-  int habitId;
-  String iconImg;
-  String title;
-  String goals;
-  DateTime timeOfDay;
-  int durationDays;
-  int missed;
-  int streak;
-  int streakLeft;
-  List<int> dayList;
-  List<bool> checkedDays;
-  List<bool> openDays;
 
   HabitModel({
     required this.habitId,
@@ -30,6 +18,21 @@ class HabitModel {
     required this.checkedDays,
     required this.openDays,
   });
+
+  factory HabitModel.fromJson(Map<String, dynamic> json) =>
+      _$HabitModelFromJson(json);
+  int habitId;
+  String iconImg;
+  String title;
+  String goals;
+  DateTime timeOfDay;
+  int durationDays;
+  int missed;
+  int streak;
+  int streakLeft;
+  List<int> dayList;
+  List<bool> checkedDays;
+  List<bool> openDays;
 
   HabitModel copyWith({
     int? habitId,
@@ -60,9 +63,6 @@ class HabitModel {
       openDays: openDays ?? this.openDays,
     );
   }
-
-  factory HabitModel.fromJson(Map<String, dynamic> json) =>
-      _$HabitModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$HabitModelToJson(this);
 }

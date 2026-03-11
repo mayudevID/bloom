@@ -8,8 +8,6 @@ part 'app_event.dart';
 part 'app_state.dart';
 
 class AppBloc extends Bloc<AppEvent, AppState> {
-  final AuthRepository _authRepository;
-  StreamSubscription<User>? _userSubscription;
 
   AppBloc({required AuthRepository authRepository})
       : _authRepository = authRepository,
@@ -25,6 +23,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       (user) => add(AppUserChanged(user)),
     );
   }
+  final AuthRepository _authRepository;
+  StreamSubscription<User>? _userSubscription;
 
   void _onUserChanged(AppUserChanged event, Emitter<AppState> emit) {
     emit(

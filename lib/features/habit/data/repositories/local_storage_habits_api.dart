@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:bloom/features/habit/data/models/habit_model.dart';
+import '../models/habit_model.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';

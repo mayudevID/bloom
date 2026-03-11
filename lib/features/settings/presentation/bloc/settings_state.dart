@@ -5,10 +5,6 @@ enum LogoutStatus { initial, processing, success, error }
 enum BackupStatus { initial, processing, success, error }
 
 class SettingsState extends Equatable {
-  final LogoutStatus logoutStatus;
-  final BackupStatus backupStatus;
-  final String errorMessage;
-  final DateTime updatedAt;
 
   const SettingsState({
     required this.logoutStatus,
@@ -25,6 +21,10 @@ class SettingsState extends Equatable {
       updatedAt: (initUpdatedAt != null) ? initUpdatedAt : DateTime(0),
     );
   }
+  final LogoutStatus logoutStatus;
+  final BackupStatus backupStatus;
+  final String errorMessage;
+  final DateTime updatedAt;
 
   @override
   List<Object> get props => [

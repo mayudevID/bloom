@@ -1,16 +1,16 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/core/error/forgot_pass_exception.dart';
+import '../../../../../core/error/forgot_pass_exception.dart';
 import 'package:equatable/equatable.dart';
 import '../../../data/repositories/auth_repository.dart';
 
 part 'forgot_password_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
-  final AuthRepository _authRepository;
 
   ForgotPasswordCubit({required AuthRepository authRepository})
       : _authRepository = authRepository,
         super(ForgotPasswordState.initial());
+  final AuthRepository _authRepository;
 
   void emailChanged(String value) {
     emit(state.copyWith(email: value, status: SendStatus.initial));

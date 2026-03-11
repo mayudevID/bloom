@@ -8,10 +8,6 @@ abstract class HabitDetailEvent extends Equatable {
 }
 
 class HabitChanged extends HabitDetailEvent {
-  final int missed;
-  final int streak;
-  final int streakLeft;
-  final List<bool> checkedDays;
 
   const HabitChanged({
     required this.missed,
@@ -19,4 +15,8 @@ class HabitChanged extends HabitDetailEvent {
     required this.streakLeft,
     required this.checkedDays,
   });
+  final int missed;
+  final int streak;
+  final int streakLeft;
+  final List<bool> checkedDays;
 }

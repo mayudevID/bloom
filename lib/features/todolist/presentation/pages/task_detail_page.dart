@@ -31,10 +31,11 @@ class TaskDetailPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: yellowLight,
-      body: WillPopScope(
-        onWillPop: () async {
+      body: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) return;
           Navigator.of(context).pop(false);
-          return false;
         },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24),

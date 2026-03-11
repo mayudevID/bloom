@@ -9,8 +9,8 @@ import '../bloc/signup/signup_cubit.dart';
 import 'form_input.dart';
 
 class FormInputPassword extends StatelessWidget {
-  final FormType formType;
   const FormInputPassword({Key? key, required this.formType}) : super(key: key);
+  final FormType formType;
 
   @override
   Widget build(BuildContext context) {

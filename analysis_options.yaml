@@ -1,29 +1,50 @@
-# This file configures the analyzer, which statically analyzes Dart code to
-# check for errors, warnings, and lints.
-#
-# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
-
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
 linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at
-  # https://dart-lang.github.io/linter/lints/index.html.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    # ⚡ Efisiensi & performa (umum + Flutter UI)
+    - avoid_unnecessary_containers
+    - avoid_returning_null_for_void
+    - avoid_init_to_null
+    - prefer_final_fields
+    - prefer_final_locals
+    - prefer_const_constructors
+    - prefer_const_literals_to_create_immutables
+    - prefer_const_constructors_in_immutables
+    - prefer_const_declarations
+    - prefer_spread_collections
+    - prefer_collection_literals
+    - unnecessary_const
+    - unnecessary_late
+    - unnecessary_string_interpolations
+    - avoid_function_literals_in_foreach_calls
+    - avoid_redundant_argument_values
+    - prefer_is_empty
+    - prefer_is_not_empty
+    - prefer_contains
+    - sized_box_for_whitespace
+    - avoid_double_and_int_checks
+    - use_key_in_widget_constructors
+    - use_super_parameters
+    - prefer_mixin
+    - prefer_final_in_for_each
+    - sort_constructors_first
+    - use_named_constants
+    - curly_braces_in_flow_control_structures
+    - prefer_relative_imports
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+    # 🛡️ Keamanan & bug prevention
+    - avoid_empty_else
+    - avoid_print
+    - cancel_subscriptions
+    - close_sinks
+    - hash_and_equals
+    - no_logic_in_create_state
+    - throw_in_finally
+    - use_rethrow_when_possible
+    - avoid_types_as_parameter_names
+    - valid_regexps
+    - await_only_futures
+    - avoid_null_checks_in_equality_operators
+    - avoid_field_initializers_in_const_classes
+    - avoid_returning_this

@@ -5,8 +5,8 @@ import '../../../../core/utils/theme.dart';
 import '../bloc/timer/timer_bloc.dart';
 
 class TimerCircle extends StatelessWidget {
-  final int earlyTime;
   const TimerCircle({Key? key, required this.earlyTime}) : super(key: key);
+  final int earlyTime;
 
   @override
   Widget build(BuildContext context) {

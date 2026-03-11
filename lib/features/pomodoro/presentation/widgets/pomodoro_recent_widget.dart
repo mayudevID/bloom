@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
-import 'package:bloom/core/utils/function.dart';
-import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
+import '../../../../core/utils/function.dart';
+import '../../data/models/pomodoro_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/routes/route_name.dart';

@@ -3,10 +3,6 @@ part of 'add_pomodoro_cubit.dart';
 enum AddPomodoroStatus { initial, submitting, success, error }
 
 class AddPomodoroState extends Equatable {
-  final String title;
-  final int duration;
-  final int session;
-  final AddPomodoroStatus status;
 
   const AddPomodoroState({
     required this.title,
@@ -23,6 +19,10 @@ class AddPomodoroState extends Equatable {
       status: AddPomodoroStatus.initial,
     );
   }
+  final String title;
+  final int duration;
+  final int session;
+  final AddPomodoroStatus status;
 
   @override
   List<Object> get props => [

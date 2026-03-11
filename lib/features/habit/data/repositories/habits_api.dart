@@ -1,4 +1,4 @@
-import 'package:bloom/features/habit/data/models/habit_model.dart';
+import '../models/habit_model.dart';
 
 abstract class HabitsApi {
   const HabitsApi();

@@ -134,14 +134,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final AuthRepository _authRepository;
-  final HabitsRepository _habitsRepository;
-  final TodosRepository _todosRepository;
-  final TodosHistoryRepository _todosHistoryRepository;
-  final PomodorosRepository _pomodorosRepository;
-  final LocalUserDataRepository _localUserDataRepository;
-  final SaveBackupRepository _saveBackupRepository;
-  final LoadBackupRepository _loadBackupRepository;
 
   const MyApp({
     Key? key,
@@ -163,6 +155,14 @@ class MyApp extends StatelessWidget {
         _saveBackupRepository = saveBackupRepository,
         _loadBackupRepository = loadBackupRepository,
         super(key: key);
+  final AuthRepository _authRepository;
+  final HabitsRepository _habitsRepository;
+  final TodosRepository _todosRepository;
+  final TodosHistoryRepository _todosHistoryRepository;
+  final PomodorosRepository _pomodorosRepository;
+  final LocalUserDataRepository _localUserDataRepository;
+  final SaveBackupRepository _saveBackupRepository;
+  final LoadBackupRepository _loadBackupRepository;
 
   @override
   Widget build(BuildContext context) {

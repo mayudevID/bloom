@@ -1,24 +1,6 @@
 part of 'add_habit_cubit.dart';
 
 class AddHabitState extends Equatable {
-  final String iconImg;
-  final String title;
-  final String goals;
-  final DateTime timeOfDay;
-  final int durationDays;
-  final int missed;
-  final int streak;
-  final int streakLeft;
-  final bool sunday;
-  final bool monday;
-  final bool tuesday;
-  final bool wednesday;
-  final bool thursday;
-  final bool friday;
-  final bool saturday;
-  final List<bool> checkedDays;
-  final List<bool> openDays;
-  final int selectedIcon;
 
   const AddHabitState({
     required this.iconImg,
@@ -63,6 +45,24 @@ class AddHabitState extends Equatable {
       selectedIcon: 0,
     );
   }
+  final String iconImg;
+  final String title;
+  final String goals;
+  final DateTime timeOfDay;
+  final int durationDays;
+  final int missed;
+  final int streak;
+  final int streakLeft;
+  final bool sunday;
+  final bool monday;
+  final bool tuesday;
+  final bool wednesday;
+  final bool thursday;
+  final bool friday;
+  final bool saturday;
+  final List<bool> checkedDays;
+  final List<bool> openDays;
+  final int selectedIcon;
 
   @override
   List<Object> get props => [

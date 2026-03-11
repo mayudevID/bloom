@@ -27,8 +27,8 @@ double getSubtractTwelveDaysAgo() {
 
 // GET NUMBER OF DAYS IN THIS MONTH
 int getNumberOfDays() {
-  DateTime now = DateTime.now();
-  DateTime lastDayOfMonth = DateTime(
+  final DateTime now = DateTime.now();
+  final DateTime lastDayOfMonth = DateTime(
     now.year,
     (now.day < 15) ? now.month : now.month + 1,
     0,
@@ -40,7 +40,7 @@ int getNumberOfDays() {
 String todToString(TimeOfDay timeOfDay) {
   String newFormat;
   int hours = timeOfDay.hour;
-  int minutes = timeOfDay.minute;
+  final int minutes = timeOfDay.minute;
   if (hours > 13) {
     hours = hours % 12;
     newFormat = "${twoDigits(hours)}:${twoDigits(minutes)} PM";
@@ -62,7 +62,7 @@ double toDouble(TimeOfDay myTime) {
 
 // GREETING FUNCTION
 String greeting() {
-  var hour = DateTime.now().hour;
+  final hour = DateTime.now().hour;
   if (hour < 11) {
     return 'Good Morning';
   }
@@ -74,7 +74,7 @@ String greeting() {
 
 // PARSING DATE
 DateTime parseDate(TaskModel taskModel) {
-  DateTime dateTimeNow = DateTime(
+  final DateTime dateTimeNow = DateTime(
     taskModel.dateTime.year,
     taskModel.dateTime.month,
     taskModel.dateTime.day,
@@ -84,8 +84,8 @@ DateTime parseDate(TaskModel taskModel) {
 
 // SORT TASKS BY DATE
 List<TaskModel> sortTaskByDate(List<TaskModel> taskList) {
-  List<TaskModel> dataTask = [];
-  for (TaskModel taskModel in taskList) {
+  final List<TaskModel> dataTask = [];
+  for (final TaskModel taskModel in taskList) {
     if (taskModel.dateTime.isAfter(DateTime.now())) {
       dataTask.add(taskModel);
     }
@@ -98,9 +98,9 @@ List<TaskModel> sortTaskByDate(List<TaskModel> taskList) {
 
 // SORT HABITS BY DATE
 List<HabitModel> sortHabitsByDate(List<HabitModel> habitList) {
-  List<HabitModel> dataHabits = [];
-  for (HabitModel habitModel in habitList) {
-    for (int day in habitModel.dayList) {
+  final List<HabitModel> dataHabits = [];
+  for (final HabitModel habitModel in habitList) {
+    for (final int day in habitModel.dayList) {
       if (day == DateTime.now().weekday) {
         dataHabits.add(habitModel);
         break;
@@ -116,8 +116,8 @@ List<HabitModel> sortHabitsByDate(List<HabitModel> habitList) {
 
 // CHOOSE TASKS BY DATE
 List<TaskModel> taskByDateChooser(List<TaskModel> taskList, DateTime date) {
-  List<TaskModel> dataTaskNow = <TaskModel>[];
-  for (TaskModel taskModel in taskList) {
+  final List<TaskModel> dataTaskNow = <TaskModel>[];
+  for (final TaskModel taskModel in taskList) {
     if (parseDate(taskModel).isAtSameMomentAs(date)) {
       dataTaskNow.add(taskModel);
     }
@@ -131,9 +131,9 @@ List<TaskModel> taskByDateChooser(List<TaskModel> taskList, DateTime date) {
 // CHOOSE HABITS BY DATE
 List<HabitModel> habitByDateChooser(
     List<HabitModel> habitList, DateTime dateSelect) {
-  List<HabitModel> dataHabitNow = <HabitModel>[];
-  for (HabitModel habitModel in habitList) {
-    for (int day in habitModel.dayList) {
+  final List<HabitModel> dataHabitNow = <HabitModel>[];
+  for (final HabitModel habitModel in habitList) {
+    for (final int day in habitModel.dayList) {
       if (day == dateSelect.weekday) {
         dataHabitNow.add(habitModel);
         break;
@@ -158,9 +158,9 @@ Future<File> getImageFileFromAssets(String path) async {
     byteData.lengthInBytes,
   ));
 
-  var pathOld = file.path;
-  var lastSeparator = pathOld.lastIndexOf(Platform.pathSeparator);
-  var newPath =
+  final pathOld = file.path;
+  final lastSeparator = pathOld.lastIndexOf(Platform.pathSeparator);
+  final newPath =
       pathOld.substring(0, lastSeparator + 1) + getRandomId().toString();
 
   return file.rename(newPath);

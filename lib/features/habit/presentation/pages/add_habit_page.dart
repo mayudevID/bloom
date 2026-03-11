@@ -249,7 +249,7 @@ class AddHabitsPageContent extends StatelessWidget {
                 Text("Time", style: textParagraph),
                 GestureDetector(
                   onTap: () async {
-                    var pick = await getTime();
+                    final pick = await getTime();
                     if (pick != null) {
                       final now = DateTime.now();
                       final target = DateTime(

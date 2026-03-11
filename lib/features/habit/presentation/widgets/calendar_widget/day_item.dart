@@ -1,23 +1,12 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: avoid_field_initializers_in_const_classes, prefer_const_constructors
 
-import 'package:bloom/core/utils/function.dart';
+import '../../../../../core/utils/function.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/theme.dart';
 
 /// Creates a Widget representing the day.
 class DayItem extends StatelessWidget {
-  final int dayNumber;
-  final String shortName;
-  final bool isSelected;
-  final Function onTap;
-  final Color? dayColor;
-  final Color? activeDayColor;
-  final Color? activeDayBackgroundColor;
-  final bool available;
-  final Color? dotsColor;
-  final Color? dayNameColor;
-
   const DayItem({
     Key? key,
     required this.dayNumber,
@@ -31,11 +20,21 @@ class DayItem extends StatelessWidget {
     this.dotsColor,
     this.dayNameColor,
   }) : super(key: key);
+  final int dayNumber;
+  final String shortName;
+  final bool isSelected;
+  final Function onTap;
+  final Color? dayColor;
+  final Color? activeDayColor;
+  final Color? activeDayBackgroundColor;
+  final bool available;
+  final Color? dotsColor;
+  final Color? dayNameColor;
 
   final double height = 56;
   final double width = 40;
 
-  _buildDay(BuildContext context) {
+  GestureDetector _buildDay(BuildContext context) {
     final textStyle = TextStyle(
       fontFamily: "Poppins",
       fontSize: 16,
@@ -57,7 +56,7 @@ class DayItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
               )
             : BoxDecoration(
-                color: Color(0xffF7DB12).withOpacity(0.4),
+                color: Color(0xffF7DB12).withValues(alpha: .4),
                 borderRadius: BorderRadius.circular(5),
               ),
         height: height,

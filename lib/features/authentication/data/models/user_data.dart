@@ -3,16 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class UserData extends Equatable {
-  final String? userId;
-  final String email;
-  final String? photoURL;
-  final String? name;
-  final int habitStreak;
-  final int taskCompleted;
-  final double totalFocus;
-  final int missed;
-  final int completed;
-  final int streakLeft;
 
   const UserData({
     required this.userId,
@@ -26,22 +16,6 @@ class UserData extends Equatable {
     required this.completed,
     required this.streakLeft,
   });
-
-  bool get isEmpty => this == UserData.empty;
-  bool get isNotEmpty => this != UserData.empty;
-
-  static const empty = UserData(
-    userId: null,
-    habitStreak: 0,
-    taskCompleted: 0,
-    totalFocus: 0,
-    missed: 0,
-    completed: 0,
-    streakLeft: 0,
-    email: '',
-    name: '',
-    photoURL: '',
-  );
 
   factory UserData.fromDocumentSnapshot(
     DocumentSnapshot user,
@@ -75,6 +49,32 @@ class UserData extends Equatable {
       streakLeft: json['streakLeft'],
     );
   }
+  final String? userId;
+  final String email;
+  final String? photoURL;
+  final String? name;
+  final int habitStreak;
+  final int taskCompleted;
+  final double totalFocus;
+  final int missed;
+  final int completed;
+  final int streakLeft;
+
+  bool get isEmpty => this == UserData.empty;
+  bool get isNotEmpty => this != UserData.empty;
+
+  static const empty = UserData(
+    userId: null,
+    habitStreak: 0,
+    taskCompleted: 0,
+    totalFocus: 0,
+    missed: 0,
+    completed: 0,
+    streakLeft: 0,
+    email: '',
+    name: '',
+    photoURL: '',
+  );
 
   Map<String, dynamic> toJson() {
     return {

@@ -3,14 +3,6 @@ part 'task_model.g.dart';
 
 @JsonSerializable()
 class TaskModel {
-  int taskId;
-  String title;
-  DateTime dateTime;
-  String description;
-  String tags;
-  bool isRepeat;
-  bool isTime;
-  bool isChecked;
 
   TaskModel({
     required this.taskId,
@@ -22,6 +14,17 @@ class TaskModel {
     required this.isTime,
     required this.isChecked,
   });
+
+  factory TaskModel.fromJson(Map<String, dynamic> json) =>
+      _$TaskModelFromJson(json);
+  int taskId;
+  String title;
+  DateTime dateTime;
+  String description;
+  String tags;
+  bool isRepeat;
+  bool isTime;
+  bool isChecked;
 
   TaskModel copyWith({
     int? taskId,
@@ -44,9 +47,6 @@ class TaskModel {
       isChecked: isChecked ?? this.isChecked,
     );
   }
-
-  factory TaskModel.fromJson(Map<String, dynamic> json) =>
-      _$TaskModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$TaskModelToJson(this);
 }

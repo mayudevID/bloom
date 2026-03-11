@@ -6,11 +6,6 @@ import 'package:flutter/material.dart';
 /// in the months row. If [small] is set to false it will show the bigger version for the
 /// years row. In the smaller version the [onTap] property is not available
 class YearItem extends StatelessWidget {
-  final String name;
-  final Function onTap;
-  final bool isSelected;
-  final Color? color;
-  final bool small;
 
   YearItem(
       {required this.name,
@@ -18,6 +13,11 @@ class YearItem extends StatelessWidget {
       this.isSelected = false,
       this.small = true,
       this.color});
+  final String name;
+  final Function onTap;
+  final bool isSelected;
+  final Color? color;
+  final bool small;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class YearItem extends StatelessWidget {
       child: Container(
         decoration: isSelected || small
             ? BoxDecoration(
-                border: Border.all(color: color ?? Colors.black87, width: 1),
+                border: Border.all(color: color ?? Colors.black87),
                 borderRadius: BorderRadius.circular(4),
               )
             : null,

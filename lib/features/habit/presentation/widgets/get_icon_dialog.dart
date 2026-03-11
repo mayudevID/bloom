@@ -24,7 +24,6 @@ Dialog getIconDialog(BuildContext context, HabitPageType type) {
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 70,
-              childAspectRatio: 1,
               crossAxisSpacing: 15,
               mainAxisSpacing: 15,
             ),

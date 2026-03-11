@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 
 /// Creates a Widget to represent the months.
 class MonthItem extends StatelessWidget {
-  final String name;
-  final Function onTap;
-  final bool isSelected;
-  final Color? color;
 
   MonthItem(
       {required this.name,
       required this.onTap,
       this.isSelected = false,
       this.color});
+  final String name;
+  final Function onTap;
+  final bool isSelected;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {

@@ -41,7 +41,6 @@ Dialog getDurationDays(BuildContext context, HabitPageType type) {
                             fontSize: 20,
                           ),
                           decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: naturalBlack),
                           ),
@@ -54,7 +53,6 @@ Dialog getDurationDays(BuildContext context, HabitPageType type) {
                                 .read<AddHabitCubit>()
                                 .durationChanged(value);
                           },
-                          step: 1,
                         );
                       },
                     )
@@ -73,7 +71,6 @@ Dialog getDurationDays(BuildContext context, HabitPageType type) {
                             fontSize: 20,
                           ),
                           decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: naturalBlack),
                           ),
@@ -89,7 +86,6 @@ Dialog getDurationDays(BuildContext context, HabitPageType type) {
                                 .read<EditHabitCubit>()
                                 .durationChanged(value);
                           },
-                          step: 1,
                         );
                       },
                     ),

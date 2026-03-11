@@ -3,17 +3,6 @@ part of 'edit_todo_cubit.dart';
 enum EditTodoStatus { init, load, saved, error }
 
 class EditTodoState extends Equatable {
-  final int taskId;
-  final String title;
-  final DateTime dateTime;
-  final String description;
-  final String tags;
-  final bool isRepeat;
-  final bool isTime;
-  final bool isChecked;
-  final bool isChoose;
-  final EditTodoStatus editTodoStatus;
-  final TaskModel newTaskModel;
 
   const EditTodoState({
     required this.taskId,
@@ -44,6 +33,17 @@ class EditTodoState extends Equatable {
       newTaskModel: taskModel,
     );
   }
+  final int taskId;
+  final String title;
+  final DateTime dateTime;
+  final String description;
+  final String tags;
+  final bool isRepeat;
+  final bool isTime;
+  final bool isChecked;
+  final bool isChoose;
+  final EditTodoStatus editTodoStatus;
+  final TaskModel newTaskModel;
 
   @override
   List<Object> get props => [

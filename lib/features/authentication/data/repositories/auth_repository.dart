@@ -1,9 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:io';
-import 'package:bloom/core/error/forgot_pass_exception.dart';
+import '../../../../core/error/forgot_pass_exception.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:path/path.dart' as path_package;
@@ -26,7 +25,7 @@ class AuthRepository {
     GoogleSignIn? googleSignIn,
     firebase_auth.FirebaseAuth? firebaseAuth,
   })  : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn.standard(),
+        _googleSignIn = googleSignIn ?? GoogleSignIn.instance,
         _firestore = firestore ?? FirebaseFirestore.instance,
         _facebookAuth = facebookAuth ?? FacebookAuth.instance,
         _firebaseStorage = firebaseStorage ?? FirebaseStorage.instance;
@@ -36,12 +35,13 @@ class AuthRepository {
   final FirebaseStorage _firebaseStorage;
   final FacebookAuth _facebookAuth;
   final GoogleSignIn _googleSignIn;
+  bool _googleSignInInitialized = false;
 
   var currentUser = User.empty;
 
   Stream<User> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      var user = firebaseUser == null ? User.empty : firebaseUser.toUser;
+      final user = firebaseUser == null ? User.empty : firebaseUser.toUser;
       currentUser = user;
       return user;
     });
@@ -49,7 +49,7 @@ class AuthRepository {
 
   Future<UserData> signInByEmail(String email, String password) async {
     try {
-      var authResult = await _firebaseAuth.signInWithEmailAndPassword(
+      final authResult = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       final userData = await getUserFromFirestore(authResult.user!.uid);
       return userData;
@@ -61,12 +61,13 @@ class AuthRepository {
   Future<UserData> signUpByEmail(
       String name, String email, String password) async {
     try {
-      var authResult = await _firebaseAuth.createUserWithEmailAndPassword(
+      final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       final photoDefault = await getImageFileFromAssets('icons/profpict.png');
-      final photoURL = await uploadProfilePicture(photoDefault);
+      final uid = authResult.user!.uid;
+      final photoURL = await uploadProfilePicture(photoDefault, uid);
       final userData = UserData(
-        userId: authResult.user!.uid,
+        userId: uid,
         name: name,
         email: email,
         photoURL: photoURL,
@@ -88,9 +89,14 @@ class AuthRepository {
     try {
       final LoginResult loginResult = await _facebookAuth.login();
 
+      if (loginResult.status != LoginStatus.success ||
+          loginResult.accessToken == null) {
+        throw const LogInWithFacebookFailure('Facebook Sign-in cancelled');
+      }
+
       final firebase_auth.OAuthCredential facebookAuthCredential =
           firebase_auth.FacebookAuthProvider.credential(
-              loginResult.accessToken!.token);
+              loginResult.accessToken!.tokenString);
 
       //var credentialSave = await Hive.openBox('credentialSave');
       //await credentialSave.put('token', loginResult.accessToken!.token);
@@ -98,6 +104,8 @@ class AuthRepository {
 
       final userData = await createOrGet(facebookAuthCredential);
       return userData;
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      throw LogInWithFacebookFailure.fromCode(e.code);
     } on FirebaseException catch (e) {
       throw Exception(e);
     }
@@ -105,22 +113,18 @@ class AuthRepository {
 
   Future<UserData> signInSignUpByGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      await _ensureGoogleSignInInitialized();
 
-      if (googleUser != null) {
-        final GoogleSignInAuthentication googleAuth =
-            await googleUser.authentication;
+      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
 
-        final googleCredential = firebase_auth.GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
 
-        final userData = await createOrGet(googleCredential);
-        return userData;
-      } else {
-        throw const LogInWithGoogleFailure("Google Sign-in cancelled");
-      }
+      final googleCredential = firebase_auth.GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+
+      final userData = await createOrGet(googleCredential);
+      return userData;
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
     } on PlatformException {
@@ -130,10 +134,11 @@ class AuthRepository {
 
   Future<void> signOut() async {
     try {
+      await _ensureGoogleSignInInitialized();
       await Future.wait([
         _firebaseAuth.signOut(),
-        GoogleSignIn().signOut(),
-        //_facebookAuth.logOut()
+        _googleSignIn.signOut(),
+        _facebookAuth.logOut(),
       ]);
     } on firebase_auth.FirebaseAuthException {
       throw LogOutFailure();
@@ -142,16 +147,7 @@ class AuthRepository {
 
   Future<void> resetPassword(String email) async {
     try {
-      final providerList =
-          await _firebaseAuth.fetchSignInMethodsForEmail(email);
-      if (kDebugMode) print(providerList);
-      if (providerList.contains('password')) {
-        await _firebaseAuth.sendPasswordResetEmail(email: email);
-      } else {
-        throw const SendEmailFailure(
-          "Email not found or email already registered only via Google or Facebook",
-        );
-      }
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw SendEmailFailure.fromCode(e.code);
     }
@@ -161,9 +157,9 @@ class AuthRepository {
 
   Future<UserData> getUserFromFirestore(String uid) async {
     try {
-      DocumentSnapshot user =
+      final DocumentSnapshot user =
           await _firestore.collection("users").doc(uid).get();
-      DocumentSnapshot stat =
+      final DocumentSnapshot stat =
           await _firestore.collection("stats").doc(uid).get();
       return UserData.fromDocumentSnapshot(user, stat);
     } on Exception catch (e) {
@@ -173,14 +169,19 @@ class AuthRepository {
 
   Future<void> createNewUserForFirestore(UserData user) async {
     try {
-      await _firestore.collection('users').doc(currentUser.id).set(
+      final userId = user.userId;
+      if (userId == null || userId.isEmpty) {
+        throw Exception('User ID is empty.');
+      }
+
+      await _firestore.collection('users').doc(userId).set(
         {
           "name": user.name,
           "email": user.email,
           "photoUrl": user.photoURL,
         },
       );
-      await _firestore.collection('stats').doc(currentUser.id).set(
+      await _firestore.collection('stats').doc(userId).set(
         {
           "habitStreak": user.habitStreak,
           "taskCompleted": user.taskCompleted,
@@ -195,15 +196,12 @@ class AuthRepository {
     }
   }
 
-  Future<String> uploadProfilePicture(File? fileData) async {
+  Future<String> uploadProfilePicture(File? fileData, String userId) async {
     if (fileData != null) {
-      var pathOld = fileData.path;
-      var lastSeparator = pathOld.lastIndexOf(Platform.pathSeparator);
-      var newPath = pathOld.substring(0, lastSeparator + 1) + currentUser.id;
-      final newFileData = await fileData.rename(newPath);
-      String path = path_package.basename(newFileData.path);
+      final extension = path_package.extension(fileData.path);
+      final path = '$userId$extension';
       final ref = _firebaseStorage.ref('profilePicture/$path');
-      UploadTask uploadTask = ref.putFile(newFileData);
+      final UploadTask uploadTask = ref.putFile(fileData);
       final snapshotData = await uploadTask.whenComplete(() {});
       final photoDownload = snapshotData.ref.getDownloadURL();
       return photoDownload;
@@ -217,7 +215,7 @@ class AuthRepository {
   }
 
   Future<void> updateName(String name) async {
-    await _firestore.collection('users').doc(currentUser.id).update(
+    await _firestore.collection('users').doc(_getCurrentUid()).update(
       {
         "name": name,
       },
@@ -225,7 +223,7 @@ class AuthRepository {
   }
 
   Future<void> updatePhoto(String url) async {
-    await _firestore.collection('users').doc(currentUser.id).update(
+    await _firestore.collection('users').doc(_getCurrentUid()).update(
       {
         "photoUrl": url,
       },
@@ -235,28 +233,29 @@ class AuthRepository {
   Future<UserData> createOrGet(
       firebase_auth.OAuthCredential oAuthCredential) async {
     try {
-      var authResult =
+      final authResult =
           await _firebaseAuth.signInWithCredential(oAuthCredential);
+      final uid = authResult.user!.uid;
 
       if (authResult.additionalUserInfo!.isNewUser) {
         final File photoDefault;
 
         if (authResult.user!.photoURL != null) {
           photoDefault = await DefaultCacheManager()
-              .getSingleFile(authResult.user!.photoURL as String);
+              .getSingleFile(authResult.user!.photoURL!);
         } else {
           photoDefault = await getImageFileFromAssets('icons/profpict.png');
         }
 
-        final photoURL = await uploadProfilePicture(photoDefault);
+        final photoURL = await uploadProfilePicture(photoDefault, uid);
         DefaultCacheManager()
           ..emptyCache()
           ..dispose();
 
         final userData = UserData(
-          userId: authResult.user!.uid,
+          userId: uid,
           name: authResult.user!.displayName,
-          email: authResult.user!.email as String,
+          email: authResult.user!.email ?? '',
           photoURL: photoURL,
           habitStreak: 0,
           taskCompleted: 0,
@@ -268,14 +267,29 @@ class AuthRepository {
         await createNewUserForFirestore(userData);
         return userData;
       } else {
-        final userData = await getUserFromFirestore(authResult.user!.uid);
+        final userData = await getUserFromFirestore(uid);
         return userData;
       }
-    } on firebase_auth.FirebaseAuthException catch (e) {
-      throw LogInWithGoogleFailure.fromCode(e.code);
     } on PlatformException catch (e) {
       throw PlatformException(code: e.code);
     }
+  }
+
+  String _getCurrentUid() {
+    final uid = _firebaseAuth.currentUser?.uid;
+    if (uid == null || uid.isEmpty) {
+      throw Exception('No authenticated user found.');
+    }
+    return uid;
+  }
+
+  Future<void> _ensureGoogleSignInInitialized() async {
+    if (_googleSignInInitialized) {
+      return;
+    }
+
+    await _googleSignIn.initialize();
+    _googleSignInInitialized = true;
   }
 }
 

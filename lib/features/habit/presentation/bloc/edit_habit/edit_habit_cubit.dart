@@ -27,7 +27,7 @@ class EditHabitCubit extends Cubit<EditHabitState> {
   final HabitModel _habitModel;
 
   void iconChanged(int value) {
-    String iconTarget = iconLocation[value];
+    final String iconTarget = iconLocation[value];
     emit(state.copyWith(iconImg: iconTarget, selectedIcon: value));
   }
 
@@ -84,7 +84,7 @@ class EditHabitCubit extends Cubit<EditHabitState> {
   void saveHabit() async {
     emit(state.copyWith(editHabitStatus: EditHabitStatus.load));
     try {
-      Map<int, bool> dayMap = [
+      final Map<int, bool> dayMap = [
         state.sunday,
         state.monday,
         state.tuesday,
@@ -94,7 +94,7 @@ class EditHabitCubit extends Cubit<EditHabitState> {
         state.saturday
       ].asMap();
 
-      List<int> dayListOn = [];
+      final List<int> dayListOn = [];
       dayMap.forEach((key, value) {
         if (value == true) {
           if (key == 0) {
@@ -117,7 +117,7 @@ class EditHabitCubit extends Cubit<EditHabitState> {
         return temp;
       }
 
-      HabitModel newHabitModel = HabitModel(
+      final HabitModel newHabitModel = HabitModel(
         habitId: _habitModel.habitId,
         iconImg: state.iconImg,
         title: state.title,

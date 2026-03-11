@@ -9,18 +9,18 @@ import '../../data/models/habit_model.dart';
 import '../bloc/habit_overview/habits_overview_bloc.dart';
 
 class HabitWidget extends StatelessWidget {
-  HabitModel? habitModel;
   HabitWidget({
     Key? key,
     required this.habitModel,
     //required this.index,
   }) : super(key: key);
+  HabitModel? habitModel;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        dynamic isDeleted = await Navigator.of(context).pushNamed(
+        final dynamic isDeleted = await Navigator.of(context).pushNamed(
           RouteName.HABITDETAIL,
           arguments: habitModel,
         );
@@ -33,6 +33,7 @@ class HabitWidget extends StatelessWidget {
                   habitModel!.habitId * habitModel!.dayList[i],
                 );
               }
+              if (!context.mounted) return;
               context.read<HabitsOverviewBloc>().add(
                     HabitsOverviewHabitDeleted(
                       habitModel!,

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
-import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
+import '../../../../authentication/data/repositories/local_auth_repository.dart';
+import '../../../data/models/pomodoro_model.dart';
 import '../../../../authentication/data/models/user_data.dart';
 import 'ticker.dart';
 import 'package:equatable/equatable.dart';
@@ -9,10 +9,6 @@ part 'timer_event.dart';
 part 'timer_state.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
-  final Ticker _ticker;
-  final LocalUserDataRepository _localUserDataRepository;
-
-  StreamSubscription<int>? _tickerSubscription;
 
   TimerBloc({
     required Ticker ticker,
@@ -28,6 +24,10 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     on<TimerTicked>(_onTicked);
     on<SetUserData>(_setUserData);
   }
+  final Ticker _ticker;
+  final LocalUserDataRepository _localUserDataRepository;
+
+  StreamSubscription<int>? _tickerSubscription;
 
   @override
   Future<void> close() {

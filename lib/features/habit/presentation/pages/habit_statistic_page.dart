@@ -95,7 +95,6 @@ class HabitStatisticPageContent extends StatelessWidget {
                         border: Border(
                           bottom: BorderSide(
                             color: greyDark,
-                            width: 1,
                           ),
                         ),
                       ),

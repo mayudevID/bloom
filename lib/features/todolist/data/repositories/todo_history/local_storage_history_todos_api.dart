@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:bloom/features/todolist/data/models/task_model.dart';
+import '../../models/task_model.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';

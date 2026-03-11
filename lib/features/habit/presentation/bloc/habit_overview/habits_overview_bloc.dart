@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/features/habit/data/models/habit_model.dart';
+import '../../../data/models/habit_model.dart';
 import 'package:equatable/equatable.dart';
 import '../../../domain/habits_repository.dart';
 

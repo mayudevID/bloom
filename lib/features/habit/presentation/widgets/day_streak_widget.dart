@@ -7,8 +7,6 @@ import '../../data/models/habit_model.dart';
 import '../bloc/habit_detail/habit_detail_bloc.dart';
 
 class DayStreakWidget extends StatelessWidget {
-  int dayIndex;
-  HabitModel initHabitModel;
   //final userController = Get.find<UserController>();
 
   DayStreakWidget({
@@ -16,6 +14,8 @@ class DayStreakWidget extends StatelessWidget {
     required this.dayIndex,
     required this.initHabitModel,
   }) : super(key: key);
+  int dayIndex;
+  HabitModel initHabitModel;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class DayStreakWidget extends StatelessWidget {
                   value: state.checkedDays[dayIndex],
                   onChanged: (initHabitModel.openDays[dayIndex] == true)
                       ? (bool? value) async {
-                          List<bool> newCheckedDays = state.checkedDays;
+                          final List<bool> newCheckedDays = state.checkedDays;
                           newCheckedDays[dayIndex] = value!;
                           context.read<HabitDetailBloc>().add(
                                 HabitChanged(

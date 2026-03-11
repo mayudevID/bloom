@@ -1,10 +1,6 @@
 part of 'timer_bloc.dart';
 
 abstract class TimerState extends Equatable {
-  final int duration;
-  final int session;
-  final bool isRunning;
-  final bool isCompleted;
 
   const TimerState(
     this.duration,
@@ -12,6 +8,10 @@ abstract class TimerState extends Equatable {
     this.isRunning,
     this.isCompleted,
   );
+  final int duration;
+  final int session;
+  final bool isRunning;
+  final bool isCompleted;
 
   @override
   List<Object> get props => [duration];

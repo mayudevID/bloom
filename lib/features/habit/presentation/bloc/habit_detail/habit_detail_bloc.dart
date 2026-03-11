@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/features/authentication/data/models/user_data.dart';
-import 'package:bloom/features/authentication/data/repositories/local_auth_repository.dart';
-import 'package:bloom/features/habit/domain/habits_repository.dart';
+import '../../../../authentication/data/models/user_data.dart';
+import '../../../../authentication/data/repositories/local_auth_repository.dart';
+import '../../../domain/habits_repository.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../data/models/habit_model.dart';
@@ -10,8 +10,6 @@ part 'habit_detail_event.dart';
 part 'habit_detail_state.dart';
 
 class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
-  final HabitsRepository _habitsRepository;
-  final LocalUserDataRepository _localUserDataRepository;
 
   HabitDetailBloc({
     required HabitsRepository habitsRepository,
@@ -30,6 +28,8 @@ class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
         ) {
     on<HabitChanged>(_onChanged);
   }
+  final HabitsRepository _habitsRepository;
+  final LocalUserDataRepository _localUserDataRepository;
 
   Future<void> _onChanged(
       HabitChanged event, Emitter<HabitDetailState> emit) async {

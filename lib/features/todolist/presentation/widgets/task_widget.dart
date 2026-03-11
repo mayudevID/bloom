@@ -12,15 +12,15 @@ import '../../data/models/task_model.dart';
 import '../bloc/todos_overview/todos_overview_bloc.dart';
 
 class TaskWidget extends StatelessWidget {
-  TaskModel? taskModel;
   //int index;
   TaskWidget({Key? key, required this.taskModel}) : super(key: key);
+  TaskModel? taskModel;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        dynamic isDeleted = await Navigator.of(context).pushNamed(
+        final dynamic isDeleted = await Navigator.of(context).pushNamed(
           RouteName.TASKDETAIL,
           arguments: taskModel,
         );
@@ -29,6 +29,7 @@ class TaskWidget extends StatelessWidget {
             const Duration(milliseconds: 50),
             () async {
               AwesomeNotifications().cancel(taskModel!.taskId);
+              if (!context.mounted) return;
               context.read<TodosOverviewBloc>().add(
                     TodosOverviewTodoDeleted(
                       taskModel!,

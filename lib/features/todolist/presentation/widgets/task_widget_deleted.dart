@@ -8,14 +8,14 @@ import '../../../../core/utils/theme.dart';
 import '../../data/models/task_model.dart';
 
 class TaskWidgetDeleted extends StatelessWidget {
-  TaskModel? taskModel;
-  Function() onTap;
 
   TaskWidgetDeleted({
     Key? key,
     required this.taskModel,
     required this.onTap,
   }) : super(key: key);
+  TaskModel? taskModel;
+  Function() onTap;
 
   @override
   Widget build(BuildContext context) {

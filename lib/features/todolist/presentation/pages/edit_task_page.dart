@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:bloom/core/routes/route_name.dart';
+import '../../../../core/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -171,7 +171,7 @@ class EditTaskPageContent extends StatelessWidget {
                         return Switch(
                           inactiveTrackColor: greyLight,
                           inactiveThumbColor: greyDark,
-                          activeColor: naturalBlack,
+                          activeThumbColor: naturalBlack,
                           value: state.isTime,
                           onChanged: (val) {
                             context.read<EditTodoCubit>().isTimeChanged(val);
@@ -189,7 +189,7 @@ class EditTaskPageContent extends StatelessWidget {
                     if (state.isChoose) {
                       return GestureDetector(
                         onTap: () async {
-                          var pick = await getTime();
+                          final pick = await getTime();
                           if (pick != DateTime(1970)) {
                             context.read<EditTodoCubit>().timeChanged(pick);
                           }
@@ -233,7 +233,7 @@ class EditTaskPageContent extends StatelessWidget {
                     } else {
                       return GestureDetector(
                         onTap: () async {
-                          var pick = await getTime();
+                          final pick = await getTime();
                           if (pick != DateTime(1970)) {
                             context.read<EditTodoCubit>().timeChanged(pick);
                           }

@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/features/habit/domain/habits_repository.dart';
-import 'package:bloom/features/pomodoro/domain/pomodoros_repository.dart';
-import 'package:bloom/features/todolist/domain/todos_history_repository.dart';
-import 'package:bloom/features/todolist/domain/todos_repository.dart';
+import '../../../habit/domain/habits_repository.dart';
+import '../../../pomodoro/domain/pomodoros_repository.dart';
+import '../../../todolist/domain/todos_history_repository.dart';
+import '../../../todolist/domain/todos_repository.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 

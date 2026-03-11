@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
+import '../../../data/models/pomodoro_model.dart';
 import 'package:equatable/equatable.dart';
 import '../../../domain/pomodoros_repository.dart';
 

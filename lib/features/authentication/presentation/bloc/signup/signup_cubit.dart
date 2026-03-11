@@ -9,13 +9,13 @@ import '../../../data/repositories/local_auth_repository.dart';
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
-  final AuthRepository _authRepository;
-  final LocalUserDataRepository _localUserDataRepository;
 
   SignupCubit(
     this._authRepository,
     this._localUserDataRepository,
   ) : super(SignupState.initial());
+  final AuthRepository _authRepository;
+  final LocalUserDataRepository _localUserDataRepository;
 
   void hidePassword() {
     emit(state.copyWith(

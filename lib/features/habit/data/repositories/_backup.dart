@@ -20,10 +20,10 @@ class LocalStorageHabitsIdle {
           .toList();
       final habitIndex = habits.indexWhere((h) => h.habitId == id);
       final habitModel = habits[habitIndex];
-      int openDaysVal =
+      final int openDaysVal =
           habitModel.openDays.where((item) => item == true).length;
       if (openDaysVal < habitModel.openDays.length) {
-        List<bool> newOpenDays = habitModel.openDays;
+        final List<bool> newOpenDays = habitModel.openDays;
         newOpenDays[openDaysVal] = true;
         final newHabitModel = HabitModel(
           habitId: habitModel.habitId,

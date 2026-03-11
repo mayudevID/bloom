@@ -1,15 +1,6 @@
 part of 'add_todo_cubit.dart';
 
 class AddTodoState extends Equatable {
-  final int taskId;
-  final String title;
-  final DateTime dateTime;
-  final String description;
-  final String tags;
-  final bool isRepeat;
-  final bool isTime;
-  final bool isChecked;
-  final bool isChoose;
 
   const AddTodoState({
     required this.taskId,
@@ -36,6 +27,15 @@ class AddTodoState extends Equatable {
       isChoose: false,
     );
   }
+  final int taskId;
+  final String title;
+  final DateTime dateTime;
+  final String description;
+  final String tags;
+  final bool isRepeat;
+  final bool isTime;
+  final bool isChecked;
+  final bool isChoose;
 
   @override
   List<Object> get props => [

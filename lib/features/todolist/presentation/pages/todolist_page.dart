@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:bloom/core/routes/route_name.dart';
-import 'package:bloom/core/utils/function.dart';
-import 'package:bloom/features/todolist/domain/todos_repository.dart';
+import '../../../../core/routes/route_name.dart';
+import '../../../../core/utils/function.dart';
+import '../../domain/todos_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +56,7 @@ class ToDoListPageContent extends StatelessWidget {
             SizedBox(height: getHeight(24, context)),
             CalendarWidget(
               initialDate: DateTime.now(),
-              firstDate: DateTime(DateTime.now().year, 1, 1),
+              firstDate: DateTime(DateTime.now().year),
               lastDate: DateTime(DateTime.now().year, 12, 31),
               onDateSelected: (date) {
                 context.read<TodosOverviewBloc>().add(
@@ -152,7 +152,7 @@ class ToDoListPageContent extends StatelessWidget {
                         );
                       }
                     } else {
-                      List<TaskModel> dataTask = taskByDateChooser(
+                      final List<TaskModel> dataTask = taskByDateChooser(
                         state.todos,
                         state.filter as DateTime,
                       );
@@ -167,7 +167,7 @@ class ToDoListPageContent extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             children: [
-                              for (TaskModel taskModel in dataTask)
+                              for (final TaskModel taskModel in dataTask)
                                 TaskWidget(
                                   taskModel: taskModel,
                                 )

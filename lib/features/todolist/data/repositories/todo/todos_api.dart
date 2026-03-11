@@ -1,4 +1,4 @@
-import 'package:bloom/features/todolist/data/models/task_model.dart';
+import '../../models/task_model.dart';
 
 abstract class TodosApi {
   const TodosApi();

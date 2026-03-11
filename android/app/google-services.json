@@ -1,13 +1,32 @@
 {
   "project_info": {
-    "project_number": "408370217553",
-    "project_id": "bloom-616ad",
-    "storage_bucket": "bloom-616ad.appspot.com"
+    "project_number": "816048962988",
+    "project_id": "bloom-f3b03",
+    "storage_bucket": "bloom-f3b03.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:408370217553:android:ea77352f363612b0536e70",
+        "mobilesdk_app_id": "1:816048962988:android:aea835b2150581b6434e09",
+        "android_client_info": {
+          "package_name": "com.mayudevid.bloom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCim1-5lo-JsWFun1BJZd_nUPeXGxTKCTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816048962988:android:b3722c2594039d17434e09",
         "android_client_info": {
           "package_name": "com.yusuf.bloom"
         }
@@ -15,7 +34,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyA2k-Mt8WqDZB_Y-LVn76jo8QcUKsMrOBY"
+          "current_key": "AIzaSyCim1-5lo-JsWFun1BJZd_nUPeXGxTKCTM"
         }
       ],
       "services": {

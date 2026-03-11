@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
+import '../models/pomodoro_model.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';

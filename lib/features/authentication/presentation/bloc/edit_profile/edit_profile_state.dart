@@ -3,14 +3,6 @@ part of 'edit_profile_cubit.dart';
 enum EditProfileStatus { initial, submitting, success, error }
 
 class EditProfileState extends Equatable {
-  final String newName;
-  final bool isPictureChanged;
-  final EditProfileStatus status;
-  final String initPhoto;
-  final String initName;
-  final String initEmail;
-  final File profilePictureTemp;
-  final String errorMessage;
 
   const EditProfileState({
     required this.status,
@@ -35,6 +27,14 @@ class EditProfileState extends Equatable {
       errorMessage: '',
     );
   }
+  final String newName;
+  final bool isPictureChanged;
+  final EditProfileStatus status;
+  final String initPhoto;
+  final String initName;
+  final String initEmail;
+  final File profilePictureTemp;
+  final String errorMessage;
 
   EditProfileState copyWith({
     String? newName,

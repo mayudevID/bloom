@@ -1,10 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
-  final String id;
-  final String? email;
-  final String? name;
-  final String? photo;
 
   const User({
     required this.id,
@@ -12,6 +8,10 @@ class User extends Equatable {
     this.name,
     this.photo,
   });
+  final String id;
+  final String? email;
+  final String? name;
+  final String? photo;
 
   static const empty = User(
     id: '',

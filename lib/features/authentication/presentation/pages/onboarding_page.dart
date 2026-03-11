@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:bloom/core/routes/route_name.dart';
+import '../../../../core/routes/route_name.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +23,7 @@ class OnboardingPage extends StatelessWidget {
 
 class OnboardingPageContent extends StatelessWidget {
   OnboardingPageContent({Key? key}) : super(key: key);
-  final CarouselController sliderController = CarouselController();
+  final sliderController = CarouselSliderController();
 
   final List<String> imageOnboard = [
     'assets/images/onboard1.png',
@@ -90,7 +90,6 @@ class OnboardingPageContent extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: getWidth(26, context)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
               onTap: () {
@@ -117,8 +116,8 @@ class OnboardingPageContent extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 sliderController.nextPage(
-                  curve: Curves.fastOutSlowIn,
-                  duration: const Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.linear,
                 );
               },
               child: Container(
@@ -157,7 +156,6 @@ class OnboardingPageContent extends StatelessWidget {
                 );
               }).toList(),
               options: CarouselOptions(
-                initialPage: 0,
                 enableInfiniteScroll: false,
                 onPageChanged: (index, reason) {
                   context.read<OnboardCubit>().setOnboard(index);

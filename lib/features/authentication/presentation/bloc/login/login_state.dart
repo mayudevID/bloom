@@ -5,12 +5,6 @@ enum LoginStatus { initial, submitting, success, error }
 enum LoginType { email, google, fb }
 
 class LoginState extends Equatable {
-  final String email;
-  final String password;
-  final LoginStatus status;
-  final LoginType type;
-  final bool isHidden;
-  final String errorMessage;
 
   const LoginState({
     required this.email,
@@ -31,6 +25,12 @@ class LoginState extends Equatable {
       errorMessage: '',
     );
   }
+  final String email;
+  final String password;
+  final LoginStatus status;
+  final LoginType type;
+  final bool isHidden;
+  final String errorMessage;
 
   @override
   List<Object> get props => [

@@ -93,7 +93,6 @@ class MainPageContent extends StatelessWidget {
         child: SizedBox(
           height: getHeight(56, context),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               NavbarButton(

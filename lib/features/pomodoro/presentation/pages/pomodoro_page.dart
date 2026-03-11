@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable
-import 'package:bloom/features/pomodoro/data/models/pomodoro_model.dart';
-import 'package:bloom/features/pomodoro/domain/pomodoros_repository.dart';
-import 'package:bloom/features/pomodoro/presentation/widgets/add_timer_dialog.dart';
-import 'package:bloom/features/pomodoro/presentation/widgets/pomodoro_recent_widget.dart';
+import '../../data/models/pomodoro_model.dart';
+import '../../domain/pomodoros_repository.dart';
+import '../widgets/add_timer_dialog.dart';
+import '../widgets/pomodoro_recent_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -40,8 +40,8 @@ class PomodoroPage extends StatelessWidget {
 }
 
 class PomodoroPageContent extends StatelessWidget {
-  ItemScrollController scrollController = ItemScrollController();
   PomodoroPageContent({Key? key}) : super(key: key);
+  ItemScrollController scrollController = ItemScrollController();
 
   @override
   Widget build(BuildContext context) {

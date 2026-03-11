@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/core/utils/notifications.dart';
+import '../../../../../core/utils/notifications.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../habit/domain/habits_repository.dart';

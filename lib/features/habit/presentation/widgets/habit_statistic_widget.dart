@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/theme.dart';
 
 class HabitStatisticWidget extends StatelessWidget {
-  String iconImg;
-  String title;
-  int count;
   HabitStatisticWidget({
     Key? key,
     required this.iconImg,
     required this.title,
     required this.count,
   }) : super(key: key);
+  String iconImg;
+  String title;
+  int count;
 
   @override
   Widget build(BuildContext context) {

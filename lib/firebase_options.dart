@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA2k-Mt8WqDZB_Y-LVn76jo8QcUKsMrOBY',
-    appId: '1:408370217553:android:ea77352f363612b0536e70',
-    messagingSenderId: '408370217553',
-    projectId: 'bloom-616ad',
-    storageBucket: 'bloom-616ad.appspot.com',
+    apiKey: 'AIzaSyCim1-5lo-JsWFun1BJZd_nUPeXGxTKCTM',
+    appId: '1:816048962988:android:aea835b2150581b6434e09',
+    messagingSenderId: '816048962988',
+    projectId: 'bloom-f3b03',
+    storageBucket: 'bloom-f3b03.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD2P4526GepMSjosEwy-jHtwG_zuGQHa5U',
-    appId: '1:408370217553:ios:13abb11f6ea186c8536e70',
-    messagingSenderId: '408370217553',
-    projectId: 'bloom-616ad',
-    storageBucket: 'bloom-616ad.appspot.com',
-    iosBundleId: 'com.example.bloom',
+    apiKey: 'AIzaSyAHy7YPNw9WBu6eDbcrs9iTJBvudIIP51o',
+    appId: '1:816048962988:ios:63a21e2903bc37f2434e09',
+    messagingSenderId: '816048962988',
+    projectId: 'bloom-f3b03',
+    storageBucket: 'bloom-f3b03.firebasestorage.app',
+    iosBundleId: 'com.mayudevid.bloom',
   );
+
 }

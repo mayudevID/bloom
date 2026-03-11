@@ -1,5 +1,5 @@
-import 'package:bloom/features/pomodoro/domain/pomodoros_repository.dart';
-import 'package:bloom/features/pomodoro/presentation/bloc/add_pomodoro/add_pomodoro_cubit.dart';
+import '../../domain/pomodoros_repository.dart';
+import '../bloc/add_pomodoro/add_pomodoro_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -97,7 +97,6 @@ class AddTimerDialogContent extends StatelessWidget {
                       fontSize: 18,
                     ),
                     decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: naturalBlack),
                     ),
@@ -136,7 +135,6 @@ class AddTimerDialogContent extends StatelessWidget {
                       fontSize: 18,
                     ),
                     decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: naturalBlack),
                     ),
@@ -147,7 +145,6 @@ class AddTimerDialogContent extends StatelessWidget {
                     onChanged: (value) {
                       context.read<AddPomodoroCubit>().sessionChanged(value);
                     },
-                    step: 1,
                   );
                 },
               ),

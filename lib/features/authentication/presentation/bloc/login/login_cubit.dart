@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloom/core/error/login_exception.dart';
+import '../../../../../core/error/login_exception.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 
@@ -9,13 +9,13 @@ import '../../../data/repositories/local_auth_repository.dart';
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  final AuthRepository _authRepository;
-  final LocalUserDataRepository _localUserDataRepository;
 
   LoginCubit(
     this._authRepository,
     this._localUserDataRepository,
   ) : super(LoginState.initial());
+  final AuthRepository _authRepository;
+  final LocalUserDataRepository _localUserDataRepository;
 
   void hidePassword() {
     emit(state.copyWith(
