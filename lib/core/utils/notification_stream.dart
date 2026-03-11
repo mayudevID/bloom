@@ -1,16 +1,4 @@
-import 'package:get/get.dart';
-
-class NotificationStream extends GetxController {
-  // AwesomeNotifications().setListeners(
-  //   onActionReceivedMethod: NotificationController.onActionReceivedMethod,
-  //   onNotificationCreatedMethod:
-  //       NotificationController.onNotificationCreatedMethod,
-  //   onNotificationDisplayedMethod:
-  //       NotificationController.onNotificationDisplayedMethod,
-  //   onDismissActionReceivedMethod:
-  //       NotificationController.onDismissActionReceivedMethod,
-  // );
-
+class NotificationStream {
   // AwesomeNotifications().displayedStream.listen((notification) async {
   //   if (notification.channelKey == 'habit_channel') {
   //     final habitIdTarget = int.tryParse(notification.body!.split(" - ")[0]);
@@ -69,53 +57,53 @@ class NotificationStream extends GetxController {
   // AwesomeNotifications().actionStream.listen(
   //   (notification) async {
   //     if (notification.channelKey == 'task_channel') {
-  //       // int? taskIdTarget = int.tryParse(notification.body!.split(" - ")[0]);
-  //       // final prefs = await SharedPreferences.getInstance();
-  //       // TaskModel? taskModel =
-  //       //     LocalStorageTodosIdle(prefs).getData(taskIdTarget);
-  //       // dynamic isDeleted = await Navigator.of(context).pushNamed(
-  //       //   RouteName.TASKDETAIL,
-  //       //   arguments: taskModel,
-  //       // );
-  //       // if (isDeleted as bool) {
-  //       //   Future.delayed(
-  //       //     const Duration(milliseconds: 100),
-  //       //     () async {
-  //       //       AwesomeNotifications().cancel(taskModel!.taskId);
-  //       //       context.read<TodosOverviewBloc>().add(
-  //       //             TodosOverviewTodoDeleted(
-  //       //               taskModel,
-  //       //             ),
-  //       //           );
-  //       //     },
-  //       //   );
-  //       // }
+  //       int? taskIdTarget = int.tryParse(notification.body!.split(" - ")[0]);
+  //       final prefs = await SharedPreferences.getInstance();
+  //       TaskModel? taskModel =
+  //           LocalStorageTodosIdle(prefs).getData(taskIdTarget);
+  //       dynamic isDeleted = await Navigator.of(context).pushNamed(
+  //         RouteName.TASKDETAIL,
+  //         arguments: taskModel,
+  //       );
+  //       if (isDeleted as bool) {
+  //         Future.delayed(
+  //           const Duration(milliseconds: 100),
+  //           () async {
+  //             AwesomeNotifications().cancel(taskModel!.taskId);
+  //             context.read<TodosOverviewBloc>().add(
+  //                   TodosOverviewTodoDeleted(
+  //                     taskModel,
+  //                   ),
+  //                 );
+  //           },
+  //         );
+  //       }
   //     } else if (notification.channelKey == 'habit_channel') {
-  //       // int? habitIdTarget = int.tryParse(notification.body!.split(" - ")[0]);
-  //       // final prefs = await SharedPreferences.getInstance();
-  //       // HabitModel? habitModel =
-  //       //     LocalStorageHabitsIdle(prefs).getData(habitIdTarget);
-  //       // dynamic isDeleted = await Navigator.of(context).pushNamed(
-  //       //   RouteName.HABITDETAIL,
-  //       //   arguments: habitModel,
-  //       // );
-  //       // if (isDeleted as bool) {
-  //       //   Future.delayed(
-  //       //     const Duration(milliseconds: 100),
-  //       //     () async {
-  //       //       for (var i = 0; i < habitModel!.dayList.length; i++) {
-  //       //         AwesomeNotifications().cancel(
-  //       //           habitModel.habitId * habitModel.dayList[i],
-  //       //         );
-  //       //       }
-  //       //       context.read<HabitsOverviewBloc>().add(
-  //       //             HabitsOverviewHabitDeleted(
-  //       //               habitModel,
-  //       //             ),
-  //       //           );
-  //       //     },
-  //       //   );
-  //       // }
+  //       int? habitIdTarget = int.tryParse(notification.body!.split(" - ")[0]);
+  //       final prefs = await SharedPreferences.getInstance();
+  //       HabitModel? habitModel =
+  //           LocalStorageHabitsIdle(prefs).getData(habitIdTarget);
+  //       dynamic isDeleted = await Navigator.of(context).pushNamed(
+  //         RouteName.HABITDETAIL,
+  //         arguments: habitModel,
+  //       );
+  //       if (isDeleted as bool) {
+  //         Future.delayed(
+  //           const Duration(milliseconds: 100),
+  //           () async {
+  //             for (var i = 0; i < habitModel!.dayList.length; i++) {
+  //               AwesomeNotifications().cancel(
+  //                 habitModel.habitId * habitModel.dayList[i],
+  //               );
+  //             }
+  //             context.read<HabitsOverviewBloc>().add(
+  //                   HabitsOverviewHabitDeleted(
+  //                     habitModel,
+  //                   ),
+  //                 );
+  //           },
+  //         );
+  //       }
   //     }
   //   },
   // );

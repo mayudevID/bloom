@@ -1,4 +1,3 @@
-
 import '../../features/habit/data/models/habit_model.dart';
 import '../../features/pomodoro/data/models/pomodoro_model.dart';
 import '../../features/todolist/data/models/task_model.dart';
@@ -51,7 +50,9 @@ Future<void> createHabitNotification(HabitModel habitModel, int day) async {
 }
 
 Future<void> createTimerNotification(
-    PomodoroModel pomodoroModel, int currentSession) async {
+  PomodoroModel pomodoroModel,
+  int currentSession,
+) async {
   // await AwesomeNotifications().createNotification(
   //   content: NotificationContent(
   //     id: pomodoroModel.pomodoroId,
