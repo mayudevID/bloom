@@ -7,20 +7,54 @@ class LogInWithEmailAndPasswordFailure implements Exception {
     switch (code) {
       case 'invalid-email':
         return const LogInWithEmailAndPasswordFailure(
-          'Email is not valid or badly formatted.',
+          'The email address is badly formatted.',
         );
+
       case 'user-disabled':
         return const LogInWithEmailAndPasswordFailure(
-          'This user has been disabled. Please contact support for help.',
+          'This user account has been disabled. Please contact support.',
         );
+
       case 'user-not-found':
         return const LogInWithEmailAndPasswordFailure(
-          'Incorrect email or password, please try again.',
+          'Incorrect email or password.',
         );
+
       case 'wrong-password':
         return const LogInWithEmailAndPasswordFailure(
-          'Incorrect email or password, please try again.',
+          'Incorrect email or password.',
         );
+
+      case 'too-many-requests':
+        return const LogInWithEmailAndPasswordFailure(
+          'Too many login attempts. Please try again later.',
+        );
+
+      case 'network-request-failed':
+        return const LogInWithEmailAndPasswordFailure(
+          'Network error. Please check your internet connection.',
+        );
+
+      case 'operation-not-allowed':
+        return const LogInWithEmailAndPasswordFailure(
+          'Email and password sign-in is not enabled.',
+        );
+
+      case 'invalid-credential':
+        return const LogInWithEmailAndPasswordFailure(
+          'The provided authentication credential is invalid.',
+        );
+
+      case 'account-exists-with-different-credential':
+        return const LogInWithEmailAndPasswordFailure(
+          'An account already exists with the same email but different sign-in credentials.',
+        );
+
+      case 'internal-error':
+        return const LogInWithEmailAndPasswordFailure(
+          'An internal authentication error occurred.',
+        );
+
       default:
         return const LogInWithEmailAndPasswordFailure();
     }

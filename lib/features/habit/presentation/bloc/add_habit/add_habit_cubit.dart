@@ -130,7 +130,6 @@ class AddHabitCubit extends Cubit<AddHabitState> {
       final newUserData = UserData(
         userId: oldUserData.userId,
         email: oldUserData.email,
-        photoURL: oldUserData.photoURL,
         name: oldUserData.name,
         habitStreak: oldUserData.habitStreak,
         taskCompleted: oldUserData.taskCompleted,

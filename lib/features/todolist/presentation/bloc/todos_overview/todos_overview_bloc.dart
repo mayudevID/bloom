@@ -60,7 +60,6 @@ class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
     final newUserData = UserData(
       userId: currUserData.userId,
       email: currUserData.email,
-      photoURL: currUserData.photoURL,
       name: currUserData.name,
       habitStreak: currUserData.habitStreak,
       taskCompleted: (event.isCompleted == true)

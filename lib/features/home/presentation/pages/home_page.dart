@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -75,54 +74,11 @@ class HomePageContent extends StatelessWidget {
                     },
                     child: BlocBuilder<UserBloc, UserState>(
                       builder: (context, state) {
-                        if (state.status == UserStatus.success) {
-                          return CachedNetworkImage(
-                            imageUrl: state.userData.photoURL.toString(),
-                            imageBuilder: (context, imageProvider) {
-                              return Container(
-                                width: 40.0,
-                                height: 40.0,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              );
-                            },
-                            placeholder: (context, url) {
-                              return Container(
-                                padding: const EdgeInsets.all(8),
-                                width: 40.0,
-                                height: 40.0,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    color: naturalBlack,
-                                  ),
-                                ),
-                              );
-                            },
-                            errorWidget: (context, url, error) {
-                              return const SizedBox(
-                                width: 40.0,
-                                height: 40.0,
-                                child: Icon(Icons.error),
-                              );
-                            },
-                          );
-                        } else {
-                          return Container(
-                            padding: const EdgeInsets.all(8),
-                            width: 40.0,
-                            height: 40.0,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: naturalBlack,
-                              ),
-                            ),
-                          );
-                        }
+                        return const SizedBox(
+                          width: 40.0,
+                          height: 40.0,
+                          child: Icon(Icons.error),
+                        );
                       },
                     ),
                   ),
@@ -248,7 +204,8 @@ class HomePageContent extends StatelessWidget {
                         );
                       }
                     } else {
-                      final List<TaskModel> dataTask = sortTaskByDate(state.todos);
+                      final List<TaskModel> dataTask =
+                          sortTaskByDate(state.todos);
                       if (dataTask.isNotEmpty) {
                         return MediaQuery.removePadding(
                           removeTop: true,

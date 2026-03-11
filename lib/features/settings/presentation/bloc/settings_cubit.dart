@@ -3,7 +3,6 @@ import '../../../habit/domain/habits_repository.dart';
 import '../../../pomodoro/domain/pomodoros_repository.dart';
 import '../../../todolist/domain/todos_history_repository.dart';
 import '../../../todolist/domain/todos_repository.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../authentication/data/repositories/auth_repository.dart';
@@ -47,8 +46,6 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
     emit(state.copyWith(logoutStatus: LogoutStatus.processing));
     try {
-      final oldUserData = _localUserDataRepository.getUserDataDirect();
-      CachedNetworkImage.evictFromCache(oldUserData.photoURL as String);
       await _authRepository.signOut();
       await _localUserDataRepository.deleteUserData();
       await _pomodorosRepository.clearCompleted();

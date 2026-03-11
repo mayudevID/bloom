@@ -1,7 +1,6 @@
 part of 'add_habit_cubit.dart';
 
 class AddHabitState extends Equatable {
-
   const AddHabitState({
     required this.iconImg,
     required this.title,

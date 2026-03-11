@@ -40,5 +40,33 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+
+    # Swift module interfaces are incompatible with Objective-C bridging headers.
+    target.build_configurations.each do |config|
+      config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'NO'
+      config.build_settings['SWIFT_EMIT_MODULE_INTERFACE'] = 'NO'
+    end
+  end
+
+  installer.aggregate_targets.each do |aggregate_target|
+    aggregate_target.xcconfigs.each_value do |config_file|
+      config_file.attributes['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'NO'
+      config_file.attributes['SWIFT_EMIT_MODULE_INTERFACE'] = 'NO'
+    end
+  end
+
+  # Ensure generated Pods-Runner xcconfig files keep this disabled.
+  [
+    'Pods-Runner.debug.xcconfig',
+    'Pods-Runner.release.xcconfig',
+    'Pods-Runner.profile.xcconfig',
+  ].each do |xcconfig_name|
+    xcconfig_path = File.join(__dir__, 'Pods', 'Target Support Files', 'Pods-Runner', xcconfig_name)
+    next unless File.exist?(xcconfig_path)
+
+    content = File.read(xcconfig_path)
+    content = content.gsub(/^BUILD_LIBRARY_FOR_DISTRIBUTION\s*=\s*YES$/, 'BUILD_LIBRARY_FOR_DISTRIBUTION = NO')
+    content = content.gsub(/^SWIFT_EMIT_MODULE_INTERFACE\s*=\s*YES$/, 'SWIFT_EMIT_MODULE_INTERFACE = NO')
+    File.write(xcconfig_path, content)
   end
 end

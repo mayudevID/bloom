@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,54 +55,11 @@ class ProfilePageContent extends StatelessWidget {
             SizedBox(height: getHeight(32, context)),
             BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
-                if (state.status == UserStatus.success) {
-                  return CachedNetworkImage(
-                    imageUrl: state.userData.photoURL.toString(),
-                    imageBuilder: (context, imageProvider) {
-                      return Container(
-                        width: 80.0,
-                        height: 80.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      );
-                    },
-                    placeholder: (context, url) {
-                      return Container(
-                        padding: const EdgeInsets.all(8),
-                        width: 80.0,
-                        height: 80.0,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            color: naturalBlack,
-                          ),
-                        ),
-                      );
-                    },
-                    errorWidget: (context, url, error) {
-                      return const SizedBox(
-                        width: 80.0,
-                        height: 80.0,
-                        child: Icon(Icons.error),
-                      );
-                    },
-                  );
-                } else {
-                  return Container(
-                    padding: const EdgeInsets.all(8),
-                    width: 80.0,
-                    height: 80.0,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: naturalBlack,
-                      ),
-                    ),
-                  );
-                }
+                return const SizedBox(
+                  width: 80.0,
+                  height: 80.0,
+                  child: Icon(Icons.error),
+                );
               },
             ),
             SizedBox(height: getHeight(8, context)),

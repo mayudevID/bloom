@@ -1,14 +1,10 @@
-import 'dart:io';
 
 import '../../data/repositories/auth_repository.dart';
 import '../../data/repositories/local_auth_repository.dart';
 import '../bloc/edit_profile/edit_profile_cubit.dart';
 import '../widgets/exit_edit_profile_dialog.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
@@ -33,36 +29,36 @@ class EditProfilePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void pickProfilePicture() async {
-      final fileData = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-      );
-      if (fileData != null) {
-        final croppedFile = await ImageCropper().cropImage(
-          sourcePath: fileData.path,
-          compressFormat: ImageCompressFormat.png,
-          compressQuality: 98,
-          uiSettings: [
-            AndroidUiSettings(
-              toolbarTitle: 'Photo Crop',
-              toolbarColor: Colors.black,
-              toolbarWidgetColor: naturalWhite,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false,
-            ),
-            IOSUiSettings(
-              minimumAspectRatio: 1.0,
-            ),
-          ],
-        );
-        if (croppedFile != null) {
-          // ignore: use_build_context_synchronously
-          context.read<EditProfileCubit>().changedTempPicture(
-                File(croppedFile.path),
-              );
-        }
-      }
-    }
+    // void pickProfilePicture() async {
+    //   final fileData = await ImagePicker().pickImage(
+    //     source: ImageSource.gallery,
+    //   );
+    //   if (fileData != null) {
+    //     final croppedFile = await ImageCropper().cropImage(
+    //       sourcePath: fileData.path,
+    //       compressFormat: ImageCompressFormat.png,
+    //       compressQuality: 98,
+    //       uiSettings: [
+    //         AndroidUiSettings(
+    //           toolbarTitle: 'Photo Crop',
+    //           toolbarColor: Colors.black,
+    //           toolbarWidgetColor: naturalWhite,
+    //           initAspectRatio: CropAspectRatioPreset.original,
+    //           lockAspectRatio: false,
+    //         ),
+    //         IOSUiSettings(
+    //           minimumAspectRatio: 1.0,
+    //         ),
+    //       ],
+    //     );
+    //     if (croppedFile != null) {
+    //       // ignore: use_build_context_synchronously
+    //       context.read<EditProfileCubit>().changedTempPicture(
+    //             File(croppedFile.path),
+    //           );
+    //     }
+    //   }
+    // }
 
     return Scaffold(
       backgroundColor: naturalWhite,
@@ -98,58 +94,6 @@ class EditProfilePageContent extends StatelessWidget {
                 style: mainSubTitle,
               ),
               SizedBox(height: getHeight(32, context)),
-              BlocBuilder<EditProfileCubit, EditProfileState>(
-                builder: (context, state) {
-                  if (state.isPictureChanged) {
-                    return CircleAvatar(
-                      radius: 40,
-                      backgroundImage: FileImage(
-                        state.profilePictureTemp,
-                      ),
-                    );
-                  } else {
-                    return CachedNetworkImage(
-                      imageUrl: state.initPhoto,
-                      imageBuilder: (context, imageProvider) {
-                        return Container(
-                          width: 80.0,
-                          height: 80.0,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
-                      },
-                      placeholder: (context, url) {
-                        return Container(
-                          padding: const EdgeInsets.all(8),
-                          width: 80.0,
-                          height: 80.0,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              color: naturalBlack,
-                            ),
-                          ),
-                        );
-                      },
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    );
-                  }
-                },
-              ),
-              SizedBox(height: getHeight(8, context)),
-              GestureDetector(
-                onTap: () => pickProfilePicture(),
-                child: Text(
-                  "Change Profile Picture",
-                  style: textParagraph,
-                ),
-              ),
-              SizedBox(height: getHeight(30, context)),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -292,13 +236,10 @@ class EditProfilePageContent extends StatelessWidget {
                 onTap: () {
                   if (BlocProvider.of<EditProfileCubit>(context)
                           .state
-                          .isPictureChanged ||
+                          .initName !=
                       BlocProvider.of<EditProfileCubit>(context)
-                              .state
-                              .initName !=
-                          BlocProvider.of<EditProfileCubit>(context)
-                              .state
-                              .newName) {
+                          .state
+                          .newName) {
                     showDialog(
                       context: context,
                       builder: (context) {

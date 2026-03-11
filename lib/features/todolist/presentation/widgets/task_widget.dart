@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -28,7 +27,7 @@ class TaskWidget extends StatelessWidget {
           Future.delayed(
             const Duration(milliseconds: 50),
             () async {
-              AwesomeNotifications().cancel(taskModel!.taskId);
+              //AwesomeNotifications().cancel(taskModel!.taskId);
               if (!context.mounted) return;
               context.read<TodosOverviewBloc>().add(
                     TodosOverviewTodoDeleted(

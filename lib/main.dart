@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,47 +30,47 @@ import 'features/pomodoro/domain/pomodoros_repository.dart';
 void main() async {
   Bloc.observer = AppBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
-  AwesomeNotifications().initialize(
-    'resource://drawable/res_app_icon',
-    [
-      NotificationChannel(
-        channelKey: 'pomodoro_channel',
-        channelName: 'Pomodoro notifications',
-        channelDescription: 'Notification channel for pomodoro timer',
-        defaultColor: yellowDark,
-        importance: NotificationImportance.High,
-        ledColor: Colors.white,
-        vibrationPattern: mediumVibrationPattern,
-        channelShowBadge: true,
-        playSound: true,
-        soundSource: "resource://raw/res_music",
-      ),
-      NotificationChannel(
-        channelKey: 'task_channel',
-        channelName: 'Task notifications',
-        channelDescription: 'Notification channel for task reminder',
-        defaultColor: yellowDark,
-        importance: NotificationImportance.High,
-        ledColor: Colors.white,
-        vibrationPattern: mediumVibrationPattern,
-        channelShowBadge: true,
-        playSound: true,
-        soundSource: "resource://raw/res_music",
-      ),
-      NotificationChannel(
-        channelKey: 'habit_channel',
-        channelName: 'Habits notifications',
-        channelDescription: 'Notification channel for habit reminder',
-        defaultColor: yellowDark,
-        importance: NotificationImportance.High,
-        ledColor: Colors.white,
-        vibrationPattern: mediumVibrationPattern,
-        channelShowBadge: true,
-        playSound: true,
-        soundSource: "resource://raw/res_music",
-      ),
-    ],
-  );
+  // AwesomeNotifications().initialize(
+  //   'resource://drawable/res_app_icon',
+  //   [
+  //     NotificationChannel(
+  //       channelKey: 'pomodoro_channel',
+  //       channelName: 'Pomodoro notifications',
+  //       channelDescription: 'Notification channel for pomodoro timer',
+  //       defaultColor: yellowDark,
+  //       importance: NotificationImportance.High,
+  //       ledColor: Colors.white,
+  //       vibrationPattern: mediumVibrationPattern,
+  //       channelShowBadge: true,
+  //       playSound: true,
+  //       soundSource: "resource://raw/res_music",
+  //     ),
+  //     NotificationChannel(
+  //       channelKey: 'task_channel',
+  //       channelName: 'Task notifications',
+  //       channelDescription: 'Notification channel for task reminder',
+  //       defaultColor: yellowDark,
+  //       importance: NotificationImportance.High,
+  //       ledColor: Colors.white,
+  //       vibrationPattern: mediumVibrationPattern,
+  //       channelShowBadge: true,
+  //       playSound: true,
+  //       soundSource: "resource://raw/res_music",
+  //     ),
+  //     NotificationChannel(
+  //       channelKey: 'habit_channel',
+  //       channelName: 'Habits notifications',
+  //       channelDescription: 'Notification channel for habit reminder',
+  //       defaultColor: yellowDark,
+  //       importance: NotificationImportance.High,
+  //       ledColor: Colors.white,
+  //       vibrationPattern: mediumVibrationPattern,
+  //       channelShowBadge: true,
+  //       playSound: true,
+  //       soundSource: "resource://raw/res_music",
+  //     ),
+  //   ],
+  // );
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -134,7 +133,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({
     Key? key,
     required AuthRepository authRepository,
@@ -167,10 +165,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
-    final notificationStream = Get.put(
-      NotificationStream(),
-      permanent: true,
-    );
+    // final notificationStream = Get.put(
+    //   NotificationStream(),
+    //   permanent: true,
+    // );
 
     return MultiRepositoryProvider(
       providers: [

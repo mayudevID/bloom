@@ -3,11 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class UserData extends Equatable {
-
   const UserData({
     required this.userId,
     required this.email,
-    required this.photoURL,
     required this.name,
     required this.habitStreak,
     required this.taskCompleted,
@@ -24,7 +22,6 @@ class UserData extends Equatable {
     return UserData(
       userId: user.id,
       email: user['email'],
-      photoURL: user['photoUrl'],
       name: user['name'],
       habitStreak: stat['habitStreak'],
       taskCompleted: stat['taskCompleted'],
@@ -39,7 +36,6 @@ class UserData extends Equatable {
     return UserData(
       userId: json['userId'],
       email: json['email'],
-      photoURL: json['photoUrl'],
       name: json['name'],
       habitStreak: json['habitStreak'],
       taskCompleted: json['taskCompleted'],
@@ -51,7 +47,6 @@ class UserData extends Equatable {
   }
   final String? userId;
   final String email;
-  final String? photoURL;
   final String? name;
   final int habitStreak;
   final int taskCompleted;
@@ -73,14 +68,12 @@ class UserData extends Equatable {
     streakLeft: 0,
     email: '',
     name: '',
-    photoURL: '',
   );
 
   Map<String, dynamic> toJson() {
     return {
       'userId': userId,
       'email': email,
-      'photoUrl': photoURL,
       'name': name,
       'habitStreak': habitStreak,
       'taskCompleted': taskCompleted,
@@ -106,7 +99,6 @@ class UserData extends Equatable {
     return UserData(
       userId: userId ?? this.userId,
       email: email ?? this.email,
-      photoURL: photoURL ?? this.photoURL,
       name: name ?? this.name,
       habitStreak: habitStreak ?? this.habitStreak,
       taskCompleted: taskCompleted ?? this.taskCompleted,
@@ -121,7 +113,6 @@ class UserData extends Equatable {
   List<Object?> get props => [
         userId,
         email,
-        photoURL,
         name,
         habitStreak,
         taskCompleted,

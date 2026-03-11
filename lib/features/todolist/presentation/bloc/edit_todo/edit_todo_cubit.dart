@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -59,11 +58,11 @@ class EditTodoCubit extends Cubit<EditTodoState> {
 
       if (state.isTime && state.isChoose) {
         if (state.dateTime != _taskModel.dateTime) {
-          AwesomeNotifications().cancel(_taskModel.taskId);
+          //AwesomeNotifications().cancel(_taskModel.taskId);
           createTaskNotification(newTaskModel);
         }
       } else if (state.isTime == false) {
-        AwesomeNotifications().cancel(_taskModel.taskId);
+        //AwesomeNotifications().cancel(_taskModel.taskId);
       }
 
       await _todosRepository.saveTodo(newTaskModel);

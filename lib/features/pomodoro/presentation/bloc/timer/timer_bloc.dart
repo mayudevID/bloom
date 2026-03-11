@@ -9,7 +9,6 @@ part 'timer_event.dart';
 part 'timer_state.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
-
   TimerBloc({
     required Ticker ticker,
     required LocalUserDataRepository localUserDataRepository,
@@ -40,7 +39,6 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     final newUserData = UserData(
       userId: currUserData.userId,
       email: currUserData.email,
-      photoURL: currUserData.photoURL,
       name: currUserData.name,
       habitStreak: currUserData.habitStreak,
       taskCompleted: currUserData.taskCompleted,

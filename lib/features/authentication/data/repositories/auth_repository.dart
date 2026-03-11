@@ -1,11 +1,9 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'dart:io';
 import '../../../../core/error/forgot_pass_exception.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:path/path.dart' as path_package;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -13,7 +11,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../../../../core/error/login_exception.dart';
 import '../../../../core/error/logout_exception.dart';
 import '../../../../core/error/signup_exception.dart';
-import '../../../../core/utils/function.dart';
 import '../models/user.dart';
 import '../models/user_data.dart';
 
@@ -27,12 +24,10 @@ class AuthRepository {
   })  : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance,
         _googleSignIn = googleSignIn ?? GoogleSignIn.instance,
         _firestore = firestore ?? FirebaseFirestore.instance,
-        _facebookAuth = facebookAuth ?? FacebookAuth.instance,
-        _firebaseStorage = firebaseStorage ?? FirebaseStorage.instance;
+        _facebookAuth = facebookAuth ?? FacebookAuth.instance;
 
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
-  final FirebaseStorage _firebaseStorage;
   final FacebookAuth _facebookAuth;
   final GoogleSignIn _googleSignIn;
   bool _googleSignInInitialized = false;
@@ -48,29 +43,27 @@ class AuthRepository {
   }
 
   Future<UserData> signInByEmail(String email, String password) async {
-    try {
-      final authResult = await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-      final userData = await getUserFromFirestore(authResult.user!.uid);
-      return userData;
-    } on firebase_auth.FirebaseAuthException catch (e) {
-      throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
-    }
+    final authResult = await _firebaseAuth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    final userData = await getUserFromFirestore(authResult.user!.uid);
+    return userData;
   }
 
   Future<UserData> signUpByEmail(
       String name, String email, String password) async {
     try {
       final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      final photoDefault = await getImageFileFromAssets('icons/profpict.png');
+        email: email,
+        password: password,
+      );
+
       final uid = authResult.user!.uid;
-      final photoURL = await uploadProfilePicture(photoDefault, uid);
       final userData = UserData(
         userId: uid,
         name: name,
         email: email,
-        photoURL: photoURL,
         habitStreak: 0,
         taskCompleted: 0,
         totalFocus: 0,
@@ -80,7 +73,7 @@ class AuthRepository {
       );
       await createNewUserForFirestore(userData);
       return userData;
-    } on firebase_auth.FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
     }
   }
@@ -96,18 +89,13 @@ class AuthRepository {
 
       final firebase_auth.OAuthCredential facebookAuthCredential =
           firebase_auth.FacebookAuthProvider.credential(
-              loginResult.accessToken!.tokenString);
-
-      //var credentialSave = await Hive.openBox('credentialSave');
-      //await credentialSave.put('token', loginResult.accessToken!.token);
-      //credentialSave.close();
+        loginResult.accessToken!.tokenString,
+      );
 
       final userData = await createOrGet(facebookAuthCredential);
       return userData;
-    } on firebase_auth.FirebaseAuthException catch (e) {
-      throw LogInWithFacebookFailure.fromCode(e.code);
     } on FirebaseException catch (e) {
-      throw Exception(e);
+      throw LogInWithFacebookFailure.fromCode(e.code);
     }
   }
 
@@ -125,7 +113,7 @@ class AuthRepository {
 
       final userData = await createOrGet(googleCredential);
       return userData;
-    } on firebase_auth.FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
     } on PlatformException {
       rethrow;
@@ -140,7 +128,7 @@ class AuthRepository {
         _googleSignIn.signOut(),
         _facebookAuth.logOut(),
       ]);
-    } on firebase_auth.FirebaseAuthException {
+    } on firebase_auth.FirebaseException {
       throw LogOutFailure();
     }
   }
@@ -148,7 +136,7 @@ class AuthRepository {
   Future<void> resetPassword(String email) async {
     try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
-    } on firebase_auth.FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       throw SendEmailFailure.fromCode(e.code);
     }
   }
@@ -157,10 +145,8 @@ class AuthRepository {
 
   Future<UserData> getUserFromFirestore(String uid) async {
     try {
-      final DocumentSnapshot user =
-          await _firestore.collection("users").doc(uid).get();
-      final DocumentSnapshot stat =
-          await _firestore.collection("stats").doc(uid).get();
+      final user = await _firestore.collection("users").doc(uid).get();
+      final stat = await _firestore.collection("stats").doc(uid).get();
       return UserData.fromDocumentSnapshot(user, stat);
     } on Exception catch (e) {
       throw Exception(e);
@@ -178,7 +164,6 @@ class AuthRepository {
         {
           "name": user.name,
           "email": user.email,
-          "photoUrl": user.photoURL,
         },
       );
       await _firestore.collection('stats').doc(userId).set(
@@ -194,24 +179,6 @@ class AuthRepository {
     } on Exception catch (e) {
       throw Exception(e);
     }
-  }
-
-  Future<String> uploadProfilePicture(File? fileData, String userId) async {
-    if (fileData != null) {
-      final extension = path_package.extension(fileData.path);
-      final path = '$userId$extension';
-      final ref = _firebaseStorage.ref('profilePicture/$path');
-      final UploadTask uploadTask = ref.putFile(fileData);
-      final snapshotData = await uploadTask.whenComplete(() {});
-      final photoDownload = snapshotData.ref.getDownloadURL();
-      return photoDownload;
-    } else {
-      return "Empty";
-    }
-  }
-
-  Future<void> deleteProfilePicture(String photoURL) async {
-    await _firebaseStorage.refFromURL(photoURL).delete();
   }
 
   Future<void> updateName(String name) async {
@@ -238,16 +205,8 @@ class AuthRepository {
       final uid = authResult.user!.uid;
 
       if (authResult.additionalUserInfo!.isNewUser) {
-        final File photoDefault;
+        //final photoDefault = await getImageFileFromAssets('icons/profpict.png');
 
-        if (authResult.user!.photoURL != null) {
-          photoDefault = await DefaultCacheManager()
-              .getSingleFile(authResult.user!.photoURL!);
-        } else {
-          photoDefault = await getImageFileFromAssets('icons/profpict.png');
-        }
-
-        final photoURL = await uploadProfilePicture(photoDefault, uid);
         DefaultCacheManager()
           ..emptyCache()
           ..dispose();
@@ -256,7 +215,6 @@ class AuthRepository {
           userId: uid,
           name: authResult.user!.displayName,
           email: authResult.user!.email ?? '',
-          photoURL: photoURL,
           habitStreak: 0,
           taskCompleted: 0,
           totalFocus: 0,

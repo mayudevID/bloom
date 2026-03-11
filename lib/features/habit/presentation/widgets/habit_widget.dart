@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/routes/route_name.dart';
@@ -29,9 +28,9 @@ class HabitWidget extends StatelessWidget {
             const Duration(milliseconds: 50),
             () async {
               for (var i = 0; i < habitModel!.dayList.length; i++) {
-                AwesomeNotifications().cancel(
-                  habitModel!.habitId * habitModel!.dayList[i],
-                );
+                // AwesomeNotifications().cancel(
+                //   habitModel!.habitId * habitModel!.dayList[i],
+                // );
               }
               if (!context.mounted) return;
               context.read<HabitsOverviewBloc>().add(

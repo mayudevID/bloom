@@ -8,7 +8,6 @@ import '../../../../core/utils/theme.dart';
 import '../../data/models/task_model.dart';
 
 class TaskWidgetDeleted extends StatelessWidget {
-
   TaskWidgetDeleted({
     Key? key,
     required this.taskModel,

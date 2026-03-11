@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -140,9 +139,9 @@ class EditHabitCubit extends Cubit<EditHabitState> {
       if (listEquals(_habitModel.dayList, newHabitModel.dayList) == false ||
           _habitModel.timeOfDay != newHabitModel.timeOfDay) {
         for (var i = 0; i < _habitModel.dayList.length; i++) {
-          AwesomeNotifications().cancel(
-            _habitModel.habitId * _habitModel.dayList[i],
-          );
+          // AwesomeNotifications().cancel(
+          //   _habitModel.habitId * _habitModel.dayList[i],
+          // );
         }
         for (var i = 0; i < newHabitModel.dayList.length; i++) {
           createHabitNotification(newHabitModel, newHabitModel.dayList[i]);
@@ -155,7 +154,6 @@ class EditHabitCubit extends Cubit<EditHabitState> {
       final newUserData = UserData(
         userId: oldUserData.userId,
         email: oldUserData.email,
-        photoURL: oldUserData.photoURL,
         name: oldUserData.name,
         habitStreak: oldUserData.habitStreak,
         taskCompleted: oldUserData.taskCompleted,

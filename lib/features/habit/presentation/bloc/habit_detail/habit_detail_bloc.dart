@@ -10,7 +10,6 @@ part 'habit_detail_event.dart';
 part 'habit_detail_state.dart';
 
 class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
-
   HabitDetailBloc({
     required HabitsRepository habitsRepository,
     required LocalUserDataRepository localUserDataRepository,
@@ -48,7 +47,6 @@ class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
       final newUserData = UserData(
         userId: oldUserData.userId,
         email: oldUserData.email,
-        photoURL: oldUserData.photoURL,
         name: oldUserData.name,
         habitStreak: (isChecked)
             ? oldUserData.habitStreak + 1

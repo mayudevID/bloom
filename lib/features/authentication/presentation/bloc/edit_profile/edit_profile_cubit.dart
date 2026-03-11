@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import '../../../data/models/user_data.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 
@@ -12,7 +11,6 @@ import '../../../data/repositories/local_auth_repository.dart';
 part 'edit_profile_state.dart';
 
 class EditProfileCubit extends Cubit<EditProfileState> {
-
   EditProfileCubit(
     this._authRepository,
     this._localUserDataRepository,
@@ -23,13 +21,6 @@ class EditProfileCubit extends Cubit<EditProfileState> {
         );
   final AuthRepository _authRepository;
   final LocalUserDataRepository _localUserDataRepository;
-
-  void changedTempPicture(File file) {
-    emit(state.copyWith(
-      profilePictureTemp: file,
-      isPictureChanged: true,
-    ));
-  }
 
   void changedName(String val) {
     emit(state.copyWith(newName: val));
@@ -61,26 +52,12 @@ class EditProfileCubit extends Cubit<EditProfileState> {
             return;
           }
 
-          String? newUrl;
-          if (state.isPictureChanged) {
-            final photoURLold = state.initPhoto;
-            await _authRepository.deleteProfilePicture(
-              photoURLold,
-            );
-            newUrl = await _authRepository.uploadProfilePicture(
-              state.profilePictureTemp,
-              userId,
-            );
-            await _authRepository.updatePhoto(newUrl);
-            CachedNetworkImage.evictFromCache(photoURLold);
-          }
           if (state.newName != state.initName) {
             await _authRepository.updateName(state.newName);
           }
           final newUserData = UserData(
             userId: oldData.userId,
             email: oldData.email,
-            photoURL: (state.isPictureChanged) ? newUrl : oldData.photoURL,
             name: (state.newName != state.initName)
                 ? state.newName
                 : oldData.name,
