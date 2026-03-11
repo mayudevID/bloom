@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../bloc/forgot_password/forgot_password_cubit.dart';
@@ -40,7 +39,7 @@ class ForgotPasswordPageContent extends StatelessWidget {
             SizedBox(height: MediaQuery.of(context).size.height * 0.11),
             Image.asset("assets/icons/logo.png", width: 100),
             Text("Forgot Password", style: mainTitle),
-            SizedBox(height: getHeight(8, context)),
+            const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
@@ -49,7 +48,7 @@ class ForgotPasswordPageContent extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: getHeight(18, context)),
+            const SizedBox(height: 18),
             BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
               listener: (context, state) {
                 if (state.status == SendStatus.success) {
@@ -78,7 +77,7 @@ class ForgotPasswordPageContent extends StatelessWidget {
                 hintText: 'Email',
               ),
             ),
-            SizedBox(height: getHeight(24, context)),
+            const SizedBox(height: 24),
             GestureDetector(
               onTap: () async {
                 FocusManager.instance.primaryFocus?.unfocus();

@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_field_initializers_in_const_classes, prefer_const_constructors
 
-import '../../../../../core/utils/function.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/theme.dart';
@@ -63,7 +62,7 @@ class DayItem extends StatelessWidget {
         width: width,
         child: Column(
           children: <Widget>[
-            SizedBox(height: getHeight(8, context)),
+            SizedBox(height: 8),
             Text(
               shortName,
               style: TextStyle(

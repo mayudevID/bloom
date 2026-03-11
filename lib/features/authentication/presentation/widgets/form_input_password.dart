@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../bloc/login/login_cubit.dart';
 import '../bloc/signup/signup_cubit.dart';
@@ -15,7 +14,7 @@ class FormInputPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: getWidth(30, context)),
+      margin: const EdgeInsets.symmetric(horizontal: 30),
       padding: const EdgeInsets.all(8),
       height: 40,
       decoration: BoxDecoration(
@@ -25,7 +24,7 @@ class FormInputPassword extends StatelessWidget {
       child: Row(
         children: [
           Image.asset("assets/icons/lock.png", width: 24),
-          SizedBox(width: getWidth(8, context)),
+          const SizedBox(width: 8),
           Expanded(
             child: (formType == FormType.login)
                 ? BlocBuilder<LoginCubit, LoginState>(

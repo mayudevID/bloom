@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/routes/route_name.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../../authentication/data/repositories/auth_repository.dart';
 import '../../../authentication/data/repositories/local_auth_repository.dart';
@@ -84,7 +83,7 @@ class SettingsPageContent extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: getHeight(51, context)),
+              const SizedBox(height: 51),
               Row(
                 children: [
                   Text(
@@ -108,8 +107,8 @@ class SettingsPageContent extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                height: getHeight(10, context),
+              const SizedBox(
+                height: 10,
               ),
               GestureDetector(
                 onTap: () {
@@ -199,8 +198,8 @@ class SettingsPageContent extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: getHeight(15, context),
+              const SizedBox(
+                height: 15,
               ),
               GestureDetector(
                 onTap: () {

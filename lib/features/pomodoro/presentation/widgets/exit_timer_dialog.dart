@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 
 class ExitTimerDialog extends StatelessWidget {
@@ -26,7 +25,7 @@ class ExitTimerDialog extends StatelessWidget {
             ),
             Row(
               children: [
-                SizedBox(width: getWidth(90, context)),
+                const SizedBox(width: 90),
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context)

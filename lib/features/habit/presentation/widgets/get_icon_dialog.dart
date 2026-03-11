@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/constant.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../bloc/add_habit/add_habit_cubit.dart';
 import '../bloc/edit_habit/edit_habit_cubit.dart';
@@ -19,7 +18,7 @@ Dialog getIconDialog(BuildContext context, HabitPageType type) {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text("Choose Icon", style: textParagraph.copyWith(fontSize: 17)),
-          SizedBox(height: getHeight(10, context)),
+          const SizedBox(height: 10),
           GridView.builder(
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(

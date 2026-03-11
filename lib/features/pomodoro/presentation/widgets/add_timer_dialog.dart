@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:numberpicker/numberpicker.dart';
 
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 
 class AddTimerDialog extends StatelessWidget {
@@ -35,9 +34,9 @@ class AddTimerDialogContent extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //SizedBox(height: getHeight(5, context)),
+          //SizedBox(height: 5),
           Text("Title", style: smallTextLink),
-          SizedBox(height: getHeight(10, context)),
+          const SizedBox(height: 10),
           Container(
             height: 35,
             padding: const EdgeInsets.all(6),
@@ -75,7 +74,7 @@ class AddTimerDialogContent extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(height: getHeight(10, context)),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -113,7 +112,7 @@ class AddTimerDialogContent extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: getHeight(10, context)),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -150,7 +149,7 @@ class AddTimerDialogContent extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: getHeight(10, context)),
+          const SizedBox(height: 10),
           Row(
             children: [
               const Spacer(),
@@ -175,7 +174,7 @@ class AddTimerDialogContent extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: getWidth(10, context)),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();

@@ -5,7 +5,6 @@ import '../bloc/timer/timer_bloc.dart';
 import '../widgets/timer_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../bloc/timer/ticker.dart';
 import '../widgets/exit_timer_dialog.dart';
@@ -58,13 +57,13 @@ class TimerPageContent extends StatelessWidget {
             children: [
               SizedBox(height: MediaQuery.of(context).size.height * 0.07),
               BackMenu(data: pModel),
-              SizedBox(height: getHeight(16, context)),
+              const SizedBox(height: 16),
               Center(child: Text(pModel.title, style: mainSubTitle)),
-              SizedBox(height: getHeight(4, context)),
+              const SizedBox(height: 4),
               Center(
                 child: SessionDisplay(data: pModel),
               ),
-              SizedBox(height: getHeight(48, context)),
+              const SizedBox(height: 48),
               Center(
                 child: Stack(
                   children: [
@@ -98,7 +97,7 @@ class TimerPageContent extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: getHeight(40, context)),
+              const SizedBox(height: 40),
               Center(
                 child: BlocBuilder<TimerBloc, TimerState>(
                     builder: (context, state) {

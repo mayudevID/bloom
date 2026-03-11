@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/routes/route_name.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../../home/presentation/bloc/user/user_bloc.dart';
 import '../../data/repositories/local_auth_repository.dart';
@@ -52,17 +51,13 @@ class ProfilePageContent extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: getHeight(32, context)),
-            BlocBuilder<UserBloc, UserState>(
-              builder: (context, state) {
-                return const SizedBox(
-                  width: 80.0,
-                  height: 80.0,
-                  child: Icon(Icons.error),
-                );
-              },
+            const SizedBox(height: 32),
+            const SizedBox(
+              width: 80.0,
+              height: 80.0,
+              child: Icon(Icons.people),
             ),
-            SizedBox(height: getHeight(8, context)),
+            const SizedBox(height: 8),
             BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
                 return Text(
@@ -75,7 +70,7 @@ class ProfilePageContent extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(height: getHeight(8, context)),
+            const SizedBox(height: 8),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(RouteName.EDITPROFILE);
@@ -97,7 +92,7 @@ class ProfilePageContent extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: getHeight(32, context)),
+            const SizedBox(height: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -124,7 +119,7 @@ class ProfilePageContent extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(width: getWidth(24, context)),
+                const SizedBox(width: 24),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -148,7 +143,7 @@ class ProfilePageContent extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(width: getWidth(24, context)),
+                const SizedBox(width: 24),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -193,7 +188,7 @@ class ProfilePageContent extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: getHeight(24, context)),
+            const SizedBox(height: 24),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -203,13 +198,13 @@ class ProfilePageContent extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: getHeight(8, context)),
+            const SizedBox(height: 8),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(RouteName.TASKHISTORY);
               },
               child: Container(
-                height: getHeight(48, context),
+                height: 48,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: yellowLight,
@@ -223,20 +218,20 @@ class ProfilePageContent extends StatelessWidget {
                 child: Row(
                   children: [
                     Image.asset("assets/icons/clipboard_select.png", width: 24),
-                    SizedBox(width: getWidth(7, context)),
+                    const SizedBox(width: 7),
                     Expanded(child: Text("Task History", style: textParagraph)),
                     Image.asset("assets/icons/arrow_right.png", width: 16),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: getHeight(8, context)),
+            const SizedBox(height: 8),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(RouteName.HABITSTATISTIC);
               },
               child: Container(
-                height: getHeight(48, context),
+                height: 48,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: yellowLight,
@@ -250,7 +245,7 @@ class ProfilePageContent extends StatelessWidget {
                 child: Row(
                   children: [
                     Image.asset("assets/icons/calendar_select.png", width: 24),
-                    SizedBox(width: getWidth(7, context)),
+                    const SizedBox(width: 7),
                     Expanded(
                       child: Text("Habit Statistic", style: textParagraph),
                     ),
@@ -259,9 +254,9 @@ class ProfilePageContent extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: getHeight(8, context)),
+            const SizedBox(height: 8),
             Container(
-              height: getHeight(48, context),
+              height: 48,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: yellowLight,
@@ -275,7 +270,7 @@ class ProfilePageContent extends StatelessWidget {
               child: Row(
                 children: [
                   Image.asset("assets/icons/timer_select.png", width: 24),
-                  SizedBox(width: getWidth(7, context)),
+                  const SizedBox(width: 7),
                   Expanded(
                     child: Text("Timer Statistic", style: textParagraph),
                   ),
@@ -283,7 +278,7 @@ class ProfilePageContent extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: getHeight(50, context)),
+            const SizedBox(height: 50),
           ],
         ),
       ),

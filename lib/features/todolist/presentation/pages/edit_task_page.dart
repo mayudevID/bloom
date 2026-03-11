@@ -90,12 +90,12 @@ class EditTaskPageContent extends StatelessWidget {
             children: [
               SizedBox(height: MediaQuery.of(context).size.height * 0.07),
               Text("Edit Task", style: mainSubTitle),
-              SizedBox(height: getHeight(32, context)),
+              const SizedBox(height: 32),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text("Title", style: textParagraph),
               ),
-              SizedBox(height: getHeight(4, context)),
+              const SizedBox(height: 4),
               Container(
                 padding: const EdgeInsets.all(5),
                 height: 32,
@@ -123,12 +123,12 @@ class EditTaskPageContent extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: getHeight(16, context)),
+              const SizedBox(height: 16),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text("Description", style: textParagraph),
               ),
-              SizedBox(height: getHeight(4, context)),
+              const SizedBox(height: 4),
               Container(
                 padding: const EdgeInsets.all(5),
                 height: 96,
@@ -158,7 +158,7 @@ class EditTaskPageContent extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: getHeight(16, context)),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -182,7 +182,7 @@ class EditTaskPageContent extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: getHeight(8, context)),
+              const SizedBox(height: 8),
               BlocBuilder<EditTodoCubit, EditTodoState>(
                 builder: (context, state) {
                   if (state.isTime) {
@@ -212,7 +212,7 @@ class EditTaskPageContent extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(width: getWidth(8, context)),
+                            const SizedBox(width: 8),
                             Container(
                               width: 120,
                               height: 32,
@@ -259,7 +259,7 @@ class EditTaskPageContent extends StatelessWidget {
                   }
                 },
               ),
-              SizedBox(height: getHeight(24, context)),
+              const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -282,7 +282,7 @@ class EditTaskPageContent extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(height: getHeight(16, context)),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -363,14 +363,14 @@ class EditTaskPageContent extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: getHeight(16, context)),
+              const SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
                 },
                 child: Text("Cancel", style: textParagraph),
               ),
-              SizedBox(height: getHeight(72, context)),
+              const SizedBox(height: 72),
             ],
           ),
         ),

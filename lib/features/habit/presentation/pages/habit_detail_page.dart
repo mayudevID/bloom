@@ -94,7 +94,7 @@ class HabitsDetailPageContent extends StatelessWidget {
                     width: 24,
                   ),
                 ),
-                SizedBox(width: getWidth(16, context)),
+                const SizedBox(width: 16),
                 GestureDetector(
                   onTap: () async {
                     Navigator.of(context).pop(true);
@@ -106,7 +106,7 @@ class HabitsDetailPageContent extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: getHeight(32, context)),
+            const SizedBox(height: 32),
             Row(
               children: [
                 Container(
@@ -124,7 +124,7 @@ class HabitsDetailPageContent extends StatelessWidget {
                     scale: 3,
                   ),
                 ),
-                SizedBox(width: getWidth(8, context)),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +151,7 @@ class HabitsDetailPageContent extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: getHeight(24, context)),
+            const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -168,7 +168,7 @@ class HabitsDetailPageContent extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: getHeight(4, context)),
+            const SizedBox(height: 4),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -193,7 +193,7 @@ class HabitsDetailPageContent extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(width: getWidth(24, context)),
+                const SizedBox(width: 24),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -215,7 +215,7 @@ class HabitsDetailPageContent extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(width: getWidth(24, context)),
+                const SizedBox(width: 24),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -239,7 +239,7 @@ class HabitsDetailPageContent extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: getHeight(24, context)),
+            const SizedBox(height: 24),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -247,7 +247,7 @@ class HabitsDetailPageContent extends StatelessWidget {
                 style: smallText.copyWith(fontWeight: FontWeight.w700),
               ),
             ),
-            SizedBox(height: getHeight(8, context)),
+            const SizedBox(height: 8),
             SizedBox(
               height: 311,
               child: MediaQuery.removePadding(
@@ -264,7 +264,7 @@ class HabitsDetailPageContent extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: getHeight(56, context)),
+            const SizedBox(height: 56),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(

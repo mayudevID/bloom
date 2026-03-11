@@ -6,7 +6,6 @@ import '../widgets/pomodoro_recent_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../bloc/pomodoro_overview/pomodoros_overview_bloc.dart';
 import '../bloc/pomodoro_recent/pomodoro_recent_bloc.dart';
@@ -63,21 +62,21 @@ class PomodoroPageContent extends StatelessWidget {
         children: [
           SizedBox(height: MediaQuery.of(context).size.height * 0.07),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: getWidth(24, context)),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               "Pomodoro Timer",
               style: mainSubTitle,
             ),
           ),
-          SizedBox(height: getHeight(21, context)),
+          const SizedBox(height: 21),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: getWidth(24, context)),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               "My Timer",
               style: textParagraph.copyWith(fontWeight: FontWeight.w700),
             ),
           ),
-          SizedBox(height: getHeight(8, context)),
+          const SizedBox(height: 8),
           MultiBlocListener(
             listeners: [
               BlocListener<PomodorosOverviewBloc, PomodorosOverviewState>(
@@ -129,18 +128,18 @@ class PomodoroPageContent extends StatelessWidget {
               builder: (_, state) {
                 if (state.pomodoros.isEmpty) {
                   if (state.status == PomodorosOverviewStatus.loading) {
-                    return SizedBox(
-                      height: getHeight(120, context),
-                      child: const Center(
+                    return const SizedBox(
+                      height: 120,
+                      child: Center(
                         child: CircularProgressIndicator(color: Colors.black),
                       ),
                     );
                   } else if (state.status != PomodorosOverviewStatus.success) {
                     return const SizedBox();
                   } else {
-                    return SizedBox(
-                      height: getHeight(120, context),
-                      child: const Center(
+                    return const SizedBox(
+                      height: 120,
+                      child: Center(
                         child: Text(
                           'Timer empty',
                           style: TextStyle(
@@ -153,7 +152,7 @@ class PomodoroPageContent extends StatelessWidget {
                   }
                 } else {
                   return SizedBox(
-                    height: getHeight(120, context),
+                    height: 120,
                     child: ScrollablePositionedList.builder(
                       itemCount: state.pomodoros.length,
                       itemScrollController: scrollController,
@@ -182,22 +181,22 @@ class PomodoroPageContent extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(height: getHeight(32, context)),
+          const SizedBox(height: 32),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: getWidth(24, context)),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               "Recent",
               style: textParagraph.copyWith(fontWeight: FontWeight.w700),
             ),
           ),
-          SizedBox(height: getHeight(8, context)),
+          const SizedBox(height: 8),
           BlocBuilder<PomodoroRecentBloc, PomodoroRecentState>(
             builder: (context, state) {
               if (state.status == PomodoroRecentStatus.success) {
                 if (state.pomodoro == PomodoroModel.empty) {
-                  return SizedBox(
-                    height: getHeight(120, context),
-                    child: const Center(
+                  return const SizedBox(
+                    height: 120,
+                    child: Center(
                       child: Text(
                         'Nothing opened recently',
                         style: TextStyle(
@@ -211,9 +210,9 @@ class PomodoroPageContent extends StatelessWidget {
                   return PomodoroRecentWidget(pomodoroModel: state.pomodoro);
                 }
               } else {
-                return SizedBox(
-                  height: getHeight(120, context),
-                  child: const Center(
+                return const SizedBox(
+                  height: 120,
+                  child: Center(
                     child: Text(
                       'Nothing opened recently',
                       style: TextStyle(
@@ -226,12 +225,12 @@ class PomodoroPageContent extends StatelessWidget {
               }
             },
           ),
-          SizedBox(height: getHeight(48, context)),
+          const SizedBox(height: 48),
           GestureDetector(
             onTap: () => addTimerDialog(),
             child: Container(
               height: 40,
-              margin: EdgeInsets.symmetric(horizontal: getWidth(85, context)),
+              margin: const EdgeInsets.symmetric(horizontal: 85),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: naturalBlack,

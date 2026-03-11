@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../../habit/domain/habits_repository.dart';
 import '../../../habit/presentation/pages/habit_tracker_page.dart';
@@ -91,7 +90,7 @@ class MainPageContent extends StatelessWidget {
         color: naturalWhite,
         shape: const CircularNotchedRectangle(),
         child: SizedBox(
-          height: getHeight(56, context),
+          height: 56,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [

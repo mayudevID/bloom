@@ -61,7 +61,7 @@ class HomePageContent extends StatelessWidget {
       backgroundColor: naturalWhite,
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: getWidth(24, context)),
+          margin: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -72,17 +72,13 @@ class HomePageContent extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(context, RouteName.PROFILE);
                     },
-                    child: BlocBuilder<UserBloc, UserState>(
-                      builder: (context, state) {
-                        return const SizedBox(
-                          width: 40.0,
-                          height: 40.0,
-                          child: Icon(Icons.people),
-                        );
-                      },
+                    child: const SizedBox(
+                      width: 40.0,
+                      height: 40.0,
+                      child: Icon(Icons.people),
                     ),
                   ),
-                  SizedBox(width: getWidth(6, context)),
+                  const SizedBox(width: 6),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,17 +116,17 @@ class HomePageContent extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: getWidth(16, context)),
+              const SizedBox(height: 16),
               Text(
                 DateFormat('EEEE, dd MMMM y').format(DateTime.now()),
                 style: buttonSmall,
               ),
-              SizedBox(height: getWidth(16, context)),
+              const SizedBox(height: 16),
               Text(
                 'Upcoming Task',
                 style: smallTextLink,
               ),
-              SizedBox(height: getHeight(7, context)),
+              const SizedBox(height: 7),
               MultiBlocListener(
                 listeners: [
                   BlocListener<TodosOverviewBloc, TodosOverviewState>(
@@ -180,9 +176,9 @@ class HomePageContent extends StatelessWidget {
                   builder: (context, state) {
                     if (state.todos.isEmpty) {
                       if (state.status == TodosOverviewStatus.loading) {
-                        return SizedBox(
-                          height: getHeight(70, context),
-                          child: const Center(
+                        return const SizedBox(
+                          height: 70,
+                          child: Center(
                             child:
                                 CircularProgressIndicator(color: Colors.black),
                           ),
@@ -190,9 +186,9 @@ class HomePageContent extends StatelessWidget {
                       } else if (state.status != TodosOverviewStatus.success) {
                         return const SizedBox();
                       } else {
-                        return SizedBox(
-                          height: getHeight(70, context),
-                          child: const Center(
+                        return const SizedBox(
+                          height: 70,
+                          child: Center(
                             child: Text(
                               'Task empty for now',
                               style: TextStyle(
@@ -222,9 +218,9 @@ class HomePageContent extends StatelessWidget {
                           ),
                         );
                       } else {
-                        return SizedBox(
-                          height: getHeight(70, context),
-                          child: const Center(
+                        return const SizedBox(
+                          height: 70,
+                          child: Center(
                             child: Text(
                               'Task empty for now',
                               style: TextStyle(
@@ -239,9 +235,9 @@ class HomePageContent extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: getHeight(17, context)),
+              const SizedBox(height: 17),
               Text("Todays Habits", style: smallTextLink),
-              SizedBox(height: getHeight(8, context)),
+              const SizedBox(height: 8),
               MultiBlocListener(
                 listeners: [
                   BlocListener<HabitsOverviewBloc, HabitsOverviewState>(
@@ -291,9 +287,9 @@ class HomePageContent extends StatelessWidget {
                   builder: (context, state) {
                     if (state.habits.isEmpty) {
                       if (state.status == HabitsOverviewStatus.loading) {
-                        return SizedBox(
-                          height: getHeight(70, context),
-                          child: const Center(
+                        return const SizedBox(
+                          height: 70,
+                          child: Center(
                             child: CircularProgressIndicator(
                               color: Colors.black,
                             ),
@@ -302,9 +298,9 @@ class HomePageContent extends StatelessWidget {
                       } else if (state.status != HabitsOverviewStatus.success) {
                         return const SizedBox();
                       } else {
-                        return SizedBox(
-                          height: getHeight(70, context),
-                          child: const Center(
+                        return const SizedBox(
+                          height: 70,
+                          child: Center(
                             child: Text(
                               'Habit empty for this date',
                               style: TextStyle(
@@ -335,9 +331,9 @@ class HomePageContent extends StatelessWidget {
                           ),
                         );
                       } else {
-                        return SizedBox(
-                          height: getHeight(70, context),
-                          child: const Center(
+                        return const SizedBox(
+                          height: 70,
+                          child: Center(
                             child: Text(
                               'Habit empty for this date',
                               style: TextStyle(
@@ -352,7 +348,7 @@ class HomePageContent extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: getHeight(8, context)),
+              const SizedBox(height: 8),
             ],
           ),
         ),

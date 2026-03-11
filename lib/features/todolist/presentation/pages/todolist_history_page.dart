@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../domain/todos_history_repository.dart';
 import '../bloc/todos_history/todos_history_bloc.dart';
@@ -54,7 +53,7 @@ class ToDoListHistoryPageContent extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: getHeight(32, context)),
+            const SizedBox(height: 32),
             BlocBuilder<TodosHistoryBloc, TodosHistoryState>(
               builder: (context, state) {
                 if (state.todos.isNotEmpty) {

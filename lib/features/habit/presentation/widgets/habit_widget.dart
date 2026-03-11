@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/routes/route_name.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../data/models/habit_model.dart';
 import '../bloc/habit_overview/habits_overview_bloc.dart';
@@ -45,7 +44,7 @@ class HabitWidget extends StatelessWidget {
       child: Container(
         height: 80,
         padding: const EdgeInsets.all(16),
-        margin: EdgeInsets.only(bottom: getHeight(8, context)),
+        margin: const EdgeInsets.only(bottom: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: yellowLight,
@@ -67,7 +66,7 @@ class HabitWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: getWidth(8, context)),
+            const SizedBox(width: 8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +76,7 @@ class HabitWidget extends StatelessWidget {
                   Row(
                     children: [
                       Image.asset("assets/icons/clock.png", width: 12),
-                      SizedBox(width: getWidth(2, context)),
+                      const SizedBox(width: 2),
                       Text(
                         // format(context)
                         TimeOfDay.fromDateTime(habitModel!.timeOfDay)

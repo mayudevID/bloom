@@ -4,7 +4,6 @@ import '../../../../core/routes/route_name.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../bloc/onboard/onboard_cubit.dart';
 
@@ -68,7 +67,7 @@ class OnboardingPageContent extends StatelessWidget {
           );
         },
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: getWidth(26, context)),
+          margin: const EdgeInsets.symmetric(horizontal: 26),
           height: 56,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -87,7 +86,7 @@ class OnboardingPageContent extends StatelessWidget {
     Widget defaultBottom(int newIndex) {
       int indexIndicator = -1;
       return Container(
-        margin: EdgeInsets.symmetric(horizontal: getWidth(26, context)),
+        margin: const EdgeInsets.symmetric(horizontal: 26),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -151,7 +150,7 @@ class OnboardingPageContent extends StatelessWidget {
               items: imageOnboard.map((e) {
                 return Image.asset(
                   e,
-                  height: getHeight(321, context),
+                  height: 321,
                   fit: BoxFit.fill,
                 );
               }).toList(),
@@ -163,8 +162,8 @@ class OnboardingPageContent extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: getWidth(45, context),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 45,
               ),
               child: BlocBuilder<OnboardCubit, int>(
                 builder: (context, state) {
@@ -176,10 +175,10 @@ class OnboardingPageContent extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: getHeight(8, context)),
+            const SizedBox(height: 8),
             Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: getWidth(60, context),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 60,
               ),
               child: BlocBuilder<OnboardCubit, int>(
                 builder: (context, state) {
@@ -201,7 +200,7 @@ class OnboardingPageContent extends StatelessWidget {
                 }
               },
             ),
-            SizedBox(height: getHeight(40, context)),
+            const SizedBox(height: 40),
           ],
         ),
       ),

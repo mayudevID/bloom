@@ -1,4 +1,3 @@
-
 import '../../data/repositories/auth_repository.dart';
 import '../../data/repositories/local_auth_repository.dart';
 import '../bloc/edit_profile/edit_profile_cubit.dart';
@@ -6,7 +5,6 @@ import '../widgets/exit_edit_profile_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 
 class EditProfilePage extends StatelessWidget {
@@ -93,7 +91,7 @@ class EditProfilePageContent extends StatelessWidget {
                 "Edit Profile",
                 style: mainSubTitle,
               ),
-              SizedBox(height: getHeight(32, context)),
+              const SizedBox(height: 32),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -101,7 +99,7 @@ class EditProfilePageContent extends StatelessWidget {
                   style: buttonSmall.copyWith(fontSize: 14),
                 ),
               ),
-              SizedBox(height: getHeight(8, context)),
+              const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.all(8),
                 height: 40,
@@ -117,7 +115,7 @@ class EditProfilePageContent extends StatelessWidget {
                       width: 24,
                       color: greyDark,
                     ),
-                    SizedBox(width: getWidth(8, context)),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: TextFormField(
                         readOnly: true,
@@ -139,7 +137,7 @@ class EditProfilePageContent extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: getHeight(16, context)),
+              const SizedBox(height: 16),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -147,7 +145,7 @@ class EditProfilePageContent extends StatelessWidget {
                   style: buttonSmall.copyWith(fontSize: 14),
                 ),
               ),
-              SizedBox(height: getHeight(8, context)),
+              const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.all(8),
                 height: 40,
@@ -158,7 +156,7 @@ class EditProfilePageContent extends StatelessWidget {
                 child: Row(
                   children: [
                     Image.asset("assets/icons/person.png", width: 24),
-                    SizedBox(width: getWidth(8, context)),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: BlocBuilder<EditProfileCubit, EditProfileState>(
                         buildWhen: (previous, current) {
@@ -214,7 +212,7 @@ class EditProfilePageContent extends StatelessWidget {
                                 color: naturalWhite,
                               ),
                             ),
-                            SizedBox(width: getWidth(8, context)),
+                            const SizedBox(width: 8),
                             Text(
                               "Saving..",
                               style: buttonSmall.copyWith(color: naturalWhite),
@@ -231,7 +229,7 @@ class EditProfilePageContent extends StatelessWidget {
                   )),
                 ),
               ),
-              SizedBox(height: getHeight(16, context)),
+              const SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
                   if (BlocProvider.of<EditProfileCubit>(context)
@@ -252,7 +250,7 @@ class EditProfilePageContent extends StatelessWidget {
                 },
                 child: Text("Cancel", style: textParagraph),
               ),
-              SizedBox(height: getHeight(72, context)),
+              const SizedBox(height: 72),
             ],
           ),
         ),

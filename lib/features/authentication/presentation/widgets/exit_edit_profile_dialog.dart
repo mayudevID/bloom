@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 
 class ExitEditProfileDialog extends StatelessWidget {
@@ -21,7 +20,7 @@ class ExitEditProfileDialog extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
           ),
-          SizedBox(height: getHeight(10, context)),
+          const SizedBox(height: 10),
           Row(
             children: [
               const Spacer(),
@@ -48,7 +47,7 @@ class ExitEditProfileDialog extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: getWidth(10, context)),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();

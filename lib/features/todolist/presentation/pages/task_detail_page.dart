@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../core/routes/route_name.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../data/models/task_model.dart';
 
@@ -75,7 +74,7 @@ class TaskDetailPageContent extends StatelessWidget {
                       width: 24,
                     ),
                   ),
-                  SizedBox(width: getWidth(16, context)),
+                  const SizedBox(width: 16),
                   GestureDetector(
                     onTap: () async {
                       Navigator.of(context).pop(true);
@@ -87,7 +86,7 @@ class TaskDetailPageContent extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: getHeight(40, context)),
+              const SizedBox(height: 40),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
@@ -109,7 +108,7 @@ class TaskDetailPageContent extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: getHeight(8, context)),
+              const SizedBox(height: 8),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -121,11 +120,11 @@ class TaskDetailPageContent extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: getHeight(16, context)),
+              const SizedBox(height: 16),
               Row(
                 children: [
                   Image.asset("assets/icons/calendar_unselect.png", width: 16),
-                  SizedBox(width: getWidth(4, context)),
+                  const SizedBox(width: 4),
                   Text(
                     DateFormat('EEEE, dd MMMM y')
                         .format(initTaskModel.dateTime),
@@ -135,11 +134,11 @@ class TaskDetailPageContent extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: getHeight(8, context)),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   Image.asset("assets/icons/clock.png", width: 16),
-                  SizedBox(width: getWidth(4, context)),
+                  const SizedBox(width: 4),
                   Text(
                     DateFormat('jm').format(initTaskModel.dateTime),
                     style: interBold12.copyWith(
@@ -148,7 +147,7 @@ class TaskDetailPageContent extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: getHeight(24, context)),
+              const SizedBox(height: 24),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -156,7 +155,7 @@ class TaskDetailPageContent extends StatelessWidget {
                   style: buttonSmall,
                 ),
               ),
-              SizedBox(height: getHeight(4, context)),
+              const SizedBox(height: 4),
               Expanded(
                 child: Align(
                   alignment: Alignment.topLeft,
@@ -197,8 +196,8 @@ class TaskDetailPageContent extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: getHeight(109, context),
+              const SizedBox(
+                height: 109,
               )
             ],
           ),

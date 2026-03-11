@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/routes/route_name.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../../data/repositories/local_auth_repository.dart';
@@ -40,13 +39,13 @@ class CreateAccountPageContent extends StatelessWidget {
         body: Center(
           child: Column(
             children: [
-              SizedBox(height: getHeight(88, context)),
+              const SizedBox(height: 88),
               Image.asset(
                 "assets/icons/logo.png",
-                width: getWidth(100, context),
+                width: 100,
               ),
               Text("Create Account", style: mainTitle),
-              SizedBox(height: getHeight(32, context)),
+              const SizedBox(height: 32),
               BlocListener<SignupCubit, SignupState>(
                 listener: (context, state) {
                   if (state.status == SignupStatus.error) {
@@ -66,25 +65,25 @@ class CreateAccountPageContent extends StatelessWidget {
                     );
                   }
                 },
-                child: Column(
+                child: const Column(
                   children: [
-                    const FormInput(
+                    FormInput(
                       formType: FormType.signup,
                       hintText: 'Name',
                       icon: 'person',
                     ),
-                    SizedBox(height: getHeight(8, context)),
-                    const FormInput(
+                    SizedBox(height: 8),
+                    FormInput(
                       formType: FormType.signup,
                       hintText: 'Email',
                       icon: 'mail',
                     ),
-                    SizedBox(height: getHeight(8, context)),
-                    const FormInputPassword(formType: FormType.signup),
+                    SizedBox(height: 8),
+                    FormInputPassword(formType: FormType.signup),
                   ],
                 ),
               ),
-              SizedBox(height: getHeight(32, context)),
+              const SizedBox(height: 32),
               GestureDetector(
                 onTap: () {
                   FocusManager.instance.primaryFocus?.unfocus();
@@ -93,9 +92,8 @@ class CreateAccountPageContent extends StatelessWidget {
                       .signupWithCredentials(SignupType.email);
                 },
                 child: Container(
-                  height: getHeight(56, context),
-                  margin:
-                      EdgeInsets.symmetric(horizontal: getWidth(30, context)),
+                  height: 56,
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
                   decoration: BoxDecoration(
                     color: yellowDark,
                     borderRadius: BorderRadius.circular(10),
@@ -114,8 +112,8 @@ class CreateAccountPageContent extends StatelessWidget {
                               color: naturalBlack,
                             ),
                           ),
-                          SizedBox(
-                            width: getWidth(15, context),
+                          const SizedBox(
+                            width: 15,
                           ),
                           Text("Loading", style: buttonLarge),
                         ],
@@ -128,9 +126,9 @@ class CreateAccountPageContent extends StatelessWidget {
                   }),
                 ),
               ),
-              SizedBox(height: getHeight(23, context)),
+              const SizedBox(height: 23),
               Text("Or Create new account with", style: smallText),
-              SizedBox(height: getHeight(18, context)),
+              const SizedBox(height: 18),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -153,7 +151,7 @@ class CreateAccountPageContent extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(width: getWidth(28.8, context)),
+                  const SizedBox(width: 28.8),
                   GestureDetector(
                     onTap: () {
                       FocusManager.instance.primaryFocus?.unfocus();
@@ -190,7 +188,7 @@ class CreateAccountPageContent extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: getHeight(40, context)),
+              const SizedBox(height: 40),
             ],
           ),
         ),

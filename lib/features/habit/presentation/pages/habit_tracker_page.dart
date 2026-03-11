@@ -49,7 +49,7 @@ class HabitTrackerPageContent extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text("Habit Tracker", style: mainSubTitle),
             ),
-            SizedBox(height: getHeight(24, context)),
+            const SizedBox(height: 24),
             CalendarWidget(
               initialDate: DateTime.now(),
               firstDate: DateTime(DateTime.now().year),
@@ -61,7 +61,7 @@ class HabitTrackerPageContent extends StatelessWidget {
               },
               leftMargin: (MediaQuery.of(context).size.width / 2) - 20,
             ),
-            SizedBox(height: getHeight(32, context)),
+            const SizedBox(height: 32),
             Container(
               margin: const EdgeInsets.only(left: 24),
               child: Text(
@@ -71,7 +71,7 @@ class HabitTrackerPageContent extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: getHeight(8, context)),
+            const SizedBox(height: 8),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 24),
               child: MultiBlocListener(
@@ -124,9 +124,9 @@ class HabitTrackerPageContent extends StatelessWidget {
                   builder: (context, state) {
                     if (state.habits.isEmpty) {
                       if (state.status == HabitsOverviewStatus.loading) {
-                        return SizedBox(
-                          height: getHeight(70, context),
-                          child: const Center(
+                        return const SizedBox(
+                          height: 70,
+                          child: Center(
                             child: CircularProgressIndicator(
                               color: Colors.black,
                             ),
@@ -135,9 +135,9 @@ class HabitTrackerPageContent extends StatelessWidget {
                       } else if (state.status != HabitsOverviewStatus.success) {
                         return const SizedBox();
                       } else {
-                        return SizedBox(
-                          height: getHeight(70, context),
-                          child: const Center(
+                        return const SizedBox(
+                          height: 70,
+                          child: Center(
                             child: Text(
                               'Habit empty for this date',
                               style: TextStyle(
@@ -172,9 +172,9 @@ class HabitTrackerPageContent extends StatelessWidget {
                           ),
                         );
                       } else {
-                        return SizedBox(
-                          height: getHeight(70, context),
-                          child: const Center(
+                        return const SizedBox(
+                          height: 70,
+                          child: Center(
                             child: Text(
                               'Habit empty for this date',
                               style: TextStyle(
@@ -190,7 +190,7 @@ class HabitTrackerPageContent extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: getHeight(40, context)),
+            const SizedBox(height: 40),
             BlocBuilder<HabitsOverviewBloc, HabitsOverviewState>(
               builder: (context, state) {
                 if (dateNow.isBefore(state.filter as DateTime) ||

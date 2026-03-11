@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../data/models/task_model.dart';
 
@@ -38,7 +37,7 @@ class TaskWidgetDeleted extends StatelessWidget {
                 child: Row(
                   children: [
                     Image.asset("assets/icons/delete.png", width: 35),
-                    SizedBox(width: getWidth(15, context)),
+                    const SizedBox(width: 15),
                     Text(
                       "Delete task",
                       style: textParagraph.copyWith(fontSize: 17),
@@ -52,7 +51,7 @@ class TaskWidgetDeleted extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.all(16),
-        margin: EdgeInsets.only(bottom: getHeight(8, context)),
+        margin: const EdgeInsets.only(bottom: 8),
         height: 90,
         decoration: BoxDecoration(
           color: greyLight,
@@ -83,7 +82,7 @@ class TaskWidgetDeleted extends StatelessWidget {
                 const Spacer(),
               ],
             ),
-            SizedBox(height: getHeight(4, context)),
+            const SizedBox(height: 4),
             Text(
               taskModel!.title,
               style: textParagraph.copyWith(
@@ -93,12 +92,12 @@ class TaskWidgetDeleted extends StatelessWidget {
             Row(
               children: [
                 Image.asset("assets/icons/calendar_unselect.png", width: 13),
-                SizedBox(width: getWidth(2, context)),
+                const SizedBox(width: 2),
                 Text(DateFormat('EEEE').format(taskModel!.dateTime),
                     style: smallText.copyWith(fontSize: 8)),
-                SizedBox(width: getWidth(16, context)),
+                const SizedBox(width: 16),
                 Image.asset("assets/icons/clock.png", width: 12),
-                SizedBox(width: getWidth(2, context)),
+                const SizedBox(width: 2),
                 Text(DateFormat('jm').format(taskModel!.dateTime),
                     style: smallText.copyWith(fontSize: 8)),
               ],

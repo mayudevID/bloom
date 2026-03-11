@@ -3,7 +3,6 @@ import '../../../../core/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../../data/repositories/local_auth_repository.dart';
@@ -40,11 +39,10 @@ class LoginPageContent extends StatelessWidget {
         body: Center(
           child: Column(
             children: [
-              SizedBox(height: getHeight(88, context)),
-              Image.asset("assets/icons/logo.png",
-                  width: getWidth(100, context)),
+              const SizedBox(height: 88),
+              Image.asset("assets/icons/logo.png", width: 100),
               Text("Login", style: mainTitle),
-              SizedBox(height: getHeight(32, context)),
+              const SizedBox(height: 32),
               BlocListener<LoginCubit, LoginState>(
                 listener: (context, state) {
                   if (state.status == LoginStatus.error) {
@@ -63,23 +61,23 @@ class LoginPageContent extends StatelessWidget {
                     );
                   }
                 },
-                child: Column(
+                child: const Column(
                   children: [
-                    const FormInput(
+                    FormInput(
                       formType: FormType.login,
                       hintText: 'Email',
                       icon: 'mail',
                     ),
-                    SizedBox(height: getHeight(8, context)),
-                    const FormInputPassword(formType: FormType.login),
+                    SizedBox(height: 8),
+                    FormInputPassword(formType: FormType.login),
                   ],
                 ),
               ),
-              SizedBox(height: getHeight(9, context)),
+              const SizedBox(height: 9),
               Align(
                 alignment: Alignment.centerRight,
                 child: Padding(
-                  padding: EdgeInsets.only(right: getWidth(30, context)),
+                  padding: const EdgeInsets.only(right: 30),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).pushNamed(RouteName.FORGETPASS);
@@ -88,7 +86,7 @@ class LoginPageContent extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: getHeight(32, context)),
+              const SizedBox(height: 32),
               GestureDetector(
                 onTap: () {
                   FocusManager.instance.primaryFocus?.unfocus();
@@ -97,9 +95,9 @@ class LoginPageContent extends StatelessWidget {
                       .loginWithCredentials(LoginType.email);
                 },
                 child: Container(
-                  height: getHeight(56, context),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: getWidth(30, context),
+                  height: 56,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 30,
                   ),
                   decoration: BoxDecoration(
                     color: yellowDark,
@@ -119,8 +117,8 @@ class LoginPageContent extends StatelessWidget {
                               color: naturalBlack,
                             ),
                           ),
-                          SizedBox(
-                            width: getWidth(15, context),
+                          const SizedBox(
+                            width: 15,
                           ),
                           Text("Loading", style: buttonLarge),
                         ],
@@ -133,9 +131,9 @@ class LoginPageContent extends StatelessWidget {
                   }),
                 ),
               ),
-              SizedBox(height: getHeight(23, context)),
+              const SizedBox(height: 23),
               Text("Or login with", style: smallText),
-              SizedBox(height: getHeight(18, context)),
+              const SizedBox(height: 18),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -157,7 +155,7 @@ class LoginPageContent extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(width: getWidth(28.8, context)),
+                  const SizedBox(width: 28.8),
                   GestureDetector(
                     onTap: () {
                       FocusManager.instance.primaryFocus?.unfocus();
@@ -194,7 +192,7 @@ class LoginPageContent extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: getHeight(40, context)),
+              const SizedBox(height: 40),
             ],
           ),
         ),

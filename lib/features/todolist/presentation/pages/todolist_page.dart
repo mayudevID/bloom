@@ -53,7 +53,7 @@ class ToDoListPageContent extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text("To-Do List", style: mainSubTitle),
             ),
-            SizedBox(height: getHeight(24, context)),
+            const SizedBox(height: 24),
             CalendarWidget(
               initialDate: DateTime.now(),
               firstDate: DateTime(DateTime.now().year),
@@ -65,7 +65,7 @@ class ToDoListPageContent extends StatelessWidget {
               },
               leftMargin: (MediaQuery.of(context).size.width / 2) - 20,
             ),
-            SizedBox(height: getHeight(32, context)),
+            const SizedBox(height: 32),
             Container(
               margin: const EdgeInsets.only(left: 24),
               child: Text(
@@ -75,7 +75,7 @@ class ToDoListPageContent extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: getHeight(8, context)),
+            const SizedBox(height: 8),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 24),
               child: MultiBlocListener(
@@ -127,9 +127,9 @@ class ToDoListPageContent extends StatelessWidget {
                   builder: (context, state) {
                     if (state.todos.isEmpty) {
                       if (state.status == TodosOverviewStatus.loading) {
-                        return SizedBox(
-                          height: getHeight(70, context),
-                          child: const Center(
+                        return const SizedBox(
+                          height: 70,
+                          child: Center(
                             child: CircularProgressIndicator(
                               color: Colors.black,
                             ),
@@ -138,9 +138,9 @@ class ToDoListPageContent extends StatelessWidget {
                       } else if (state.status != TodosOverviewStatus.success) {
                         return const SizedBox();
                       } else {
-                        return SizedBox(
-                          height: getHeight(70, context),
-                          child: const Center(
+                        return const SizedBox(
+                          height: 70,
+                          child: Center(
                             child: Text(
                               'Task empty for this date',
                               style: TextStyle(
@@ -175,9 +175,9 @@ class ToDoListPageContent extends StatelessWidget {
                           ),
                         );
                       } else {
-                        return SizedBox(
-                          height: getHeight(70, context),
-                          child: const Center(
+                        return const SizedBox(
+                          height: 70,
+                          child: Center(
                             child: Text(
                               'Task empty for this date',
                               style: TextStyle(
@@ -193,7 +193,7 @@ class ToDoListPageContent extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: getHeight(40, context)),
+            const SizedBox(height: 40),
             BlocBuilder<TodosOverviewBloc, TodosOverviewState>(
               builder: (context, state) {
                 if (dateNow.isBefore(state.filter as DateTime) ||

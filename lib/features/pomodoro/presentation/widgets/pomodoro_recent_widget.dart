@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
-import '../../../../core/utils/function.dart';
 import '../../data/models/pomodoro_model.dart';
 import 'package:flutter/material.dart';
 
@@ -15,8 +14,8 @@ class PomodoroRecentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //height: getHeight(125, context),
-      margin: EdgeInsets.symmetric(horizontal: getWidth(24, context)),
+      //height: 125,
+      margin: const EdgeInsets.symmetric(horizontal: 24),
       padding: const EdgeInsets.symmetric(
         horizontal: 30,
         vertical: 19,

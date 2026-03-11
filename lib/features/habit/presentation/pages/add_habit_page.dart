@@ -76,7 +76,7 @@ class AddHabitsPageContent extends StatelessWidget {
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.07),
             Center(child: Text("New Habit", style: mainSubTitle)),
-            SizedBox(height: getHeight(16, context)),
+            const SizedBox(height: 16),
             Container(
               width: 74,
               height: 74,
@@ -135,12 +135,12 @@ class AddHabitsPageContent extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: getHeight(32, context)),
+            const SizedBox(height: 32),
             Align(
               alignment: Alignment.centerLeft,
               child: Text("Habit Name", style: textParagraph),
             ),
-            SizedBox(height: getHeight(4, context)),
+            const SizedBox(height: 4),
             Container(
               padding: const EdgeInsets.all(5),
               height: 32,
@@ -167,12 +167,12 @@ class AddHabitsPageContent extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: getHeight(16, context)),
+            const SizedBox(height: 16),
             Align(
               alignment: Alignment.centerLeft,
               child: Text("Goals", style: textParagraph),
             ),
-            SizedBox(height: getHeight(4, context)),
+            const SizedBox(height: 4),
             Container(
               padding: const EdgeInsets.all(5),
               height: 72,
@@ -201,7 +201,7 @@ class AddHabitsPageContent extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: getHeight(16, context)),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -242,7 +242,7 @@ class AddHabitsPageContent extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: getHeight(16, context)),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -287,7 +287,7 @@ class AddHabitsPageContent extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: getHeight(16, context)),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -310,7 +310,7 @@ class AddHabitsPageContent extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: getHeight(16, context)),
+            const SizedBox(height: 16),
             BlocBuilder<AddHabitCubit, AddHabitState>(
               builder: (context, state) {
                 return WeekdaySelector(
@@ -391,14 +391,14 @@ class AddHabitsPageContent extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: getHeight(16, context)),
+            const SizedBox(height: 16),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
               },
               child: Text("Cancel", style: textParagraph),
             ),
-            SizedBox(height: getHeight(72, context)),
+            const SizedBox(height: 72),
           ],
         ),
       ),

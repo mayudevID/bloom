@@ -8,14 +8,14 @@ import '../../features/habit/data/models/habit_model.dart';
 import '../../features/todolist/data/models/task_model.dart';
 
 // GET WIDTH
-double getWidth(double sizeDesign, BuildContext context) {
-  return MediaQuery.of(context).size.width * sizeDesign / 360;
-}
+// double getWidth(double sizeDesign, BuildContext context) {
+//   return MediaQuery.of(context).size.width * sizeDesign / 360;
+// }
 
 // GET HEIGHT
-double getHeight(double sizeDesign, BuildContext context) {
-  return MediaQuery.of(context).size.height * sizeDesign / 800;
-}
+// double getHeight(double sizeDesign, BuildContext context) {
+//   return MediaQuery.of(context).size.height * sizeDesign / 800;
+// }
 
 // ADD TWO DIGIT
 String twoDigits(int n) => n.toString().padLeft(2, '0');

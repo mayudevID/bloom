@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
 import '../../../../core/routes/route_name.dart';
-import '../../../../core/utils/function.dart';
 import '../../../../core/utils/theme.dart';
 import '../../data/models/pomodoro_model.dart';
 import '../bloc/pomodoro_recent/pomodoro_recent_bloc.dart';
@@ -36,7 +35,7 @@ Widget pomodoroCard({
               child: Row(
                 children: [
                   Image.asset("assets/icons/delete.png", width: 35),
-                  SizedBox(width: getWidth(15, context)),
+                  const SizedBox(width: 15),
                   Text(
                     "Delete timer",
                     style: textParagraph.copyWith(fontSize: 17),
@@ -49,11 +48,11 @@ Widget pomodoroCard({
       );
     },
     child: Container(
-      width: getWidth(99, context),
-      height: getHeight(120, context),
+      width: 99,
+      height: 120,
       margin: EdgeInsets.only(
-        left: isLast ? getWidth(24, context) : getWidth(4, context),
-        right: index == 0 ? getWidth(24, context) : getWidth(4, context),
+        left: isLast ? 24 : 4,
+        right: index == 0 ? 24 : 4,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 19),
       decoration: BoxDecoration(
@@ -62,7 +61,7 @@ Widget pomodoroCard({
       ),
       child: Column(
         children: [
-          SizedBox(height: getHeight(15, context)),
+          const SizedBox(height: 15),
           Expanded(
             child: Marquee(
               text: pomodoro.title,
@@ -71,9 +70,9 @@ Widget pomodoroCard({
               blankSpace: 20,
             ),
           ),
-          SizedBox(height: getHeight(10, context)),
+          const SizedBox(height: 10),
           Text("${pomodoro.durationMinutes}:00", style: buttonSmall),
-          SizedBox(height: getHeight(10, context)),
+          const SizedBox(height: 10),
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushNamed(
@@ -102,7 +101,7 @@ Widget pomodoroCard({
               ),
             ),
           ),
-          SizedBox(height: getHeight(20, context)),
+          const SizedBox(height: 20),
         ],
       ),
     ),

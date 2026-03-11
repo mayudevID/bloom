@@ -40,7 +40,7 @@ class HabitStatisticPageContent extends StatelessWidget {
       position: LinearElementPosition.outside,
       value: index.toDouble(),
       child: Container(
-        height: getHeight((index == 11) ? 120 : 183, context),
+        height: (index == 11) ? 120 : 183,
         width: 8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
@@ -84,7 +84,7 @@ class HabitStatisticPageContent extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: getHeight(40, context)),
+            const SizedBox(height: 40),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Stack(
@@ -126,7 +126,7 @@ class HabitStatisticPageContent extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: getHeight(32, context)),
+            const SizedBox(height: 32),
             Expanded(
               child: TabBarView(
                 children: [
@@ -142,7 +142,7 @@ class HabitStatisticPageContent extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: getHeight(10, context)),
+                      const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: BlocBuilder<HabitStatisticBloc,
@@ -190,7 +190,7 @@ class HabitStatisticPageContent extends StatelessWidget {
                           },
                         ),
                       ),
-                      SizedBox(height: getHeight(40, context)),
+                      const SizedBox(height: 40),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         alignment: Alignment.centerLeft,
@@ -201,7 +201,7 @@ class HabitStatisticPageContent extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: getHeight(16, context)),
+                      const SizedBox(height: 16),
                       const Text(
                         "No Data",
                         style: TextStyle(
@@ -235,7 +235,7 @@ class HabitStatisticPageContent extends StatelessWidget {
                       //             ),
                       //           ),
                       //           SizedBox(
-                      //             height: getHeight(25, context),
+                      //             height: 25,
                       //           ),
                       //         ],
                       //       ),
