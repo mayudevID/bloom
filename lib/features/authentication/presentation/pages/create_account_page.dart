@@ -129,48 +129,23 @@ class CreateAccountPageContent extends StatelessWidget {
               const SizedBox(height: 23),
               Text("Or Create new account with", style: smallText),
               const SizedBox(height: 18),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // const ButtonLogo(platformLogo: 'fb'),
-                  GestureDetector(
-                    onTap: () {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      context
-                          .read<SignupCubit>()
-                          .signupWithCredentials(SignupType.fb);
-                    },
-                    child: BlocBuilder<SignupCubit, SignupState>(
-                      builder: (context, state) {
-                        if (state.status == SignupStatus.submitting &&
-                            state.type == SignupType.fb) {
-                          return const ButtonLogo(type: ButtonType.none);
-                        } else {
-                          return const ButtonLogo(type: ButtonType.fb);
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 28.8),
-                  GestureDetector(
-                    onTap: () {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      context
-                          .read<SignupCubit>()
-                          .signupWithCredentials(SignupType.google);
-                    },
-                    child: BlocBuilder<SignupCubit, SignupState>(
-                      builder: (context, state) {
-                        if (state.status == SignupStatus.submitting &&
-                            state.type == SignupType.google) {
-                          return const ButtonLogo(type: ButtonType.none);
-                        } else {
-                          return const ButtonLogo(type: ButtonType.google);
-                        }
-                      },
-                    ),
-                  ),
-                ],
+              GestureDetector(
+                onTap: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  context
+                      .read<SignupCubit>()
+                      .signupWithCredentials(SignupType.google);
+                },
+                child: BlocBuilder<SignupCubit, SignupState>(
+                  builder: (context, state) {
+                    if (state.status == SignupStatus.submitting &&
+                        state.type == SignupType.google) {
+                      return const ButtonLogo(type: ButtonType.none);
+                    } else {
+                      return const ButtonLogo(type: ButtonType.google);
+                    }
+                  },
+                ),
               ),
               const Spacer(),
               Row(

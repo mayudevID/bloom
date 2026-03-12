@@ -134,47 +134,23 @@ class LoginPageContent extends StatelessWidget {
               const SizedBox(height: 23),
               Text("Or login with", style: smallText),
               const SizedBox(height: 18),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      // context
-                      //     .read<LoginCubit>()
-                      //     .loginWithCredentials(LoginType.fb);
-                    },
-                    child: BlocBuilder<LoginCubit, LoginState>(
-                      builder: (context, state) {
-                        if (state.status == LoginStatus.submitting &&
-                            state.type == LoginType.fb) {
-                          return const ButtonLogo(type: ButtonType.none);
-                        } else {
-                          return const ButtonLogo(type: ButtonType.fb);
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 28.8),
-                  GestureDetector(
-                    onTap: () {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      context
-                          .read<LoginCubit>()
-                          .loginWithCredentials(LoginType.google);
-                    },
-                    child: BlocBuilder<LoginCubit, LoginState>(
-                      builder: (context, state) {
-                        if (state.status == LoginStatus.submitting &&
-                            state.type == LoginType.google) {
-                          return const ButtonLogo(type: ButtonType.none);
-                        } else {
-                          return const ButtonLogo(type: ButtonType.google);
-                        }
-                      },
-                    ),
-                  ),
-                ],
+              GestureDetector(
+                onTap: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  context
+                      .read<LoginCubit>()
+                      .loginWithCredentials(LoginType.google);
+                },
+                child: BlocBuilder<LoginCubit, LoginState>(
+                  builder: (context, state) {
+                    if (state.status == LoginStatus.submitting &&
+                        state.type == LoginType.google) {
+                      return const ButtonLogo(type: ButtonType.none);
+                    } else {
+                      return const ButtonLogo(type: ButtonType.google);
+                    }
+                  },
+                ),
               ),
               const Spacer(),
               Row(
