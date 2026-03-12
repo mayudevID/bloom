@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/routes/route_name.dart';
+import '../../../../core/utils/notifications.dart';
 import '../../../../core/utils/theme.dart';
 import '../../data/models/habit_model.dart';
 import '../bloc/habit_overview/habits_overview_bloc.dart';
@@ -26,11 +27,7 @@ class HabitWidget extends StatelessWidget {
           Future.delayed(
             const Duration(milliseconds: 50),
             () async {
-              for (var i = 0; i < habitModel!.dayList.length; i++) {
-                // AwesomeNotifications().cancel(
-                //   habitModel!.habitId * habitModel!.dayList[i],
-                // );
-              }
+              await cancelAllHabitNotifications(habitModel!);
               if (!context.mounted) return;
               context.read<HabitsOverviewBloc>().add(
                     HabitsOverviewHabitDeleted(

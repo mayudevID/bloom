@@ -1,7 +1,6 @@
 part of 'add_todo_cubit.dart';
 
 class AddTodoState extends Equatable {
-
   const AddTodoState({
     required this.taskId,
     required this.title,
@@ -22,7 +21,7 @@ class AddTodoState extends Equatable {
       description: '',
       tags: 'Basic',
       isRepeat: false,
-      isTime: false,
+      isTime: true,
       isChecked: false,
       isChoose: false,
     );

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/routes/route_name.dart';
+import '../../../../core/utils/notifications.dart';
 import '../../../../core/utils/theme.dart';
 import '../../data/models/task_model.dart';
 import '../bloc/todos_overview/todos_overview_bloc.dart';
@@ -26,7 +27,7 @@ class TaskWidget extends StatelessWidget {
           Future.delayed(
             const Duration(milliseconds: 50),
             () async {
-              //AwesomeNotifications().cancel(taskModel!.taskId);
+              await cancelTaskNotification(taskModel!.taskId);
               if (!context.mounted) return;
               context.read<TodosOverviewBloc>().add(
                     TodosOverviewTodoDeleted(

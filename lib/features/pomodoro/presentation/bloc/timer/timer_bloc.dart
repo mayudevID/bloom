@@ -52,6 +52,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   }
 
   void _onSet(TimerSet event, Emitter<TimerState> emit) async {
+    _tickerSubscription?.cancel();
     emit(
       TimerInitial(
         event.data.durationMinutes * 60 * 1000,
@@ -92,6 +93,9 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   // }
 
   void _onTicked(TimerTicked event, Emitter<TimerState> emit) {
+    if (event.duration <= 0) {
+      _tickerSubscription?.cancel();
+    }
     emit(
       event.duration > 0
           ? TimerRunInProgress(event.duration, state.session, true, false)

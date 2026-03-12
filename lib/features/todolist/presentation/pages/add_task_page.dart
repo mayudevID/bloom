@@ -26,36 +26,37 @@ class AddTaskPage extends StatelessWidget {
 class AddTaskPageContent extends StatelessWidget {
   const AddTaskPageContent({Key? key}) : super(key: key);
 
+  Future<DateTime> getTime(BuildContext context) async {
+    TimeOfDay? pickedTime;
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(DateTime.now().year),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+      selectableDayPredicate: decideWhichDayToEnable,
+    );
+    if (pickedDate != null) {
+      pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+    }
+    if (pickedDate != null && pickedTime != null) {
+      return DateTime(
+        pickedDate.year,
+        pickedDate.month,
+        pickedDate.day,
+        pickedTime.hour,
+        pickedTime.minute,
+      );
+    } else {
+      return DateTime(1970);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final title = context.select((AddTodoCubit cubit) => cubit.state.title);
-    Future<DateTime> getTime() async {
-      TimeOfDay? pickedTime;
-      final DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(DateTime.now().year),
-        lastDate: DateTime.now().add(const Duration(days: 365)),
-        selectableDayPredicate: decideWhichDayToEnable,
-      );
-      if (pickedDate != null) {
-        pickedTime = await showTimePicker(
-          context: context,
-          initialTime: TimeOfDay.now(),
-        );
-      }
-      if (pickedDate != null && pickedTime != null) {
-        return DateTime(
-          pickedDate.year,
-          pickedDate.month,
-          pickedDate.day,
-          pickedTime.hour,
-          pickedTime.minute,
-        );
-      } else {
-        return DateTime(1970);
-      }
-    }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -137,23 +138,23 @@ class AddTaskPageContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Time", style: textParagraph),
-                SizedBox(
-                  width: 34,
-                  height: 20,
-                  child: BlocBuilder<AddTodoCubit, AddTodoState>(
-                    builder: (context, state) {
-                      return Switch(
-                        inactiveTrackColor: greyLight,
-                        inactiveThumbColor: greyDark,
-                        activeThumbColor: naturalBlack,
-                        value: state.isTime,
-                        onChanged: (val) {
-                          context.read<AddTodoCubit>().isTimeChanged(val);
-                        },
-                      );
-                    },
-                  ),
-                ),
+                // SizedBox(
+                //   width: 34,
+                //   height: 20,
+                //   child: BlocBuilder<AddTodoCubit, AddTodoState>(
+                //     builder: (context, state) {
+                //       return Switch(
+                //         inactiveTrackColor: greyLight,
+                //         inactiveThumbColor: greyDark,
+                //         activeThumbColor: naturalBlack,
+                //         value: state.isTime,
+                //         onChanged: (val) {
+                //           context.read<AddTodoCubit>().isTimeChanged(val);
+                //         },
+                //       );
+                //     },
+                //   ),
+                // ),
               ],
             ),
             const SizedBox(height: 8),
@@ -163,7 +164,7 @@ class AddTaskPageContent extends StatelessWidget {
                   if (state.isChoose) {
                     return GestureDetector(
                       onTap: () async {
-                        final pick = await getTime();
+                        final pick = await getTime(context);
                         if (pick != DateTime(1970)) {
                           context.read<AddTodoCubit>().timeChanged(pick);
                         }
@@ -207,13 +208,13 @@ class AddTaskPageContent extends StatelessWidget {
                   } else {
                     return GestureDetector(
                       onTap: () async {
-                        final pick = await getTime();
+                        final pick = await getTime(context);
                         if (pick != DateTime(1970)) {
                           context.read<AddTodoCubit>().timeChanged(pick);
                         }
                       },
                       child: Container(
-                        width: 278,
+                        width: double.infinity,
                         height: 32,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),

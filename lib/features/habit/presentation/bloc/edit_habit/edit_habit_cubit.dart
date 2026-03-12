@@ -139,12 +139,14 @@ class EditHabitCubit extends Cubit<EditHabitState> {
       if (listEquals(_habitModel.dayList, newHabitModel.dayList) == false ||
           _habitModel.timeOfDay != newHabitModel.timeOfDay) {
         for (var i = 0; i < _habitModel.dayList.length; i++) {
-          // AwesomeNotifications().cancel(
-          //   _habitModel.habitId * _habitModel.dayList[i],
-          // );
+          await cancelHabitNotification(
+            _habitModel.habitId,
+            _habitModel.dayList[i],
+          );
         }
         for (var i = 0; i < newHabitModel.dayList.length; i++) {
-          createHabitNotification(newHabitModel, newHabitModel.dayList[i]);
+          await createHabitNotification(
+              newHabitModel, newHabitModel.dayList[i]);
         }
       }
 

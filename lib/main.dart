@@ -10,6 +10,7 @@ import 'features/home/data/load_backup_storage_api.dart';
 import 'features/home/domain/load_backup_repository.dart';
 import 'features/settings/data/save_backup_storage_api.dart';
 import 'features/settings/domian/save_backup_repository.dart';
+import 'core/utils/notifications.dart';
 import 'features/todolist/data/repositories/todo/local_storage_todos_api.dart';
 import 'features/todolist/data/repositories/todo_history/local_storage_history_todos_api.dart';
 import 'features/todolist/domain/todos_history_repository.dart';
@@ -115,6 +116,11 @@ void main() async {
       firebaseAuth: firebaseAuth,
     ),
   );
+  await initializeNotificationService(
+    sharedPreferences: sharedPreferences,
+    habitsRepository: habitsRepository,
+    localUserDataRepository: localUserDataRepository,
+  );
   runApp(
     MyApp(
       authRepository: authRepository,
@@ -197,13 +203,42 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class AppView extends StatelessWidget {
+class AppView extends StatefulWidget {
   const AppView({Key? key}) : super(key: key);
+
+  @override
+  State<AppView> createState() => _AppViewState();
+}
+
+class _AppViewState extends State<AppView> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await processInitialNotificationIfAny();
+      await processDueHabitNotifications();
+    });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      processDueHabitNotifications();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: appNavigatorKey,
       home: BlocListener<AppBloc, AppState>(
         listener: (context, state) {
           Navigator.of(context).pushReplacementNamed(

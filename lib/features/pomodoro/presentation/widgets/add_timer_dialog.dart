@@ -106,7 +106,6 @@ class AddTimerDialogContent extends StatelessWidget {
                     onChanged: (value) {
                       context.read<AddPomodoroCubit>().durationChanged(value);
                     },
-                    step: 5,
                   );
                 },
               ),

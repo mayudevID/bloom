@@ -1210,14 +1210,6 @@ PODS:
     - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
-  - FBAEMKit (18.0.2):
-    - FBSDKCoreKit_Basics (= 18.0.2)
-  - FBSDKCoreKit (18.0.2):
-    - FBAEMKit (= 18.0.2)
-    - FBSDKCoreKit_Basics (= 18.0.2)
-  - FBSDKCoreKit_Basics (18.0.2)
-  - FBSDKLoginKit (18.0.2):
-    - FBSDKCoreKit (= 18.0.2)
   - Firebase/Auth (12.9.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 12.9.0)
@@ -1315,12 +1307,11 @@ PODS:
     - GoogleUtilities/Environment (~> 8.1)
     - GTMSessionFetcher/Core (< 6.0, >= 3.4)
   - Flutter (1.0.0)
-  - flutter_facebook_auth (7.1.5):
-    - FBSDKLoginKit (= 18.0.2)
+  - flutter_local_notifications (0.0.1):
     - Flutter
   - flutter_native_splash (0.0.1):
     - Flutter
-  - flutter_secure_storage (6.0.0):
+  - flutter_timezone (0.0.1):
     - Flutter
   - google_sign_in_ios (0.0.1):
     - Flutter
@@ -1520,9 +1511,9 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
-  - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
-  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_timezone (from `.symlinks/plugins/flutter_timezone/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -1537,10 +1528,6 @@ SPEC REPOS:
     - AppAuth
     - AppCheckCore
     - BoringSSL-GRPC
-    - FBAEMKit
-    - FBSDKCoreKit
-    - FBSDKCoreKit_Basics
-    - FBSDKLoginKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseAppCheckInterop
@@ -1583,12 +1570,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
     :path: Flutter
-  flutter_facebook_auth:
-    :path: ".symlinks/plugins/flutter_facebook_auth/ios"
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
-  flutter_secure_storage:
-    :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_timezone:
+    :path: ".symlinks/plugins/flutter_timezone/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   image_cropper:
@@ -1611,10 +1598,6 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: dded2a44897e45f28f08ae87a55ee4bcd19bc508
   cloud_firestore: d5c7f731e71034665afe74e3a1d0ff334f9b7799
   connectivity_plus: cb623214f4e1f6ef8fe7403d580fdad517d2f7dd
-  FBAEMKit: 56a4f5a9607957b547b6458b17a98c5bb2736367
-  FBSDKCoreKit: 54f1240567e16862ab71c53c33dc347db5c524c5
-  FBSDKCoreKit_Basics: eb530cd6a79030dbb11df460aafb2767bcad9028
-  FBSDKLoginKit: 6a70798793e499335a98fab1a758d7da34af196e
   Firebase: 065f2bb395062046623036d8e6dc857bc2521d56
   firebase_analytics: 6903a46192a92993abde88152a14ce1df1c0de2f
   firebase_auth: eeb19010b5aa7c83cc85f23b6c4f009ea28461f1
@@ -1633,9 +1616,9 @@ SPEC CHECKSUMS:
   FirebaseSharedSwift: 9d2fa84a46676302b89dbd5e6e62bce2fe376909
   FirebaseStorage: 3ba2348d876c295236cdd9f408a62d3f9ff8e6b5
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_facebook_auth: fa3b69b1df0831d2178fe87a05ee2d7d0156db70
+  flutter_local_notifications: 643a3eda1ce1c0599413ca31672536d423dee214
   flutter_native_splash: 9e672d3818957718ee006a491730c09deeecace9
-  flutter_secure_storage: 1ed9476fba7e7a782b22888f956cce43e2c62f13
+  flutter_timezone: 7c838e17ffd4645d261e87037e5bebf6d38fe544
   google_sign_in_ios: 000870aa06da9b28d1d0bf7ef70ff0213059dd28
   GoogleAdsOnDeviceConversion: d68c69dd9581a0f5da02617b6f377e5be483970f
   GoogleAppMeasurement: fce7c1c90640d2f9f5c56771f71deacb2ba3f98c

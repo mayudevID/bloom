@@ -7,7 +7,6 @@ import '../../../domain/pomodoros_repository.dart';
 part 'add_pomodoro_state.dart';
 
 class AddPomodoroCubit extends Cubit<AddPomodoroState> {
-
   AddPomodoroCubit(this._pomodorosRepository)
       : super(AddPomodoroState.initial());
   final PomodorosRepository _pomodorosRepository;
@@ -25,6 +24,10 @@ class AddPomodoroCubit extends Cubit<AddPomodoroState> {
   }
 
   void savePomodoro() async {
+    if (state.title.isEmpty) {
+      emit(state.copyWith(status: AddPomodoroStatus.error));
+      return;
+    }
     if (state.status == AddPomodoroStatus.submitting) {
       return;
     }
