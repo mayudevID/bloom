@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../../../../core/error/login_exception.dart';
 import '../../../../core/error/logout_exception.dart';
@@ -18,17 +17,14 @@ class AuthRepository {
   AuthRepository({
     FirebaseFirestore? firestore,
     FirebaseStorage? firebaseStorage,
-    FacebookAuth? facebookAuth,
     GoogleSignIn? googleSignIn,
     firebase_auth.FirebaseAuth? firebaseAuth,
   })  : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance,
         _googleSignIn = googleSignIn ?? GoogleSignIn.instance,
-        _firestore = firestore ?? FirebaseFirestore.instance,
-        _facebookAuth = facebookAuth ?? FacebookAuth.instance;
+        _firestore = firestore ?? FirebaseFirestore.instance;
 
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
-  final FacebookAuth _facebookAuth;
   final GoogleSignIn _googleSignIn;
   bool _googleSignInInitialized = false;
 
@@ -78,27 +74,6 @@ class AuthRepository {
     }
   }
 
-  Future<UserData> signInSignUpByFacebook() async {
-    try {
-      final LoginResult loginResult = await _facebookAuth.login();
-
-      if (loginResult.status != LoginStatus.success ||
-          loginResult.accessToken == null) {
-        throw const LogInWithFacebookFailure('Facebook Sign-in cancelled');
-      }
-
-      final firebase_auth.OAuthCredential facebookAuthCredential =
-          firebase_auth.FacebookAuthProvider.credential(
-        loginResult.accessToken!.tokenString,
-      );
-
-      final userData = await createOrGet(facebookAuthCredential);
-      return userData;
-    } on FirebaseException catch (e) {
-      throw LogInWithFacebookFailure.fromCode(e.code);
-    }
-  }
-
   Future<UserData> signInSignUpByGoogle() async {
     try {
       await _ensureGoogleSignInInitialized();
@@ -126,7 +101,6 @@ class AuthRepository {
       await Future.wait([
         _firebaseAuth.signOut(),
         _googleSignIn.signOut(),
-        _facebookAuth.logOut(),
       ]);
     } on firebase_auth.FirebaseException {
       throw LogOutFailure();

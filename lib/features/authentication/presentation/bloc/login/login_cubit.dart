@@ -9,7 +9,6 @@ import '../../../data/repositories/local_auth_repository.dart';
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-
   LoginCubit(
     this._authRepository,
     this._localUserDataRepository,
@@ -58,12 +57,6 @@ class LoginCubit extends Cubit<LoginState> {
         final userData = await _authRepository.signInSignUpByGoogle();
         await _localUserDataRepository.saveUserData(userData);
         emit(state.copyWith(status: LoginStatus.success));
-      } else {
-        final userData = await _authRepository.signInSignUpByFacebook();
-        await _localUserDataRepository.saveUserData(userData);
-        emit(
-          state.copyWith(status: LoginStatus.success),
-        );
       }
     } on LogInWithEmailAndPasswordFailure catch (e) {
       emit(state.copyWith(status: LoginStatus.error, errorMessage: e.message));

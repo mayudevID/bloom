@@ -9,7 +9,6 @@ import '../../../data/repositories/local_auth_repository.dart';
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
-
   SignupCubit(
     this._authRepository,
     this._localUserDataRepository,
@@ -72,10 +71,6 @@ class SignupCubit extends Cubit<SignupState> {
         emit(state.copyWith(status: SignupStatus.success));
       } else if (type == SignupType.google) {
         final userData = await _authRepository.signInSignUpByGoogle();
-        await _localUserDataRepository.saveUserData(userData);
-        emit(state.copyWith(status: SignupStatus.success));
-      } else {
-        final userData = await _authRepository.signInSignUpByFacebook();
         await _localUserDataRepository.saveUserData(userData);
         emit(state.copyWith(status: SignupStatus.success));
       }
