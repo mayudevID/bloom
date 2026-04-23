@@ -159,9 +159,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               ),
               if (index == _days.length - 1)
                 SizedBox(
-                    width: MediaQuery.of(context).size.width -
-                        widget.leftMargin -
-                        65)
+                  width: MediaQuery.of(context).size.width -
+                      widget.leftMargin -
+                      65,
+                ),
             ],
           );
         },
@@ -214,7 +215,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     width: MediaQuery.of(context).size.width -
                         widget.leftMargin -
                         (monthName.length * 10),
-                  )
+                  ),
               ],
             ),
           );
@@ -257,7 +258,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     width: MediaQuery.of(context).size.width -
                         widget.leftMargin -
                         (yearName.length * 10),
-                  )
+                  ),
               ],
             ),
           );
@@ -326,7 +327,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     _generateDays(date);
     _daySelectedIndex = date.month == _selectedDate!.month
         ? _days.indexOf(
-            _days.firstWhere((dayDate) => dayDate.day == _selectedDate!.day))
+            _days.firstWhere((dayDate) => dayDate.day == _selectedDate!.day),
+          )
         : null;
     _moveToDayIndex(_daySelectedIndex ?? 0);
   }
@@ -382,23 +384,32 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   }
 
   void selectedYear() {
-    _yearSelectedIndex = _years.indexOf(_years
-        .firstWhere((yearDate) => yearDate.year == widget.initialDate.year));
+    _yearSelectedIndex = _years.indexOf(
+      _years.firstWhere((yearDate) => yearDate.year == widget.initialDate.year),
+    );
   }
 
   void selectedMonth() {
     if (widget.showYears)
-      _monthSelectedIndex = _months.indexOf(_months.firstWhere(
-          (monthDate) => monthDate.month == widget.initialDate.month));
+      _monthSelectedIndex = _months.indexOf(
+        _months.firstWhere(
+          (monthDate) => monthDate.month == widget.initialDate.month,
+        ),
+      );
     else
-      _monthSelectedIndex = _months.indexOf(_months.firstWhere((monthDate) =>
-          monthDate.year == widget.initialDate.year &&
-          monthDate.month == widget.initialDate.month));
+      _monthSelectedIndex = _months.indexOf(
+        _months.firstWhere(
+          (monthDate) =>
+              monthDate.year == widget.initialDate.year &&
+              monthDate.month == widget.initialDate.month,
+        ),
+      );
   }
 
   void selectedDay() {
     _daySelectedIndex = _days.indexOf(
-        _days.firstWhere((dayDate) => dayDate.day == widget.initialDate.day));
+      _days.firstWhere((dayDate) => dayDate.day == widget.initialDate.day),
+    );
   }
 
   /// Initializes the calendar. It will be executed every time a new date is selected

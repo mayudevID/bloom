@@ -39,8 +39,10 @@ class LocalStoragePomodorosApi extends PomodorosApi {
     final pomodorosJson = _getValue(kPomodorosCollectionKey);
     if (pomodorosJson != null) {
       final pomodoros = List<Map>.from(json.decode(pomodorosJson) as List)
-          .map((jsonMap) =>
-              PomodoroModel.fromJson(Map<String, dynamic>.from(jsonMap)))
+          .map(
+            (jsonMap) =>
+                PomodoroModel.fromJson(Map<String, dynamic>.from(jsonMap)),
+          )
           .toList();
       _pomodoroStreamController.add(pomodoros);
     } else {

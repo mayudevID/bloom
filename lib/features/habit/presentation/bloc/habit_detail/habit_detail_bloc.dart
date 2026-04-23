@@ -31,7 +31,9 @@ class HabitDetailBloc extends Bloc<HabitDetailEvent, HabitDetailState> {
   final LocalUserDataRepository _localUserDataRepository;
 
   Future<void> _onChanged(
-      HabitChanged event, Emitter<HabitDetailState> emit) async {
+    HabitChanged event,
+    Emitter<HabitDetailState> emit,
+  ) async {
     final isChecked = event.missed < state.missed;
 
     final habit = (state.initialHabit ?? emptyModel()).copyWith(

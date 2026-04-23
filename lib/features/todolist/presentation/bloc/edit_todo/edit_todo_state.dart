@@ -3,7 +3,6 @@ part of 'edit_todo_cubit.dart';
 enum EditTodoStatus { init, load, saved, error }
 
 class EditTodoState extends Equatable {
-
   const EditTodoState({
     required this.taskId,
     required this.title,

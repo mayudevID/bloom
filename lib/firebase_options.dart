@@ -65,5 +65,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'bloom-f3b03.firebasestorage.app',
     iosBundleId: 'com.mayudevid.bloom',
   );
-
 }

@@ -9,7 +9,6 @@ part 'habit_statistic_state.dart';
 
 class HabitStatisticBloc
     extends Bloc<HabitStatisticEvent, HabitStatisticState> {
-
   HabitStatisticBloc({required LocalUserDataRepository localUserDataRepository})
       : _localUserDataRepository = localUserDataRepository,
         super(HabitStatisticInitial()) {

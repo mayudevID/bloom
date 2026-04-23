@@ -104,31 +104,32 @@ class LoginPageContent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: BlocBuilder<LoginCubit, LoginState>(
-                      builder: (context, state) {
-                    if (state.status == LoginStatus.submitting &&
-                        state.type == LoginType.email) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 25,
-                            height: 25,
-                            child: CircularProgressIndicator(
-                              color: naturalBlack,
+                    builder: (context, state) {
+                      if (state.status == LoginStatus.submitting &&
+                          state.type == LoginType.email) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: CircularProgressIndicator(
+                                color: naturalBlack,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          Text("Loading", style: buttonLarge),
-                        ],
-                      );
-                    } else {
-                      return Center(
-                        child: Text("Login", style: buttonLarge),
-                      );
-                    }
-                  }),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            Text("Loading", style: buttonLarge),
+                          ],
+                        );
+                      } else {
+                        return Center(
+                          child: Text("Login", style: buttonLarge),
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
               const SizedBox(height: 23),

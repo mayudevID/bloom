@@ -15,7 +15,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   Future<void> _userRequested(
-      UserRequested event, Emitter<UserState> emit) async {
+    UserRequested event,
+    Emitter<UserState> emit,
+  ) async {
     await emit.forEach<UserData>(
       _localUserDataRepository.getUserData(),
       onData: (userData) => state.copyWith(

@@ -11,11 +11,11 @@ part 'todos_overview_event.dart';
 part 'todos_overview_state.dart';
 
 class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
-  TodosOverviewBloc(
-      {required TodosRepository todosRepository,
-      required TodosHistoryRepository todosHistoryRepository,
-      required LocalUserDataRepository localUserDataRepository})
-      : _todosRepository = todosRepository,
+  TodosOverviewBloc({
+    required TodosRepository todosRepository,
+    required TodosHistoryRepository todosHistoryRepository,
+    required LocalUserDataRepository localUserDataRepository,
+  })  : _todosRepository = todosRepository,
         _todosHistoryRepository = todosHistoryRepository,
         _localUserDataRepository = localUserDataRepository,
         super(TodosOverviewState()) {

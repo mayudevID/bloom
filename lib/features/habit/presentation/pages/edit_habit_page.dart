@@ -262,7 +262,7 @@ class EditHabitsPageContent extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -307,7 +307,7 @@ class EditHabitsPageContent extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -330,7 +330,7 @@ class EditHabitsPageContent extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -355,7 +355,7 @@ class EditHabitsPageContent extends StatelessWidget {
                       state.wednesday,
                       state.thursday,
                       state.friday,
-                      state.saturday
+                      state.saturday,
                     ],
                   );
                 },

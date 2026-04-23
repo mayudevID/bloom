@@ -32,8 +32,10 @@ class LocalStorageHabitsApi extends HabitsApi {
     final habitsJson = _getValue(kHabitsCollectionKey);
     if (habitsJson != null) {
       final habits = List<Map>.from(json.decode(habitsJson) as List)
-          .map((jsonMap) =>
-              HabitModel.fromJson(Map<String, dynamic>.from(jsonMap)))
+          .map(
+            (jsonMap) =>
+                HabitModel.fromJson(Map<String, dynamic>.from(jsonMap)),
+          )
           .toList();
       _habitStreamController.add(habits);
     } else {

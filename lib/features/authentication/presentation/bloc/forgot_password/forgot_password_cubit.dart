@@ -6,7 +6,6 @@ import '../../../data/repositories/auth_repository.dart';
 part 'forgot_password_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
-
   ForgotPasswordCubit({required AuthRepository authRepository})
       : _authRepository = authRepository,
         super(ForgotPasswordState.initial());
@@ -24,10 +23,12 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
       await _authRepository.resetPassword(state.email);
       emit(state.copyWith(status: SendStatus.success));
     } on SendEmailFailure catch (e) {
-      emit(state.copyWith(
-        status: SendStatus.error,
-        errorMessage: e.message,
-      ));
+      emit(
+        state.copyWith(
+          status: SendStatus.error,
+          errorMessage: e.message,
+        ),
+      );
     }
   }
 }

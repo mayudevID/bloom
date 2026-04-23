@@ -3,7 +3,6 @@ part of 'forgot_password_cubit.dart';
 enum SendStatus { initial, submitting, success, error }
 
 class ForgotPasswordState extends Equatable {
-
   const ForgotPasswordState({
     required this.email,
     required this.status,

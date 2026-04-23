@@ -133,7 +133,7 @@ class OnboardingPageContent extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       );

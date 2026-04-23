@@ -3,7 +3,6 @@ part of 'add_pomodoro_cubit.dart';
 enum AddPomodoroStatus { initial, submitting, success, error }
 
 class AddPomodoroState extends Equatable {
-
   const AddPomodoroState({
     required this.title,
     required this.duration,

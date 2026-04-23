@@ -279,7 +279,7 @@ class EditTaskPageContent extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -320,7 +320,7 @@ class EditTaskPageContent extends StatelessWidget {
                         );
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
               const Spacer(),

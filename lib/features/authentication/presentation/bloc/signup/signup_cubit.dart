@@ -17,34 +17,42 @@ class SignupCubit extends Cubit<SignupState> {
   final LocalUserDataRepository _localUserDataRepository;
 
   void hidePassword() {
-    emit(state.copyWith(
-      isHidden: !state.isHidden,
-      status: SignupStatus.initial,
-    ));
+    emit(
+      state.copyWith(
+        isHidden: !state.isHidden,
+        status: SignupStatus.initial,
+      ),
+    );
   }
 
   void nameChanged(String value) {
-    emit(state.copyWith(
-      name: value,
-      status: SignupStatus.initial,
-      type: SignupType.email,
-    ));
+    emit(
+      state.copyWith(
+        name: value,
+        status: SignupStatus.initial,
+        type: SignupType.email,
+      ),
+    );
   }
 
   void emailChanged(String value) {
-    emit(state.copyWith(
-      email: value,
-      status: SignupStatus.initial,
-      type: SignupType.email,
-    ));
+    emit(
+      state.copyWith(
+        email: value,
+        status: SignupStatus.initial,
+        type: SignupType.email,
+      ),
+    );
   }
 
   void passwordChanged(String value) {
-    emit(state.copyWith(
-      password: value,
-      status: SignupStatus.initial,
-      type: SignupType.email,
-    ));
+    emit(
+      state.copyWith(
+        password: value,
+        status: SignupStatus.initial,
+        type: SignupType.email,
+      ),
+    );
   }
 
   Future<void> signupWithCredentials(SignupType type) async {
@@ -53,10 +61,12 @@ class SignupCubit extends Cubit<SignupState> {
     }
     emit(state.copyWith(status: SignupStatus.initial));
     if (state.name.isEmpty) {
-      emit(state.copyWith(
-        status: SignupStatus.error,
-        errorMessage: "Name is required",
-      ));
+      emit(
+        state.copyWith(
+          status: SignupStatus.error,
+          errorMessage: "Name is required",
+        ),
+      );
       return;
     }
     emit(state.copyWith(status: SignupStatus.submitting, type: type));

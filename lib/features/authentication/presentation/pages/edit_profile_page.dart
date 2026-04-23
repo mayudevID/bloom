@@ -199,34 +199,36 @@ class EditProfilePageContent extends StatelessWidget {
                     color: naturalBlack,
                   ),
                   child: Center(
-                      child: BlocBuilder<EditProfileCubit, EditProfileState>(
-                    builder: (context, state) {
-                      if (state.status == EditProfileStatus.submitting) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                color: naturalWhite,
+                    child: BlocBuilder<EditProfileCubit, EditProfileState>(
+                      builder: (context, state) {
+                        if (state.status == EditProfileStatus.submitting) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: naturalWhite,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              "Saving..",
-                              style: buttonSmall.copyWith(color: naturalWhite),
-                            ),
-                          ],
-                        );
-                      } else {
-                        return Text(
-                          "Save",
-                          style: buttonSmall.copyWith(color: naturalWhite),
-                        );
-                      }
-                    },
-                  )),
+                              const SizedBox(width: 8),
+                              Text(
+                                "Saving..",
+                                style:
+                                    buttonSmall.copyWith(color: naturalWhite),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Text(
+                            "Save",
+                            style: buttonSmall.copyWith(color: naturalWhite),
+                          );
+                        }
+                      },
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),

@@ -4,13 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/main/main_cubit.dart';
 
 class NavbarButton extends StatelessWidget {
-
-  const NavbarButton(
-      {Key? key,
-      required this.groupVal,
-      required this.value,
-      required this.icon})
-      : super(key: key);
+  const NavbarButton({
+    Key? key,
+    required this.groupVal,
+    required this.value,
+    required this.icon,
+  }) : super(key: key);
   final MainTab groupVal;
   final MainTab value;
   final String icon;

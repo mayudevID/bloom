@@ -1,5 +1,3 @@
-
-
 // class NotificationController {
 //   static const kHabitsCollectionKey = '__habits_collection_key__';
 

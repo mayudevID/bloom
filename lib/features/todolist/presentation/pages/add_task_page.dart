@@ -254,7 +254,7 @@ class AddTaskPageContent extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(height: 16),
@@ -295,7 +295,7 @@ class AddTaskPageContent extends StatelessWidget {
                       );
                     },
                   ),
-                )
+                ),
               ],
             ),
             const Spacer(),

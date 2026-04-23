@@ -175,7 +175,8 @@ class HabitStatisticPageContent extends StatelessWidget {
                                 height: 70,
                                 child: Center(
                                   child: CircularProgressIndicator(
-                                      color: Colors.black),
+                                    color: Colors.black,
+                                  ),
                                 ),
                               );
                             } else {
@@ -183,7 +184,8 @@ class HabitStatisticPageContent extends StatelessWidget {
                                 height: 70,
                                 child: Center(
                                   child: CircularProgressIndicator(
-                                      color: Colors.black),
+                                    color: Colors.black,
+                                  ),
                                 ),
                               );
                             }

@@ -5,7 +5,6 @@ enum LoginStatus { initial, submitting, success, error }
 enum LoginType { email, google, fb }
 
 class LoginState extends Equatable {
-
   const LoginState({
     required this.email,
     required this.password,

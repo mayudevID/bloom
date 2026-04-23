@@ -192,13 +192,15 @@ class WeekdaySelectorThemeData with Diagnosticable {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(FlagProperty(
-      'feedback',
-      value: enableFeedback,
-      ifTrue: 'enabled',
-      ifFalse: 'disabled',
-      showName: true,
-    ));
+    properties.add(
+      FlagProperty(
+        'feedback',
+        value: enableFeedback,
+        ifTrue: 'enabled',
+        ifFalse: 'disabled',
+        showName: true,
+      ),
+    );
     textStyle?.debugFillProperties(
       properties,
       prefix: 'textStyle.',
@@ -211,96 +213,132 @@ class WeekdaySelectorThemeData with Diagnosticable {
       properties,
       prefix: 'disabledTextStyle.',
     );
-    properties.add(ColorProperty(
-      'color',
-      color,
-      defaultValue: null,
-    ));
-    properties.add(ColorProperty(
-      'selectedColor',
-      selectedColor,
-      defaultValue: null,
-    ));
-    properties.add(ColorProperty(
-      'disabledColor',
-      disabledColor,
-      defaultValue: null,
-    ));
-    properties.add(ColorProperty(
-      'fillColor',
-      fillColor,
-      defaultValue: null,
-    ));
-    properties.add(ColorProperty(
-      'selectedFillColor',
-      selectedFillColor,
-      defaultValue: null,
-    ));
-    properties.add(ColorProperty(
-      'disabledFillColor',
-      disabledFillColor,
-      defaultValue: null,
-    ));
-    properties.add(ColorProperty(
-      'focusColor',
-      focusColor,
-      defaultValue: null,
-    ));
-    properties.add(ColorProperty(
-      'selectedFocusColor',
-      selectedFocusColor,
-      defaultValue: null,
-    ));
-    properties.add(ColorProperty(
-      'hoverColor',
-      hoverColor,
-      defaultValue: null,
-    ));
-    properties.add(ColorProperty(
-      'selectedHoverColor',
-      selectedHoverColor,
-      defaultValue: null,
-    ));
-    properties.add(ColorProperty(
-      'splashColor',
-      splashColor,
-      defaultValue: null,
-    ));
-    properties.add(ColorProperty(
-      'selectedSplashColor',
-      selectedSplashColor,
-      defaultValue: null,
-    ));
-    properties.add(DoubleProperty(
-      'elevation',
-      elevation,
-      defaultValue: null,
-    ));
-    properties.add(DoubleProperty(
-      'selectedElevation',
-      selectedElevation,
-      defaultValue: null,
-    ));
-    properties.add(DoubleProperty(
-      'disabledElevation',
-      disabledElevation,
-      defaultValue: null,
-    ));
-    properties.add(DiagnosticsProperty<ShapeBorder>(
-      'shape',
-      shape,
-      defaultValue: null,
-    ));
-    properties.add(DiagnosticsProperty<ShapeBorder>(
-      'selectedShape',
-      selectedShape,
-      defaultValue: null,
-    ));
-    properties.add(DiagnosticsProperty<ShapeBorder>(
-      'disabledShape',
-      disabledShape,
-      defaultValue: null,
-    ));
+    properties.add(
+      ColorProperty(
+        'color',
+        color,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      ColorProperty(
+        'selectedColor',
+        selectedColor,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      ColorProperty(
+        'disabledColor',
+        disabledColor,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      ColorProperty(
+        'fillColor',
+        fillColor,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      ColorProperty(
+        'selectedFillColor',
+        selectedFillColor,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      ColorProperty(
+        'disabledFillColor',
+        disabledFillColor,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      ColorProperty(
+        'focusColor',
+        focusColor,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      ColorProperty(
+        'selectedFocusColor',
+        selectedFocusColor,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      ColorProperty(
+        'hoverColor',
+        hoverColor,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      ColorProperty(
+        'selectedHoverColor',
+        selectedHoverColor,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      ColorProperty(
+        'splashColor',
+        splashColor,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      ColorProperty(
+        'selectedSplashColor',
+        selectedSplashColor,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DoubleProperty(
+        'elevation',
+        elevation,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DoubleProperty(
+        'selectedElevation',
+        selectedElevation,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DoubleProperty(
+        'disabledElevation',
+        disabledElevation,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<ShapeBorder>(
+        'shape',
+        shape,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<ShapeBorder>(
+        'selectedShape',
+        selectedShape,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<ShapeBorder>(
+        'disabledShape',
+        disabledShape,
+        defaultValue: null,
+      ),
+    );
   }
 }
 

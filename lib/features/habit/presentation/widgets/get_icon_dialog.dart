@@ -35,7 +35,7 @@ Dialog getIconDialog(BuildContext context, HabitPageType type) {
                       : context.read<EditHabitCubit>().iconChanged(index);
                   Navigator.pop(context);
                 },
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(

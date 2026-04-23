@@ -5,7 +5,6 @@ enum SignupStatus { initial, submitting, success, error }
 enum SignupType { email, google, fb }
 
 class SignupState extends Equatable {
-
   const SignupState({
     required this.name,
     required this.email,

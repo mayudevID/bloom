@@ -8,7 +8,6 @@ abstract class HabitDetailEvent extends Equatable {
 }
 
 class HabitChanged extends HabitDetailEvent {
-
   const HabitChanged({
     required this.missed,
     required this.streak,

@@ -170,7 +170,7 @@ class ToDoListPageContent extends StatelessWidget {
                               for (final TaskModel taskModel in dataTask)
                                 TaskWidget(
                                   taskModel: taskModel,
-                                )
+                                ),
                             ],
                           ),
                         );

@@ -59,8 +59,12 @@ class AddTimerDialogContent extends StatelessWidget {
                     context.read<AddPomodoroCubit>().titleChanged(val);
                   },
                   maxLength: 25,
-                  buildCounter: (BuildContext context,
-                      {int? currentLength, int? maxLength, bool? isFocused}) {
+                  buildCounter: (
+                    BuildContext context, {
+                    int? currentLength,
+                    int? maxLength,
+                    bool? isFocused,
+                  }) {
                     return null;
                   },
                   autofocus: true,
@@ -203,56 +207,55 @@ class AddTimerDialogContent extends StatelessWidget {
   }
 }
 
-
 // if (addPomodoroController.titleController.text.isNotEmpty) {
-                  //   var pomodoroDb = await Hive.openBox('pomodoro_db');
-                  //   pomodoroDb.add(
-                  //     PomodoroModel(
-                  //       pomodoroId: getRandomId(),
-                  //       title:
-                  //           addPomodoroController.titleController.text.trim(),
-                  //       durationMinutes:
-                  //           addPomodoroController.valueDuration.value,
-                  //       session: addPomodoroController.valueSessions.value,
-                  //     ),
-                  //   );
-                  //   Get.delete<AddPomodoroController>();
-                  //   Get.back();
-                  //   if (pomodoroDb.length != 1) {
-                  //     scrollController.scrollTo(
-                  //       index: pomodoroDb.length - 1,
-                  //       duration: const Duration(seconds: 1),
-                  //     );
-                  //   }
-                  //   Get.snackbar(
-                  //     "Timer Added",
-                  //     "\"${addPomodoroController.titleController.text}\" added to My Timer",
-                  //     colorText: naturalWhite,
-                  //     snackPosition: SnackPosition.BOTTOM,
-                  //     margin: const EdgeInsets.only(
-                  //       bottom: 80,
-                  //       left: 30,
-                  //       right: 30,
-                  //     ),
-                  //     backgroundColor: naturalBlack,
-                  //     animationDuration: const Duration(milliseconds: 100),
-                  //     forwardAnimationCurve: Curves.fastOutSlowIn,
-                  //     reverseAnimationCurve: Curves.fastOutSlowIn,
-                  //   );
-                  // } else {
-                  //   Get.snackbar(
-                  //     "Empty Title",
-                  //     "Enter the title first",
-                  //     colorText: naturalWhite,
-                  //     snackPosition: SnackPosition.BOTTOM,
-                  //     margin: const EdgeInsets.only(
-                  //       bottom: 40,
-                  //       left: 30,
-                  //       right: 30,
-                  //     ),
-                  //     backgroundColor: naturalBlack,
-                  //     animationDuration: const Duration(milliseconds: 100),
-                  //     forwardAnimationCurve: Curves.fastOutSlowIn,
-                  //     reverseAnimationCurve: Curves.fastOutSlowIn,
-                  //   );
-                  // }
+//   var pomodoroDb = await Hive.openBox('pomodoro_db');
+//   pomodoroDb.add(
+//     PomodoroModel(
+//       pomodoroId: getRandomId(),
+//       title:
+//           addPomodoroController.titleController.text.trim(),
+//       durationMinutes:
+//           addPomodoroController.valueDuration.value,
+//       session: addPomodoroController.valueSessions.value,
+//     ),
+//   );
+//   Get.delete<AddPomodoroController>();
+//   Get.back();
+//   if (pomodoroDb.length != 1) {
+//     scrollController.scrollTo(
+//       index: pomodoroDb.length - 1,
+//       duration: const Duration(seconds: 1),
+//     );
+//   }
+//   Get.snackbar(
+//     "Timer Added",
+//     "\"${addPomodoroController.titleController.text}\" added to My Timer",
+//     colorText: naturalWhite,
+//     snackPosition: SnackPosition.BOTTOM,
+//     margin: const EdgeInsets.only(
+//       bottom: 80,
+//       left: 30,
+//       right: 30,
+//     ),
+//     backgroundColor: naturalBlack,
+//     animationDuration: const Duration(milliseconds: 100),
+//     forwardAnimationCurve: Curves.fastOutSlowIn,
+//     reverseAnimationCurve: Curves.fastOutSlowIn,
+//   );
+// } else {
+//   Get.snackbar(
+//     "Empty Title",
+//     "Enter the title first",
+//     colorText: naturalWhite,
+//     snackPosition: SnackPosition.BOTTOM,
+//     margin: const EdgeInsets.only(
+//       bottom: 40,
+//       left: 30,
+//       right: 30,
+//     ),
+//     backgroundColor: naturalBlack,
+//     animationDuration: const Duration(milliseconds: 100),
+//     forwardAnimationCurve: Curves.fastOutSlowIn,
+//     reverseAnimationCurve: Curves.fastOutSlowIn,
+//   );
+// }

@@ -3,7 +3,6 @@ part 'task_model.g.dart';
 
 @JsonSerializable()
 class TaskModel {
-
   TaskModel({
     required this.taskId,
     required this.title,

@@ -5,7 +5,6 @@ enum LogoutStatus { initial, processing, success, error }
 enum BackupStatus { initial, processing, success, error }
 
 class SettingsState extends Equatable {
-
   const SettingsState({
     required this.logoutStatus,
     required this.backupStatus,

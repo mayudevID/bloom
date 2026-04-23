@@ -213,7 +213,7 @@ class HomePageContent extends StatelessWidget {
                               for (final taskModel in dataTask)
                                 TaskWidget(
                                   taskModel: taskModel,
-                                )
+                                ),
                             ],
                           ),
                         );
@@ -326,7 +326,7 @@ class HomePageContent extends StatelessWidget {
                               for (final habitModel in dataHabit)
                                 HabitWidget(
                                   habitModel: habitModel,
-                                )
+                                ),
                             ],
                           ),
                         );

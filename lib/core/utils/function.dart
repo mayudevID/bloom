@@ -108,8 +108,10 @@ List<HabitModel> sortHabitsByDate(List<HabitModel> habitList) {
     }
   }
 
-  dataHabits.sort((t1, t2) => toDouble(TimeOfDay.fromDateTime(t1.timeOfDay))
-      .compareTo(toDouble(TimeOfDay.fromDateTime(t2.timeOfDay))));
+  dataHabits.sort(
+    (t1, t2) => toDouble(TimeOfDay.fromDateTime(t1.timeOfDay))
+        .compareTo(toDouble(TimeOfDay.fromDateTime(t2.timeOfDay))),
+  );
 
   return dataHabits;
 }
@@ -130,7 +132,9 @@ List<TaskModel> taskByDateChooser(List<TaskModel> taskList, DateTime date) {
 
 // CHOOSE HABITS BY DATE
 List<HabitModel> habitByDateChooser(
-    List<HabitModel> habitList, DateTime dateSelect) {
+  List<HabitModel> habitList,
+  DateTime dateSelect,
+) {
   final List<HabitModel> dataHabitNow = <HabitModel>[];
   for (final HabitModel habitModel in habitList) {
     for (final int day in habitModel.dayList) {
@@ -141,8 +145,10 @@ List<HabitModel> habitByDateChooser(
     }
   }
 
-  dataHabitNow.sort((t1, t2) => toDouble(TimeOfDay.fromDateTime(t1.timeOfDay))
-      .compareTo(toDouble(TimeOfDay.fromDateTime(t2.timeOfDay))));
+  dataHabitNow.sort(
+    (t1, t2) => toDouble(TimeOfDay.fromDateTime(t1.timeOfDay))
+        .compareTo(toDouble(TimeOfDay.fromDateTime(t2.timeOfDay))),
+  );
 
   return dataHabitNow;
 }
@@ -153,10 +159,12 @@ Future<File> getImageFileFromAssets(String path) async {
 
   final file = File('${(await getTemporaryDirectory()).path}/$path');
   await file.create(recursive: true);
-  await file.writeAsBytes(byteData.buffer.asUint8List(
-    byteData.offsetInBytes,
-    byteData.lengthInBytes,
-  ));
+  await file.writeAsBytes(
+    byteData.buffer.asUint8List(
+      byteData.offsetInBytes,
+      byteData.lengthInBytes,
+    ),
+  );
 
   final pathOld = file.path;
   final lastSeparator = pathOld.lastIndexOf(Platform.pathSeparator);

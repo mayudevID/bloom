@@ -28,8 +28,10 @@ class LoadBackupStorageApi extends LoadBackupApi {
     if (data.exists && data.get('habitsData') != null) {
       final dataList =
           List<Map>.from(json.decode(data.get('habitsData')) as List)
-              .map((jsonMap) =>
-                  HabitModel.fromJson(Map<String, dynamic>.from(jsonMap)))
+              .map(
+                (jsonMap) =>
+                    HabitModel.fromJson(Map<String, dynamic>.from(jsonMap)),
+              )
               .toList();
 
       return dataList;
@@ -48,8 +50,10 @@ class LoadBackupStorageApi extends LoadBackupApi {
     if (data.exists && data.get('pomodorosData') != null) {
       final dataList =
           List<Map>.from(json.decode(data.get('pomodorosData')) as List)
-              .map((jsonMap) =>
-                  PomodoroModel.fromJson(Map<String, dynamic>.from(jsonMap)))
+              .map(
+                (jsonMap) =>
+                    PomodoroModel.fromJson(Map<String, dynamic>.from(jsonMap)),
+              )
               .toList();
 
       return dataList;
@@ -68,8 +72,10 @@ class LoadBackupStorageApi extends LoadBackupApi {
     if (data.exists && data.get('todosData') != null) {
       final dataList =
           List<Map>.from(json.decode(data.get('todosData')) as List)
-              .map((jsonMap) =>
-                  TaskModel.fromJson(Map<String, dynamic>.from(jsonMap)))
+              .map(
+                (jsonMap) =>
+                    TaskModel.fromJson(Map<String, dynamic>.from(jsonMap)),
+              )
               .toList();
 
       return dataList;

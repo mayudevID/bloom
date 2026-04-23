@@ -48,7 +48,10 @@ class AuthRepository {
   }
 
   Future<UserData> signUpByEmail(
-      String name, String email, String password) async {
+    String name,
+    String email,
+    String password,
+  ) async {
     try {
       final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
@@ -172,7 +175,8 @@ class AuthRepository {
   }
 
   Future<UserData> createOrGet(
-      firebase_auth.OAuthCredential oAuthCredential) async {
+    firebase_auth.OAuthCredential oAuthCredential,
+  ) async {
     try {
       final authResult =
           await _firebaseAuth.signInWithCredential(oAuthCredential);

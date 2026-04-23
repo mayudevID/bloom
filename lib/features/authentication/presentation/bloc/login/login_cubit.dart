@@ -17,26 +17,32 @@ class LoginCubit extends Cubit<LoginState> {
   final LocalUserDataRepository _localUserDataRepository;
 
   void hidePassword() {
-    emit(state.copyWith(
-      isHidden: !state.isHidden,
-      status: LoginStatus.initial,
-    ));
+    emit(
+      state.copyWith(
+        isHidden: !state.isHidden,
+        status: LoginStatus.initial,
+      ),
+    );
   }
 
   void emailChanged(String value) {
-    emit(state.copyWith(
-      email: value,
-      status: LoginStatus.initial,
-      type: LoginType.email,
-    ));
+    emit(
+      state.copyWith(
+        email: value,
+        status: LoginStatus.initial,
+        type: LoginType.email,
+      ),
+    );
   }
 
   void passwordChanged(String value) {
-    emit(state.copyWith(
-      password: value,
-      status: LoginStatus.initial,
-      type: LoginType.email,
-    ));
+    emit(
+      state.copyWith(
+        password: value,
+        status: LoginStatus.initial,
+        type: LoginType.email,
+      ),
+    );
   }
 
   void loginWithCredentials(LoginType type) async {

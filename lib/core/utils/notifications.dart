@@ -334,7 +334,8 @@ class NotificationService {
 
     final todos = List<Map>.from(json.decode(todosJson) as List)
         .map(
-            (jsonMap) => TaskModel.fromJson(Map<String, dynamic>.from(jsonMap)))
+          (jsonMap) => TaskModel.fromJson(Map<String, dynamic>.from(jsonMap)),
+        )
         .toList();
 
     final targetIndex = todos.indexWhere((task) => task.taskId == id);
@@ -584,7 +585,9 @@ Future<void> createTimerNotification(
   int currentSession,
 ) {
   return NotificationService.showTimerNotification(
-      pomodoroModel, currentSession);
+    pomodoroModel,
+    currentSession,
+  );
 }
 
 Future<void> cancelTaskNotification(int taskId) {

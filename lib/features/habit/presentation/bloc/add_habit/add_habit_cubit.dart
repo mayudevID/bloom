@@ -87,7 +87,7 @@ class AddHabitCubit extends Cubit<AddHabitState> {
         state.wednesday,
         state.thursday,
         state.friday,
-        state.saturday
+        state.saturday,
       ].asMap();
 
       final List<int> dayListOn = [];

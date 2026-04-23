@@ -23,6 +23,10 @@ linter:
     - prefer_is_not_empty
     - prefer_contains
     - sized_box_for_whitespace
+    - use_colored_box
+    - use_decorated_box
+    - use_string_buffers
+    - avoid_slow_async_io
     - avoid_double_and_int_checks
     - use_key_in_widget_constructors
     - use_super_parameters
@@ -32,6 +36,7 @@ linter:
     - use_named_constants
     - curly_braces_in_flow_control_structures
     - prefer_relative_imports
+    - require_trailing_commas
 
     # 🛡️ Keamanan & bug prevention
     - avoid_empty_else
@@ -48,3 +53,6 @@ linter:
     - avoid_null_checks_in_equality_operators
     - avoid_field_initializers_in_const_classes
     - avoid_returning_this
+
+    # 🧹 Kebersihan kode & gaya penulisan
+    - unnecessary_new

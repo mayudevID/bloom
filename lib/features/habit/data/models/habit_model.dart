@@ -3,7 +3,6 @@ part 'habit_model.g.dart';
 
 @JsonSerializable()
 class HabitModel {
-
   HabitModel({
     required this.habitId,
     required this.iconImg,

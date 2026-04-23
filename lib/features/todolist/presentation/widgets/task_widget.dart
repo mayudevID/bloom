@@ -111,7 +111,7 @@ class TaskWidget extends StatelessWidget {
                   style: smallText.copyWith(fontSize: 8),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

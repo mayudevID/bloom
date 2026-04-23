@@ -198,7 +198,7 @@ class TaskDetailPageContent extends StatelessWidget {
               ),
               const SizedBox(
                 height: 109,
-              )
+              ),
             ],
           ),
         ),

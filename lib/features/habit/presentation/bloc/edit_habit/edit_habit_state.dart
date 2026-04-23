@@ -3,7 +3,6 @@ part of 'edit_habit_cubit.dart';
 enum EditHabitStatus { init, load, saved, error }
 
 class EditHabitState extends Equatable {
-
   const EditHabitState({
     required this.iconImg,
     required this.title,

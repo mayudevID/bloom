@@ -99,31 +99,32 @@ class CreateAccountPageContent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: BlocBuilder<SignupCubit, SignupState>(
-                      builder: (context, state) {
-                    if (state.status == SignupStatus.submitting &&
-                        state.type == SignupType.email) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 25,
-                            height: 25,
-                            child: CircularProgressIndicator(
-                              color: naturalBlack,
+                    builder: (context, state) {
+                      if (state.status == SignupStatus.submitting &&
+                          state.type == SignupType.email) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: CircularProgressIndicator(
+                                color: naturalBlack,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          Text("Loading", style: buttonLarge),
-                        ],
-                      );
-                    } else {
-                      return Center(
-                        child: Text("Create Account", style: buttonLarge),
-                      );
-                    }
-                  }),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            Text("Loading", style: buttonLarge),
+                          ],
+                        );
+                      } else {
+                        return Center(
+                          child: Text("Create Account", style: buttonLarge),
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
               const SizedBox(height: 23),

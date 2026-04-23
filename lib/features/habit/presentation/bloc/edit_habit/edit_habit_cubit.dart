@@ -12,11 +12,11 @@ import '../../../domain/habits_repository.dart';
 part 'edit_habit_state.dart';
 
 class EditHabitCubit extends Cubit<EditHabitState> {
-  EditHabitCubit(
-      {required HabitsRepository habitsRepository,
-      required LocalUserDataRepository localUserDataRepository,
-      required HabitModel habitModel})
-      : _habitsRepository = habitsRepository,
+  EditHabitCubit({
+    required HabitsRepository habitsRepository,
+    required LocalUserDataRepository localUserDataRepository,
+    required HabitModel habitModel,
+  })  : _habitsRepository = habitsRepository,
         _localUserDataRepository = localUserDataRepository,
         _habitModel = habitModel,
         super(EditHabitState.initial(habitModel));
@@ -90,7 +90,7 @@ class EditHabitCubit extends Cubit<EditHabitState> {
         state.wednesday,
         state.thursday,
         state.friday,
-        state.saturday
+        state.saturday,
       ].asMap();
 
       final List<int> dayListOn = [];
@@ -146,7 +146,9 @@ class EditHabitCubit extends Cubit<EditHabitState> {
         }
         for (var i = 0; i < newHabitModel.dayList.length; i++) {
           await createHabitNotification(
-              newHabitModel, newHabitModel.dayList[i]);
+            newHabitModel,
+            newHabitModel.dayList[i],
+          );
         }
       }
 
@@ -175,10 +177,12 @@ class EditHabitCubit extends Cubit<EditHabitState> {
       final newDataRecentIndex = getNewData
           .indexWhere((element) => element.habitId == _habitModel.habitId);
 
-      emit(state.copyWith(
-        editHabitStatus: EditHabitStatus.saved,
-        newHabitModel: getNewData[newDataRecentIndex],
-      ));
+      emit(
+        state.copyWith(
+          editHabitStatus: EditHabitStatus.saved,
+          newHabitModel: getNewData[newDataRecentIndex],
+        ),
+      );
     } on Exception {
       emit(state.copyWith(editHabitStatus: EditHabitStatus.error));
       // print(e);

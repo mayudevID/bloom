@@ -71,10 +71,12 @@ class EditTodoCubit extends Cubit<EditTodoState> {
       final newDataRecentIndex = getNewData
           .indexWhere((element) => element.taskId == _taskModel.taskId);
 
-      emit(state.copyWith(
-        editTodoStatus: EditTodoStatus.saved,
-        newTaskModel: getNewData[newDataRecentIndex],
-      ));
+      emit(
+        state.copyWith(
+          editTodoStatus: EditTodoStatus.saved,
+          newTaskModel: getNewData[newDataRecentIndex],
+        ),
+      );
     } catch (e) {
       emit(state.copyWith(editTodoStatus: EditTodoStatus.error));
     }

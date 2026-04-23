@@ -113,7 +113,7 @@ class MainPageContent extends StatelessWidget {
                 groupVal: selectedTab,
                 value: MainTab.todo,
                 icon: "clipboard",
-              )
+              ),
             ],
           ),
         ),

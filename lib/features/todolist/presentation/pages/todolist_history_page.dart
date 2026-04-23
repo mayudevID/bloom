@@ -84,7 +84,7 @@ class ToDoListHistoryPageContent extends StatelessWidget {
                                   ),
                                 );
                             },
-                          )
+                          ),
                       ],
                     ),
                   );

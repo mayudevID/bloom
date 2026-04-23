@@ -3,7 +3,6 @@ part 'pomodoro_model.g.dart';
 
 @JsonSerializable()
 class PomodoroModel {
-
   PomodoroModel({
     required this.pomodoroId,
     required this.title,

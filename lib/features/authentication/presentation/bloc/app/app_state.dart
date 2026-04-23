@@ -22,7 +22,6 @@ enum AppStatus {
 }
 
 class AppState extends Equatable {
-
   const AppState._({
     required this.status,
     this.user = User.empty,
@@ -39,8 +38,6 @@ class AppState extends Equatable {
   List<Object> get props => [status, user];
 }
 
-  
-
 // class AppStateAuthenticated extends AppState {
 //   const AppStateAuthenticated({required User user})
 //       : super(status: AppStatus.authenticated, user: user);
@@ -51,12 +48,12 @@ class AppState extends Equatable {
 // }
 
 // const AppState.authenticated(User user)
-  //     : this._(
-  //         status: AppStatus.authenticated,
-  //         user: user,
-  //       );
+//     : this._(
+//         status: AppStatus.authenticated,
+//         user: user,
+//       );
 
-  // const AppState.unauthenticated()
-  //     : this._(
-  //         status: AppStatus.unauthenticated,
-  //       );
+// const AppState.unauthenticated()
+//     : this._(
+//         status: AppStatus.unauthenticated,
+//       );

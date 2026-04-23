@@ -89,7 +89,7 @@ class TimerPageContent extends StatelessWidget {
                               offset: const Offset(0, 2),
                               blurRadius: 7,
                               color: Colors.black.withValues(alpha: 0.25),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -100,70 +100,71 @@ class TimerPageContent extends StatelessWidget {
               const SizedBox(height: 40),
               Center(
                 child: BlocBuilder<TimerBloc, TimerState>(
-                    builder: (context, state) {
-                  return GestureDetector(
-                    onTap: () {
-                      if (state is TimerInitial) {
-                        context.read<TimerBloc>().add(
-                              TimerStarted(
-                                state.duration,
-                                state.session,
-                              ),
-                            );
-                      } else if (state is TimerRunInProgress) {
-                        context.read<TimerBloc>().add(const TimerPaused());
-                      } else if (state is TimerRunPause) {
-                        context.read<TimerBloc>().add(const TimerResumed());
-                      } else if (state is TimerRunComplete) {
-                        if (state.isCompleted &&
-                            state.session < pModel.session) {
-                          context.read<TimerBloc>().add(TimerSet(pModel));
+                  builder: (context, state) {
+                    return GestureDetector(
+                      onTap: () {
+                        if (state is TimerInitial) {
+                          context.read<TimerBloc>().add(
+                                TimerStarted(
+                                  state.duration,
+                                  state.session,
+                                ),
+                              );
+                        } else if (state is TimerRunInProgress) {
+                          context.read<TimerBloc>().add(const TimerPaused());
+                        } else if (state is TimerRunPause) {
+                          context.read<TimerBloc>().add(const TimerResumed());
+                        } else if (state is TimerRunComplete) {
+                          if (state.isCompleted &&
+                              state.session < pModel.session) {
+                            context.read<TimerBloc>().add(TimerSet(pModel));
+                          }
                         }
-                      }
-                    },
-                    child: Container(
-                      width: (state.isCompleted) ? 120 : 56,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: (state.isCompleted &&
-                                state.session == pModel.session)
-                            ? yellowLight
-                            : naturalBlack,
-                      ),
-                      child: Center(
-                        child: state.isRunning
-                            ? Image.asset(
-                                "assets/icons/pause.png",
-                                width: 32,
-                              )
-                            : (state.isCompleted &&
-                                    state.session < pModel.session)
-                                ? Text(
-                                    "Start Next Session",
-                                    style: buttonSmall.copyWith(
-                                      color: naturalWhite,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  )
-                                : (state.isCompleted &&
-                                        state.session == pModel.session)
-                                    ? Text(
-                                        "Finish",
-                                        style: buttonLarge.copyWith(
-                                          color: naturalBlack,
-                                        ),
-                                      )
-                                    : (state is LoadingState)
-                                        ? Container()
-                                        : Image.asset(
-                                            "assets/icons/play.png",
-                                            width: 32,
+                      },
+                      child: Container(
+                        width: (state.isCompleted) ? 120 : 56,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: (state.isCompleted &&
+                                  state.session == pModel.session)
+                              ? yellowLight
+                              : naturalBlack,
+                        ),
+                        child: Center(
+                          child: state.isRunning
+                              ? Image.asset(
+                                  "assets/icons/pause.png",
+                                  width: 32,
+                                )
+                              : (state.isCompleted &&
+                                      state.session < pModel.session)
+                                  ? Text(
+                                      "Start Next Session",
+                                      style: buttonSmall.copyWith(
+                                        color: naturalWhite,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  : (state.isCompleted &&
+                                          state.session == pModel.session)
+                                      ? Text(
+                                          "Finish",
+                                          style: buttonLarge.copyWith(
+                                            color: naturalBlack,
                                           ),
+                                        )
+                                      : (state is LoadingState)
+                                          ? Container()
+                                          : Image.asset(
+                                              "assets/icons/play.png",
+                                              width: 32,
+                                            ),
+                        ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  },
+                ),
               ),
             ],
           ),

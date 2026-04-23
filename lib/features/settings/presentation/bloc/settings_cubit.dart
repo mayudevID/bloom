@@ -27,9 +27,11 @@ class SettingsCubit extends Cubit<SettingsState> {
         _habitsRepository = habitsRepository,
         _todosRepository = todosRepository,
         _todosHistoryRepository = todosHistoryRepository,
-        super(SettingsState.initial(
-          saveBackupRepository.getUpdateDate(),
-        ));
+        super(
+          SettingsState.initial(
+            saveBackupRepository.getUpdateDate(),
+          ),
+        );
 
   final AuthRepository _authRepository;
   final LocalUserDataRepository _localUserDataRepository;

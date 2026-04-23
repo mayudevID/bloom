@@ -93,15 +93,19 @@ class TaskWidgetDeleted extends StatelessWidget {
               children: [
                 Image.asset("assets/icons/calendar_unselect.png", width: 13),
                 const SizedBox(width: 2),
-                Text(DateFormat('EEEE').format(taskModel!.dateTime),
-                    style: smallText.copyWith(fontSize: 8)),
+                Text(
+                  DateFormat('EEEE').format(taskModel!.dateTime),
+                  style: smallText.copyWith(fontSize: 8),
+                ),
                 const SizedBox(width: 16),
                 Image.asset("assets/icons/clock.png", width: 12),
                 const SizedBox(width: 2),
-                Text(DateFormat('jm').format(taskModel!.dateTime),
-                    style: smallText.copyWith(fontSize: 8)),
+                Text(
+                  DateFormat('jm').format(taskModel!.dateTime),
+                  style: smallText.copyWith(fontSize: 8),
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

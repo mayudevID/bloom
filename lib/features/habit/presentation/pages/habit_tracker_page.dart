@@ -167,7 +167,7 @@ class HabitTrackerPageContent extends StatelessWidget {
                               for (final HabitModel habitModel in dataHabit)
                                 HabitWidget(
                                   habitModel: habitModel,
-                                )
+                                ),
                             ],
                           ),
                         );

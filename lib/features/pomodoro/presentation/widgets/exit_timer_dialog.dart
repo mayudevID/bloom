@@ -72,7 +72,7 @@ class ExitTimerDialog extends StatelessWidget {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
