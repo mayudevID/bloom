@@ -1,13 +1,44 @@
 #!/bin/bash
 set -euo pipefail
 
+cd "$(dirname "$0")/.." || exit
+
+usage() {
+  echo "❌ Parameter tidak valid"
+  echo "👉 Android: ./build_fastlane.sh android release"
+  echo "👉 iOS    : ./build_fastlane.sh ios release"
+}
+
+require_command() {
+  local cmd="$1"
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "❌ Command tidak ditemukan: $cmd"
+    exit 1
+  fi
+}
+
+run_fastlane_upload() {
+  local dir="$1"
+  local lane="$2"
+
+  (
+    cd "$dir"
+
+    # inject credential khusus iOS
+    if [[ "$PLATFORM" == "ios" ]]; then      
+      export FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD="munh-vkps-fnnj-sqrz"
+    fi
+
+    bundle check || bundle install --jobs 4 --retry 3
+    bundle exec fastlane "$lane"
+  )
+}
+
 # =========================
 # VALIDASI ARGUMENT
 # =========================
-if [[ $# -lt 2 ]]; then
-  echo "❌ Parameter kurang"
-  echo "👉 Android: ./build_fastlane.sh android [internal|draft|release]"
-  echo "👉 iOS    : ./build_fastlane.sh ios [draft|release]"
+if [[ $# -ne 2 ]]; then
+  usage
   exit 1
 fi
 
@@ -21,27 +52,20 @@ FASTLANE_TRACK=""
 # =========================
 case "$PLATFORM" in
   android)
-    case "$TRACK_INPUT" in
-      internal) FASTLANE_TRACK="prod_internal" ;;
-      draft)    FASTLANE_TRACK="prod_draft" ;;
-      release)  FASTLANE_TRACK="prod_release" ;;
-      *)
-        echo "❌ Track Android tidak valid: $TRACK_INPUT"
-        echo "👉 Pilihan: internal | draft | release"
-        exit 1
-        ;;
-    esac
+    if [[ "$TRACK_INPUT" != "release" ]]; then
+      echo "❌ Track Android tidak valid: $TRACK_INPUT"
+      echo "👉 Pilihan: release"
+      exit 1
+    fi
+    FASTLANE_TRACK="prod_release"
     ;;
   ios)
-    case "$TRACK_INPUT" in
-      draft)   FASTLANE_TRACK="prod_draft" ;;
-      release) FASTLANE_TRACK="prod_release" ;;
-      *)
-        echo "❌ Track iOS tidak valid: $TRACK_INPUT"
-        echo "👉 Pilihan: draft | release"
-        exit 1
-        ;;
-    esac
+    if [[ "$TRACK_INPUT" != "release" ]]; then
+      echo "❌ Track iOS tidak valid: $TRACK_INPUT"
+      echo "👉 Pilihan: release"
+      exit 1
+    fi
+    FASTLANE_TRACK="prod_release"
     ;;
   *)
     echo "❌ Platform tidak valid: $PLATFORM"
@@ -53,16 +77,24 @@ esac
 echo "🎯 Platform : $PLATFORM"
 echo "🎯 Track    : $FASTLANE_TRACK"
 
+require_command fvm
+require_command bundle
+
 # =========================
 # CAFFEINATE
 # =========================
-caffeinate -dimsu &
-CAFFEINATE_PID=$!
+CAFFEINATE_PID=""
+if command -v caffeinate >/dev/null 2>&1; then
+  caffeinate -dimsu &
+  CAFFEINATE_PID=$!
+fi
 
 cleanup() {
-  echo "🧹 Cleaning up caffeinate..."
-  kill -TERM "$CAFFEINATE_PID" 2>/dev/null || true
-  wait "$CAFFEINATE_PID" 2>/dev/null || true
+  if [[ -n "${CAFFEINATE_PID:-}" ]]; then
+    echo "🧹 Cleaning up caffeinate..."
+    kill -TERM "$CAFFEINATE_PID" 2>/dev/null || true
+    wait "$CAFFEINATE_PID" 2>/dev/null || true
+  fi
 }
 
 trap cleanup EXIT
@@ -73,8 +105,8 @@ echo "--- Memulai Proses Build & Deploy ---"
 # =========================
 # BUILD FLUTTER
 # =========================
-echo "🧹 Cleaning Flutter project..."
-fvm flutter clean
+# echo "🧹 Cleaning Flutter project..."
+# fvm flutter clean
 
 echo "📦 Getting dependencies..."
 fvm flutter pub get
@@ -94,9 +126,7 @@ if [[ "$PLATFORM" == "android" ]]; then
     -t lib/main_production.dart
 
   echo "📱 Deploy Android via Fastlane..."
-  cd android
-  bundle exec fastlane android "$FASTLANE_TRACK"
-  cd ..
+  run_fastlane_upload "android" "$FASTLANE_TRACK"
 
 elif [[ "$PLATFORM" == "ios" ]]; then
   echo "🏗️  Building iOS IPA..."
@@ -107,9 +137,7 @@ elif [[ "$PLATFORM" == "ios" ]]; then
     -t lib/main_production.dart
 
   echo "🍎 Deploy iOS via Fastlane..."
-  cd ios
-  bundle exec fastlane ios "$FASTLANE_TRACK"
-  cd ..
+  run_fastlane_upload "ios" "$FASTLANE_TRACK"
 fi
 
 echo "✅ Build dan deployment selesai"

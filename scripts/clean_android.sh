@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+cd "$(dirname "$0")/.." || exit
+
 fvm flutter clean
 rm -rf .dart_tool pubspec.lock
 fvm flutter pub get

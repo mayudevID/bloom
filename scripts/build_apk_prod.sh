@@ -1,1 +1,5 @@
+#!/bin/bash
+
+cd "$(dirname "$0")/.." || exit
+
 fvm flutter build apk --release --obfuscate --split-debug-info=./build/apk_prod_dysm_android --flavor production -t lib/main_production.dart

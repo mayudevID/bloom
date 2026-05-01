@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+cd "$(dirname "$0")/.." || exit
+
 run_with_delay() {
   echo "🔧 Running fix: $1"
   eval "$1"

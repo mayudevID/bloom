@@ -1,1 +1,5 @@
+#!/bin/bash
+
+cd "$(dirname "$0")/.." || exit
+
 fvm flutter build appbundle --obfuscate --split-debug-info=./build/appbundle_stag_dysm_android --flavor staging -t lib/main_staging.dart
